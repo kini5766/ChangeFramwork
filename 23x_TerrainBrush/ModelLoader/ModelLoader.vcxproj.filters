@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Converter.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="ExportFileDemo.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="DrowModelDemo.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="DrowAnimationDemo.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Converter.cpp" />
+    <ClCompile Include="ExportFileDemo.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DrowModelDemo.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DrowAnimationDemo.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{eec0f6f9-616d-4e70-a977-14312954eede}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
