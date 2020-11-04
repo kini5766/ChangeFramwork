@@ -1,32 +1,33 @@
-# Prerequisites
-*.d
+################################################################################
+# 이 .gitignore 파일은 Microsoft(R) Visual Studio에서 자동으로 만들어졌습니다.
+################################################################################
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# Visual Studio Temp
+#*.json
+#*.sqlite
+#*.ipch
+#*.db
+#*.db-wal
+#*.db-shm
+#*.sqlite-journal
 
-# Precompiled Headers
-*.gch
-*.pch
+# Debug
+#*.opendb
+#*.lastbuildstate
+#*.tlog
+#*.pch
+#*.log
+#*.obj
+#*.idb
+#*.pdb
+#*.exe
+#*.ilk
+#*.suo
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+Framework.lib
+Framework.pdb
+*Debug*
+*.vs*
 
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+# 파일 크기 때문에 새로 받아야할 듯 
+assimp-vc140-mt.pdb
