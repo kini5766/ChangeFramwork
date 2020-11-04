@@ -138,25 +138,24 @@ void Model::AttachWeakly(Model * model, int parentBoneIndex, Transform * offset)
 {
 	// CopyParentBone
 	ModelBone* newParent = new ModelBone();
+	ModelBone* srcBone = BoneByIndex(parentBoneIndex);
 	{
-		ModelBone* src = BoneByIndex(parentBoneIndex);
-
-		newParent->name = src->name;
+		newParent->name = srcBone->name;
 		newParent->index = 0;
 		newParent->parentIndex = -1;
 		newParent->parent = nullptr;
 
 		Matrix m;
-		memcpy(&m, &src->transform, sizeof(Matrix));
+		memcpy(&m, &srcBone->transform, sizeof(Matrix));
 
-		/*
-		ModelBone* curr = src->parent;
+		
+		ModelBone* curr = srcBone->parent;
 		while (curr != nullptr)
 		{
 			m = m * curr->transform;
 			curr = curr->parent;
 		}
-		*/
+		
 
 		memcpy(&newParent->transform, &m, sizeof(Matrix));
 	}
@@ -199,17 +198,35 @@ void Model::AttachWeakly(Model * model, int parentBoneIndex, Transform * offset)
 		dst->frameRate = src->frameRate;
 		dst->frameCount = src->frameCount;
 
-		for (auto i = src->keyframeMap.cbegin(); i != src->keyframeMap.cend(); i++)
+		ModelKeyframe* dstFrame = new ModelKeyframe();
+		dstFrame->BoneName = newParent->name;
+		for (UINT f = 0; f < src->FrameCount(); f++)
 		{
-			// 부모 관련 클립만 필요
-			if (newParent->name != (*i).second->BoneName)
-				continue;
+			Matrix m;
+			D3DXMatrixIdentity(&m);
 
-			ModelKeyframe* dstFrame = new ModelKeyframe();
-			dstFrame->BoneName = (*i).second->BoneName;
-			dstFrame->Transforms = (*i).second->Transforms;
-			dst->keyframeMap[dstFrame->BoneName] = dstFrame;
+			ModelBone* curr = srcBone;
+			while (curr != nullptr)
+			{
+				ModelKeyframeData& data = src->keyframeMap[curr->name]->Transforms[f];
+
+				Matrix S, R, T;
+				D3DXMatrixScaling(&S, data.Scale.x, data.Scale.y, data.Scale.z);
+				D3DXMatrixRotationQuaternion(&R, &data.Rotation);
+				D3DXMatrixTranslation(&T, data.Translation.x, data.Translation.y, data.Translation.z);
+				
+				Matrix animation = S * R * T;
+				m = m * animation;
+
+				curr = curr->parent;
+			}
+
+			ModelKeyframeData dstData;
+			D3DXMatrixDecompose(&dstData.Scale, &dstData.Rotation, &dstData.Translation, &m);
+
+			dstFrame->Transforms.push_back(dstData);
 		}
+		dst->keyframeMap[dstFrame->BoneName] = dstFrame;
 
 		(*model).clips.push_back(dst);
 	}

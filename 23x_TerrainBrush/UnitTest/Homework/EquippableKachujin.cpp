@@ -151,10 +151,9 @@ void EquippableKachujin::Sword()
 	weapon->ReadMesh(L"Weapon/Sword");
 
 	Transform offset = Transform();
-	//offset.Position(-13, -3, -5);
-	offset.Position(0, 100, 0);
-	//offset.RotationDegree(0, 0, 90);
-	//offset.Scale(0.8f, 0.8f, 5.5f);
+	offset.Position(-13, -3, -5);
+	offset.RotationDegree(0, 0, 90);
+	offset.Scale(0.8f, 0.8f, 5.5f);
 	kachujin->AttachItem(weapon, 35, &offset);
 }
 
