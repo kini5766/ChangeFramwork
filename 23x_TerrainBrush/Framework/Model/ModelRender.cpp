@@ -2,6 +2,7 @@
 #include "ModelRender.h"
 
 #include "ModelMesh.h"
+#include "ModelClip.h"
 
 ModelRender::ModelRender(Shader * shader)
 	: shader(shader)
@@ -48,7 +49,7 @@ void ModelRender::ReadMesh(wstring file)
 {
 	model->ReadMesh(file);
 
-	for (ModelMeshData* data : model->Meshes())
+	for (MeshData* data : model->Meshes())
 	{
 		ModelMesh* renderer = new ModelMesh();
 		renderer->CreateBuffer(data);

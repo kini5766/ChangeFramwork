@@ -199,16 +199,10 @@
     <ClCompile Include="Environment\Snow.cpp">
       <Filter>Environment</Filter>
     </ClCompile>
-    <ClCompile Include="Model\AttachedModel.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\ClipTransformMap.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
     <ClCompile Include="Environment\TerrainBrush.cpp">
       <Filter>Environment</Filter>
     </ClCompile>
-    <ClCompile Include="Model\ClipAnimator.cpp">
+    <ClCompile Include="Model\ModelAttacher.cpp">
       <Filter>Model</Filter>
     </ClCompile>
   </ItemGroup>
@@ -391,19 +385,13 @@
     <ClInclude Include="Environment\Snow.h">
       <Filter>Environment</Filter>
     </ClInclude>
-    <ClInclude Include="Model\AttachedModel.h">
-      <Filter>Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\ClipTransformMap.h">
-      <Filter>Model</Filter>
-    </ClInclude>
     <ClInclude Include="Environment\TerrainBrush.h">
       <Filter>Environment</Filter>
     </ClInclude>
     <ClInclude Include="Meshes\MeshData.h">
       <Filter>Meshes</Filter>
     </ClInclude>
-    <ClInclude Include="Model\ClipAnimator.h">
+    <ClInclude Include="Model\ModelAttacher.h">
       <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>

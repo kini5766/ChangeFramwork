@@ -22,10 +22,12 @@
     <ClInclude Include="ColliderDemo.h" />
     <ClInclude Include="CpuBillboardDemo.h" />
     <ClInclude Include="CubeSkyDemo.h" />
-    <ClInclude Include="EditorDemo.h" />
+    <ClInclude Include="Homework\EditorDemo.h" />
     <ClInclude Include="FrameworkDemo.h" />
     <ClInclude Include="GetHeightDemo.h" />
     <ClInclude Include="GridDemo.h" />
+    <ClInclude Include="Homework\EquipDemo2.h" />
+    <ClInclude Include="Homework\EquippableKachujin.h" />
     <ClInclude Include="IndexDemo.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="MeshDemo.h" />
@@ -46,10 +48,12 @@
     <ClCompile Include="ColliderDemo.cpp" />
     <ClCompile Include="CpuBillboardDemo.cpp" />
     <ClCompile Include="CubeSkyDemo.cpp" />
-    <ClCompile Include="EditorDemo.cpp" />
+    <ClCompile Include="Homework\EditorDemo.cpp" />
     <ClCompile Include="FrameworkDemo.cpp" />
     <ClCompile Include="GetHeightDemo.cpp" />
     <ClCompile Include="GridDemo.cpp" />
+    <ClCompile Include="Homework\EquipDemo2.cpp" />
+    <ClCompile Include="Homework\EquippableKachujin.cpp" />
     <ClCompile Include="IndexDemo.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshDemo.cpp" />

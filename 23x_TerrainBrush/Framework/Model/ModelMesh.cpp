@@ -69,13 +69,13 @@ void ModelMesh::CreateBuffer(MeshData * mesh)
 }
 */
 
-void ModelMesh::CreateBuffer(ModelMeshData * _mesh)
+void ModelMesh::CreateBuffer(MeshData * _mesh)
 {
 	mesh = _mesh;
 	BindBone(mesh->PBind->PBone);
 
 	SafeDelete(vertexBuffer);
-	vertexBuffer = new VertexBuffer(mesh->Vertices, mesh->VertexCount, sizeof(Model::ModelVertex));
+	vertexBuffer = new VertexBuffer(mesh->Vertices, mesh->VertexCount, mesh->Stride);
 
 	SafeDelete(indexBuffer);
 	indexBuffer = new IndexBuffer(mesh->Indices, mesh->IndexCount);
@@ -142,12 +142,12 @@ void ModelMesh::SetTransform(Transform * value)
 // ModelMeshBaked
 // ------------------------------------------------------------------------------------------------
 
-ModelMeshBoneMap::ModelMeshBoneMap()
+ModelMeshClipMap::ModelMeshClipMap()
 {
 	boneBuffer = new ConstantBuffer(&boneDesc, sizeof(BoneDesc));
 }
 
-ModelMeshBoneMap::~ModelMeshBoneMap()
+ModelMeshClipMap::~ModelMeshClipMap()
 {
 	SafeDelete(transform);
 	SafeDelete(perFrame);
@@ -191,18 +191,18 @@ void ModelMeshBoneMap::CreateBuffer(MeshData * mesh)
 }
 */
 
-void ModelMeshBoneMap::CreateBuffer(ModelMeshData * _mesh)
+void ModelMeshClipMap::CreateBuffer(MeshData * _mesh)
 {
 	mesh = _mesh;
 
 	SafeDelete(vertexBuffer);
-	vertexBuffer = new VertexBuffer(mesh->Vertices, mesh->VertexCount, sizeof(Model::ModelVertex));
+	vertexBuffer = new VertexBuffer(mesh->Vertices, mesh->VertexCount, mesh->Stride);
 
 	SafeDelete(indexBuffer);
 	indexBuffer = new IndexBuffer(mesh->Indices, mesh->IndexCount);
 }
 
-void ModelMeshBoneMap::SetMaterial(Material * mat)
+void ModelMeshClipMap::SetMaterial(Material * mat)
 {
 	material = mat;
 
@@ -221,13 +221,13 @@ void ModelMeshBoneMap::SetMaterial(Material * mat)
 	sTransformsSRV = shader->AsSRV("TransformsMap");
 }
 
-void ModelMeshBoneMap::Update()
+void ModelMeshClipMap::Update()
 {
 	perFrame->Update();
 	transform->Update();
 }
 
-void ModelMeshBoneMap::Render()
+void ModelMeshClipMap::Render()
 {
 	boneBuffer->Render();
 	sBoneBuffer->SetConstantBuffer(boneBuffer->Buffer());
@@ -246,12 +246,12 @@ void ModelMeshBoneMap::Render()
 	shader->DrawIndexed(0, pass, mesh->IndexCount);
 }
 
-void ModelMeshBoneMap::SetTransform(Transform * value)
+void ModelMeshClipMap::SetTransform(Transform * value)
 {
 	transform->Set(value);
 }
 
-void ModelMeshBoneMap::TransformsSRV(ID3D11ShaderResourceView * value, UINT boneIndex)
+void ModelMeshClipMap::TransformsSRV(ID3D11ShaderResourceView * value, UINT boneIndex)
 {
 	boneDesc.BoneIndex = boneIndex;
 	transformsSRV = value;

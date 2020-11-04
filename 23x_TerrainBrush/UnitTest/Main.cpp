@@ -22,13 +22,16 @@
 #include "CpuBillboardDemo.h"
 #include "WratherDemo.h"
 
-#include "EditorDemo.h"
+#include "Homework/EditorDemo.h"
+#include "Homework/EquipDemo2.h"
 
 void Main::Initialize()
 {
 	//Push(new WratherDemo());
-	Push(new TerrainBrushDemo());
+	//Push(new TerrainBrushDemo());
 	//Push(new EditorDemo());
+
+	Push(new EquipDemo2());
 }
 
 void Main::Ready()

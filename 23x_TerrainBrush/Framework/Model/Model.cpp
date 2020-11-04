@@ -18,7 +18,7 @@ Model::~Model()
 	for (ModelBone* d : bones)
 		SafeDelete(d);
 
-	for (ModelMeshData* d : meshes)
+	for (MeshData* d : meshes)
 		SafeDelete(d);
 
 	for (ModelClip* d : clips)
@@ -63,13 +63,11 @@ void Model::Attach(Shader * shader, Model * model, int parentBoneIndex, Transfor
 		{
 			ModelBone* dst = new ModelBone();
 			dst->name = src->name;
-			dst->transform = src->transform;
+			memcpy(&dst->transform, src->transform, sizeof(Matrix));
 
 			// 보정 값 적용
 			if (offset != nullptr)
 				dst->transform = dst->transform * offset->World();
-			else
-				int a = 0;
 
 			if (src->parent != nullptr)
 			{
@@ -99,41 +97,34 @@ void Model::Attach(Shader * shader, Model * model, int parentBoneIndex, Transfor
 	}
 
 	// Copy Mesh
-	for (ModelMeshData* src : model->Meshes())
+	for (MeshData* src : model->Meshes())
 	{
-		ModelMeshData* dst = new ModelMeshData();
+		MeshData* dst = new MeshData();
 
 		dst->NewBindValue();
-		memcpy(dst->PBind, src->PBind, sizeof(BindValue));
+		dst->PBind->MaterialName = src->PBind->MaterialName;
+		dst->PBind->Name = src->PBind->Name;
 
 		for (BoneNum swap : changes)
 		{
 			if (swap.oldNum == src->PBind->BoneIndex)
 			{
 				dst->PBind->BoneIndex = swap.newNum;
+				dst->PBind->PBone = bones[dst->PBind->BoneIndex];
 				break;
 			}
 		}
 
+		Model::ModelVertex* vertices = new Model::ModelVertex[src->VertexCount];
 
 		UINT verticesSize = src->VertexCount * sizeof(Model::ModelVertex);
-		dst->NewVertices(src->VertexCount);
-		//UINT count = src->VertexCount;
-		//dst->VertexCount = count;
-		//dst->NewPositions();
-		//dst->NewUvs();
-		//dst->NewNormals();
-		//dst->NewTangents();
-		//dst->NewBoneWeights();
-		memcpy_s(dst->Vertices, verticesSize, src->Vertices, verticesSize);
-		//memcpy(dst->Positions, src->Positions,		count * sizeof(Vector3));
-		//memcpy(dst->Uvs, src->Uvs,					count * sizeof(Vector2));
-		//memcpy(dst->Normals, src->Normals,			count * sizeof(Vector3));
-		//memcpy(dst->Tangents, src->Tangents,		count * sizeof(Vector3));
-		//memcpy(dst->BoneWeights, src->BoneWeights,	count * sizeof(BoneWeight));
+		memcpy_s(vertices, verticesSize, src->Vertices, verticesSize);
+
+		dst->VertexCount = src->VertexCount;
+		dst->Vertices = vertices;
+		dst->Stride = sizeof(Model::ModelVertex);
 
 		dst->NewIndices(src->IndexCount);
-		//memcpy_s(dst->indices, indicesSize, src->indices, indicesSize);
 		memcpy(dst->Indices, src->Indices, dst->IndexCount * sizeof(UINT));
 
 		//dst->Binding(this);
@@ -141,14 +132,91 @@ void Model::Attach(Shader * shader, Model * model, int parentBoneIndex, Transfor
 
 		meshes.push_back(dst);
 	}
-
 }
 
-/*
-void Model::Copy(Model ** out)
+void Model::AttachWeakly(Model * model, int parentBoneIndex, Transform * offset)
 {
-	(*out) = new Model();
+	// CopyParentBone
+	ModelBone* newParent = new ModelBone();
+	{
+		ModelBone* src = BoneByIndex(parentBoneIndex);
 
+		newParent->name = src->name;
+		newParent->index = 0;
+		newParent->parentIndex = -1;
+		newParent->parent = nullptr;
+
+		Matrix m;
+		memcpy(&m, &src->transform, sizeof(Matrix));
+
+		/*
+		ModelBone* curr = src->parent;
+		while (curr != nullptr)
+		{
+			m = m * curr->transform;
+			curr = curr->parent;
+		}
+		*/
+
+		memcpy(&newParent->transform, &m, sizeof(Matrix));
+	}
+
+	// Change Bone Index
+	for (ModelBone* bone : model->Bones())
+	{
+		// 보정 값 적용
+		if (offset != nullptr)
+			bone->transform = bone->transform * offset->World();
+
+		if (bone->parent != nullptr)
+		{
+			// 번호 교체
+			++bone->index;
+			++bone->parentIndex;
+		}
+		else
+		{
+			// 루트 노드 교체
+			bone->parentIndex = 0;
+			bone->parent = newParent;
+			bone->parent->childs.push_back(bone);
+		}
+	}
+
+	model->bones.insert(model->bones.begin(), newParent);
+
+	// Change Bone Index (Mesh)
+	for (MeshData* mesh : model->Meshes())
+		++mesh->PBind->BoneIndex;
+
+
+	// Copy Clip
+	for (ModelClip* src : clips)
+	{
+		ModelClip* dst = new ModelClip();
+		dst->name = src->name;
+		dst->duration = src->duration;
+		dst->frameRate = src->frameRate;
+		dst->frameCount = src->frameCount;
+
+		for (auto i = src->keyframeMap.cbegin(); i != src->keyframeMap.cend(); i++)
+		{
+			// 부모 관련 클립만 필요
+			if (newParent->name != (*i).second->BoneName)
+				continue;
+
+			ModelKeyframe* dstFrame = new ModelKeyframe();
+			dstFrame->BoneName = (*i).second->BoneName;
+			dstFrame->Transforms = (*i).second->Transforms;
+			dst->keyframeMap[dstFrame->BoneName] = dstFrame;
+		}
+
+		(*model).clips.push_back(dst);
+	}
+}
+
+void Model::Copy(Model * out)
+{
 	// Copy Material
 	for (Material* src : materials)
 	{
@@ -165,7 +233,7 @@ void Model::Copy(Model ** out)
 		if (src->NormalMap())
 			dst->DiffuseMap(src->NormalMap()->GetFile());
 
-		(*out)->materials.push_back(dst);
+		(*out).materials.push_back(dst);
 	}
 
 	// Copy Bone
@@ -180,17 +248,17 @@ void Model::Copy(Model ** out)
 
 		if (src->parent != nullptr)
 		{
-			dst->parent = (*out)->bones[dst->parentIndex];
+			dst->parent = (*out).bones[dst->parentIndex];
 			dst->parent->childs.push_back(dst);
 		}
 		else
 		{
 			// 루트 노드
 			dst->parent = nullptr;
-			(*out)->root = dst;
+			(*out).root = dst;
 		}
 
-		(*out)->bones.push_back(dst);
+		(*out).bones.push_back(dst);
 	}
 
 	// Copy Mesh
@@ -198,23 +266,24 @@ void Model::Copy(Model ** out)
 	{
 		MeshData* dst = new MeshData();
 
-		dst->name = src->name;
-		dst->boneIndex = src->boneIndex;
-		dst->materialName = src->materialName;
+		dst->NewBindValue();
+		dst->PBind->Name = src->PBind->Name;
+		dst->PBind->BoneIndex = src->PBind->BoneIndex;
+		dst->PBind->MaterialName = src->PBind->MaterialName;
 
-		dst->vertexCount = src->vertexCount;
-		dst->vertices = new ModelVertex[dst->vertexCount];
-		memcpy(dst->vertices, src->vertices, dst->vertexCount * sizeof(ModelVertex));
+		dst->VertexCount = src->VertexCount;
+		dst->Vertices = new Model::ModelVertex[src->VertexCount];
+		memcpy(dst->Vertices, src->Vertices, dst->VertexCount * sizeof(ModelVertex));
 
-		dst->indexCount = src->indexCount;
-		dst->indices = new UINT[dst->indexCount];
-		memcpy(dst->indices, src->indices, dst->indexCount * sizeof(UINT));
+		dst->IndexCount = src->IndexCount;
+		dst->Indices = new UINT[dst->IndexCount];
+		memcpy(dst->Indices, src->Indices, dst->IndexCount * sizeof(UINT));
 
-		dst->bone = (*out)->bones[dst->boneIndex];
-		dst->Binding(*out);
-		dst->SetShader(src->shader);
+		//dst->bone = (*out)->bones[dst->boneIndex];
+		//dst->Binding(*out);
+		//dst->SetShader(src->shader);
 
-		(*out)->meshes.push_back(dst);
+		(*out).meshes.push_back(dst);
 	}
 
 	// Copy Clip
@@ -234,10 +303,9 @@ void Model::Copy(Model ** out)
 			dst->keyframeMap[dstFrame->BoneName] = dstFrame;
 		}
 
-		(*out)->clips.push_back(dst);
+		(*out).clips.push_back(dst);
 	}
 }
-*/
 
 #pragma region ReadFile
 
@@ -335,7 +403,7 @@ void Model::ReadMesh(wstring file)
 	count = r.UInt();
 	for (UINT i = 0; i < count; i++)
 	{
-		ModelMeshData* mesh = new ModelMeshData();
+		MeshData* mesh = new MeshData();
 
 		mesh->NewBindValue();
 		mesh->PBind->Name = String::ToWString(r.String());
@@ -353,30 +421,15 @@ void Model::ReadMesh(wstring file)
 			void* ptr = (void*)&(vertices[0]);
 			r.BYTE(&ptr, sizeof(Model::ModelVertex) * count);
 
-			mesh->NewVertices(count);
+			Model::ModelVertex* dstVertices = new Model::ModelVertex[count];
 			copy(
 				vertices.begin(), vertices.end(),
-				stdext::checked_array_iterator<Model::ModelVertex*>(mesh->Vertices, count)
+				stdext::checked_array_iterator<Model::ModelVertex*>(dstVertices, count)
 			);
 
-			/*
 			mesh->VertexCount = count;
-			mesh->NewPositions();
-			mesh->NewUvs();
-			mesh->NewNormals();
-			mesh->NewTangents();
-			mesh->NewBoneWeights();
-
-			for (UINT i = 0; i < count; i++)
-			{
-				memcpy(&mesh->Positions[i], &vertices[i].Position, sizeof(Vector3));
-				memcpy(&mesh->Uvs[i], &vertices[i].Uv, sizeof(Vector2));
-				memcpy(&mesh->Normals[i], &vertices[i].Normal, sizeof(Vector3));
-				memcpy(&mesh->Tangents[i], &vertices[i].Tangent, sizeof(Vector3));
-				memcpy(&mesh->BoneWeights[i].BlendIndices, &vertices[i].BlendIndices, sizeof(Vector4));
-				memcpy(&mesh->BoneWeights[i].BlendWeights, &vertices[i].BlendWeights, sizeof(Vector4));
-			}
-			*/
+			mesh->Stride = sizeof(Model::ModelVertex);
+			mesh->Vertices = dstVertices;
 		}
 
 		// Index Data
@@ -475,9 +528,9 @@ ModelBone * Model::BoneByName(wstring name)
 }
 
 // ModelMesh
-ModelMeshData * Model::MeshByName(wstring name)
+MeshData * Model::MeshByName(wstring name)
 {
-	for (ModelMeshData* mesh : meshes)
+	for (MeshData* mesh : meshes)
 	{
 		if (mesh->PBind->Name == name)
 			return mesh;
@@ -520,7 +573,7 @@ void Model::BindBone()
 void Model::BindMesh()
 {
 	// 메쉬 그려질 위치 찾기
-	for (ModelMeshData* mesh : meshes)
+	for (MeshData* mesh : meshes)
 	{
 		for (ModelBone* bone : bones)
 		{

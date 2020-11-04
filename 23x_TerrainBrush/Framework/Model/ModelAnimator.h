@@ -11,6 +11,7 @@ public:
 	void Update();
 	void Render();
 
+public:
 	void PlayClip(UINT clip, float speed = 1.0f, float takeTime = 1.0f);
 
 public:
@@ -30,13 +31,13 @@ private:
 	// 맴버 변수
 private:
 	Model* model;
-	vector<ModelMeshBoneMap*> renderers;
+	vector<class ModelMeshClipMap*> renderers;
 
 	Shader* shader;
 	Transform* transform;
 
-	class ClipAnimator* animator = nullptr;
-	class ClipTransformMap* transfromMap = nullptr;
+	class ModelAnimation* animation = nullptr;
+	class ModelClipMap* clipMap = nullptr;
 };
 
 // cBuffer로 최대로 보낼 수 있는 바이트 4096

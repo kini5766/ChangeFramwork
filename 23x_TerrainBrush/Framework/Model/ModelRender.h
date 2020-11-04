@@ -25,7 +25,7 @@ private:
 
 private:
 	Model* model;
-	vector<ModelMesh*> renderers;
+	vector<class ModelMesh*> renderers;
 
 	Shader* shader;
 	Transform* transform;

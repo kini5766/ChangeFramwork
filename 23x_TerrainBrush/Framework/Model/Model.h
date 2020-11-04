@@ -6,9 +6,6 @@
 
 // 모델 관련 파일 불러오기
 
-struct ModelMeshData;
-class ModelMesh;
-class ModelMeshBoneMap;
 class ModelBone;
 class ModelClip;
 
@@ -24,7 +21,8 @@ public:
 public:
 	// transform : 보정값
 	void Attach(Shader* shader, Model* model, int parentBoneIndex, Transform* offset = nullptr);
-	//void Copy(Model** out);
+	void AttachWeakly(Model* model, int parentBoneIndex, Transform* offset = nullptr);
+	void Copy(Model* out);
 
 public:
 	void ReadMaterial(wstring file);
@@ -48,9 +46,9 @@ public:
 public:
 	// ModelMesh
 	UINT MeshCount() { return meshes.size(); }
-	vector<ModelMeshData*>& Meshes() { return meshes; }
-	ModelMeshData* MeshByIndex(UINT index) { return meshes[index]; }
-	ModelMeshData* MeshByName(wstring name);
+	vector<MeshData*>& Meshes() { return meshes; }
+	MeshData* MeshByIndex(UINT index) { return meshes[index]; }
+	MeshData* MeshByName(wstring name);
 
 public:
 	// Animation Clip
@@ -69,7 +67,7 @@ private:
 	vector<Material*> materials;
 
 	vector<ModelBone*> bones;
-	vector<ModelMeshData*> meshes;
+	vector<MeshData*> meshes;
 	vector<ModelClip*> clips;
 };
 

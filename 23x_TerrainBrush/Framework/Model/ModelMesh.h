@@ -34,29 +34,6 @@ private:
 	vector<ModelBone*> childs;
 };
 
-struct ModelMeshData
-{
-	UINT VertexCount = 0;
-	Model::ModelVertex* Vertices = nullptr;
-
-	UINT IndexCount = 0;
-	UINT* Indices = nullptr;
-
-	BindValue* PBind = nullptr;
-
-
-	~ModelMeshData()
-	{
-		SafeDelete(PBind);
-		SafeDeleteArray(Vertices);
-		SafeDeleteArray(Indices);
-	}
-
-	void NewVertices(UINT count) { VertexCount = count; Vertices = new Model::ModelVertex[VertexCount]; }
-	void NewIndices(UINT count) { IndexCount = count; Indices = new UINT[IndexCount]; }
-	void NewBindValue() { PBind = new BindValue(); }
-};
-
 
 // ------------------------------------------------------------------------------------------------
 // ModelMesh
@@ -69,7 +46,7 @@ public:
 	~ModelMesh();
 
 public:
-	void CreateBuffer(ModelMeshData* mesh);
+	void CreateBuffer(MeshData* mesh);
 	void SetMaterial(Material* mat);
 	void BindBone(ModelBone* bone);
 
@@ -85,7 +62,7 @@ public:
 	void SetTransform(Transform* value);
 
 private:
-	ModelMeshData* mesh = nullptr;
+	MeshData* mesh = nullptr;
 
 	Shader* shader = nullptr;
 	Material* material = nullptr;
@@ -95,12 +72,7 @@ private:
 	PerFrame* perFrame = nullptr;
 
 	VertexBuffer* vertexBuffer = nullptr;
-	//UINT vertexCount = 0;
-	//Model::ModelVertex* vertices = nullptr;
-
 	IndexBuffer* indexBuffer = nullptr;
-	//UINT indexCount = 0;
-	//UINT* indices = nullptr;
 
 	ConstantBuffer* boneBuffer = nullptr;
 	ID3DX11EffectConstantBuffer* sBoneBuffer;
@@ -118,14 +90,14 @@ private:
 // ModelMeshBaked
 // ------------------------------------------------------------------------------------------------
 
-class ModelMeshBoneMap
+class ModelMeshClipMap
 {
 public:
-	ModelMeshBoneMap();
-	~ModelMeshBoneMap();
+	ModelMeshClipMap();
+	~ModelMeshClipMap();
 
 public:
-	void CreateBuffer(ModelMeshData* mesh);
+	void CreateBuffer(MeshData* mesh);
 	void SetMaterial(Material* mat);
 
 	void Update();
@@ -140,7 +112,7 @@ public:
 	void TransformsSRV(ID3D11ShaderResourceView* value, UINT boneIndex);
 
 private:
-	ModelMeshData* mesh = nullptr;
+	MeshData* mesh = nullptr;
 
 	Shader* shader = nullptr;
 	Material* material = nullptr;

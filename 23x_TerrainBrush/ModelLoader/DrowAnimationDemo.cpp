@@ -5,6 +5,7 @@
 void DrowAnimationDemo::Initialize()
 {
 	shader = new Shader(L"18_Animation.fx");
+
 	Context::Get()->GetCamera()->RotationDegree(0, 0, 0);
 	Context::Get()->GetCamera()->Position(0, 0, -50);
 	//((Freedom*)Context::Get()->GetCamera())->Speed(20, 2);
@@ -19,6 +20,7 @@ void DrowAnimationDemo::Destroy()
 
 	SafeDelete(paladin);
 	SafeDelete(kachujin);
+	//SafeDelete(weapon);
 }
 
 void DrowAnimationDemo::Update()
@@ -71,16 +73,23 @@ void DrowAnimationDemo::Kachujin()
 
 	kachujin->GetTransform()->Position(3, 0, -20);
 	kachujin->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
+	
+	// Attach weapon
+	{
+		Model* weapon = nullptr;
+		weapon = new Model();
 
-	weapon = new Model();
-	weapon->ReadMaterial(L"Weapon/Sword");
-	weapon->ReadMesh(L"Weapon/Sword");
+		weapon->ReadMaterial(L"Weapon/Sword");
+		weapon->ReadMesh(L"Weapon/Sword");
 
-	Transform offset = Transform();
-	offset.Position(-13, -3, -5);
-	offset.RotationDegree(0, 0, 90);
-	offset.Scale(0.5f, 0.5f, 5.5f);
-	kachujin->GetModel()->Attach(shader, weapon, 35, &offset);
+		Transform offset = Transform();
+		offset.Position(-13, -3, -5);
+		offset.RotationDegree(0, 0, 90);
+		offset.Scale(0.5f, 0.5f, 5.5f);
+		kachujin->GetModel()->Attach(shader, weapon, 35, &offset);
+
+		SafeDelete(weapon);
+	}
 }
 
 void DrowAnimationDemo::Paladin()

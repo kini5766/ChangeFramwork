@@ -44,9 +44,7 @@
     <ClCompile Include="Meshes\MeshGrid.cpp" />
     <ClCompile Include="Meshes\MeshQuad.cpp" />
     <ClCompile Include="Meshes\MeshSphere.cpp" />
-    <ClCompile Include="Model\AttachedModel.cpp" />
-    <ClCompile Include="Model\ClipAnimator.cpp" />
-    <ClCompile Include="Model\ClipTransformMap.cpp" />
+    <ClCompile Include="Model\ModelAttacher.cpp" />
     <ClCompile Include="Model\Model.cpp" />
     <ClCompile Include="Model\ModelAnimator.cpp" />
     <ClCompile Include="Model\ModelClip.cpp" />
@@ -107,9 +105,7 @@
     <ClInclude Include="Meshes\MeshGrid.h" />
     <ClInclude Include="Meshes\MeshQuad.h" />
     <ClInclude Include="Meshes\MeshSphere.h" />
-    <ClInclude Include="Model\AttachedModel.h" />
-    <ClInclude Include="Model\ClipAnimator.h" />
-    <ClInclude Include="Model\ClipTransformMap.h" />
+    <ClInclude Include="Model\ModelAttacher.h" />
     <ClInclude Include="Model\Model.h" />
     <ClInclude Include="Model\ModelAnimator.h" />
     <ClInclude Include="Model\ModelClip.h" />

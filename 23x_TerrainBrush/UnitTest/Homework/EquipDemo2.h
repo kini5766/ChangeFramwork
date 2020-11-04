@@ -1,7 +1,8 @@
 #pragma once
+
 #include "Systems/IExecute.h"
 
-class DrowAnimationDemo : public IExecute
+class EquipDemo2 : public IExecute
 {
 public:
 	// IExecute을(를) 통해 상속됨
@@ -15,23 +16,10 @@ public:
 	void ResizeScreen() override {}
 
 private:
-	void Kachujin();
-	void Paladin();
-
-private:
-	Shader* shader;
-
-	ModelAnimator* kachujin = nullptr;
-	ModelAnimator* paladin = nullptr;
-	//Model* weapon = nullptr;
+	class EquippableKachujin* kachujin = nullptr;
+	UINT clip = 0;
+	UINT item = 0;
 };
-
-// 과제 완
-// 1. orbit
-// 2. model editor
-// 3. animation run
-
-// LU Decompose atan2() 조사
 
 // 과제
 // 4. 무기 교체
