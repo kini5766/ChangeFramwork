@@ -7,27 +7,29 @@ ModelRender::ModelRender(Shader * shader)
 	: shader(shader)
 {
 	model = new Model();
-
 	transform = new Transform();
-
 }
 
 ModelRender::~ModelRender()
 {
-	SafeDelete(model);
-	SafeDelete(transform);
 	SafeDeleteArray(boneTransforms);
+
+	for (auto d : renderers)
+		SafeDelete(d);
+
+	SafeDelete(transform);
+	SafeDelete(model);
 }
 
 void ModelRender::Update()
 {
-	for (ModelMesh* mesh : model->Meshes())
+	for (ModelMesh* mesh : renderers)
 		mesh->Update();
 }
 
 void ModelRender::Render()
 {
-	for (ModelMesh* mesh : model->Meshes())
+	for (ModelMesh* mesh : renderers)
 	{
 		mesh->SetTransform(transform);
 		mesh->Render();
@@ -37,21 +39,29 @@ void ModelRender::Render()
 void ModelRender::ReadMaterial(wstring file)
 {
 	model->ReadMaterial(file);
+
+	for (Material* material : model->Materials())
+		material->SetShader(shader);
 }
 
 void ModelRender::ReadMesh(wstring file)
 {
 	model->ReadMesh(file);
 
-	for (ModelMesh* mesh : model->Meshes())
-		mesh->SetShader(shader);
+	for (ModelMeshData* data : model->Meshes())
+	{
+		ModelMesh* renderer = new ModelMesh();
+		renderer->CreateBuffer(data);
+		renderer->SetMaterial(model->MaterialByName(data->PBind->MaterialName));
+		renderers.push_back(renderer);
+	}
 
 	UpdateTransform();
 }
 
 void ModelRender::Pass(UINT value)
 {
-	for (ModelMesh* mesh : model->Meshes())
+	for (ModelMesh* mesh : renderers)
 		mesh->Pass(value);
 }
 
@@ -70,7 +80,7 @@ void ModelRender::UpdateTransform(ModelBone * bone, const Matrix & matrix)
 		memcpy(&boneTransforms[i], &bone->Transform(), sizeof(Matrix));
 	}
 
-	for (ModelMesh* mesh : model->Meshes())
+	for (ModelMesh* mesh : renderers)
 		mesh->BoneTransform(&boneTransforms[mesh->BoneIndex()]);
 }
 

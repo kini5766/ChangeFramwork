@@ -368,8 +368,8 @@ void Converter::ReadMeshData(aiNode * node, int bone)
 
 			for (UINT k = 0; k < face.mNumIndices; k++)
 			{
-				mesh->Indices.push_back(face.mIndices[k]);
-				mesh->Indices.back() += startVertex;  // 012, 345
+				UINT index = face.mIndices[k] + startVertex;// 012, 345
+				mesh->Indices.push_back(index);
 			}
 		}
 

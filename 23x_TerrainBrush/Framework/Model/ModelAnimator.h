@@ -29,9 +29,11 @@ private:
 
 	// ¸É¹ö º¯¼ö
 private:
+	Model* model;
+	vector<ModelMeshBoneMap*> renderers;
+
 	Shader* shader;
 	Transform* transform;
-	Model* model;
 
 	class ClipAnimator* animator = nullptr;
 	class ClipTransformMap* transfromMap = nullptr;

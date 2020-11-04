@@ -84,6 +84,7 @@ typedef D3DXPLANE Plane;
 #include "Renders/Material.h"
 #include "Renders/DrowLine.h"
 
+#include "Meshes/MeshData.h"
 #include "Meshes/Mesh.h"
 #include "Meshes/MeshQuad.h"
 #include "Meshes/MeshGrid.h"

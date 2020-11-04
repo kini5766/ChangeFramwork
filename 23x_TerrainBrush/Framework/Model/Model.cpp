@@ -18,14 +18,14 @@ Model::~Model()
 	for (ModelBone* d : bones)
 		SafeDelete(d);
 
-	for (ModelMesh* d : meshes)
+	for (ModelMeshData* d : meshes)
 		SafeDelete(d);
 
 	for (ModelClip* d : clips)
 		SafeDelete(d);
 }
 
-void Model::Attach(Shader * shader, Model * model, int parentBoneIndex, Transform * transform)
+void Model::Attach(Shader * shader, Model * model, int parentBoneIndex, Transform * offset)
 {
 	// src 기존 -> dst 추가에 맞게 변경된 값
 
@@ -66,8 +66,8 @@ void Model::Attach(Shader * shader, Model * model, int parentBoneIndex, Transfor
 			dst->transform = src->transform;
 
 			// 보정 값 적용
-			if (transform != nullptr)
-				dst->transform = dst->transform * transform->World();
+			if (offset != nullptr)
+				dst->transform = dst->transform * offset->World();
 			else
 				int a = 0;
 
@@ -99,42 +99,52 @@ void Model::Attach(Shader * shader, Model * model, int parentBoneIndex, Transfor
 	}
 
 	// Copy Mesh
-	for (ModelMesh* src : model->Meshes())
+	for (ModelMeshData* src : model->Meshes())
 	{
-		ModelMesh* dst = new ModelMesh();
+		ModelMeshData* dst = new ModelMeshData();
+
+		dst->NewBindValue();
+		memcpy(dst->PBind, src->PBind, sizeof(BindValue));
 
 		for (BoneNum swap : changes)
 		{
-			if (swap.oldNum == src->boneIndex)
+			if (swap.oldNum == src->PBind->BoneIndex)
 			{
-				dst->boneIndex = swap.newNum;
+				dst->PBind->BoneIndex = swap.newNum;
 				break;
 			}
 		}
 
-		dst->bone = bones[dst->boneIndex];
-		dst->name = src->name;
-		dst->materialName = src->materialName;
 
-		dst->vertexCount = src->vertexCount;
-		dst->indexCount = src->indexCount;
+		UINT verticesSize = src->VertexCount * sizeof(Model::ModelVertex);
+		dst->NewVertices(src->VertexCount);
+		//UINT count = src->VertexCount;
+		//dst->VertexCount = count;
+		//dst->NewPositions();
+		//dst->NewUvs();
+		//dst->NewNormals();
+		//dst->NewTangents();
+		//dst->NewBoneWeights();
+		memcpy_s(dst->Vertices, verticesSize, src->Vertices, verticesSize);
+		//memcpy(dst->Positions, src->Positions,		count * sizeof(Vector3));
+		//memcpy(dst->Uvs, src->Uvs,					count * sizeof(Vector2));
+		//memcpy(dst->Normals, src->Normals,			count * sizeof(Vector3));
+		//memcpy(dst->Tangents, src->Tangents,		count * sizeof(Vector3));
+		//memcpy(dst->BoneWeights, src->BoneWeights,	count * sizeof(BoneWeight));
 
-		UINT verticesSize = dst->vertexCount * sizeof(ModelVertex);
-		dst->vertices = new ModelVertex[dst->vertexCount];
-		memcpy_s(dst->vertices, verticesSize, src->vertices, verticesSize);
+		dst->NewIndices(src->IndexCount);
+		//memcpy_s(dst->indices, indicesSize, src->indices, indicesSize);
+		memcpy(dst->Indices, src->Indices, dst->IndexCount * sizeof(UINT));
 
-		UINT indicesSize = dst->indexCount * sizeof(UINT);
-		dst->indices = new UINT[dst->indexCount];
-		memcpy_s(dst->indices, indicesSize, src->indices, indicesSize);
-
-		dst->Binding(this);
-		dst->SetShader(shader);
+		//dst->Binding(this);
+		//dst->SetShader(shader);
 
 		meshes.push_back(dst);
 	}
 
 }
 
+/*
 void Model::Copy(Model ** out)
 {
 	(*out) = new Model();
@@ -184,9 +194,9 @@ void Model::Copy(Model ** out)
 	}
 
 	// Copy Mesh
-	for (ModelMesh* src : meshes)
+	for (MeshData* src : meshes)
 	{
-		ModelMesh* dst = new ModelMesh();
+		MeshData* dst = new MeshData();
 
 		dst->name = src->name;
 		dst->boneIndex = src->boneIndex;
@@ -227,7 +237,7 @@ void Model::Copy(Model ** out)
 		(*out)->clips.push_back(dst);
 	}
 }
-
+*/
 
 #pragma region ReadFile
 
@@ -325,12 +335,13 @@ void Model::ReadMesh(wstring file)
 	count = r.UInt();
 	for (UINT i = 0; i < count; i++)
 	{
-		ModelMesh* mesh = new ModelMesh();
+		ModelMeshData* mesh = new ModelMeshData();
 
-		mesh->name = String::ToWString(r.String());
-		mesh->boneIndex = r.Int();
+		mesh->NewBindValue();
+		mesh->PBind->Name = String::ToWString(r.String());
+		mesh->PBind->BoneIndex = r.Int();
 
-		mesh->materialName = String::ToWString(r.String());
+		mesh->PBind->MaterialName = String::ToWString(r.String());
 
 		// VertexData
 		{
@@ -342,13 +353,30 @@ void Model::ReadMesh(wstring file)
 			void* ptr = (void*)&(vertices[0]);
 			r.BYTE(&ptr, sizeof(Model::ModelVertex) * count);
 
-			mesh->vertices = new Model::ModelVertex[count];
-			mesh->vertexCount = count;
-
+			mesh->NewVertices(count);
 			copy(
 				vertices.begin(), vertices.end(),
-				stdext::checked_array_iterator<Model::ModelVertex*>(mesh->vertices, count)
+				stdext::checked_array_iterator<Model::ModelVertex*>(mesh->Vertices, count)
 			);
+
+			/*
+			mesh->VertexCount = count;
+			mesh->NewPositions();
+			mesh->NewUvs();
+			mesh->NewNormals();
+			mesh->NewTangents();
+			mesh->NewBoneWeights();
+
+			for (UINT i = 0; i < count; i++)
+			{
+				memcpy(&mesh->Positions[i], &vertices[i].Position, sizeof(Vector3));
+				memcpy(&mesh->Uvs[i], &vertices[i].Uv, sizeof(Vector2));
+				memcpy(&mesh->Normals[i], &vertices[i].Normal, sizeof(Vector3));
+				memcpy(&mesh->Tangents[i], &vertices[i].Tangent, sizeof(Vector3));
+				memcpy(&mesh->BoneWeights[i].BlendIndices, &vertices[i].BlendIndices, sizeof(Vector4));
+				memcpy(&mesh->BoneWeights[i].BlendWeights, &vertices[i].BlendWeights, sizeof(Vector4));
+			}
+			*/
 		}
 
 		// Index Data
@@ -361,12 +389,12 @@ void Model::ReadMesh(wstring file)
 			void* ptr = (void*)&(indices[0]);
 			r.BYTE(&ptr, sizeof(UINT) * count);
 
-			mesh->indices = new UINT[count];
-			mesh->indexCount = count;
+			mesh->Indices = new UINT[count];
+			mesh->IndexCount = count;
 
 			copy(
 				indices.begin(), indices.end(),
-				stdext::checked_array_iterator<UINT*>(mesh->indices, count)
+				stdext::checked_array_iterator<UINT*>(mesh->Indices, count)
 			);
 		}
 
@@ -447,11 +475,11 @@ ModelBone * Model::BoneByName(wstring name)
 }
 
 // ModelMesh
-ModelMesh * Model::MeshByName(wstring name)
+ModelMeshData * Model::MeshByName(wstring name)
 {
-	for (ModelMesh* mesh : meshes)
+	for (ModelMeshData* mesh : meshes)
 	{
-		if (mesh->Name() == name)
+		if (mesh->PBind->Name == name)
 			return mesh;
 	}
 
@@ -492,19 +520,17 @@ void Model::BindBone()
 void Model::BindMesh()
 {
 	// 메쉬 그려질 위치 찾기
-	for (ModelMesh* mesh : meshes)
+	for (ModelMeshData* mesh : meshes)
 	{
 		for (ModelBone* bone : bones)
 		{
-			if (mesh->boneIndex == bone->index)
+			if (mesh->PBind->BoneIndex == bone->index)
 			{
-				mesh->bone = bone;
+				mesh->PBind->PBone = bone;
 
 				break;
 			}
 		}
-
-		mesh->Binding(this);
 	}
 }
 

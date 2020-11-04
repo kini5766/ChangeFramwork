@@ -14,8 +14,11 @@ ModelAnimator::ModelAnimator(Shader * shader)
 
 ModelAnimator::~ModelAnimator()
 {
-	SafeDelete(animator);
 	SafeDelete(transfromMap);
+	SafeDelete(animator);
+
+	for (auto d : renderers)
+		SafeDelete(d);
 
 	SafeDelete(transform);
 	SafeDelete(model);
@@ -29,7 +32,7 @@ void ModelAnimator::Update()
 
 	animator->UpdateTweening();
 
-	for (ModelMesh* mesh : model->Meshes())
+	for (ModelMeshBoneMap* mesh : renderers)
 		mesh->Update();
 }
 
@@ -37,7 +40,7 @@ void ModelAnimator::Render()
 {
 	animator->Render();
 
-	for (ModelMesh* mesh : model->Meshes())
+	for (ModelMeshBoneMap* mesh : renderers)
 	{
 		mesh->SetTransform(transform);
 		mesh->Render();
@@ -68,16 +71,22 @@ void ModelAnimator::ReadClip(wstring file)
 
 void ModelAnimator::Apply()
 {
+	for (Material* material : model->Materials())
+		material->SetShader(shader);
+
 	SafeDelete(transfromMap);
 	transfromMap = new ClipTransformMap(model);
-
 	ID3D11ShaderResourceView* srv = transfromMap->GetSRV();
-	for (ModelMesh* mesh : model->Meshes())
+	
+	for (ModelMeshData* data : model->Meshes())
 	{
-		mesh->SetShader(shader);
-		mesh->TransformsSRV(srv);
+		ModelMeshBoneMap* renderer = new ModelMeshBoneMap();
+		renderer->CreateBuffer(data);
+		renderer->SetMaterial(model->MaterialByName(data->PBind->MaterialName));
+		renderer->TransformsSRV(srv, data->PBind->BoneIndex);
+		renderers.push_back(renderer);
 	}
-
+	
 	SafeDelete(animator);
 	animator = new ClipAnimator(model->Clips().data(), model->ClipCount());
 	animator->CreateBuffer(shader);
@@ -85,6 +94,6 @@ void ModelAnimator::Apply()
 
 void ModelAnimator::Pass(UINT value)
 {
-	for (ModelMesh* mesh : model->Meshes())
+	for (ModelMeshBoneMap* mesh : renderers)
 		mesh->Pass(value);
 }

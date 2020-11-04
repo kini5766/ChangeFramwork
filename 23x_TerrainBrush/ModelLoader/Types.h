@@ -166,7 +166,7 @@ struct asClip
 {
 	string Name;
 
-	UINT FrameCount;  // 최대 250프레임 제한
+	UINT FrameCount;  // 최대 250프레임 제한 (해제)
 	float FrameRate;  // 30프레임레이트으로 변환
 	float Duration;  // 재생시간
 

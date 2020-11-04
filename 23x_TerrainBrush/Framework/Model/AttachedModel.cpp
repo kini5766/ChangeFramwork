@@ -1,27 +1,36 @@
 #include "Framework.h"
 #include "AttachedModel.h"
 
+/*
+
 #include "ModelMesh.h"
 #include "ClipTransformMap.h"
-#include "ClipAnimator.h"
+#include "AnimationClip.h"
 
 AttachedModel::AttachedModel(Shader * shader)
 	: shader(shader)
 {
 	transform = new Transform(shader);
-	originalModel = new Model();
+
+	Model* originalModel = new Model();
+
+	attachedModels.push_back(originalModel);
+	attachedMaps.push_back(nullptr);
+	rendererArr2D.push_back(vector<ModelMeshBoneMap*>());
 }
 
 AttachedModel::~AttachedModel()
 {
-	for (auto d : attachedModels)
-		SafeDelete(d);
 	for (auto d : attachedMaps)
 		SafeDelete(d);
+	for (auto d : attachedModels)
+		SafeDelete(d);
+
+	for (auto ds : rendererArr2D)
+		for (auto d : ds)
+			SafeDelete(d);
 
 	SafeDelete(animator);
-	SafeDelete(originalModel);
-	SafeDelete(originalMap);
 	SafeDelete(transform);
 }
 
@@ -39,7 +48,7 @@ void AttachedModel::UpdateNoTweening()
 
 void AttachedModel::UpdateMesh()
 {
-	for (ModelMesh* mesh : selectedModel->Meshes())
+	for (ModelMeshBoneMap* mesh : rendererArr2D[selectedModel])
 		mesh->Update();
 }
 
@@ -47,7 +56,7 @@ void AttachedModel::Render()
 {
 	animator->Render();
 
-	for (ModelMesh* mesh : selectedModel->Meshes())
+	for (ModelMeshBoneMap* mesh : rendererArr2D[selectedModel])
 	{
 		mesh->SetTransform(transform);
 		mesh->Render();
@@ -56,14 +65,9 @@ void AttachedModel::Render()
 
 void AttachedModel::Pass(UINT value)
 {
-	for (ModelMesh* mesh : originalModel->Meshes())
-		mesh->Pass(value);
-
-	for (Model* model : attachedModels)
-	{
-		for (ModelMesh* mesh : model->Meshes())
+	for (auto renderers : rendererArr2D)
+		for (ModelMeshBoneMap* mesh : renderers)
 			mesh->Pass(value);
-	}
 }
 
 void AttachedModel::PlayClip(UINT clip, float speed, float takeTime)
@@ -73,12 +77,12 @@ void AttachedModel::PlayClip(UINT clip, float speed, float takeTime)
 
 void AttachedModel::ChangeOriginal()
 {
-	selectedModel = originalModel;
+	selectedModel = 0;
 }
 
 void AttachedModel::ChangeModel(UINT num)
 {
-	selectedModel = attachedModels[num];
+	selectedModel = num;
 }
 
 float AttachedModel::GetClipLength(UINT clip)
@@ -94,33 +98,42 @@ float AttachedModel::GetClipRunTime()
 
 void AttachedModel::ReadMaterial(wstring file)
 {
-	originalModel->ReadMaterial(file);
+	GetOriginalModel()->ReadMaterial(file);
 }
 
 void AttachedModel::ReadMesh(wstring file)
 {
-	originalModel->ReadMesh(file);
+	GetOriginalModel()->ReadMesh(file);
 }
 
 void AttachedModel::ReadClip(wstring file)
 {
-	originalModel->ReadClip(file);
+	GetOriginalModel()->ReadClip(file);
 }
 
 void AttachedModel::ApplyOriginModel()
 {
-	SafeDelete(originalMap);
-	originalMap = new ClipTransformMap(originalModel);
+	Model* originalModel = GetOriginalModel();
+
+	SafeDelete(attachedMaps[0]);
+	ClipTransformMap* originalMap = new ClipTransformMap(originalModel);
+	attachedMaps[0] = originalMap;
+
+	for (Material* material : originalModel->Materials())
+		material->SetShader(shader);
 
 	ID3D11ShaderResourceView* srv = originalMap->GetSRV();
-	for (ModelMesh* mesh : originalModel->Meshes())
+	for (MeshData* data : originalModel->Meshes())
 	{
-		mesh->SetShader(shader);
-		mesh->TransformsSRV(srv);
+		ModelMeshBoneMap* renderer = new ModelMeshBoneMap();
+		renderer->CreateBuffer(data);
+		renderer->SetMaterial(originalModel->MaterialByName(data->PBind->MaterialName));
+		renderer->TransformsSRV(srv, data->PBind->BoneIndex);
+		rendererArr2D[0].push_back(renderer);
 	}
 
 	SafeDelete(animator);
-	animator = new ClipAnimator(originalModel->Clips().data(), originalModel->ClipCount());
+	animator = new AnimationClip(originalModel->Clips().data(), originalModel->ClipCount());
 	animator->CreateBuffer(shader);
 
 	ChangeOriginal();
@@ -146,3 +159,5 @@ void AttachedModel::AddAttachedModel(Model * attachedModel)
 	attachedModels.push_back(attachedModel);
 	attachedMaps.push_back(attachedMap);
 }
+
+*/

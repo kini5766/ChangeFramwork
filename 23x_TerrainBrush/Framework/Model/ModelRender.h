@@ -24,9 +24,10 @@ private:
 	void UpdateBones(ModelBone* bone, const Matrix& matrix);
 
 private:
-	Shader* shader;
 	Model* model;
+	vector<ModelMesh*> renderers;
 
+	Shader* shader;
 	Transform* transform;
 
 	Matrix* boneTransforms = nullptr;

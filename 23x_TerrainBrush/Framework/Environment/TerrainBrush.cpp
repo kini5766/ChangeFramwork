@@ -139,7 +139,7 @@ void TerrainBrushDemo::RaiseRect(const Vector3 & position, UINT range)
 
 	float rad = Rad();  // 사각형의 회전량 (라디안)
 	float deg = rad * 57.295779513f;
-	int nDeg = deg;
+	int nDeg = (int)deg;
 	float fracDeg = deg - nDeg;
 	nDeg %= 90;
 
