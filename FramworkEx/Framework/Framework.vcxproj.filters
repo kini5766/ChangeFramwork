@@ -139,9 +139,6 @@
     <ClCompile Include="Model\Model.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="Renders\Material.cpp">
-      <Filter>Renders</Filter>
-    </ClCompile>
     <ClCompile Include="Model\ModelMesh.cpp">
       <Filter>Model</Filter>
     </ClCompile>
@@ -205,6 +202,10 @@
     <ClCompile Include="Model\ModelAttacher.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="Renders\ModelMaterial.cpp">
+      <Filter>Renders</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -319,9 +320,6 @@
     <ClInclude Include="Model\Model.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="Renders\Material.h">
-      <Filter>Renders</Filter>
-    </ClInclude>
     <ClInclude Include="Model\ModelMesh.h">
       <Filter>Model</Filter>
     </ClInclude>
@@ -394,5 +392,9 @@
     <ClInclude Include="Model\ModelAttacher.h">
       <Filter>Model</Filter>
     </ClInclude>
+    <ClInclude Include="Renders\ModelMaterial.h">
+      <Filter>Renders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\Material.h" />
   </ItemGroup>
 </Project>

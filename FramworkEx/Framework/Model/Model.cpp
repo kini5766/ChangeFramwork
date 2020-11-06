@@ -12,7 +12,7 @@ Model::Model()
 
 Model::~Model()
 {
-	for (Material* mat : materials)
+	for (ModelMaterial* mat : materials)
 		SafeDelete(mat);
 
 	for (ModelBone* d : bones)
@@ -30,20 +30,29 @@ void Model::Attach(Shader * shader, Model * model, int parentBoneIndex, Transfor
 	// src 기존 -> dst 추가에 맞게 변경된 값
 
 	// Copy Material
-	for (Material* src : model->Materials())
+	for (ModelMaterial* src : model->Materials())
 	{
-		Material* dst = new Material(shader);
+		ModelMaterial* dst = new ModelMaterial(shader);
 		dst->Name(src->Name());
 		dst->Ambient(src->Ambient());
 		dst->Diffuse(src->Diffuse());
 		dst->Specular(src->Specular());
 
-		if (src->DiffuseMap())
-			dst->DiffuseMap(src->DiffuseMap()->GetFile());
-		if (src->SpecularMap())
-			dst->SpecularMap(src->SpecularMap()->GetFile());
-		if (src->NormalMap())
-			dst->DiffuseMap(src->NormalMap()->GetFile());
+		Texture* t;
+		t = src->GetTexture("DiffuseMap");
+		if (t != nullptr)
+			dst->SetTexture("DiffuseMap", t->GetFile());
+		else dst->SetTexture("DiffuseMap", nullptr);
+
+		t = src->GetTexture("SpecularMap");
+		if (t != nullptr)
+			dst->SetTexture("SpecularMap", t->GetFile());
+		else dst->SetTexture("SpecularMap", nullptr);
+
+		t = src->GetTexture("NormalMap");
+		if (t != nullptr)
+			dst->SetTexture("NormalMap", t->GetFile());
+		else dst->SetTexture("NormalMap", nullptr);
 
 		materials.push_back(dst);
 	}
@@ -235,20 +244,29 @@ void Model::AttachWeakly(Model * model, int parentBoneIndex, Transform * offset)
 void Model::Copy(Model * out)
 {
 	// Copy Material
-	for (Material* src : materials)
+	for (ModelMaterial* src : materials)
 	{
-		Material* dst = new Material();
+		ModelMaterial* dst = new ModelMaterial();
 		dst->Name(src->Name());
 		dst->Ambient(src->Ambient());
 		dst->Diffuse(src->Diffuse());
 		dst->Specular(src->Specular());
 
-		if (src->DiffuseMap())
-			dst->DiffuseMap(src->DiffuseMap()->GetFile());
-		if (src->SpecularMap())
-			dst->SpecularMap(src->SpecularMap()->GetFile());
-		if (src->NormalMap())
-			dst->DiffuseMap(src->NormalMap()->GetFile());
+		Texture* t;
+		t = src->GetTexture("DiffuseMap");
+		if (t != nullptr)
+			dst->SetTexture("DiffuseMap", t->GetFile());
+		else dst->SetTexture("DiffuseMap", nullptr);
+
+		t = src->GetTexture("SpecularMap");
+		if (t != nullptr)
+			dst->SetTexture("SpecularMap", t->GetFile());
+		else dst->SetTexture("SpecularMap", nullptr);
+
+		t = src->GetTexture("NormalMap");
+		if (t != nullptr)
+			dst->SetTexture("NormalMap", t->GetFile());
+		else dst->SetTexture("NormalMap", nullptr);
 
 		(*out).materials.push_back(dst);
 	}
@@ -339,7 +357,7 @@ void Model::ReadMaterial(wstring file)
 
 	do
 	{
-		Material* material = new Material();
+		ModelMaterial* material = new ModelMaterial();
 		Xml::XMLElement* node = nullptr;
 
 		wstring texture = L"";
@@ -354,17 +372,20 @@ void Model::ReadMaterial(wstring file)
 		node = node->NextSiblingElement();
 		texture = String::ToWString(node->GetText());
 		if (texture.length() > 0)
-			material->DiffuseMap(directory + texture);
+			material->SetTexture("DiffuseMap", directory + texture);
+		else material->SetTexture("DiffuseMap", nullptr);
 
 		node = node->NextSiblingElement();
 		texture = String::ToWString(node->GetText());
 		if (texture.length() > 0)
-			material->SpecularMap(directory + texture);
+			material->SetTexture("SpecularMap", directory + texture);
+		else material->SetTexture("SpecularMap", nullptr);
 
 		node = node->NextSiblingElement();
 		texture = String::ToWString(node->GetText());
 		if (texture.length() > 0)
-			material->NormalMap(directory + texture);
+			material->SetTexture("NormalMap", directory + texture);
+		else material->SetTexture("NormalMap", nullptr);
 
 		node = node->NextSiblingElement();
 		color.r = node->FloatAttribute("R");
@@ -521,9 +542,9 @@ void Model::ReadClip(wstring file)
 #pragma region Getter
 
 // Material
-Material * Model::MaterialByName(wstring name)
+ModelMaterial * Model::MaterialByName(wstring name)
 {
-	for (Material* material : materials)
+	for (ModelMaterial* material : materials)
 	{
 		if (material->Name() == name)
 			return material;

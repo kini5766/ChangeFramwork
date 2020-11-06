@@ -76,7 +76,7 @@ void ModelAnimator::Pass(UINT value)
 
 void ModelAnimator::Apply()
 {
-	for (Material* material : model->Materials())
+	for (ModelMaterial* material : model->Materials())
 		material->SetShader(shader);
 
 	SafeDelete(clipMap);

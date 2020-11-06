@@ -82,7 +82,7 @@ void ModelAttacher::AttachItem(Model * item, int parentBoneIndex, Transform * of
 {
 	model->AttachWeakly(item, parentBoneIndex, offset);
 
-	for (Material* material : item->Materials())
+	for (ModelMaterial* material : item->Materials())
 		material->SetShader(shader);
 
 	AttachedItem* newItem = new AttachedItem();
@@ -133,7 +133,7 @@ void ModelAttacher::ReadClip(wstring file)
 
 void ModelAttacher::ApplyOriginModel()
 {
-	for (Material* material : model->Materials())
+	for (ModelMaterial* material : model->Materials())
 		material->SetShader(shader);
 
 	SafeDelete(clipMap);

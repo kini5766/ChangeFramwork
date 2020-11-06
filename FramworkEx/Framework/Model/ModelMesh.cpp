@@ -81,7 +81,7 @@ void ModelMesh::CreateBuffer(MeshData * _mesh)
 	indexBuffer = new IndexBuffer(mesh->Indices, mesh->IndexCount);
 }
 
-void ModelMesh::SetMaterial(Material * mat)
+void ModelMesh::SetMaterial(ModelMaterial * mat)
 {
 	material = mat;
 
@@ -202,7 +202,7 @@ void ModelMeshClipMap::CreateBuffer(MeshData * _mesh)
 	indexBuffer = new IndexBuffer(mesh->Indices, mesh->IndexCount);
 }
 
-void ModelMeshClipMap::SetMaterial(Material * mat)
+void ModelMeshClipMap::SetMaterial(ModelMaterial * mat)
 {
 	material = mat;
 

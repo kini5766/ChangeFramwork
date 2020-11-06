@@ -41,7 +41,7 @@ void ModelRender::ReadMaterial(wstring file)
 {
 	model->ReadMaterial(file);
 
-	for (Material* material : model->Materials())
+	for (ModelMaterial* material : model->Materials())
 		material->SetShader(shader);
 }
 

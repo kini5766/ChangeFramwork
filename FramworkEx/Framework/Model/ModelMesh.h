@@ -47,7 +47,7 @@ public:
 
 public:
 	void CreateBuffer(MeshData* mesh);
-	void SetMaterial(Material* mat);
+	void SetMaterial(ModelMaterial* mat);
 	void BindBone(ModelBone* bone);
 
 	void Update();
@@ -65,7 +65,7 @@ private:
 	MeshData* mesh = nullptr;
 
 	Shader* shader = nullptr;
-	Material* material = nullptr;
+	ModelMaterial* material = nullptr;
 	Transform* transform = nullptr;
 
 	UINT pass = 0;
@@ -98,7 +98,7 @@ public:
 
 public:
 	void CreateBuffer(MeshData* mesh);
-	void SetMaterial(Material* mat);
+	void SetMaterial(ModelMaterial* mat);
 
 	void Update();
 	void Render();
@@ -115,7 +115,7 @@ private:
 	MeshData* mesh = nullptr;
 
 	Shader* shader = nullptr;
-	Material* material = nullptr;
+	ModelMaterial* material = nullptr;
 	Transform* transform = nullptr;
 
 	UINT pass = 0;

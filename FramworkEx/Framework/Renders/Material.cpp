@@ -3,128 +3,115 @@
 
 Material::Material()
 {
-	Initialize();
 }
 
-Material::Material(Shader * _shader)
+Material::Material(Shader* _shader)
 {
-	Initialize();
-
 	SetShader(_shader);
 }
 
-void Material::Initialize()
-{
-	name = L"";
-
-	diffuseMap = nullptr;
-	specularMap = nullptr;
-	normalMap = nullptr;
-
-	buffer = new ConstantBuffer(&colorDesc, sizeof(ColorDesc));
-}
-
-
 Material::~Material()
 {
-	SafeDelete(buffer);
+	for (auto& d : effectValues)
+		SafeDelete(d.second);
+}
 
-	SafeDelete(diffuseMap);
-	SafeDelete(specularMap);
-	SafeDelete(normalMap);
+void Material::Render()
+{
+	for (auto& i : effectValues)
+		i.second->Render();
 }
 
 void Material::SetShader(Shader * value)
 {
 	shader = value;
+	for (auto& i : effectValues)
+		i.second->SetShader(shader);
 
-	sBuffer = shader->AsConstantBuffer(ShaderEffctConstantName::CB_Material);
-
-	sDiffuseMap = shader->AsSRV("DiffuseMap");
-	sSpecularMap = shader->AsSRV("SpecularMap");
-	sNormalMap = shader->AsSRV("NormalMap");
 }
 
-void Material::Ambient(const Color & value)
+#pragma region EffectValues
+
+
+// EffectScalar
+void Material::SetScalar(string name, float value)
 {
-	colorDesc.Ambient = value;
+	if (effectValues.count(name) == 0)
+	{
+		IEffectVariable* effect = new EffectScalar(name, value);
+		if (shader != nullptr)
+			effect->SetShader(shader);
+
+		effectValues[name] = effect;
+		return;
+	}
+
+	dynamic_cast<EffectScalar*>(effectValues[name])->Value() = value;
 }
 
-void Material::Ambient(float r, float g, float b, float a)
+
+// EffectVector
+void Material::SetVector(string name, const float * value)
 {
-	Ambient(Color(r, g, b, a));
+	if (effectValues.count(name) == 0)
+	{
+		IEffectVariable* effect = new EffectVector(name, value);
+		if (shader != nullptr)
+			effect->SetShader(shader);
+
+		effectValues[name] = effect;
+		return;
+	}
+
+	dynamic_cast<EffectVector*>(effectValues[name])->Value() = value;
 }
 
-void Material::Diffuse(const Color & value)
+
+// EffectMatrix
+void Material::SetMatrix(string name, const float* value)
 {
-	colorDesc.Diffuse = value;
+	if (effectValues.count(name) == 0)
+	{
+		IEffectVariable* effect = new EffectMatrix(name, value);
+		if (shader != nullptr)
+			effect->SetShader(shader);
+
+		effectValues[name] = effect;
+		return;
+	}
+
+	dynamic_cast<EffectMatrix*>(effectValues[name])->Value() = value;
 }
 
-void Material::Diffuse(float r, float g, float b, float a)
+// EffectTexture
+void Material::SetTexture(string name, wstring file)
 {
-	Diffuse(Color(r, g, b, a));
+	SetTexture(name, new Texture(file));
 }
 
-void Material::Specular(const Color & value)
+void Material::SetTexture(string name, Texture * value)
 {
-	colorDesc.Specular = value;
+	if (effectValues.count(name) == 0)
+	{
+		IEffectVariable* effect = new EffectTexture(name, value);
+		if (shader != nullptr)
+			effect->SetShader(shader);
+
+		effectValues[name] = effect;
+		return;
+	}
+
+	EffectTexture* et = dynamic_cast<EffectTexture*>(effectValues[name]);
+	SafeDelete(et->Value());
+	et->Value() = value;
 }
 
-void Material::Specular(float r, float g, float b, float a)
+Texture * Material::GetTexture(string name)
 {
-	Specular(Color(r, g, b, a));
+	if (effectValues.count(name) == 0)
+		return nullptr;
+
+	return dynamic_cast<EffectTexture*>(effectValues[name])->Value();
 }
+#pragma endregion
 
-void Material::DiffuseMap(string file)
-{
-	DiffuseMap(String::ToWString(file));
-}
-
-void Material::DiffuseMap(wstring file)
-{
-	SafeDelete(diffuseMap);
-	diffuseMap = new Texture(file);
-}
-
-void Material::SpecularMap(string file)
-{
-	SpecularMap(String::ToWString(file));
-}
-
-void Material::SpecularMap(wstring file)
-{
-	SafeDelete(specularMap);
-	specularMap = new Texture(file);
-}
-
-void Material::NormalMap(string file)
-{
-	NormalMap(String::ToWString(file));
-}
-
-void Material::NormalMap(wstring file)
-{
-	SafeDelete(normalMap);
-	normalMap = new Texture(file);
-}
-
-void Material::Render()
-{
-	buffer->Render();
-	sBuffer->SetConstantBuffer(buffer->Buffer());
-
-	if (diffuseMap != nullptr)
-		sDiffuseMap->SetResource(diffuseMap->SRV());
-	else
-		sDiffuseMap->SetResource(nullptr);
-
-	if (specularMap != nullptr)
-		sSpecularMap->SetResource(specularMap->SRV());
-	else
-		sSpecularMap->SetResource(nullptr);
-
-	if (normalMap != nullptr)
-		sNormalMap->SetResource(normalMap->SRV());
-	else
-		sNormalMap->SetResource(nullptr);
-}

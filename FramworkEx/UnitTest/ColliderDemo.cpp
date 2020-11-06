@@ -13,7 +13,7 @@ void ColliderDemo::Initialize()
 	shader = new Shader(L"17_Model.fx");
 
 	gridMaterial = new Material(shader);
-	gridMaterial->DiffuseMap(L"Black.png");
+	gridMaterial->SetTexture("DiffuseMap", L"Black.png");
 
 	grid = new MeshGrid(shader);
 

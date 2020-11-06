@@ -32,9 +32,9 @@ public:
 public:
 	// Material
 	UINT MaterialCount() { return materials.size(); }
-	vector<Material*>& Materials() { return materials; }
-	Material* MaterialByIndex(UINT index) { return materials[index]; }
-	Material* MaterialByName(wstring name);
+	vector<ModelMaterial*>& Materials() { return materials; }
+	ModelMaterial* MaterialByIndex(UINT index) { return materials[index]; }
+	ModelMaterial* MaterialByName(wstring name);
 
 public:
 	// ModelBone
@@ -64,7 +64,7 @@ private:
 
 private:
 	ModelBone* root;
-	vector<Material*> materials;
+	vector<ModelMaterial*> materials;
 
 	vector<ModelBone*> bones;
 	vector<MeshData*> meshes;
