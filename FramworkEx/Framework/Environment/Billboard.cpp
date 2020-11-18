@@ -5,7 +5,8 @@ Billboard::Billboard(Shader * shader, wstring file)
 	: shader(shader)
 {
 	texture = new Texture(file);
-	quad = new MeshQuad(shader);
+
+	quad = new Mesh2(shader, &MeshQuad());
 	sMap = shader->AsSRV("DiffuseMap");
 }
 

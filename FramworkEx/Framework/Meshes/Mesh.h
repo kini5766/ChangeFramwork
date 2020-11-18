@@ -24,3 +24,19 @@ private:
 	Texture* diffuseMap = nullptr;
 	ID3DX11EffectShaderResourceVariable* sDiffuseMap;
 };
+
+
+class Mesh2 : public Renderer
+{
+public:
+	Mesh2(Shader* shader, MeshData* data);
+	virtual ~Mesh2();
+
+	void Render();
+
+	void DiffuseMap(wstring file);
+
+private:
+	Texture* diffuseMap = nullptr;
+	ID3DX11EffectShaderResourceVariable* sDiffuseMap;
+};

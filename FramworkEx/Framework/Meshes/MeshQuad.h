@@ -1,13 +1,12 @@
 #pragma once
 
-#include "Mesh.h"
+#include "MeshData.h"
 
-class MeshQuad : public Mesh
+class MeshQuad : public MeshData
 {
 public:
-	MeshQuad(Shader* shader);
+	MeshQuad();
 	~MeshQuad();
 
-	// Mesh을(를) 통해 상속됨
-	void Create() override;
+	void Create();
 };

@@ -31,7 +31,7 @@ void Main::Initialize()
 	//Push(new TerrainBrushDemo());
 	//Push(new EditorDemo());
 
-	Push(new EquipDemo2());
+	Push(new CpuBillboardDemo());
 }
 
 void Main::Ready()

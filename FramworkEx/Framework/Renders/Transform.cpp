@@ -5,15 +5,17 @@ using namespace ShaderEffctConstantName;
 
 Transform::Transform()
 	: shader(nullptr), buffer(nullptr), sBuffer(nullptr)
-	, position(0, 0, 0), scale(1, 1, 1), rotation(0, 0, 0)
+	, position(0, 0, 0), scale(1, 1, 1)
 {
+	D3DXQuaternionIdentity(&rotation);
 	D3DXMatrixIdentity(&bufferDesc.World);
 }
 
 Transform::Transform(Shader * shader)
-	: position(0, 0, 0), scale(1, 1, 1), rotation(0, 0, 0)
+	: position(0, 0, 0), scale(1, 1, 1)
 {
 	SetShader(shader);
+	D3DXQuaternionIdentity(&rotation);
 	D3DXMatrixIdentity(&bufferDesc.World);
 }
 
@@ -84,23 +86,6 @@ void Transform::Scale(Vector3 * out)
 	*out = scale;
 }
 
-void Transform::Rotation(float x, float y, float z)
-{
-	Rotation(Vector3(x, y, z));
-}
-
-void Transform::Rotation(const Vector3 & value)
-{
-	rotation = value;
-
-	UpdateWorld();
-}
-
-void Transform::Rotation(Vector3 * out)
-{
-	*out = rotation;
-}
-
 void Transform::RotationDegree(float x, float y, float z)
 {
 	RotationDegree(Vector3(x, y, z));
@@ -108,14 +93,68 @@ void Transform::RotationDegree(float x, float y, float z)
 
 void Transform::RotationDegree(const Vector3 & value)
 {
-	rotation = value * Math::Deg2Rad();
+	Rotation(value * Math::Deg2Rad());
+}
 
+void Transform::Rotation(float x, float y, float z)
+{
+	Rotation(Vector3(x, y, z));
+}
+
+void Transform::Rotation(const Vector3 & value)
+{
+	D3DXQuaternionRotationYawPitchRoll(&rotation, value.y, value.x, value.z);
 	UpdateWorld();
 }
 
-void Transform::RotationDegree(Vector3 * out)
+void Transform::Rotation(const Quaternion & value)
 {
-	*out = rotation * Math::Rad2Deg();  // Math  ToDegree
+	rotation = value;
+	UpdateWorld();
+}
+
+void Transform::Rotation(Quaternion * out)
+{
+	*out = rotation;
+}
+
+void Transform::RotateYawDegree(float deg)
+{
+	RotateYaw(deg * Math::Deg2Rad());
+}
+
+void Transform::RotateYaw(float rad)
+{
+	Quaternion euler;
+	D3DXQuaternionRotationYawPitchRoll(&euler, 0.0f, rad, 0.0f);
+
+	rotation = euler * rotation;
+}
+
+void Transform::RotatePitchDegree(float deg)
+{
+	RotatePitch(deg * Math::Deg2Rad());
+}
+
+void Transform::RotatePitch(float rad)
+{
+	Quaternion euler;
+	D3DXQuaternionRotationYawPitchRoll(&euler, rad, 0.0f, 0.0f);
+
+	rotation = euler * rotation;
+}
+
+void Transform::RotateRollDegree(float deg)
+{
+	RotateRoll(deg * Math::Deg2Rad());
+}
+
+void Transform::RotateRoll(float rad)
+{
+	Quaternion euler;
+	D3DXQuaternionRotationYawPitchRoll(&euler, 0.0f, 0.0f, rad);
+
+	rotation *= euler;
 }
 
 Vector3 Transform::Forward()
@@ -138,8 +177,8 @@ Vector3 Transform::Right()
 
 void Transform::World(const Matrix & set)
 {
-	// D3DXMatrixDecompose()  // 쿼터니온
-	Math::MatrixDecompose(set, scale, rotation, position);
+	D3DXMatrixDecompose(&scale, &rotation, &position, &set);  // 쿼터니온
+	//Math::MatrixDecompose(set, scale, rotation, position);  // 오일러
 
 	memcpy(&bufferDesc.World, &set, sizeof(Matrix));
 }

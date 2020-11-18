@@ -14,7 +14,7 @@ public:
 
 private:
 	Shader* shader;
-	MeshQuad* quad;
+	Mesh2* quad;
 
 	Texture* texture;
 	ID3DX11EffectShaderResourceVariable* sMap;

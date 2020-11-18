@@ -21,13 +21,22 @@ public:
 	void Scale(const Vector3& value);
 	void Scale(Vector3* out);
 
-	void Rotation(float x, float y, float z);
-	void Rotation(const Vector3& value);
-	void Rotation(Vector3* out);
-
 	void RotationDegree(float x, float y, float z);
 	void RotationDegree(const Vector3& value);
-	void RotationDegree(Vector3* out);
+
+	void Rotation(float x, float y, float z);
+	void Rotation(const Vector3& value);
+	void Rotation(const Quaternion& value);
+	void Rotation(Quaternion* out);
+
+	void RotateYawDegree(float deg);
+	void RotateYaw(float rad);
+
+	void RotatePitchDegree(float deg);
+	void RotatePitch(float rad);
+
+	void RotateRollDegree(float deg);
+	void RotateRoll(float rad);
 
 	// 노말라이즈 생략
 	Vector3 Forward();
@@ -54,7 +63,7 @@ private:
 
 	Vector3 position;
 	Vector3 scale;
-	Vector3 rotation;
+	Quaternion rotation;
 };
 
 // 생성자

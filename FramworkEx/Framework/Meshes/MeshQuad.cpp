@@ -1,9 +1,12 @@
 #include "Framework.h"
 #include "MeshQuad.h"
 
-MeshQuad::MeshQuad(Shader * shader)
-	: Mesh(shader)
+#include "Mesh.h"
+#define MeshVertex Mesh::MeshVertex
+
+MeshQuad::MeshQuad()
 {
+	Create();
 }
 
 MeshQuad::~MeshQuad()
@@ -21,14 +24,11 @@ void MeshQuad::Create()
 	v.push_back(MeshVertex(+w, -h, 0, 1, 1, 0, 0, -1));
 	v.push_back(MeshVertex(+w, +h, 0, 1, 0, 0, 0, -1));
 
-	vertexCount = v.size();
-	vertices = new MeshVertex[vertexCount];
-
+	NewCopyVertices<MeshVertex>(v, v.size());
 	// memcpy(vertices, v.data(), sizeof(MeshVertex) * vertexCount);
-	copy(v.begin(), v.end(), stdext::checked_array_iterator<MeshVertex*>(vertices, vertexCount));
 
-	indexCount = 6;
-	indices = new UINT[indexCount]
+	IndexCount = 6;
+	Indices = new UINT[IndexCount]
 	{
 		0, 1, 2, 2, 1, 3
 	};

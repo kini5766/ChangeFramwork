@@ -46,9 +46,8 @@ void Material::SetScalar(string name, float value)
 		return;
 	}
 
-	dynamic_cast<EffectScalar*>(effectValues[name])->Value() = value;
+	dynamic_cast<EffectScalar*>(effectValues[name])->SetValue(value);
 }
-
 
 // EffectVector
 void Material::SetVector(string name, const float * value)
@@ -63,12 +62,11 @@ void Material::SetVector(string name, const float * value)
 		return;
 	}
 
-	dynamic_cast<EffectVector*>(effectValues[name])->Value() = value;
+	dynamic_cast<EffectVector*>(effectValues[name])->SetValue(value);
 }
 
-
 // EffectMatrix
-void Material::SetMatrix(string name, const float* value)
+void Material::SetMatrix(string name, Matrix * value)
 {
 	if (effectValues.count(name) == 0)
 	{
@@ -80,7 +78,7 @@ void Material::SetMatrix(string name, const float* value)
 		return;
 	}
 
-	dynamic_cast<EffectMatrix*>(effectValues[name])->Value() = value;
+	dynamic_cast<EffectMatrix*>(effectValues[name])->SetValue(value);
 }
 
 // EffectTexture
@@ -101,9 +99,7 @@ void Material::SetTexture(string name, Texture * value)
 		return;
 	}
 
-	EffectTexture* et = dynamic_cast<EffectTexture*>(effectValues[name]);
-	SafeDelete(et->Value());
-	et->Value() = value;
+	dynamic_cast<EffectTexture*>(effectValues[name])->SetValue(value);
 }
 
 Texture * Material::GetTexture(string name)
@@ -111,7 +107,9 @@ Texture * Material::GetTexture(string name)
 	if (effectValues.count(name) == 0)
 		return nullptr;
 
-	return dynamic_cast<EffectTexture*>(effectValues[name])->Value();
+	return dynamic_cast<EffectTexture*>(effectValues[name])->GetValue();
 }
+
+
 #pragma endregion
 
