@@ -202,10 +202,18 @@
     <ClCompile Include="Model\ModelAttacher.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="Renders\ModelMaterial.cpp">
+    <ClCompile Include="Utilities\TransformData.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\MaterialGroup.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
-    <ClCompile Include="Renders\Material.cpp" />
+    <ClCompile Include="Model\ModelMaterial.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\Material.cpp">
+      <Filter>Renders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -392,9 +400,20 @@
     <ClInclude Include="Model\ModelAttacher.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="Renders\ModelMaterial.h">
+    <ClInclude Include="Utilities\TransformData.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\MaterialGroup.h">
       <Filter>Renders</Filter>
     </ClInclude>
-    <ClInclude Include="Renders\Material.h" />
+    <ClInclude Include="Renders\IEffectVariable.h">
+      <Filter>Renders</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\ModelMaterial.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\Material.h">
+      <Filter>Renders</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

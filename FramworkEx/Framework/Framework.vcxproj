@@ -55,7 +55,8 @@
     <ClCompile Include="Renders\Context.cpp" />
     <ClCompile Include="Renders\DrowLine.cpp" />
     <ClCompile Include="Renders\Material.cpp" />
-    <ClCompile Include="Renders\ModelMaterial.cpp" />
+    <ClCompile Include="Renders\MaterialGroup.cpp" />
+    <ClCompile Include="Model\ModelMaterial.cpp" />
     <ClCompile Include="Renders\PerFrame.cpp" />
     <ClCompile Include="Renders\Renderer.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
@@ -71,6 +72,7 @@
     <ClCompile Include="Utilities\Math.cpp" />
     <ClCompile Include="Utilities\Path.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
+    <ClCompile Include="Utilities\TransformData.cpp" />
     <ClCompile Include="Utilities\Xml.cpp" />
     <ClCompile Include="Viewer\Camera.cpp" />
     <ClCompile Include="Viewer\Freedom.cpp" />
@@ -116,8 +118,10 @@
     <ClInclude Include="Renders\Buffers.h" />
     <ClInclude Include="Renders\Context.h" />
     <ClInclude Include="Renders\DrowLine.h" />
+    <ClInclude Include="Renders\IEffectVariable.h" />
     <ClInclude Include="Renders\Material.h" />
-    <ClInclude Include="Renders\ModelMaterial.h" />
+    <ClInclude Include="Renders\MaterialGroup.h" />
+    <ClInclude Include="Model\ModelMaterial.h" />
     <ClInclude Include="Renders\PerFrame.h" />
     <ClInclude Include="Renders\Renderer.h" />
     <ClInclude Include="Renders\Shader.h" />
@@ -136,6 +140,7 @@
     <ClInclude Include="Utilities\Path.h" />
     <ClInclude Include="Utilities\ShaderEffctConstatName.h" />
     <ClInclude Include="Utilities\String.h" />
+    <ClInclude Include="Utilities\TransformData.h" />
     <ClInclude Include="Utilities\URI.h" />
     <ClInclude Include="Utilities\Xml.h" />
     <ClInclude Include="Viewer\Camera.h" />

@@ -95,6 +95,7 @@ private:
 class ModelAnimation
 {
 public:
+	ModelAnimation();
 	ModelAnimation(ModelClip** clips, UINT clipCount);
 	~ModelAnimation();
 
@@ -104,10 +105,12 @@ public:
 	void Render();
 
 public:
-	void CreateBuffer(Shader* shader);
+	void SetClips(ModelClip** clips, UINT clipCount);
+	void SetShader(Shader* shader);
 	void PlayClip(UINT clip, float speed, float takeTime);
 	float GetClipLength(UINT clip);
 	float GetClipRunTime();
+	ConstantBuffer* Buffer() { return frameBuffer; }
 
 private:
 	struct KeyframeDesc;
@@ -115,8 +118,8 @@ private:
 	void NextClip();
 
 private:
-	ModelClip** clips;
-	UINT clipCount;
+	ModelClip** clips = nullptr;
+	UINT clipCount = 0;
 	ConstantBuffer* frameBuffer = nullptr;
 	ID3DX11EffectConstantBuffer* sFrameBuffer = nullptr;
 

@@ -4,21 +4,35 @@
 #include "ModelMesh.h"
 #include "ModelClip.h"
 
+using namespace ShaderEffctConstantName;
+
 ModelAnimator::ModelAnimator(Shader * shader)
 	: shader(shader)
 {
 	model = new Model();
 	transform = new Transform(shader);
+	perFrame = new PerFrameBuffer();
+	animation = new ModelAnimation();
+	materials = new MaterialGroup();
+
+	transform->CreateBuffer();
+
+	materials->SetConstantBuffer(CB_PerFrame, perFrame->BufferPerFrame());
+	materials->SetConstantBuffer(CB_Light, perFrame->BufferLight());
+	materials->SetConstantBuffer(CB_World, transform->Buffer());
+	materials->SetConstantBuffer(CB_AnimationFrame, animation->Buffer());
 }
 
 ModelAnimator::~ModelAnimator()
 {
 	SafeDelete(clipMap);
-	SafeDelete(animation);
 
 	for (auto d : renderers)
 		SafeDelete(d);
 
+	SafeDelete(animation);
+	SafeDelete(perFrame);
+	SafeDelete(materials);
 	SafeDelete(transform);
 	SafeDelete(model);
 }
@@ -26,24 +40,26 @@ ModelAnimator::~ModelAnimator()
 
 void ModelAnimator::Update()
 {
-	if (animation == nullptr)
+	if (clipMap == nullptr)
 		Apply();
 
 	animation->UpdateTweening();
+	perFrame->Update();
+	transform->Update();
 
-	for (ModelMeshClipMap* mesh : renderers)
+	for (ModelMesh* mesh : renderers)
 		mesh->Update();
 }
 
 void ModelAnimator::Render()
 {
 	animation->Render();
+	perFrame->Render();
+	transform->Render();
+	materials->Render();
 
-	for (ModelMeshClipMap* mesh : renderers)
-	{
-		mesh->SetTransform(transform);
+	for (ModelMesh* mesh : renderers)
 		mesh->Render();
-	}
 }
 
 void ModelAnimator::PlayClip(UINT clip, float speed, float takeTime)
@@ -69,7 +85,7 @@ void ModelAnimator::ReadClip(wstring file)
 
 void ModelAnimator::Pass(UINT value)
 {
-	for (ModelMeshClipMap* mesh : renderers)
+	for (ModelMesh* mesh : renderers)
 		mesh->Pass(value);
 }
 
@@ -77,22 +93,21 @@ void ModelAnimator::Pass(UINT value)
 void ModelAnimator::Apply()
 {
 	for (ModelMaterial* material : model->Materials())
+	{
 		material->SetShader(shader);
+		materials->AddMaterial(material);
+	}
 
 	SafeDelete(clipMap);
 	clipMap = new ModelClipMap(model);
-	ID3D11ShaderResourceView* srv = clipMap->GetSRV();
-	
-	for (MeshData* data : model->Meshes())
+	materials->SetSRV("TransformsMap", clipMap->GetSRV());
+	animation->SetClips(model->Clips().data(), model->ClipCount());
+
+	for (ModelMeshData* data : model->Meshes())
 	{
-		ModelMeshClipMap* renderer = new ModelMeshClipMap();
+		ModelMesh* renderer = new ModelMesh();
 		renderer->CreateBuffer(data);
 		renderer->SetMaterial(model->MaterialByName(data->PBind->MaterialName));
-		renderer->TransformsSRV(srv, data->PBind->BoneIndex);
 		renderers.push_back(renderer);
 	}
-	
-	SafeDelete(animation);
-	animation = new ModelAnimation(model->Clips().data(), model->ClipCount());
-	animation->CreateBuffer(shader);
 }

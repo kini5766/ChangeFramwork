@@ -30,10 +30,12 @@ void Transform::Update()
 
 void Transform::Render()
 {
-	if (shader = nullptr)
+	if (buffer != nullptr)
+		buffer->Render();
+
+	if (shader == nullptr)
 		return;
 
-	buffer->Render();
 	sBuffer->SetConstantBuffer(buffer->Buffer());
 }
 
@@ -48,7 +50,7 @@ void Transform::Set(Transform * transfrom)
 void Transform::SetShader(Shader * _shader)
 {
 	shader = _shader;
-	buffer = new ConstantBuffer(&bufferDesc, sizeof(BufferDesc));
+	CreateBuffer();
 	sBuffer = shader->AsConstantBuffer(CB_World);
 }
 
@@ -208,6 +210,11 @@ void Transform::World(const Matrix & set)
 	//Math::MatrixDecompose(set, scale, rotation, position);  // ø¿¿œ∑Ø
 
 	memcpy(&bufferDesc.World, &set, sizeof(Matrix));
+}
+
+void Transform::CreateBuffer()
+{
+	buffer = new ConstantBuffer(&bufferDesc, sizeof(BufferDesc));
 }
 
 void Transform::UpdateWorld()

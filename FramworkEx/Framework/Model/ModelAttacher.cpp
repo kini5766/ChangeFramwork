@@ -4,12 +4,22 @@
 #include "ModelMesh.h"
 #include "ModelClip.h"
 
+using namespace ShaderEffctConstantName;
 
 ModelAttacher::ModelAttacher(Shader * shader)
 	: shader(shader)
 {
 	model = new Model();
-	transform = new Transform(shader);
+	perFrame = new PerFrameBuffer();
+	animation = new ModelAnimation();
+	materials = new MaterialGroup();
+
+	transform->CreateBuffer();
+
+	materials->SetConstantBuffer(CB_PerFrame, perFrame->BufferPerFrame());
+	materials->SetConstantBuffer(CB_Light, perFrame->BufferLight());
+	materials->SetConstantBuffer(CB_World, transform->Buffer());
+	materials->SetConstantBuffer(CB_AnimationFrame, animation->Buffer());
 }
 
 ModelAttacher::~ModelAttacher()
@@ -26,11 +36,13 @@ ModelAttacher::~ModelAttacher()
 	}
 
 	SafeDelete(clipMap);
-	SafeDelete(animation);
 
 	for (auto d : renderers)
 		SafeDelete(d);
 
+	SafeDelete(animation);
+	SafeDelete(perFrame);
+	SafeDelete(materials);
 	SafeDelete(transform);
 	SafeDelete(model);
 }
@@ -38,15 +50,17 @@ ModelAttacher::~ModelAttacher()
 void ModelAttacher::Update()
 {
 	animation->UpdateNoTweening();
+	perFrame->Update();
+	transform->Update();
 
-	for (ModelMeshClipMap* mesh : renderers)
+	for (ModelMesh* mesh : renderers)
 		mesh->Update();
 
 	for (AttachedItem* item : attachedItems)
 	{
 		if (item->IsActiveSelf == false) continue;
 
-		for (ModelMeshClipMap* mesh : item->Renderers)
+		for (ModelMesh* mesh : item->Renderers)
 			mesh->Update();
 	}
 }
@@ -54,22 +68,19 @@ void ModelAttacher::Update()
 void ModelAttacher::Render()
 {
 	animation->Render();
+	perFrame->Render();
+	transform->Render();
+	materials->Render();
 
-	for (ModelMeshClipMap* mesh : renderers)
-	{
-		mesh->SetTransform(transform);
+	for (ModelMesh* mesh : renderers)
 		mesh->Render();
-	}
 
 	for (AttachedItem* item : attachedItems)
 	{
 		if (item->IsActiveSelf == false) continue;
 
-		for (ModelMeshClipMap* mesh : item->Renderers)
-		{
-			mesh->SetTransform(transform);
+		for (ModelMesh* mesh : item->Renderers)
 			mesh->Render();
-		}
 	}
 }
 
@@ -91,13 +102,11 @@ void ModelAttacher::AttachItem(Model * item, int parentBoneIndex, Transform * of
 	ModelClipMap* newMap = new ModelClipMap(item);
 	newItem->ClipMap = newMap;
 
-	ID3D11ShaderResourceView* srv = newMap->GetSRV();
-	for (MeshData* data : item->Meshes())
+	for (ModelMeshData* data : item->Meshes())
 	{
-		ModelMeshClipMap* renderer = new ModelMeshClipMap();
+		ModelMesh* renderer = new ModelMesh();
 		renderer->CreateBuffer(data);
 		renderer->SetMaterial(item->MaterialByName(data->PBind->MaterialName));
-		renderer->TransformsSRV(srv, data->PBind->BoneIndex);
 		newItem->Renderers.push_back(renderer);
 	}
 
@@ -134,34 +143,33 @@ void ModelAttacher::ReadClip(wstring file)
 void ModelAttacher::ApplyOriginModel()
 {
 	for (ModelMaterial* material : model->Materials())
+	{
 		material->SetShader(shader);
+		materials->AddMaterial(material);
+	}
 
 	SafeDelete(clipMap);
 	clipMap = new ModelClipMap(model);
-	ID3D11ShaderResourceView* srv = clipMap->GetSRV();
+	materials->SetSRV("TransformsMap", clipMap->GetSRV());
+	animation->SetClips(model->Clips().data(), model->ClipCount());
 
-	for (MeshData* data : model->Meshes())
+	for (ModelMeshData* data : model->Meshes())
 	{
-		ModelMeshClipMap* renderer = new ModelMeshClipMap();
+		ModelMesh* renderer = new ModelMesh();
 		renderer->CreateBuffer(data);
 		renderer->SetMaterial(model->MaterialByName(data->PBind->MaterialName));
-		renderer->TransformsSRV(srv, data->PBind->BoneIndex);
 		renderers.push_back(renderer);
 	}
-
-	SafeDelete(animation);
-	animation = new ModelAnimation(model->Clips().data(), model->ClipCount());
-	animation->CreateBuffer(shader);
 }
 
 
 void ModelAttacher::Pass(UINT value)
 {
-	for (ModelMeshClipMap* mesh : renderers)
+	for (ModelMesh* mesh : renderers)
 		mesh->Pass(value);
 
 	for (AttachedItem* item : attachedItems)
-		for (ModelMeshClipMap* mesh : item->Renderers)
+		for (ModelMesh* mesh : item->Renderers)
 			mesh->Pass(value);
 }
 

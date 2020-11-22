@@ -22,6 +22,7 @@ public:
 
 private:
 	void UpdateBones(ModelBone* bone, const Matrix& matrix);
+	void ApplyModel();
 
 private:
 	Model* model;
@@ -29,6 +30,8 @@ private:
 
 	Shader* shader;
 	Transform* transform;
+	PerFrameBuffer* perFrame;
+	MaterialGroup* materials;
 
 	Matrix* boneTransforms = nullptr;
 	UINT boneCount;

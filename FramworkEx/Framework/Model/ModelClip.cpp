@@ -224,9 +224,15 @@ void ModelClipMap::ClipTransform::SetClipTransform(ModelBone ** bones, UINT bone
 // AnimationClip
 // ----------------------------------------------------------------------------
 
+ModelAnimation::ModelAnimation()
+{
+	frameBuffer = new ConstantBuffer(&tweenDesc, sizeof(TweenDesc));
+}
+
 ModelAnimation::ModelAnimation(ModelClip ** clips, UINT clipCount)
 	: clips(clips), clipCount(clipCount)
 {
+	frameBuffer = new ConstantBuffer(&tweenDesc, sizeof(TweenDesc));
 }
 
 ModelAnimation::~ModelAnimation()
@@ -279,17 +285,23 @@ void ModelAnimation::UpdateTweening()
 
 void ModelAnimation::Render()
 {
-	if (frameBuffer == nullptr)
+	frameBuffer->Render();
+
+	if (sFrameBuffer == nullptr)
 		return;
 
-	frameBuffer->Render();
 	sFrameBuffer->SetConstantBuffer(frameBuffer->Buffer());
 }
 
-void ModelAnimation::CreateBuffer(Shader * shader)
+void ModelAnimation::SetClips(ModelClip ** _clips, UINT _clipCount)
+{
+	clips = _clips;
+	clipCount = _clipCount;
+}
+
+void ModelAnimation::SetShader(Shader * shader)
 {
 	SafeDelete(frameBuffer);
-	frameBuffer = new ConstantBuffer(&tweenDesc, sizeof(TweenDesc));
 	sFrameBuffer = shader->AsConstantBuffer(ShaderEffctConstantName::CB_AnimationFrame);
 }
 

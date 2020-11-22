@@ -2,23 +2,23 @@
 
 // 매 프레임 업데이트할 콘스탄트버퍼
 // 콘스탄트버퍼는 IASet함수 호출 안 해도 바로 적용
-class PerFrame
+class PerFrameBuffer
 {
 public:
-	PerFrame(Shader* shader);
-	~PerFrame();
+	PerFrameBuffer();
+	~PerFrameBuffer();
 
 public:
 	void Update();
 	void Render();
 
-private:
-	Shader* shader;
-	ConstantBuffer* buffer;
-	ID3DX11EffectConstantBuffer* sBuffer;
+public:
+	ConstantBuffer* BufferPerFrame() { return buffer; }
+	ConstantBuffer* BufferLight() { return lightBuffer; }
 
+private:
+	ConstantBuffer* buffer;
 	ConstantBuffer* lightBuffer;
-	ID3DX11EffectConstantBuffer* sLightBuffer;
 
 private:
 	struct BufferDesc
@@ -42,4 +42,22 @@ private:
 		Vector3 Direction; float Padding_L1;
 		Vector3 Position; float Padding_L2;
 	} lightDesc;
+};
+
+class PerFrame
+{
+public:
+	PerFrame(Shader* shader);
+	~PerFrame();
+
+public:
+	void Update();
+	void Render();
+
+private:
+	Shader* shader = nullptr;
+	ID3DX11EffectConstantBuffer* sBuffer;
+	ID3DX11EffectConstantBuffer* sLightBuffer;
+
+	PerFrameBuffer* buffer;
 };

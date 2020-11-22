@@ -2,7 +2,7 @@
 #include "MeshQuad.h"
 
 #include "Mesh.h"
-#define MeshVertex Mesh::MeshVertex
+typedef Mesh::MeshVertex MeshVertex;
 
 MeshQuad::MeshQuad()
 {
@@ -24,8 +24,10 @@ void MeshQuad::Create()
 	v.push_back(MeshVertex(+w, -h, 0, 1, 1, 0, 0, -1));
 	v.push_back(MeshVertex(+w, +h, 0, 1, 0, 0, 0, -1));
 
-	NewCopyVertices<MeshVertex>(v, v.size());
-	// memcpy(vertices, v.data(), sizeof(MeshVertex) * vertexCount);
+	//NewCopyVertices<MeshVertex>(v, v.size());
+	VertexCount = v.size();
+	Vertices = new MeshVertex[VertexCount];
+	memcpy(Vertices, v.data(), sizeof(MeshVertex) * VertexCount);
 
 	IndexCount = 6;
 	Indices = new UINT[IndexCount]

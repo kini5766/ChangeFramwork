@@ -30,6 +30,12 @@ public:
 	void Specular(const Color& value);
 	void Specular(float r, float g, float b, float a = 1.0f);
 
+	Texture* DiffuseMap() { return diffuseMap; }
+	void DiffuseMap(wstring file);
+	Texture* SpecularMap() { return specularMap; } 
+	void SpecularMap(wstring file);
+	Texture* NormalMap() { return normalMap; }
+	void NormalMap(wstring file);
 
 private:
 	void Initialize();
@@ -46,4 +52,8 @@ private:
 
 	ConstantBuffer* buffer;
 	ID3DX11EffectConstantBuffer* sBuffer;
+
+	Texture* diffuseMap = nullptr;
+	Texture* specularMap = nullptr;
+	Texture* normalMap = nullptr;
 };

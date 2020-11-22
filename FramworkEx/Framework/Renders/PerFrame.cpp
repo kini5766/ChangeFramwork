@@ -5,23 +5,42 @@ using namespace ShaderEffctConstantName;
 
 PerFrame::PerFrame(Shader * shader)
 {
-	buffer = new ConstantBuffer(&bufferDesc, sizeof(BufferDesc));
+	buffer = new PerFrameBuffer();
 	sBuffer = shader->AsConstantBuffer(CB_PerFrame);
-
-	lightBuffer = new ConstantBuffer(&lightDesc, sizeof(LightDesc));
 	sLightBuffer = shader->AsConstantBuffer(CB_Light);
-
-	// bufferDesc
-	// lightDesc
 }
 
 PerFrame::~PerFrame()
 {
 	SafeDelete(buffer);
-	SafeDelete(lightBuffer);
 }
 
 void PerFrame::Update()
+{
+	buffer->Update();
+}
+
+void PerFrame::Render()
+{
+	buffer->Render();
+
+	sBuffer->SetConstantBuffer(buffer->BufferPerFrame()->Buffer());
+	sLightBuffer->SetConstantBuffer(buffer->BufferLight()->Buffer());
+}
+
+PerFrameBuffer::PerFrameBuffer()
+{
+	buffer = new ConstantBuffer(&bufferDesc, sizeof(BufferDesc));
+	lightBuffer = new ConstantBuffer(&lightDesc, sizeof(LightDesc));
+}
+
+PerFrameBuffer::~PerFrameBuffer()
+{
+	SafeDelete(buffer);
+	SafeDelete(lightBuffer);
+}
+
+void PerFrameBuffer::Update()
 {
 	bufferDesc.Time = Time::Get()->Running();
 
@@ -31,7 +50,7 @@ void PerFrame::Update()
 	lightDesc.Position = Context::Get()->Position();
 }
 
-void PerFrame::Render()
+void PerFrameBuffer::Render()
 {
 	bufferDesc.View = Context::Get()->View();
 	bufferDesc.Projection = Context::Get()->Projection();
@@ -39,8 +58,5 @@ void PerFrame::Render()
 	D3DXMatrixInverse(&bufferDesc.ViewInverse, nullptr, &bufferDesc.View);
 
 	buffer->Render();
-	sBuffer->SetConstantBuffer(buffer->Buffer());
-
 	lightBuffer->Render();
-	sLightBuffer->SetConstantBuffer(lightBuffer->Buffer());
 }

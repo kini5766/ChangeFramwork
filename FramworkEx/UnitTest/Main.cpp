@@ -28,10 +28,10 @@
 void Main::Initialize()
 {
 	//Push(new WratherDemo());
-	//Push(new TerrainBrushDemo());
+	Push(new TerrainBrushDemo());
 	//Push(new EditorDemo());
 
-	Push(new CpuBillboardDemo());
+	//Push(new CpuBillboardDemo());
 }
 
 void Main::Ready()

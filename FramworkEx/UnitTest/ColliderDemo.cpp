@@ -13,7 +13,9 @@ void ColliderDemo::Initialize()
 	shader = new Shader(L"17_Model.fx");
 
 	gridMaterial = new Material(shader);
-	gridMaterial->SetTexture("DiffuseMap", L"Black.png");
+
+	texture = new Texture(L"Black.png");
+	gridMaterial->SetTexture("DiffuseMap", texture);
 
 	grid = new MeshGrid(shader);
 
@@ -35,6 +37,7 @@ void ColliderDemo::Destroy()
 	SafeDelete(t1);
 	SafeDelete(grid);
 	SafeDelete(gridMaterial);
+	SafeDelete(texture);
 	SafeDelete(shader);
 }
 

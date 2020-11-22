@@ -4,11 +4,21 @@
 #include "ModelMesh.h"
 #include "ModelClip.h"
 
+using namespace ShaderEffctConstantName;
+
 ModelRender::ModelRender(Shader * shader)
 	: shader(shader)
 {
 	model = new Model();
 	transform = new Transform();
+	perFrame = new PerFrameBuffer();
+	materials = new MaterialGroup();
+
+	transform->CreateBuffer();
+
+	materials->SetConstantBuffer(CB_PerFrame, perFrame->BufferPerFrame());
+	materials->SetConstantBuffer(CB_Light, perFrame->BufferLight());
+	materials->SetConstantBuffer(CB_World, transform->Buffer());
 }
 
 ModelRender::~ModelRender()
@@ -18,46 +28,41 @@ ModelRender::~ModelRender()
 	for (auto d : renderers)
 		SafeDelete(d);
 
+	SafeDelete(materials);
+	SafeDelete(perFrame);
 	SafeDelete(transform);
 	SafeDelete(model);
 }
 
 void ModelRender::Update()
 {
+	perFrame->Update();
+	transform->Update();
+
 	for (ModelMesh* mesh : renderers)
 		mesh->Update();
 }
 
 void ModelRender::Render()
 {
+	perFrame->Render();
+	transform->Render();
+	materials->Render();
+
 	for (ModelMesh* mesh : renderers)
-	{
-		mesh->SetTransform(transform);
 		mesh->Render();
-	}
 }
 
 void ModelRender::ReadMaterial(wstring file)
 {
 	model->ReadMaterial(file);
-
-	for (ModelMaterial* material : model->Materials())
-		material->SetShader(shader);
 }
 
 void ModelRender::ReadMesh(wstring file)
 {
 	model->ReadMesh(file);
 
-	for (MeshData* data : model->Meshes())
-	{
-		ModelMesh* renderer = new ModelMesh();
-		renderer->CreateBuffer(data);
-		renderer->SetMaterial(model->MaterialByName(data->PBind->MaterialName));
-		renderers.push_back(renderer);
-	}
-
-	UpdateTransform();
+	ApplyModel();
 }
 
 void ModelRender::Pass(UINT value)
@@ -81,8 +86,8 @@ void ModelRender::UpdateTransform(ModelBone * bone, const Matrix & matrix)
 		memcpy(&boneTransforms[i], &bone->Transform(), sizeof(Matrix));
 	}
 
-	for (ModelMesh* mesh : renderers)
-		mesh->BoneTransform(&boneTransforms[mesh->BoneIndex()]);
+	//for (ModelMesh* mesh : renderers)
+	//	mesh->BoneTransform(&boneTransforms[mesh->BoneIndex()]);
 }
 
 void ModelRender::UpdateBones(ModelBone * bone, const Matrix & matrix)
@@ -93,4 +98,23 @@ void ModelRender::UpdateBones(ModelBone * bone, const Matrix & matrix)
 	// 본에 있는 자식들 재귀 넣기
 	for (ModelBone* child : bone->Childs())
 		UpdateBones(child, matrix);
+}
+
+void ModelRender::ApplyModel()
+{
+	for (Material* material : model->Materials())
+	{
+		material->SetShader(shader);
+		materials->AddMaterial(material);
+	}
+
+	for (ModelMeshData* data : model->Meshes())
+	{
+		ModelMesh* renderer = new ModelMesh();
+		renderer->CreateBuffer(data);
+		renderer->SetMaterial(model->MaterialByName(data->PBind->MaterialName));
+		renderers.push_back(renderer);
+	}
+
+	UpdateTransform();
 }

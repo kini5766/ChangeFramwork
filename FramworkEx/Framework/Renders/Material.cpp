@@ -1,6 +1,9 @@
 #include "Framework.h"
 #include "Material.h"
 
+#include "IEffectVariable.h"
+using namespace MaterialValue;
+
 Material::Material()
 {
 }
@@ -30,15 +33,16 @@ void Material::SetShader(Shader * value)
 
 }
 
+
 #pragma region EffectValues
 
 
 // EffectScalar
-void Material::SetScalar(string name, float value)
+void Material::SetFloat(string name, float value)
 {
 	if (effectValues.count(name) == 0)
 	{
-		IEffectVariable* effect = new EffectScalar(name, value);
+		IEffectVariable* effect = new EffectScalarFloat(name, value);
 		if (shader != nullptr)
 			effect->SetShader(shader);
 
@@ -46,7 +50,22 @@ void Material::SetScalar(string name, float value)
 		return;
 	}
 
-	dynamic_cast<EffectScalar*>(effectValues[name])->SetValue(value);
+	dynamic_cast<EffectScalarFloat*>(effectValues[name])->SetValue(value);
+}
+
+void Material::SetInt(string name, int value)
+{
+	if (effectValues.count(name) == 0)
+	{
+		IEffectVariable* effect = new EffectScalarInt(name, value);
+		if (shader != nullptr)
+			effect->SetShader(shader);
+
+		effectValues[name] = effect;
+		return;
+	}
+
+	dynamic_cast<EffectScalarInt*>(effectValues[name])->SetValue(value);
 }
 
 // EffectVector
@@ -65,8 +84,24 @@ void Material::SetVector(string name, const float * value)
 	dynamic_cast<EffectVector*>(effectValues[name])->SetValue(value);
 }
 
+// EffectVectorPointer
+void Material::SetVectorPointer(string name, const float * value)
+{
+	if (effectValues.count(name) == 0)
+	{
+		IEffectVariable* effect = new EffectVectorPointer(name, value);
+		if (shader != nullptr)
+			effect->SetShader(shader);
+
+		effectValues[name] = effect;
+		return;
+	}
+
+	dynamic_cast<EffectVectorPointer*>(effectValues[name])->SetValue(value);
+}
+
 // EffectMatrix
-void Material::SetMatrix(string name, Matrix * value)
+void Material::SetMatrix(string name, const float * value)
 {
 	if (effectValues.count(name) == 0)
 	{
@@ -81,17 +116,12 @@ void Material::SetMatrix(string name, Matrix * value)
 	dynamic_cast<EffectMatrix*>(effectValues[name])->SetValue(value);
 }
 
-// EffectTexture
-void Material::SetTexture(string name, wstring file)
-{
-	SetTexture(name, new Texture(file));
-}
-
-void Material::SetTexture(string name, Texture * value)
+// EffectMatrixPointer
+void Material::SetMatrixPointer(string name, const Matrix * value)
 {
 	if (effectValues.count(name) == 0)
 	{
-		IEffectVariable* effect = new EffectTexture(name, value);
+		IEffectVariable* effect = new EffectMatrixPointer(name, value);
 		if (shader != nullptr)
 			effect->SetShader(shader);
 
@@ -99,15 +129,48 @@ void Material::SetTexture(string name, Texture * value)
 		return;
 	}
 
-	dynamic_cast<EffectTexture*>(effectValues[name])->SetValue(value);
+	dynamic_cast<EffectMatrixPointer*>(effectValues[name])->SetValue(value);
 }
 
-Texture * Material::GetTexture(string name)
+// EffectTexture
+void Material::SetTexture(string name, Texture * value)
 {
 	if (effectValues.count(name) == 0)
-		return nullptr;
+	{
+		IEffectVariable* effect;
+		if (value == nullptr)
+			effect = new EffectSRV(name, nullptr);
+		else
+			effect = new EffectSRV(name, value->SRV());
 
-	return dynamic_cast<EffectTexture*>(effectValues[name])->GetValue();
+		if (shader != nullptr)
+			effect->SetShader(shader);
+
+		effectValues[name] = effect;
+		return;
+	}
+
+	if (value == nullptr)
+		dynamic_cast<EffectSRV*>(effectValues[name])->SetValue(nullptr);
+	else
+		dynamic_cast<EffectSRV*>(effectValues[name])->SetValue(value->SRV());
+	
+}
+
+void Material::SetSRV(string name, ID3D11ShaderResourceView * value)
+{
+	if (effectValues.count(name) == 0)
+	{
+		IEffectVariable* effect = new EffectSRV(name, value);
+
+		if (shader != nullptr)
+			effect->SetShader(shader);
+
+		effectValues[name] = effect;
+		return;
+	}
+
+	dynamic_cast<EffectSRV*>(effectValues[name])->SetValue(value);
 }
 
 

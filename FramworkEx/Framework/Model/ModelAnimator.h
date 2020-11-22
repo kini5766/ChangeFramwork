@@ -31,13 +31,16 @@ private:
 	// 맴버 변수
 private:
 	Model* model;
-	vector<class ModelMeshClipMap*> renderers;
-
-	Shader* shader;
-	Transform* transform;
-
-	class ModelAnimation* animation = nullptr;
+	//vector<class ModelMeshClipMap*> renderers;
+	vector<class ModelMesh*> renderers;
 	class ModelClipMap* clipMap = nullptr;
+
+private:
+	Shader* shader;
+	MaterialGroup* materials;
+	Transform* transform;
+	PerFrameBuffer* perFrame;
+	class ModelAnimation* animation;
 };
 
 // cBuffer로 최대로 보낼 수 있는 바이트 4096

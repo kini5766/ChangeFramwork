@@ -19,7 +19,10 @@ Model::~Model()
 		SafeDelete(d);
 
 	for (MeshData* d : meshes)
+	{
+		d->SafeDeleteData();
 		SafeDelete(d);
+	}
 
 	for (ModelClip* d : clips)
 		SafeDelete(d);
@@ -39,20 +42,17 @@ void Model::Attach(Shader * shader, Model * model, int parentBoneIndex, Transfor
 		dst->Specular(src->Specular());
 
 		Texture* t;
-		t = src->GetTexture("DiffuseMap");
+		t = src->DiffuseMap();
 		if (t != nullptr)
-			dst->SetTexture("DiffuseMap", t->GetFile());
-		else dst->SetTexture("DiffuseMap", nullptr);
+			dst->DiffuseMap(t->GetFile());
 
-		t = src->GetTexture("SpecularMap");
+		t = src->SpecularMap();
 		if (t != nullptr)
-			dst->SetTexture("SpecularMap", t->GetFile());
-		else dst->SetTexture("SpecularMap", nullptr);
+			dst->SpecularMap(t->GetFile());
 
-		t = src->GetTexture("NormalMap");
+		t = src->NormalMap();
 		if (t != nullptr)
-			dst->SetTexture("NormalMap", t->GetFile());
-		else dst->SetTexture("NormalMap", nullptr);
+			dst->NormalMap(t->GetFile());
 
 		materials.push_back(dst);
 	}
@@ -106,9 +106,9 @@ void Model::Attach(Shader * shader, Model * model, int parentBoneIndex, Transfor
 	}
 
 	// Copy Mesh
-	for (MeshData* src : model->Meshes())
+	for (ModelMeshData* src : model->Meshes())
 	{
-		MeshData* dst = new MeshData();
+		ModelMeshData* dst = new ModelMeshData();
 
 		dst->NewBindValue();
 		dst->PBind->MaterialName = src->PBind->MaterialName;
@@ -194,7 +194,7 @@ void Model::AttachWeakly(Model * model, int parentBoneIndex, Transform * offset)
 	model->bones.insert(model->bones.begin(), newParent);
 
 	// Change Bone Index (Mesh)
-	for (MeshData* mesh : model->Meshes())
+	for (ModelMeshData* mesh : model->Meshes())
 		++mesh->PBind->BoneIndex;
 
 
@@ -253,20 +253,17 @@ void Model::Copy(Model * out)
 		dst->Specular(src->Specular());
 
 		Texture* t;
-		t = src->GetTexture("DiffuseMap");
+		t = src->DiffuseMap();
 		if (t != nullptr)
-			dst->SetTexture("DiffuseMap", t->GetFile());
-		else dst->SetTexture("DiffuseMap", nullptr);
+			dst->DiffuseMap(t->GetFile());
 
-		t = src->GetTexture("SpecularMap");
+		t = src->SpecularMap();
 		if (t != nullptr)
-			dst->SetTexture("SpecularMap", t->GetFile());
-		else dst->SetTexture("SpecularMap", nullptr);
+			dst->SpecularMap(t->GetFile());
 
-		t = src->GetTexture("NormalMap");
+		t = src->NormalMap();
 		if (t != nullptr)
-			dst->SetTexture("NormalMap", t->GetFile());
-		else dst->SetTexture("NormalMap", nullptr);
+			dst->NormalMap(t->GetFile());
 
 		(*out).materials.push_back(dst);
 	}
@@ -297,9 +294,9 @@ void Model::Copy(Model * out)
 	}
 
 	// Copy Mesh
-	for (MeshData* src : meshes)
+	for (ModelMeshData* src : meshes)
 	{
-		MeshData* dst = new MeshData();
+		ModelMeshData* dst = new ModelMeshData();
 
 		dst->NewBindValue();
 		dst->PBind->Name = src->PBind->Name;
@@ -372,20 +369,17 @@ void Model::ReadMaterial(wstring file)
 		node = node->NextSiblingElement();
 		texture = String::ToWString(node->GetText());
 		if (texture.length() > 0)
-			material->SetTexture("DiffuseMap", directory + texture);
-		else material->SetTexture("DiffuseMap", nullptr);
+			material->DiffuseMap(directory + texture);
 
 		node = node->NextSiblingElement();
 		texture = String::ToWString(node->GetText());
 		if (texture.length() > 0)
-			material->SetTexture("SpecularMap", directory + texture);
-		else material->SetTexture("SpecularMap", nullptr);
+			material->SpecularMap(directory + texture);
 
 		node = node->NextSiblingElement();
 		texture = String::ToWString(node->GetText());
 		if (texture.length() > 0)
-			material->SetTexture("NormalMap", directory + texture);
-		else material->SetTexture("NormalMap", nullptr);
+			material->NormalMap(directory + texture);
 
 		node = node->NextSiblingElement();
 		color.r = node->FloatAttribute("R");
@@ -441,7 +435,7 @@ void Model::ReadMesh(wstring file)
 	count = r.UInt();
 	for (UINT i = 0; i < count; i++)
 	{
-		MeshData* mesh = new MeshData();
+		ModelMeshData* mesh = new ModelMeshData();
 
 		mesh->NewBindValue();
 		mesh->PBind->Name = String::ToWString(r.String());
@@ -566,9 +560,9 @@ ModelBone * Model::BoneByName(wstring name)
 }
 
 // ModelMesh
-MeshData * Model::MeshByName(wstring name)
+ModelMeshData * Model::MeshByName(wstring name)
 {
-	for (MeshData* mesh : meshes)
+	for (ModelMeshData* mesh : meshes)
 	{
 		if (mesh->PBind->Name == name)
 			return mesh;
@@ -611,7 +605,7 @@ void Model::BindBone()
 void Model::BindMesh()
 {
 	// 메쉬 그려질 위치 찾기
-	for (MeshData* mesh : meshes)
+	for (ModelMeshData* mesh : meshes)
 	{
 		for (ModelBone* bone : bones)
 		{

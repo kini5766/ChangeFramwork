@@ -17,12 +17,20 @@ void ModelMaterial::Initialize()
 	name = L"";
 
 	buffer = new ConstantBuffer(&colorDesc, sizeof(ColorDesc));
+
+	SetTexture("DiffuseMap", diffuseMap);
+	SetTexture("SpecularMap", specularMap);
+	SetTexture("NormalMap", normalMap);
 }
 
 
 ModelMaterial::~ModelMaterial()
 {
 	SafeDelete(buffer);
+
+	SafeDelete(diffuseMap);
+	SafeDelete(specularMap);
+	SafeDelete(normalMap);
 }
 
 void ModelMaterial::Render()
@@ -71,3 +79,22 @@ void ModelMaterial::Specular(float r, float g, float b, float a)
 	Specular(Color(r, g, b, a));
 }
 
+void ModelMaterial::DiffuseMap(wstring file)
+{
+	SafeDelete(diffuseMap);
+	diffuseMap = new Texture(file);
+	SetTexture("DiffuseMap", diffuseMap);
+}
+
+void ModelMaterial::SpecularMap(wstring file)
+{
+	SafeDelete(specularMap);
+	SetTexture("SpecularMap", specularMap);
+}
+
+void ModelMaterial::NormalMap(wstring file)
+{
+	SafeDelete(normalMap);
+	diffuseMap = new Texture(file);
+	SetTexture("NormalMap", normalMap);
+}

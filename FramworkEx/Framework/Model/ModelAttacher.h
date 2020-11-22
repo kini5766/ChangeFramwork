@@ -35,19 +35,21 @@ public:
 
 private:
 	Model* model;
-	vector<class ModelMeshClipMap*> renderers;
-
-	Shader* shader;
-	Transform* transform;
-
-	class ModelAnimation* animation = nullptr;
+	vector<class ModelMesh*> renderers;
 	class ModelClipMap* clipMap = nullptr;
+
+private:
+	Shader* shader;
+	MaterialGroup* materials;
+	Transform* transform;
+	PerFrameBuffer* perFrame;
+	class ModelAnimation* animation;
 
 private:
 	struct AttachedItem
 	{
 		Model* Model = nullptr;
-		vector<ModelMeshClipMap*> Renderers;
+		vector<ModelMesh*> Renderers;
 
 		ModelClipMap* ClipMap = nullptr;
 

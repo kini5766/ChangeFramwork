@@ -46,9 +46,9 @@ public:
 public:
 	// ModelMesh
 	UINT MeshCount() { return meshes.size(); }
-	vector<MeshData*>& Meshes() { return meshes; }
-	MeshData* MeshByIndex(UINT index) { return meshes[index]; }
-	MeshData* MeshByName(wstring name);
+	vector<ModelMeshData*>& Meshes() { return meshes; }
+	ModelMeshData* MeshByIndex(UINT index) { return meshes[index]; }
+	ModelMeshData* MeshByName(wstring name);
 
 public:
 	// Animation Clip
@@ -67,7 +67,7 @@ private:
 	vector<ModelMaterial*> materials;
 
 	vector<ModelBone*> bones;
-	vector<MeshData*> meshes;
+	vector<ModelMeshData*> meshes;
 	vector<ModelClip*> clips;
 };
 

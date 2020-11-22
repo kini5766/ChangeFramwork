@@ -27,6 +27,8 @@ private:
 
 	Collider* collider1;
 	Collider* collider2;
+
+	Texture* texture;
 };
 
 // IA -> VS -> RS -> PS -> OM

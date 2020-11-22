@@ -15,9 +15,9 @@ struct BindValue
 	wstring MaterialName = L"";
 };
 
-
 struct MeshData
 {
+public:
 	// buffer values
 	UINT VertexCount = 0;
 	void* Vertices = nullptr;
@@ -26,48 +26,135 @@ struct MeshData
 	UINT IndexCount = 0;
 	UINT* Indices = nullptr;
 
-	// bind
-	BindValue* PBind = nullptr;
-
-
 public:
-	MeshData() {}
-	~MeshData()
+	// delete
+	void DeleteArray()
 	{
-		SafeDelete(PBind);
-		SafeDeleteArray(Vertices);  // 소멸자를 호출하지 않음 (delete[] void*)
+		SafeDeleteArray(Vertices);  // 소멸자를 호출하지 않음 (delete void*)
 		SafeDeleteArray(Indices);
 	}
 
-	template<typename T>T* NewVertices(UINT count) { T* result = new T[count];  VertexCount = count; Vertices = result; Stride = sizeof(T); return result; }
-	void NewIndices(UINT count) { IndexCount = count; Indices = new UINT[count]; }
+	virtual void SafeDeleteData()
+	{
+		//SafeDelete(PBind);
+		DeleteArray();
 
-	void NewBindValue() { PBind = new BindValue(); }
-
-
-private:
-	MeshData(MeshData& rhs) { Move(*this, rhs); }
-	void operator=(MeshData& rhs) { Move(*this, rhs); }
+		VertexCount = 0;
+		Stride = 0;
+		IndexCount = 0;
+	}
 
 public:
-	static void Move(MeshData& dst, MeshData& src)
-	{
-		dst.Vertices = src.Vertices; src.Vertices = nullptr;
-		dst.VertexCount = src.VertexCount; src.VertexCount = 0;
-		dst.Stride = src.Stride; src.Stride = 0;
+	// new
+	template<typename T>
+	T* NewVertices(UINT count);
+	void NewIndices(UINT count);
 
-		dst.Indices = src.Indices; src.Indices = nullptr;
-		dst.IndexCount = src.IndexCount; src.IndexCount = 0;
+	// copy
+	template<typename T>
+	void SetVertices(const T* vertices, UINT count);
+	void SetIndices(const UINT* indeces, UINT count);
 
-		dst.PBind = src.PBind; src.PBind = nullptr;
-	}
+	// move
+	void SetMoveVertices(void** vertices, UINT* stride, UINT* count);
+	void SetMoveIndices(UINT** indeces, UINT* count);
 
-protected:
-	template<typename T>T* NewCopyVertices(vector<T>& src, UINT count)
-	{
-		T* result = NewVertices<T>(count);
-		copy(src.begin(), src.end(), stdext::checked_array_iterator<T*>(result, VertexCount));
-		Vertices = result;
-		return result;
-	}
+public:
+	// static
+	template<typename T>
+	static void Copy(MeshData* dst, const MeshData* src);
+	static void Move(MeshData* dst, MeshData* src);
 };
+
+
+struct ModelMeshData : public MeshData
+{
+	// bind
+	BindValue* PBind = nullptr;
+
+	void NewBindValue() { PBind = new BindValue(); }
+	virtual void SafeDeleteData() override { SafeDelete(PBind); MeshData::SafeDeleteData(); }
+
+public:
+	// static
+	template<typename T>
+	static void Copy(ModelMeshData* dst, const ModelMeshData* src);
+};
+
+
+// new
+template<typename T>
+inline T * MeshData::NewVertices(UINT count)
+{
+	T* result = new T[count];
+	VertexCount = count;
+	Vertices = result;
+	Stride = sizeof(T);
+	return result;
+}
+
+inline void MeshData::NewIndices(UINT count)
+{
+	IndexCount = count;
+	Indices = new UINT[count];
+}
+
+// copy
+template<typename T>
+inline void MeshData::SetVertices(const T * vertices, UINT count)
+{
+	NewVertices<T>(count);
+	memcpy(Vertices, vertices, Stride * count);
+}
+
+inline void MeshData::SetIndices(const UINT* indeces, UINT count)
+{
+	NewIndices(count);
+	memcpy(Indices, indeces, sizeof(UINT) * count);
+}
+
+// move
+inline void MeshData::SetMoveVertices(void** vertices, UINT* stride, UINT* count)
+{
+	Vertices = (*vertices);
+	(*vertices) = nullptr;
+	Stride = (*stride);
+	(*stride) = 0;
+	VertexCount = (*count);
+	(*count) = 0;
+}
+
+inline void MeshData::SetMoveIndices(UINT** indeces, UINT* count)
+{
+	Indices = (*indeces);
+	IndexCount = (*count);
+	(*indeces) = nullptr;
+	(*count) = 0;
+}
+
+//static
+template<typename T>
+inline void MeshData::Copy(MeshData * dst, const MeshData * src)
+{
+	UINT stride = sizeof(T);
+	if (stride != src->Stride) assert(false);  // 잘못 된 카피
+
+	dst->SetVertices<T>((const T *)src->Vertices, src->VertexCount);
+	dst->SetIndices(src->Indices, src->IndexCount);
+}
+
+inline void MeshData::Move(MeshData* dst, MeshData* src)
+{
+	dst->SetMoveVertices(&src->Vertices, &src->Stride, &src->VertexCount);
+	dst->SetMoveIndices(&src->Indices, &src->IndexCount);
+}
+
+
+// ModelMeshData
+template<typename T>
+inline void ModelMeshData::Copy(ModelMeshData * dst, const ModelMeshData * src) 
+{ 
+	MeshData::Copy(dst, src); 
+	if (src->PBind != nullptr) 
+		memcpy(dst->PBind, src->PBind, sizeof(BindValue)); 
+}

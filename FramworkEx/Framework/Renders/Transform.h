@@ -50,6 +50,9 @@ public:
 	void World(const Matrix& set);
 	Matrix& World() { return bufferDesc.World; }
 
+	void CreateBuffer();
+	ConstantBuffer* Buffer() { return buffer; }
+
 private:
 	void UpdateWorld();
 
