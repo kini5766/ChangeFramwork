@@ -112,18 +112,17 @@ void ModelMesh::Update()
 
 void ModelMesh::Render()
 {
+	vertexBuffer->Render();
+	indexBuffer->Render();
+
 	boneBuffer->Render();
 	sBoneBuffer->SetConstantBuffer(boneBuffer->Buffer());
 
 	perFrame->Render();
 	transform->Render();
-	material->Render();
-
-	vertexBuffer->Render();
-	indexBuffer->Render();
 
 	D3D::GetDC()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
+	material->Render();
 	shader->DrawIndexed(0, pass, mesh->IndexCount);
 }
 

@@ -23,9 +23,12 @@ public:
 
 	void RotationDegree(float x, float y, float z);
 	void RotationDegree(const Vector3& value);
+	void RotationDegree(Vector3* out);
 
 	void Rotation(float x, float y, float z);
 	void Rotation(const Vector3& value);
+	void Rotation(Vector3* out);
+
 	void Rotation(const Quaternion& value);
 	void Rotation(Quaternion* out);
 

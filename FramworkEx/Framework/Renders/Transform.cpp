@@ -96,6 +96,12 @@ void Transform::RotationDegree(const Vector3 & value)
 	Rotation(value * Math::Deg2Rad());
 }
 
+void Transform::RotationDegree(Vector3 * out)
+{
+	Rotation(out);
+	(*out) *= Math::Rad2Deg();
+}
+
 void Transform::Rotation(float x, float y, float z)
 {
 	Rotation(Vector3(x, y, z));
@@ -105,6 +111,27 @@ void Transform::Rotation(const Vector3 & value)
 {
 	D3DXQuaternionRotationYawPitchRoll(&rotation, value.y, value.x, value.z);
 	UpdateWorld();
+}
+
+void Transform::Rotation(Vector3 * out)
+{
+	Quaternion& q = rotation;
+
+	float xy2 = 2 * q.x * q.y;
+	float xz2 = 2 * q.x * q.z;
+	float yz2 = 2 * q.y * q.z;
+
+	float xx2 = 2 * q.x * q.x;
+	float yy2 = 2 * q.y * q.y;
+	float zz2 = 2 * q.z * q.z;
+
+	float xw2 = 2 * q.x * q.w;
+	float yw2 = 2 * q.y * q.w;
+	float zw2 = 2 * q.z * q.w;
+
+	out->x = asin(xy2 + zw2);
+	out->y = atan2(yw2 - xz2, 1 - yy2 - zz2);
+	out->z = atan2(xw2 - yz2, 1 - xx2 - zz2);
 }
 
 void Transform::Rotation(const Quaternion & value)
