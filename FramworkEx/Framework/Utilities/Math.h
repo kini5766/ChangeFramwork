@@ -1,4 +1,6 @@
 #pragma once
+
+// https://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
 class Math
 {
 public:

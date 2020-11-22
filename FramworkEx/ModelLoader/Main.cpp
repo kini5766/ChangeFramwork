@@ -9,8 +9,8 @@
 void Main::Initialize()
 {
 	//Push(new ExportFileDemo());
-	//Push(new DrowModelDemo());
-	Push(new DrowAnimationDemo());
+	Push(new DrowModelDemo());
+	//Push(new DrowAnimationDemo());
 }
 
 void Main::Ready()

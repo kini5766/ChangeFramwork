@@ -3,30 +3,9 @@
 
 using namespace ShaderEffctConstantName;
 
-PerFrame::PerFrame(Shader * shader)
-{
-	buffer = new PerFrameBuffer();
-	sBuffer = shader->AsConstantBuffer(CB_PerFrame);
-	sLightBuffer = shader->AsConstantBuffer(CB_Light);
-}
-
-PerFrame::~PerFrame()
-{
-	SafeDelete(buffer);
-}
-
-void PerFrame::Update()
-{
-	buffer->Update();
-}
-
-void PerFrame::Render()
-{
-	buffer->Render();
-
-	sBuffer->SetConstantBuffer(buffer->BufferPerFrame()->Buffer());
-	sLightBuffer->SetConstantBuffer(buffer->BufferLight()->Buffer());
-}
+// ----------------------------------------------------------------------------
+// PerFrameBuffer
+// ----------------------------------------------------------------------------
 
 PerFrameBuffer::PerFrameBuffer()
 {
@@ -59,4 +38,34 @@ void PerFrameBuffer::Render()
 
 	buffer->Render();
 	lightBuffer->Render();
+}
+
+
+// ----------------------------------------------------------------------------
+// PerFrame
+// ----------------------------------------------------------------------------
+
+PerFrame::PerFrame(Shader * shader)
+{
+	buffer = new PerFrameBuffer();
+	sBuffer = shader->AsConstantBuffer(CB_PerFrame);
+	sLightBuffer = shader->AsConstantBuffer(CB_Light);
+}
+
+PerFrame::~PerFrame()
+{
+	SafeDelete(buffer);
+}
+
+void PerFrame::Update()
+{
+	buffer->Update();
+}
+
+void PerFrame::Render()
+{
+	buffer->Render();
+
+	sBuffer->SetConstantBuffer(buffer->BufferPerFrame()->Buffer());
+	sLightBuffer->SetConstantBuffer(buffer->BufferLight()->Buffer());
 }

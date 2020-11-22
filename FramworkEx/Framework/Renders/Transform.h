@@ -7,11 +7,18 @@ public:
 	Transform(Shader* shader);
 	~Transform();
 
+public:
 	void Update();
 	void Render();
 
-	void Set(Transform* transfrom);  // 복사
 	void SetShader(Shader* shader);
+
+	void CreateBuffer();
+	ConstantBuffer* Buffer() { return buffer; }
+
+	// TransformData
+public:
+	void Set(Transform* value);  // 복사
 
 	void Position(float x, float y, float z);
 	void Position(const Vector3& value);
@@ -41,17 +48,13 @@ public:
 	void RotateRollDegree(float deg);
 	void RotateRoll(float rad);
 
-	// 노말라이즈 생략
 	Vector3 Forward();
 	Vector3 Up();
 	Vector3 Right();
 
-
+	void LocalWorld(const Matrix& set);
 	void World(const Matrix& set);
-	Matrix& World() { return bufferDesc.World; }
-
-	void CreateBuffer();
-	ConstantBuffer* Buffer() { return buffer; }
+	Matrix& World();
 
 private:
 	void UpdateWorld();
@@ -64,16 +67,46 @@ private:
 
 private:
 	Shader* shader;
-	ConstantBuffer* buffer;
 	ID3DX11EffectConstantBuffer* sBuffer;
+	ConstantBuffer* buffer;
+	bool changed = false;
 
-	Vector3 position;
-	Vector3 scale;
-	Quaternion rotation;
+	class TransformData* data;
+
+	// TransformFamily
+public:
+	void SetParent(Transform* value);
+	Transform** GetChilds() { return childs.data(); }
+	UINT ChildCount() { return childs.size(); }
+
+private:
+	void RemoveParent();
+	bool RemoveChild(Transform* value);
+	void AddChild(Transform* value);
+
+private:
+	Transform* parent = nullptr;
+	vector<Transform*> childs;
 };
 
-// 생성자
-// sBuffer = shader->AsConstantBuffer("CB_World")
 
-// 업데이트
-// sBuffer->SetConstantBuffer(buffer->Buffer())
+class TransformBuffer
+{
+public:
+	TransformBuffer();
+	~TransformBuffer();
+
+public:
+	void UpdateWorld();
+	void Render();
+
+	class TransformData* Transform();
+
+private:
+	struct BufferDesc  // C버퍼
+	{
+		Matrix World;
+	} bufferDesc;
+	ConstantBuffer* buffer;
+	class TransformData* data;
+};

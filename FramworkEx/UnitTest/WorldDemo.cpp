@@ -31,7 +31,7 @@ void WorldDemo::Initialize()
 	D3D11_SUBRESOURCE_DATA subResource = { 0 };
 	subResource.pSysMem = vertices;
 
-	Check(D3D::GetDevice()->SetShader(&desc, &subResource, &vertexBuffer));
+	Check(D3D::GetDevice()->CreateBuffer(&desc, &subResource, &vertexBuffer));
 
 	D3DXMatrixIdentity(&world);
 	D3DXMatrixIdentity(&world2);

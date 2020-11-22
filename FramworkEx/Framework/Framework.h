@@ -98,6 +98,7 @@ typedef D3DXPLANE Plane;
 #include "Utilities/Path.h"
 #include "Utilities/URI.h"
 #include "Utilities/ShaderEffctConstatName.h"
+#include "Utilities/TransformData.h"
 
 #include "Objects/Collider.h"
 
