@@ -2,11 +2,11 @@
 
 #include "MeshData.h"
 
-class MeshQuad : public MeshData
+class MeshQuad : public Mesh
 {
 public:
-	MeshQuad();
+	MeshQuad(Shader* shader);
 	~MeshQuad();
 
-	void Create();
+	void Create() override;
 };

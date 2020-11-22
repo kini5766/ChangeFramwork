@@ -4,7 +4,8 @@
 #include "Mesh.h"
 typedef Mesh::MeshVertex MeshVertex;
 
-MeshQuad::MeshQuad()
+MeshQuad::MeshQuad(Shader* shader)
+	: Mesh(shader)
 {
 	Create();
 }
@@ -25,12 +26,12 @@ void MeshQuad::Create()
 	v.push_back(MeshVertex(+w, +h, 0, 1, 0, 0, 0, -1));
 
 	//NewCopyVertices<MeshVertex>(v, v.size());
-	VertexCount = v.size();
-	Vertices = new MeshVertex[VertexCount];
-	memcpy(Vertices, v.data(), sizeof(MeshVertex) * VertexCount);
+	vertexCount = v.size();
+	vertices = new MeshVertex[vertexCount];
+	memcpy(vertices, v.data(), sizeof(MeshVertex) * vertexCount);
 
-	IndexCount = 6;
-	Indices = new UINT[IndexCount]
+	indexCount = 6;
+	indices = new UINT[indexCount]
 	{
 		0, 1, 2, 2, 1, 3
 	};

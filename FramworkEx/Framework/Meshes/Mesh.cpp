@@ -37,37 +37,3 @@ void Mesh::DiffuseMap(wstring file)
 	SafeDelete(diffuseMap);
 	diffuseMap = new Texture(file);
 }
-
-
-// Mesh2
-
-Mesh2::Mesh2(Shader * shader, MeshData* data)
-	: Renderer(shader)
-{
-	sDiffuseMap = shader->AsSRV("DiffuseMap");
-	vertexCount = data->VertexCount;
-	indexCount = data->IndexCount;
-	vertexBuffer = new VertexBuffer(data->Vertices, vertexCount, data->Stride);
-	indexBuffer = new IndexBuffer(data->Indices, indexCount);
-}
-
-Mesh2::~Mesh2()
-{
-	SafeDelete(diffuseMap);
-}
-
-void Mesh2::Render()
-{
-	Renderer::Update();
-	Renderer::Render();
-
-	if (diffuseMap != nullptr)
-		sDiffuseMap->SetResource(diffuseMap->SRV());
-	shader->DrawIndexed(0, Pass(), indexCount);
-}
-
-void Mesh2::DiffuseMap(wstring file)
-{
-	SafeDelete(diffuseMap);
-	diffuseMap = new Texture(file);
-}
