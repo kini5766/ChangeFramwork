@@ -191,8 +191,8 @@ void ModelClipMap::ClipTransform::SetClipTransform(ModelBone ** bones, UINT bone
 				continue;
 			}
 
-			Matrix invGlobal;
-			D3DXMatrixInverse(&invGlobal, nullptr, &bone->Transform());
+			Matrix invGlobal = bone->Transform();
+			D3DXMatrixInverse(&invGlobal, nullptr, &invGlobal);
 
 			Matrix animation;
 			ModelKeyframeData& data = frame->Transforms[f];
@@ -206,7 +206,6 @@ void ModelClipMap::ClipTransform::SetClipTransform(ModelBone ** bones, UINT bone
 
 			boneMatrixes[b] = animation * parent;
 			TransformArr2D[f][b] = invGlobal * boneMatrixes[b];
-			//TransformArr2D[f][b] = boneMatrixes[b];
 
 			// T Pose
 			//Matrix identity;
@@ -355,21 +354,6 @@ void ModelAnimation::UpdateClipLoop(KeyframeDesc& desc, ModelClip* clip)
 
 	desc.Time += time;
 	desc.RunningTime += time;
-
-
-	//// ¿øº»
-	//desc.RunningTime += Time::Delta();
-	//float time = 1.0f / (clip->FrameRate() * desc.Speed);
-	////float time = 1.0f / clip->FrameRate() / desc.Speed;
-
-	//if (desc.Time >= 1.0f)
-	//{
-	//	desc.RunningTime -= desc.Time * time;
-	//	//desc.RunningTime = 0.0f;
-	//	desc.CurrFrame = (desc.CurrFrame + 1) % clip->FrameCount();  // Loop
-	//	desc.NextFrame = (desc.CurrFrame + 1) % clip->FrameCount();  // Loop
-	//}
-	//desc.Time = desc.RunningTime / time;
 
 }
 

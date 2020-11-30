@@ -1,0 +1,77 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1169
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Framework", "Framework\Framework.vcxproj", "{5BA2E231-130D-48F1-B8D9-45CA5EC7493A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{4B08325A-E21E-4F3B-9302-4579D8A021EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00", "00", "{3D87ECB6-EEBE-4017-8C62-0F02F720A166}"
+	ProjectSection(SolutionItems) = preProject
+		_Shaders\00_Global.fx = _Shaders\00_Global.fx
+		_Shaders\00_Light.fx = _Shaders\00_Light.fx
+		_Shaders\00_Render.fx = _Shaders\00_Render.fx
+		_Shaders\00_Terrain.fx = _Shaders\00_Terrain.fx
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelLoader", "ModelLoader\ModelLoader.vcxproj", "{DC95EA1A-94E8-43BA-A862-1F328BE67825}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5BA2E231-130D-48F1-B8D9-45CA5EC7493A} = {5BA2E231-130D-48F1-B8D9-45CA5EC7493A}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-19", "1-19", "{5DE9DEF0-D45D-45A9-9215-14B9AF16C97F}"
+	ProjectSection(SolutionItems) = preProject
+		_Shaders\02_Vertex.fx = _Shaders\02_Vertex.fx
+		_Shaders\03_World.fx = _Shaders\03_World.fx
+		_Shaders\04_Grid.fx = _Shaders\04_Grid.fx
+		_Shaders\04_Index.fx = _Shaders\04_Index.fx
+		_Shaders\06_Terrain.fx = _Shaders\06_Terrain.fx
+		_Shaders\07_Mesh.fx = _Shaders\07_Mesh.fx
+		_Shaders\08_Texture.fx = _Shaders\08_Texture.fx
+		_Shaders\09_Terrain.fx = _Shaders\09_Terrain.fx
+		_Shaders\10_Mesh.fx = _Shaders\10_Mesh.fx
+		_Shaders\11_CubeSky.fx = _Shaders\11_CubeSky.fx
+		_Shaders\12_TerrainBrush.fx = _Shaders\12_TerrainBrush.fx
+		_Shaders\13_TerrainLine.fx = _Shaders\13_TerrainLine.fx
+		_Shaders\14_TerrainSplatting.fx = _Shaders\14_TerrainSplatting.fx
+		_Shaders\15_Model.fx = _Shaders\15_Model.fx
+		_Shaders\16_DebugLine.fx = _Shaders\16_DebugLine.fx
+		_Shaders\17_Model.fx = _Shaders\17_Model.fx
+		_Shaders\18_Animation.fx = _Shaders\18_Animation.fx
+		_Shaders\19_Billboard.fx = _Shaders\19_Billboard.fx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20-", "20-", "{853A55BB-C605-4817-918D-4C43D6EB5CFF}"
+	ProjectSection(SolutionItems) = preProject
+		_Shaders\20_Rain.fx = _Shaders\20_Rain.fx
+		_Shaders\21_Snow.fx = _Shaders\21_Snow.fx
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5BA2E231-130D-48F1-B8D9-45CA5EC7493A}.Debug|x86.ActiveCfg = Debug|Win32
+		{5BA2E231-130D-48F1-B8D9-45CA5EC7493A}.Debug|x86.Build.0 = Debug|Win32
+		{5BA2E231-130D-48F1-B8D9-45CA5EC7493A}.Release|x86.ActiveCfg = Release|Win32
+		{5BA2E231-130D-48F1-B8D9-45CA5EC7493A}.Release|x86.Build.0 = Release|Win32
+		{DC95EA1A-94E8-43BA-A862-1F328BE67825}.Debug|x86.ActiveCfg = Debug|Win32
+		{DC95EA1A-94E8-43BA-A862-1F328BE67825}.Debug|x86.Build.0 = Debug|Win32
+		{DC95EA1A-94E8-43BA-A862-1F328BE67825}.Release|x86.ActiveCfg = Release|Win32
+		{DC95EA1A-94E8-43BA-A862-1F328BE67825}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3D87ECB6-EEBE-4017-8C62-0F02F720A166} = {4B08325A-E21E-4F3B-9302-4579D8A021EB}
+		{5DE9DEF0-D45D-45A9-9215-14B9AF16C97F} = {4B08325A-E21E-4F3B-9302-4579D8A021EB}
+		{853A55BB-C605-4817-918D-4C43D6EB5CFF} = {4B08325A-E21E-4F3B-9302-4579D8A021EB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E449A45-AA4E-437D-916A-E938399AAB30}
+	EndGlobalSection
+EndGlobal
