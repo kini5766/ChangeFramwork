@@ -4,7 +4,6 @@
 
 #include "Utilities/Xml.h"
 #include "Utilities/BinaryFile.h"
-#include "ModelClipData.h"
 
 Model::Model()
 {

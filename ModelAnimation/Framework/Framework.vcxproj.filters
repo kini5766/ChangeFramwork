@@ -202,10 +202,10 @@
     <ClCompile Include="Renders\Material.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
-    <ClCompile Include="Model\ModelClipData.cpp">
+    <ClCompile Include="Model\ModelAnimator.cpp" />
+    <ClCompile Include="Model\ModelClip.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="Model\ModelAnimator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -395,9 +395,9 @@
     <ClInclude Include="Renders\Material.h">
       <Filter>Renders</Filter>
     </ClInclude>
-    <ClInclude Include="Model\ModelClipData.h">
+    <ClInclude Include="Model\ModelAnimator.h" />
+    <ClInclude Include="Model\ModelClip.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="Model\ModelAnimator.h" />
   </ItemGroup>
 </Project>

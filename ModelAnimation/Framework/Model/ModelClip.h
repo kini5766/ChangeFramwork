@@ -1,158 +1,195 @@
 #pragma once
 
-// ----------------------------------------------------------------------------
-// ModelClip
-// ----------------------------------------------------------------------------
+#define MAX_SKINNING_MODEL_TRANSFORMS 256
 
-struct ModelKeyframeData
+#pragma region Data
+
+struct KeyVector
 {
+	Vector3 Value;
 	float Time;
-
-	Vector3 Scale;
-	Quaternion Rotation;
-	Vector3 Translation;
 };
 
-struct ModelKeyframe
+struct KeyQuat
 {
+	Quaternion Value;
+	float Time;
+};
+
+struct ClipBoneData
+{
+	vector<KeyVector> KeyPositions;
+	vector<KeyQuat> KeyRotations;
+	vector<KeyVector> KeyScales;
 	wstring BoneName;
-	vector<ModelKeyframeData> Transforms;
 };
 
-class ModelClip
+struct ClipData
 {
-public: 
-	friend class Model;
-
-private:
-	ModelClip();
-	~ModelClip();
-
-public:
-	float Duration() { return duration; }
-	float FrameRate() { return frameRate; }
-	UINT FrameCount() { return frameCount; }
-
-	// bone name -> ModelKeyframe
-	ModelKeyframe* Keyframe(wstring name);
-
-private:
-	wstring name;
-
-	float duration;
-	float frameRate;
-	UINT frameCount;
-
-	unordered_map<wstring, ModelKeyframe*> keyframeMap;
+	wstring ClipName;
+	float FrameRate;
+	float Duration;
+	vector<ClipBoneData*> Bones;
 };
 
+#pragma endregion
 
-// ----------------------------------------------------------------------------
-// ModelClipMap
-// ----------------------------------------------------------------------------
 
-class ModelClipMap
+#pragma region ClipKeys
+
+// ClipVectorKey ////////////////////////////////////////////////////////////////////////////
+
+class ClipVectorKey
 {
 public:
-	ModelClipMap(Model* model);
-	ModelClipMap(ModelClip** pClips, UINT clipCount, ModelBone** pBones, UINT boneCount);
-	~ModelClipMap();
-	void Initialize(ModelClip** pClips, ModelBone** pBones, UINT boneCount);
+	ClipVectorKey(const vector<KeyVector>* keyVectors);
+	~ClipVectorKey();
 
 public:
-	ID3D11Texture2D* GetMap() { return texture; }
-	ID3D11ShaderResourceView* GetSRV() { return srv; }
+	void Reset();
+	void Start();
+	void Stop();
+
+	void Update(float deltaTime);
+
+public:
+	void GetVector(Vector3* out);
 
 private:
-	struct ClipTransform;
-	void CreateTexture(ClipTransform** clipTransforms, UINT boneCount, UINT maxFrameCount);
-	void CreateSrv();
-
-private:
-	ID3D11Texture2D* texture = nullptr;
-	UINT clipCount;
-	ID3D11ShaderResourceView* srv = nullptr;
-
-private:
-	struct ClipTransform
-	{
-		UINT FrameCount = 0;
-		UINT BoneCount = 0;
-
-		Matrix** TransformArr2D;
-
-		ClipTransform(UINT frameCount, UINT boneCount);
-		~ClipTransform();
-		void SetClipTransform(ModelBone** bones, UINT boneCount, ModelClip * clip);
-	};
+	const vector<KeyVector>* keyVectors;
+	UINT currFrame = 0;
+	float runTime = 0.0f;
+	bool bPlaying = false;
 };
 
 
-// ----------------------------------------------------------------------------
-// AnimationClip
-// ----------------------------------------------------------------------------
+// ClipRotationKey ////////////////////////////////////////////////////////////////////////////
 
-class ModelAnimation
+class ClipRotationKey
 {
 public:
-	ModelAnimation();
-	ModelAnimation(ModelClip** clips, UINT clipCount);
-	~ModelAnimation();
+	ClipRotationKey(const vector<KeyQuat>* keyQuats);
+	~ClipRotationKey();
 
 public:
-	void UpdateNoTweening();
-	void UpdateTweening();
+	void Reset();
+	void Start();
+	void Stop();
+
+	void Update(float deltaTime);
+
+public:
+	void GetRotaion(Quaternion* out);
+
+private:
+	const vector<KeyQuat>* keyQuats;
+	UINT currFrame = 0;
+	float runTime = 0.0f;
+	bool bPlaying = false;
+};
+
+#pragma endregion
+
+
+#pragma region ClipBone
+
+class ClipBone
+{
+public:
+	ClipBone(const ClipBoneData* data);
+	~ClipBone();
+
+public:
+	void Reset();
+	void Start();
+	void Stop();
+
+	void Update(float deltaTime);
+
+	void Position(Vector3* out);
+	void Rotation(Quaternion* out);
+	void Scale(Vector3* out);
+
+private:
+	ClipVectorKey* keyPositions;
+	ClipRotationKey* keyRotations;
+	ClipVectorKey* keyScales;
+};
+
+#pragma endregion
+
+
+#pragma region ClipModel
+
+class ClipModel
+{
+public:
+	ClipModel(ClipData* data);
+	~ClipModel();
+
+public:
+	void Reset();
+	void Start(float time = 0.0f);
+	void Stop();
+
+	void Update();
+
+public:
+	ClipData* Data() { return data; }
+	ClipBone* GetBone(wstring name);
+	void Speed(float value) { speed = value; }
+	float Duration() { return data->Duration; }
+	float RunningTime() { return runningTime; }
+
+private:
+	ClipData* data;
+
+	map<wstring, ClipBone*> bones;
+	float runningTime = 0.0f;
+	float speed = 1.0f;
+};
+
+#pragma endregion
+
+
+#pragma region ModelAnimationEx
+
+class ModelAnimationEx
+{
+public:
+	ModelAnimationEx(const vector<ModelBone*>& bones, const vector<ClipData*> datas);
+	~ModelAnimationEx();
+
+public:
+	void Update();
 	void Render();
 
 public:
-	void SetClips(ModelClip** clips, UINT clipCount);
-	void SetShader(Shader* shader);
 	void PlayClip(UINT clip, float speed, float takeTime);
 	float GetClipLength(UINT clip);
-	float GetClipRunTime();
-	ConstantBuffer* Buffer() { return frameBuffer; }
+	float CurrRunningTime();
+	void SetShader(Shader* shader);
 
 private:
-	struct KeyframeDesc;
-	void UpdateClipLoop(KeyframeDesc& desc, ModelClip* clip);
-	void NextClip();
+	vector<ClipModel*> clips;
+	const vector<ModelBone*>& bones;
 
 private:
-	ModelClip** clips = nullptr;
-	UINT clipCount = 0;
-	ConstantBuffer* frameBuffer = nullptr;
-	ID3DX11EffectConstantBuffer* sFrameBuffer = nullptr;
+	float takeTimeDiv = 1.0f;  // 동작이 섞이는 시간
+	float tweenTime = 0.0f;  // 섞이고 있는 중 시간
+	float runningTime = 0.0f;
 
+	ClipModel* curr = nullptr;
+	ClipModel* next = nullptr; 
+	
+	ConstantBuffer* buffer = nullptr;
+	ID3DX11EffectConstantBuffer* sBuffer;
 private:
-	struct KeyframeDesc
+	struct SkinningModelDesc
 	{
-		int Clip = 0;
-
-		UINT CurrFrame = 0;
-		UINT NextFrame = 0;
-
-		float Time = 0.0f;
-		float RunningTime = 0.0f;
-
-		float Speed = 1.0f;
-		float Padding[2];
-	}/*keyframeDesc*/;
-
-	// 동작과 보간
-	struct TweenDesc
-	{
-		float TakeTimeDiv = 1.0f;  // 동작이 섞이는 시간
-		float TweenTime = 0.0f;  // 섞이고 있는 중 시간
-		float RunningTime = 0.0f;
-		float Padding;
-
-		KeyframeDesc Curr;
-		KeyframeDesc Next;
-
-		TweenDesc()
-		{
-			Curr.Clip = 0;
-			Next.Clip = -1;  // -1은 없다 간주
-		}
-	} tweenDesc;
+		Matrix SkinningBoneTransforms[MAX_SKINNING_MODEL_TRANSFORMS];
+	}skinningModelDesc;
 };
+
+#pragma endregion
+

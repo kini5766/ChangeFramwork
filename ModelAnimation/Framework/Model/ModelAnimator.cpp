@@ -1,9 +1,6 @@
 #include "Framework.h"
 #include "ModelAnimator.h"
 
-#include "ModelMesh.h"
-#include "ModelClipData.h"
-
 using namespace ShaderEffctConstantName;
 
 ModelAnimator::ModelAnimator(Shader * shader)

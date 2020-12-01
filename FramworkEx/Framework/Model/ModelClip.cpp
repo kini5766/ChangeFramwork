@@ -157,9 +157,6 @@ inline ModelClipMap::ClipTransform::ClipTransform(UINT frameCount, UINT boneCoun
 
 inline ModelClipMap::ClipTransform::~ClipTransform()
 {
-	if (FrameCount == 0)
-		return;
-
 	for (UINT i = 0; i < FrameCount; i++)
 		SafeDeleteArray(TransformArr2D[i]);
 	SafeDeleteArray(TransformArr2D);
@@ -167,8 +164,7 @@ inline ModelClipMap::ClipTransform::~ClipTransform()
 
 void ModelClipMap::ClipTransform::SetClipTransform(ModelBone ** bones, UINT boneCount, ModelClip * clip)
 {
-
-	for (UINT f = 0; f < clip->FrameCount(); f++)
+	for (UINT f = 0; f < FrameCount; f++)
 	{
 		Matrix* boneMatrixes = new Matrix[boneCount];
 		for (UINT b = 0; b < boneCount; b++)

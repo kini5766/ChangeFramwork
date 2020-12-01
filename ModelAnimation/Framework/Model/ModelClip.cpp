@@ -2,371 +2,394 @@
 #include "ModelClip.h"
 
 
-// ----------------------------------------------------------------------------
-// ModelClip
-// ----------------------------------------------------------------------------
+#pragma region Clipkeys
 
-ModelClip::ModelClip()
+// ClipVectorKey ////////////////////////////////////////////////////////////////////////////
+
+ClipVectorKey::ClipVectorKey(const vector<KeyVector>* keyVectors)
+	: keyVectors(keyVectors)
 {
 }
 
-ModelClip::~ModelClip()
+ClipVectorKey::~ClipVectorKey()
 {
-	for (auto d : keyframeMap)
-		SafeDelete(d.second);
 }
 
-ModelKeyframe * ModelClip::Keyframe(wstring name)
+void ClipVectorKey::Reset()
 {
-	if (keyframeMap.count(name) < 1)
-		return nullptr;
-
-	return keyframeMap[name];
+	currFrame = 0;
+	runTime = 0.0f;
+	bPlaying = false;
 }
 
-
-// ----------------------------------------------------------------------------
-// ModelClipMap
-// ----------------------------------------------------------------------------
-#include "ModelMesh.h"
-
-ModelClipMap::ModelClipMap(Model * model)
+void ClipVectorKey::Start()
 {
-	clipCount = model->ClipCount();
-	Initialize(model->Clips().data(), model->Bones().data(), model->BoneCount());
+	if ((*keyVectors).size() > 1)
+		bPlaying = true;
 }
 
-ModelClipMap::ModelClipMap(ModelClip** pClips, UINT clipCount, ModelBone** pBones, UINT boneCount)
-	: clipCount(clipCount)
+void ClipVectorKey::Stop()
 {
-	Initialize(pClips, pBones, boneCount);
+	bPlaying = false;
 }
 
-ModelClipMap::~ModelClipMap()
+void ClipVectorKey::Update(float deltaTime)
 {
-	SafeRelease(srv);
-	SafeRelease(texture);
-}
+	if (!bPlaying)
+		return; // 정지중
 
-void ModelClipMap::Initialize(ModelClip ** pClips, ModelBone ** pBones, UINT boneCount)
-{
-	if (clipCount == 0)
-		return;
+	runTime += deltaTime;
 
-	UINT maxFrameCount = 0;
-	for (UINT i = 0; i < clipCount; i++)
-		maxFrameCount = max(maxFrameCount, pClips[i]->FrameCount());
-
-	ClipTransform** clipTransforms = new ClipTransform*[clipCount];
-	for (UINT i = 0; i < clipCount; i++)
+	// 다음 프레임으로
+	while (runTime > (*keyVectors)[currFrame].Time)
 	{
-		clipTransforms[i] = new ClipTransform(maxFrameCount, boneCount);
-		clipTransforms[i]->SetClipTransform(pBones, boneCount, pClips[i]);
-	}
-
-	CreateTexture(clipTransforms, boneCount, maxFrameCount);
-	CreateSrv();
-
-	for (UINT i = 0; i < clipCount; i++)
-		SafeDelete(clipTransforms[i]);
-	SafeDeleteArray(clipTransforms);
-}
-
-void ModelClipMap::CreateTexture(ClipTransform** clipTransforms, UINT boneCount, UINT maxFrameCount)
-{
-	D3D11_TEXTURE2D_DESC desc;
-	ZeroMemory(&desc, sizeof(D3D11_TEXTURE2D_DESC));
-	// 16바이트가 최대라서 짤라서 넣어야됨 (4개의 픽셀씩 짤라서 가져옴)
-	desc.Width = boneCount * 4;
-	desc.Height = maxFrameCount;
-	desc.ArraySize = clipCount;
-	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;  // 16바이트
-	desc.Usage = D3D11_USAGE_IMMUTABLE; // 수정불가
-	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;  // srv 보내는 용도
-	desc.MipLevels = 1;  // 확대 축소 안 함
-	desc.SampleDesc.Count = 1; // 확대 축소 안 함
-
-	UINT pageSize = 16 * (boneCount * 4) * maxFrameCount;
-
-	// 바이트 초과해서 VirtualAlloc 사용
-	// 가상 메모리(디스크) -> 2차원 배열 할당 (void** p = new void*[])
-	void* p = VirtualAlloc(nullptr, pageSize * clipCount, MEM_RESERVE, PAGE_READWRITE);
-
-	//// 메모리 할당 정보
-	//MEMORY_BASIC_INFORMATION memory;
-	//VirtualQuery(p, &memory, sizeof(MEMORY_BASIC_INFORMATION));
-
-	// 가상 메모리 할당
-	for (UINT c = 0; c < clipCount; c++)
-	{
-		for (UINT y = 0; y < maxFrameCount; y++)
+		runTime -= (*keyVectors)[currFrame].Time;
+		if (++currFrame + 1 == (*keyVectors).size())
 		{
-			// 이번 텍스쳐2D의 시작 주소
-			UINT  start = c * pageSize;
-
-			// 가로의 시작 주소
-			void* temp = (BYTE*)p + boneCount * y * sizeof(Matrix) + start;
-
-			// 가상메모리 할당, PAGE_READWRITE : 권한
-			VirtualAlloc(temp, boneCount * sizeof(Matrix), MEM_COMMIT, PAGE_READWRITE);
-			memcpy(temp, clipTransforms[c]->TransformArr2D[y], boneCount * sizeof(Matrix));
+			// 마지막 프레임
+			runTime = 0.0f;
+			runTime = (*keyVectors)[currFrame].Time;
+			bPlaying = false;
+			return;
 		}
 	}
+}
 
-	D3D11_SUBRESOURCE_DATA* subResource = new D3D11_SUBRESOURCE_DATA[clipCount];
-	for (UINT c = 0; c < clipCount; c++)
+void ClipVectorKey::GetVector(Vector3* out)
+{
+	(*out) = (*keyVectors)[currFrame].Value;
+	if (runTime == 0.0f) return;
+
+	const Vector3* nextValue = &(*keyVectors)[currFrame + 1].Value;
+	float t = runTime / (*keyVectors)[currFrame].Time;
+
+	D3DXVec3Lerp(out, out, nextValue, t);
+}
+
+
+// ClipRotationKey ////////////////////////////////////////////////////////////////////////////
+
+ClipRotationKey::ClipRotationKey(const vector<KeyQuat>* keyQuats)
+	: keyQuats(keyQuats)
+{
+}
+
+ClipRotationKey::~ClipRotationKey()
+{
+}
+
+void ClipRotationKey::Reset()
+{
+	currFrame = 0;
+	runTime = 0.0f;
+	bPlaying = false;
+}
+
+void ClipRotationKey::Start()
+{
+	if ((*keyQuats).size() > 1)
+		bPlaying = true;
+}
+
+void ClipRotationKey::Stop()
+{
+	bPlaying = false;
+}
+
+void ClipRotationKey::Update(float deltaTime)
+{
+	if (!bPlaying)
+		return; // 정지중
+
+	runTime += deltaTime;
+
+	// 다음 프레임으로
+	while (runTime > (*keyQuats)[currFrame].Time)
 	{
-		void* temp = (BYTE*)p + c * pageSize;
-		subResource[c].pSysMem = temp;
-		subResource[c].SysMemPitch = boneCount * sizeof(Matrix);
-		subResource[c].SysMemSlicePitch = pageSize;
+		runTime -= (*keyQuats)[currFrame].Time;
+
+		if (++currFrame + 1 == (*keyQuats).size())
+		{
+			// 마지막 프레임
+			runTime = 0.0f;
+			runTime = (*keyQuats)[currFrame].Time;
+			bPlaying = false;
+			return;
+		}
+	}
+}
+
+void ClipRotationKey::GetRotaion(Quaternion* out)
+{
+	(*out) = (*keyQuats)[currFrame].Value;
+	if (runTime == 0.0f) return;
+
+	const Quaternion* nextValue = &(*keyQuats)[currFrame + 1].Value;
+	float t = runTime / (*keyQuats)[currFrame].Time;
+
+	D3DXQuaternionSlerp(out, out, nextValue, t);
+}
+
+#pragma endregion
+
+
+#pragma region ClipBone
+
+ClipBone::ClipBone(const ClipBoneData * data)
+{
+	keyPositions = new ClipVectorKey(&data->KeyPositions);
+	keyRotations = new ClipRotationKey(&data->KeyRotations);
+	keyScales = new ClipVectorKey(&data->KeyScales);
+}
+
+ClipBone::~ClipBone()
+{
+	SafeDelete(keyPositions);
+	SafeDelete(keyRotations);
+	SafeDelete(keyScales);
+}
+
+void ClipBone::Reset()
+{
+	keyPositions->Reset();
+	keyRotations->Reset();
+	keyScales->Reset();
+}
+
+void ClipBone::Start()
+{
+	keyPositions->Start();
+	keyRotations->Start();
+	keyScales->Start();
+}
+
+void ClipBone::Stop()
+{
+	keyPositions->Stop();
+	keyRotations->Stop();
+	keyScales->Stop();
+}
+
+void ClipBone::Update(float deltaTime)
+{
+	keyPositions->Update(deltaTime);
+	keyRotations->Update(deltaTime);
+	keyScales->Update(deltaTime);
+}
+
+void ClipBone::Position(Vector3 * out)
+{
+	keyPositions->GetVector(out);
+}
+
+void ClipBone::Rotation(Quaternion * out)
+{
+	keyRotations->GetRotaion(out);
+}
+
+void ClipBone::Scale(Vector3 * out)
+{
+	keyScales->GetVector(out);
+}
+
+#pragma endregion
+
+
+#pragma region ClipModel
+
+ClipModel::ClipModel(ClipData* data)
+	: data(data)
+{
+	for (ClipBoneData* bone : data->Bones)
+		bones[bone->BoneName] = new ClipBone(bone);
+}
+
+ClipModel::~ClipModel()
+{
+	for (auto d : bones)
+		SafeDelete(d.second);
+
+	//for (auto d : data->Bones)
+	//	SafeDelete(d);
+	//SafeDelete(data);
+}
+
+void ClipModel::Reset()
+{
+	runningTime = 0.0f;
+	for (auto bone : bones)
+		bone.second->Reset();
+}
+
+void ClipModel::Start(float time)
+{
+	for (auto bone : bones)
+	{
+		bone.second->Start();
+		bone.second->Update(time);
+	}
+}
+
+void ClipModel::Stop()
+{
+	for (auto bone : bones)
+		bone.second->Stop();
+}
+
+void ClipModel::Update()
+{
+	float deltaTime = Time::Delta() * speed * data->FrameRate;
+	runningTime += deltaTime;
+	for (auto bone : bones)
+		bone.second->Update(deltaTime);
+
+	float dt = runningTime - data->Duration;
+	if (dt > 0.0f)
+	{
+		Reset();
+		Start(dt);
+	}
+}
+
+ClipBone * ClipModel::GetBone(wstring name)
+{
+	if (bones.count(name) == 0)
+		return nullptr;
+	return bones[name];
+}
+
+#pragma endregion
+
+
+#pragma region ModelAnimationEx
+
+#include "ModelMesh.h"
+using namespace ShaderEffctConstantName;
+
+ModelAnimationEx::ModelAnimationEx(const vector<ModelBone*>& _bones, const vector<ClipData*> datas)
+	: bones(_bones)
+{
+	//bones.assign(_bones.begin(), _bones.end());
+
+	for (ClipData* data : datas)
+		clips.push_back(new ClipModel(data));
+
+	buffer = new ConstantBuffer(&skinningModelDesc, sizeof(SkinningModelDesc));
+}
+
+ModelAnimationEx::~ModelAnimationEx()
+{
+	for (auto d : clips)
+		SafeDelete(d);
+}
+
+void ModelAnimationEx::Update()
+{
+	if (curr == nullptr)
+	{
+		if (next == nullptr)
+			return;
+
+		curr = next;
+		next = nullptr;
 	}
 
-	Check(D3D::GetDevice()->CreateTexture2D(&desc, subResource, &texture));
 
-	SafeDeleteArray(subResource);
-	VirtualFree(p, 0, MEM_RELEASE);
-}
-
-void ModelClipMap::CreateSrv()
-{
-	D3D11_TEXTURE2D_DESC desc;
-	texture->GetDesc(&desc);
-
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-	ZeroMemory(&srvDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
-	srvDesc.Format = desc.Format;
-	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
-	srvDesc.Texture2DArray.MipLevels = 1;
-	srvDesc.Texture2DArray.ArraySize = clipCount;
-
-	Check(D3D::GetDevice()->CreateShaderResourceView(texture, &srvDesc, &srv));
-}
-
-
-// ClipTransform ///////////////////////////////////////////////////////////////////////////
-
-inline ModelClipMap::ClipTransform::ClipTransform(UINT frameCount, UINT boneCount)
-	: FrameCount(frameCount), BoneCount(boneCount)
-{
-	TransformArr2D = new Matrix*[FrameCount];
-
-	for (UINT i = 0; i < FrameCount; i++)
-		TransformArr2D[i] = new Matrix[BoneCount];
-}
-
-inline ModelClipMap::ClipTransform::~ClipTransform()
-{
-	if (FrameCount == 0)
-		return;
-
-	for (UINT i = 0; i < FrameCount; i++)
-		SafeDeleteArray(TransformArr2D[i]);
-	SafeDeleteArray(TransformArr2D);
-}
-
-void ModelClipMap::ClipTransform::SetClipTransform(ModelBone ** bones, UINT boneCount, ModelClip * clip)
-{
-
-	for (UINT f = 0; f < clip->FrameCount(); f++)
+	UINT i = 0;
+	for (ModelBone* bone : bones)
 	{
-		Matrix* boneMatrixes = new Matrix[boneCount];
-		for (UINT b = 0; b < boneCount; b++)
+		ClipBone* clipCurr = curr->GetBone(bone->Data()->Name);
+
+		if (clipCurr != nullptr)
 		{
-			ModelBone* bone = bones[b];
-			ModelKeyframe* frame = clip->Keyframe(bone->Name());
-			Matrix parent;
+			Vector3 position;
+			Quaternion rotation;
+			Vector3 scale;
 
-			int parentIndex = bone->ParentIndex();
-			if (parentIndex < 0)
-				D3DXMatrixIdentity(&parent);
-			else
-				parent = boneMatrixes[parentIndex];
+			clipCurr->Position(&position);
+			clipCurr->Rotation(&rotation);
+			clipCurr->Scale(&scale);
 
-			if (frame == nullptr)
+			if (next != nullptr)
 			{
-				// 외부에 추가된 본 ( Attach )
-				boneMatrixes[b] = parent;
-				TransformArr2D[f][b] = bone->Transform() * boneMatrixes[b];
-				continue;
+				ClipBone* clipNext = next->GetBone(bone->Data()->Name);
+
+				if (clipNext != nullptr)
+				{
+					Vector3 position2;
+					Quaternion rotation2;
+					Vector3 scale2;
+
+					clipNext->Position(&position2);
+					clipNext->Rotation(&rotation2);
+					clipNext->Scale(&scale2);
+
+					D3DXVec3Lerp(&position, &position, &position2, tweenTime);
+					D3DXQuaternionSlerp(&rotation, &rotation, &rotation2, tweenTime);
+					D3DXVec3Lerp(&scale, &scale, &scale2, tweenTime);
+				}
 			}
 
-			Matrix invGlobal = bone->Transform();
-			D3DXMatrixInverse(&invGlobal, nullptr, &invGlobal);
+			bone->GetTransform()->Position(position);
+			bone->GetTransform()->Rotation(rotation);
+			bone->GetTransform()->Scale(scale);
+		}
 
-			Matrix animation;
-			ModelKeyframeData& data = frame->Transforms[f];
+		Matrix inv;
+		D3DXMatrixInverse(&inv, nullptr, &bone->Data()->Transform);
 
-			Matrix S, R, T;
-			D3DXMatrixScaling(&S, data.Scale.x, data.Scale.y, data.Scale.z);
-			D3DXMatrixRotationQuaternion(&R, &data.Rotation);
-			D3DXMatrixTranslation(&T, data.Translation.x, data.Translation.y, data.Translation.z);
+		Matrix boneT;
+		bone->GetTransform()->LossyWorld(&boneT);
 
-			animation = S * R * T;
-
-			boneMatrixes[b] = animation * parent;
-			TransformArr2D[f][b] = invGlobal * boneMatrixes[b];
-
-			// T Pose
-			//Matrix identity;
-			//D3DXMatrixIdentity(&identity);
-			//TransformArr2D[f][b] = identity;
-
-		}// for b
-		SafeDeleteArray(boneMatrixes);
-
-	}// for f
-
-}
-
-
-// ----------------------------------------------------------------------------
-// AnimationClip
-// ----------------------------------------------------------------------------
-
-ModelAnimation::ModelAnimation()
-{
-	frameBuffer = new ConstantBuffer(&tweenDesc, sizeof(TweenDesc));
-}
-
-ModelAnimation::ModelAnimation(ModelClip ** clips, UINT clipCount)
-	: clips(clips), clipCount(clipCount)
-{
-	frameBuffer = new ConstantBuffer(&tweenDesc, sizeof(TweenDesc));
-}
-
-ModelAnimation::~ModelAnimation()
-{
-	SafeDelete(frameBuffer);
-}
-
-void ModelAnimation::UpdateNoTweening()
-{
-	TweenDesc& desc = tweenDesc;
-	ModelClip* clip = clips[desc.Curr.Clip];
-
-	// 현재 애니메이션
-	UpdateClipLoop(desc.Curr, clip);
-
-	// 다음 애니메이션
-	if (desc.Next.Clip > -1)
+		skinningModelDesc.SkinningBoneTransforms[i] = inv * boneT;
+		i++;
+	}
+	curr->Update();
+	if (next != nullptr)
 	{
-		ModelClip* nextClip = clips[desc.Curr.Clip];
-		NextClip();
-		UpdateClipLoop(desc.Next, nextClip);
+		tweenTime += Time::Delta() * takeTimeDiv;
+		next->Update();
+
+		if (tweenTime >= 1.0f)
+		{
+			curr->Stop();
+			tweenTime = 0.0f;
+
+			curr = next;
+			next = nullptr;
+		}
 	}
 }
 
-void ModelAnimation::UpdateTweening()
+void ModelAnimationEx::Render()
 {
-	//KeyframeDesc& desc = keyframeDesc;
-	TweenDesc& desc = tweenDesc;
-	ModelClip* clip = clips[desc.Curr.Clip];
-
-	// 현재 애니메이션
-	UpdateClipLoop(desc.Curr, clip);
-
-	// 다음 애니메이션
-	if (desc.Next.Clip > -1)
-	{
-		ModelClip* nextClip = clips[desc.Next.Clip];
-
-		//-> 동작 전환 간 선형보간
-
-		desc.RunningTime += Time::Delta();
-		desc.TweenTime = desc.RunningTime * desc.TakeTimeDiv;
-
-		if (desc.TweenTime >= 1.0f)
-			NextClip();
-		else
-			UpdateClipLoop(desc.Next, nextClip);
-	}
+	buffer->Render();
+	sBuffer->SetConstantBuffer(buffer->Buffer());
 }
 
-void ModelAnimation::Render()
+void ModelAnimationEx::PlayClip(UINT clip, float speed, float takeTime)
 {
-	frameBuffer->Render();
-
-	if (sFrameBuffer == nullptr)
-		return;
-
-	sFrameBuffer->SetConstantBuffer(frameBuffer->Buffer());
+	takeTimeDiv = 1.0f / takeTime;
+	tweenTime = 0.0f;
+	next = clips[clip];
+	next->Speed(speed);
+	next->Reset();
+	next->Start();
 }
 
-void ModelAnimation::SetClips(ModelClip ** _clips, UINT _clipCount)
+float ModelAnimationEx::GetClipLength(UINT clip)
 {
-	clips = _clips;
-	clipCount = _clipCount;
+	return clips[clip]->Duration();
 }
 
-void ModelAnimation::SetShader(Shader * shader)
+float ModelAnimationEx::CurrRunningTime()
 {
-	SafeDelete(frameBuffer);
-	sFrameBuffer = shader->AsConstantBuffer(ShaderEffctConstantName::CB_AnimationFrame);
+	return curr->RunningTime();
 }
 
-
-void ModelAnimation::PlayClip(UINT clip, float speed, float takeTime)
+void ModelAnimationEx::SetShader(Shader * shader)
 {
-	tweenDesc.TakeTimeDiv = 1.0f / takeTime;
-	tweenDesc.Next.Clip = clip;
-	tweenDesc.Next.Speed = speed;
+	sBuffer = shader->AsConstantBuffer(CB_SkinningModel);
 }
 
-float ModelAnimation::GetClipLength(UINT clip)
-{
-	return static_cast<float>(clips[clip]->FrameCount());
-}
-
-float ModelAnimation::GetClipRunTime()
-{
-	float result = 0.0f;
-	if (tweenDesc.Next.Clip == -1)
-		result = tweenDesc.Curr.RunningTime;
-	else
-		result = tweenDesc.Next.RunningTime;
-	return result;
-}
-
-void ModelAnimation::UpdateClipLoop(KeyframeDesc& desc, ModelClip* clip)
-{
-	float time = clip->FrameRate() * desc.Speed * Time::Delta();
-
-	int nextSize = static_cast<int>(desc.Time);
-	desc.Time -= static_cast<float>(nextSize);
-	if (desc.Time < 0.0f)
-	{
-		// 역 재생
-		desc.Time += 1.0f;
-		nextSize--;
-	}
-
-	if (nextSize != 0)
-	{
-		// desc.CurrFrame, desc.NextFrame이 unsinged int라서 음수 값 없애기
-		nextSize = nextSize % static_cast<int>(clip->FrameCount());
-		if (nextSize < 0)
-			nextSize += clip->FrameCount();
-
-		desc.CurrFrame = (desc.CurrFrame + nextSize) % clip->FrameCount();  // Loop
-		desc.NextFrame = (desc.CurrFrame + 1) % clip->FrameCount();  // Loop
-	}
-
-	desc.Time += time;
-	desc.RunningTime += time;
-
-}
-
-void ModelAnimation::NextClip()
-{
-	TweenDesc& desc = tweenDesc;
-	desc.Curr = desc.Next;
-
-	desc.Next.Clip = -1;
-	desc.Next.CurrFrame = 0;
-	desc.Next.NextFrame = 0;
-	desc.Next.Time = 0;
-	desc.Next.RunningTime = 0.0f;
-	desc.RunningTime = 0.0f;
-	desc.TweenTime = 0.0f;
-}
+#pragma endregion
