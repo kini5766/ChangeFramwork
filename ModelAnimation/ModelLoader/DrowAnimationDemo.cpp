@@ -27,18 +27,23 @@ void DrowAnimationDemo::Destroy()
 
 void DrowAnimationDemo::Update()
 {
-	static UINT clip = 0;
-	if (kachujin != nullptr)
 	{
-		if (Keyboard::Get()->Down(VK_SPACE))
-		{
-			++clip;
-			clip %= 5;
-			kachujin->PlayClip(clip);
-		}
+		static UINT clip;
+		static float speed = 1.0f;
+		static float takeTime = 1.0f;
 
-		kachujin->Update();
+		const char* clipName[] = { "Idle", "Walk", "Run", "Slash", "Uprock" };
+		ImGui::Text("%s", clipName[clip]);
+		ImGui::InputInt("Clip", (int*)&clip);
+		clip %= 5;
+		ImGui::SliderFloat("Speed", &speed, 0.1f, 5.0f);
+		ImGui::SliderFloat("TakeTime", &takeTime, 0.1f, 5.0f);
+		if (ImGui::Button("Apply"))
+		{
+			kachujin->PlayClip(clip, speed, takeTime);
+		}
 	}
+	kachujin->Update();
 
 	if (paladin != nullptr) paladin->Update();
 }
@@ -68,9 +73,12 @@ void DrowAnimationDemo::Kachujin()
 	kachujin->ReadMesh(L"Kachujin/Mesh");
 
 	kachujin->ReadClip(L"Kachujin/Idle");
+	kachujin->ReadClip(L"Kachujin/Walk");
+	kachujin->ReadClip(L"Kachujin/Run");
+	kachujin->ReadClip(L"Kachujin/Slash");
+	kachujin->ReadClip(L"Kachujin/Uprock");
 	kachujin->ReadClip(L"Kachujin/Running");
 	kachujin->ReadClip(L"Kachujin/Jump");
-	kachujin->ReadClip(L"Paladin/SwingDancing");
 	kachujin->ReadClip(L"Kachujin/Hip_Hop_Dancing");
 
 	kachujin->GetTransform()->Position(3, 0, -20);

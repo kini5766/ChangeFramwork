@@ -264,9 +264,13 @@ void TransformData::LossyWorld(Matrix * out)
 
 void TransformData::ChangedWorld()
 {
+	if (changed) return;
+
 	changed = true;
 	for (auto child : childs)
+	{
 		child->ChangedWorld();
+	}
 }
 
 void TransformData::UpdateWorld()

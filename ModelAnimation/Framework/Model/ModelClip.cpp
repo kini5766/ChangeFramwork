@@ -136,6 +136,7 @@ void ClipRotationKey::GetRotaion(Quaternion* out)
 #pragma region ClipBone
 
 ClipBone::ClipBone(const ClipBoneData * data)
+	: name(data->BoneName)
 {
 	keyPositions = new ClipVectorKey(&data->KeyPositions);
 	keyRotations = new ClipRotationKey(&data->KeyRotations);
@@ -201,39 +202,35 @@ ClipModel::ClipModel(ClipData* data)
 	: data(data)
 {
 	for (ClipBoneData* bone : data->Bones)
-		bones[bone->BoneName] = new ClipBone(bone);
+		bones.push_back(new ClipBone(bone));
 }
 
 ClipModel::~ClipModel()
 {
 	for (auto d : bones)
-		SafeDelete(d.second);
-
-	//for (auto d : data->Bones)
-	//	SafeDelete(d);
-	//SafeDelete(data);
+		SafeDelete(d);
 }
 
 void ClipModel::Reset()
 {
 	runningTime = 0.0f;
 	for (auto bone : bones)
-		bone.second->Reset();
+		bone->Reset();
 }
 
 void ClipModel::Start(float time)
 {
 	for (auto bone : bones)
 	{
-		bone.second->Start();
-		bone.second->Update(time);
+		bone->Start();
+		bone->Update(time);
 	}
 }
 
 void ClipModel::Stop()
 {
 	for (auto bone : bones)
-		bone.second->Stop();
+		bone->Stop();
 }
 
 void ClipModel::Update()
@@ -241,7 +238,7 @@ void ClipModel::Update()
 	float deltaTime = Time::Delta() * speed * data->FrameRate;
 	runningTime += deltaTime;
 	for (auto bone : bones)
-		bone.second->Update(deltaTime);
+		bone->Update(deltaTime);
 
 	float dt = runningTime - data->Duration;
 	if (dt > 0.0f)
@@ -251,11 +248,16 @@ void ClipModel::Update()
 	}
 }
 
-ClipBone * ClipModel::GetBone(wstring name)
+ClipBone * ClipModel::BoneByName(wstring & value)
 {
-	if (bones.count(name) == 0)
-		return nullptr;
-	return bones[name];
+	for (ClipBone* bone : bones)
+	{
+		if (bone->Name() == value)
+		{
+			return bone;
+		}
+	}
+	return nullptr;
 }
 
 #pragma endregion
@@ -263,102 +265,37 @@ ClipBone * ClipModel::GetBone(wstring name)
 
 #pragma region ModelAnimationEx
 
-#include "ModelMesh.h"
 using namespace ShaderEffctConstantName;
 
-ModelAnimationEx::ModelAnimationEx(const vector<ModelBone*>& _bones, const vector<ClipData*> datas)
-	: bones(_bones)
+ModelAnimationEx::ModelAnimationEx(vector<ModelBone*>& _bones, vector<ClipData*>& datas)
 {
-	//bones.assign(_bones.begin(), _bones.end());
-
 	for (ClipData* data : datas)
 		clips.push_back(new ClipModel(data));
+
+	for (auto bone : _bones)
+	{
+		BindedKey* key = new BindedKey();
+		key->Bone = bone;
+		for (ClipModel* clip : clips)
+			key->ClipNumToKey.push_back(clip->BoneByName(bone->Data()->Name));
+		bindedKeys.push_back(key);
+	}
 
 	buffer = new ConstantBuffer(&skinningModelDesc, sizeof(SkinningModelDesc));
 }
 
 ModelAnimationEx::~ModelAnimationEx()
 {
+	for (auto d : bindedKeys)
+		SafeDelete(d);
+
 	for (auto d : clips)
 		SafeDelete(d);
 }
 
 void ModelAnimationEx::Update()
 {
-	if (curr == nullptr)
-	{
-		if (next == nullptr)
-			return;
-
-		curr = next;
-		next = nullptr;
-	}
-
-
-	UINT i = 0;
-	for (ModelBone* bone : bones)
-	{
-		ClipBone* clipCurr = curr->GetBone(bone->Data()->Name);
-
-		if (clipCurr != nullptr)
-		{
-			Vector3 position;
-			Quaternion rotation;
-			Vector3 scale;
-
-			clipCurr->Position(&position);
-			clipCurr->Rotation(&rotation);
-			clipCurr->Scale(&scale);
-
-			if (next != nullptr)
-			{
-				ClipBone* clipNext = next->GetBone(bone->Data()->Name);
-
-				if (clipNext != nullptr)
-				{
-					Vector3 position2;
-					Quaternion rotation2;
-					Vector3 scale2;
-
-					clipNext->Position(&position2);
-					clipNext->Rotation(&rotation2);
-					clipNext->Scale(&scale2);
-
-					D3DXVec3Lerp(&position, &position, &position2, tweenTime);
-					D3DXQuaternionSlerp(&rotation, &rotation, &rotation2, tweenTime);
-					D3DXVec3Lerp(&scale, &scale, &scale2, tweenTime);
-				}
-			}
-
-			bone->GetTransform()->Position(position);
-			bone->GetTransform()->Rotation(rotation);
-			bone->GetTransform()->Scale(scale);
-		}
-
-		Matrix inv;
-		D3DXMatrixInverse(&inv, nullptr, &bone->Data()->Transform);
-
-		Matrix boneT;
-		bone->GetTransform()->LossyWorld(&boneT);
-
-		skinningModelDesc.SkinningBoneTransforms[i] = inv * boneT;
-		i++;
-	}
-	curr->Update();
-	if (next != nullptr)
-	{
-		tweenTime += Time::Delta() * takeTimeDiv;
-		next->Update();
-
-		if (tweenTime >= 1.0f)
-		{
-			curr->Stop();
-			tweenTime = 0.0f;
-
-			curr = next;
-			next = nullptr;
-		}
-	}
+	UpdateTweening();
 }
 
 void ModelAnimationEx::Render()
@@ -367,14 +304,15 @@ void ModelAnimationEx::Render()
 	sBuffer->SetConstantBuffer(buffer->Buffer());
 }
 
+
 void ModelAnimationEx::PlayClip(UINT clip, float speed, float takeTime)
 {
 	takeTimeDiv = 1.0f / takeTime;
 	tweenTime = 0.0f;
-	next = clips[clip];
-	next->Speed(speed);
-	next->Reset();
-	next->Start();
+	next = clip;
+	clips[next]->Speed(speed);
+	clips[next]->Reset();
+	clips[next]->Start();
 }
 
 float ModelAnimationEx::GetClipLength(UINT clip)
@@ -384,12 +322,106 @@ float ModelAnimationEx::GetClipLength(UINT clip)
 
 float ModelAnimationEx::CurrRunningTime()
 {
-	return curr->RunningTime();
+	return clips[curr]->RunningTime();
 }
 
 void ModelAnimationEx::SetShader(Shader * shader)
 {
 	sBuffer = shader->AsConstantBuffer(CB_SkinningModel);
+}
+
+
+void ModelAnimationEx::UpdateTweening()
+{
+	if (curr == -1)
+	{
+		if (next == -1)
+			return;  // 재생할 클립 없음
+
+		// 정지 중 실행
+		curr = next;
+		next = -1;
+	}
+
+	TweeningBone();
+
+	clips[curr]->Update();
+
+	UpdateTweenTime();
+}
+
+void ModelAnimationEx::TweeningBone()
+{
+	UINT size = bindedKeys.size();
+	for (UINT i = 0; i < size; i++)
+	{
+		ModelBone* bone = bindedKeys[i]->Bone;
+		ClipBone* clipCurr = bindedKeys[i]->ClipNumToKey[curr];
+		ClipBone* clipNext = nullptr;
+		if (next != -1)
+			clipNext = bindedKeys[i]->ClipNumToKey[next];
+
+		BlendBone(bone, clipCurr, clipNext, tweenTime);
+
+		Matrix inv;
+		D3DXMatrixInverse(&inv, nullptr, &bone->Data()->Transform);
+
+		Matrix boneT;
+		bone->GetTransform()->LossyWorld(&boneT);
+
+		skinningModelDesc.SkinningBoneTransforms[i] = inv * boneT;
+	}
+}
+
+void ModelAnimationEx::UpdateTweenTime()
+{
+	if (next != -1)
+	{
+		tweenTime += Time::Delta() * takeTimeDiv;
+		clips[next]->Update();
+
+		if (tweenTime >= 1.0f)
+		{
+			clips[curr]->Stop();
+			tweenTime = 0.0f;
+
+			curr = next;
+			next = -1;
+		}
+	}
+}
+
+void ModelAnimationEx::BlendBone(ModelBone * bone, ClipBone * clipCurr, ClipBone * clipNext, float alpha)
+{
+	if (clipCurr != nullptr)
+	{
+		Vector3 position;
+		Quaternion rotation;
+		Vector3 scale;
+
+		clipCurr->Position(&position);
+		clipCurr->Rotation(&rotation);
+		clipCurr->Scale(&scale);
+
+		if (clipNext != nullptr)
+		{
+			Vector3 position2;
+			Quaternion rotation2;
+			Vector3 scale2;
+
+			clipNext->Position(&position2);
+			clipNext->Rotation(&rotation2);
+			clipNext->Scale(&scale2);
+
+			D3DXVec3Lerp(&position, &position, &position2, alpha);
+			D3DXQuaternionSlerp(&rotation, &rotation, &rotation2, alpha);
+			D3DXVec3Lerp(&scale, &scale, &scale2, alpha);
+		}
+
+		bone->GetTransform()->Position(position);
+		bone->GetTransform()->Rotation(rotation);
+		bone->GetTransform()->Scale(scale);
+	}
 }
 
 #pragma endregion

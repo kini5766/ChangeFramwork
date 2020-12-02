@@ -93,6 +93,7 @@ private:
 
 #pragma region ClipBone
 
+// 본에 연결된 키 집합
 class ClipBone
 {
 public:
@@ -110,10 +111,13 @@ public:
 	void Rotation(Quaternion* out);
 	void Scale(Vector3* out);
 
+	wstring Name() { return name; }
+
 private:
 	ClipVectorKey* keyPositions;
 	ClipRotationKey* keyRotations;
 	ClipVectorKey* keyScales;
+	wstring name;
 };
 
 #pragma endregion
@@ -121,6 +125,7 @@ private:
 
 #pragma region ClipModel
 
+// 하나의 클립에 있는 본키들
 class ClipModel
 {
 public:
@@ -136,7 +141,7 @@ public:
 
 public:
 	ClipData* Data() { return data; }
-	ClipBone* GetBone(wstring name);
+	ClipBone* BoneByName(wstring& value);
 	void Speed(float value) { speed = value; }
 	float Duration() { return data->Duration; }
 	float RunningTime() { return runningTime; }
@@ -144,7 +149,7 @@ public:
 private:
 	ClipData* data;
 
-	map<wstring, ClipBone*> bones;
+	vector<ClipBone*> bones;
 	float runningTime = 0.0f;
 	float speed = 1.0f;
 };
@@ -157,7 +162,7 @@ private:
 class ModelAnimationEx
 {
 public:
-	ModelAnimationEx(const vector<ModelBone*>& bones, const vector<ClipData*> datas);
+	ModelAnimationEx(vector<class ModelBone*>& bones, vector<ClipData*>& datas);
 	~ModelAnimationEx();
 
 public:
@@ -172,23 +177,42 @@ public:
 
 private:
 	vector<ClipModel*> clips;
-	const vector<ModelBone*>& bones;
+
+private:
+	void UpdateTweening();
+	void TweeningBone();
+	void UpdateTweenTime();
+
+	// 동작 간 보간
+	void BlendBone(ModelBone* bone, ClipBone* clipCurr, ClipBone* clipNext, float alpha);
 
 private:
 	float takeTimeDiv = 1.0f;  // 동작이 섞이는 시간
 	float tweenTime = 0.0f;  // 섞이고 있는 중 시간
-	float runningTime = 0.0f;
 
-	ClipModel* curr = nullptr;
-	ClipModel* next = nullptr; 
+	// 현재 클립 인덱스 -1은 재생 중인 아님
+	int curr = -1;
+	// 다음 클립 인덱스 -1은 재생 중인 아님
+	int next = -1;
 	
 	ConstantBuffer* buffer = nullptr;
 	ID3DX11EffectConstantBuffer* sBuffer;
+
 private:
+	// 버퍼
 	struct SkinningModelDesc
 	{
 		Matrix SkinningBoneTransforms[MAX_SKINNING_MODEL_TRANSFORMS];
 	}skinningModelDesc;
+
+	// 본과 본키 연결
+	struct BindedKey
+	{
+		ModelBone* Bone;
+		// 클립 번호로 본키 얻기
+		vector<ClipBone*> ClipNumToKey;
+	}; 
+	vector<BindedKey*> bindedKeys;
 };
 
 #pragma endregion
