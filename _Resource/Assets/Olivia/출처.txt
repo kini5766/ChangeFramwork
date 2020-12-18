@@ -1,0 +1,5 @@
+
+Mixamo
+Olivia -> Mesh
+Standing Idle -> Idle
+Walking -> Walk
