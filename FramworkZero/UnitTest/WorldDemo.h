@@ -4,8 +4,6 @@
 class WorldDemo : public IExecute
 {
 public:
-	~WorldDemo();
-
 	// IExecute을(를) 통해 상속됨
 	void Initialize() override;
 	void Destroy() override;
@@ -17,9 +15,5 @@ public:
 
 private:
 	Shader* shader;
-
-	ID3D11Buffer* vertexBuffer;
-
-	Matrix world;
-	Matrix world2;
+	MeshInstancing* box;
 };

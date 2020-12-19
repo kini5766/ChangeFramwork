@@ -10,6 +10,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTe
 		{4BDED383-93FE-4A26-990D-FE41D472EB28} = {4BDED383-93FE-4A26-990D-FE41D472EB28}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{D58AE524-C7F3-4094-8848-9CA9DD5E3555}"
+	ProjectSection(SolutionItems) = preProject
+		_Shaders\00_Global.fx = _Shaders\00_Global.fx
+		_Shaders\00_Light.fx = _Shaders\00_Light.fx
+		_Shaders\00_Render.fx = _Shaders\00_Render.fx
+		_Shaders\31_Instance.fx = _Shaders\31_Instance.fx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86

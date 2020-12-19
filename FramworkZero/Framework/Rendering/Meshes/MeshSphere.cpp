@@ -1,8 +1,6 @@
 #include "Framework.h"
 #include "MeshSphere.h"
 
-typedef Mesh::VertexMesh VertexMesh;
-
 MeshSphere::MeshSphere(float radius, UINT stackCount, UINT sliceCount)
 	: radius(radius), stackCount(stackCount), sliceCount(sliceCount)
 {

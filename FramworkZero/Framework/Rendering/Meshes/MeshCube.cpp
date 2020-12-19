@@ -1,8 +1,6 @@
 #include "Framework.h"
 #include "MeshCube.h"
 
-typedef Mesh::VertexMesh VertexMesh;
-
 MeshCube::MeshCube()
 {
 	vector<VertexMesh> v;

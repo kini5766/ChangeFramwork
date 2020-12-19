@@ -82,8 +82,9 @@ private:
 
 public:
 	void SetParent(Transform* value);
+	Transform* GetParent() { return parent; }
 	Transform** GetChilds() { return childs.data(); }
-	UINT ChildCount() { return childs.size(); }
+	UINT ChildCount() const { return childs.size(); }
 
 private:
 	void AddThis(Transform* oldParent, Transform* newparent);  // 부모에 자신 넣기

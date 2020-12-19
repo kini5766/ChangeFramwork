@@ -87,16 +87,21 @@ typedef D3DXPLANE Plane;
 #include "Tools/Viewer/Camera.h"
 #include "Tools/Viewer/Freedom.h"
 
-#include "Tools/Meshes/MeshData.h"
-//#include "Meshes/MeshQuad.h"
-//#include "Meshes/MeshPlane.h"
-//#include "Meshes/MeshCube.h"
-//#include "Meshes/MeshCylinder.h"
-//#include "Meshes/MeshSphere.h"
-
 #include "Rendering/Buffers/Buffers.h"
+
 #include "Rendering/CBufferVariables/Context.h"
 #include "Rendering/CBufferVariables/ShaderSetter.h"
+#include "Rendering/CBufferVariables/Material.h"
+#include "Rendering/CBufferVariables/PerFrame.h"
+
+#include "Rendering/Meshes/MeshData.h"
+#include "Rendering/Meshes/MeshQuad.h"
+#include "Rendering/Meshes/MeshPlane.h"
+#include "Rendering/Meshes/MeshCube.h"
+#include "Rendering/Meshes/MeshCylinder.h"
+#include "Rendering/Meshes/MeshSphere.h"
+
+#include "Rendering/Meshes/MeshInstancing.h"
 
 #include "Utilities/String.h"
 #include "Utilities/Path.h"

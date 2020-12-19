@@ -1,8 +1,6 @@
 #include "Framework.h"
 #include "MeshPlane.h"
 
-typedef Mesh::VertexMesh VertexMesh;
-
 MeshPlane::MeshPlane(float offsetU, float offsetV)
 	: offsetU(offsetU), offsetV(offsetV)
 {

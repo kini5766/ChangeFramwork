@@ -1,8 +1,6 @@
 #include "Framework.h"
 #include "MeshQuad.h"
 
-typedef Mesh::VertexMesh VertexMesh;
-
 MeshQuad::MeshQuad()
 {
 	float w = 0.5f;

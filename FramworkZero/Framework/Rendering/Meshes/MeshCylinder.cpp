@@ -1,8 +1,6 @@
 #include "Framework.h"
 #include "MeshCylinder.h"
 
-typedef Mesh::VertexMesh VertexMesh;
-
 MeshCylinder::MeshCylinder(float radius, float height, UINT stackCount, UINT sliceCount)
 	: topRadius(radius), bottomRadius(radius), height(height), stackCount(stackCount), sliceCount(sliceCount)
 {

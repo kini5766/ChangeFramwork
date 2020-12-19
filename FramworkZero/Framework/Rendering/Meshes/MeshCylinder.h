@@ -12,8 +12,8 @@ public:
 
 private:
 	void Create();
-	void BuildTopCap(vector<Mesh::VertexMesh>& vertices, vector<UINT>& indices);
-	void BuildBottomCap(vector<Mesh::VertexMesh>& vertices, vector<UINT>& indices);
+	void BuildTopCap(vector<VertexMesh>& vertices, vector<UINT>& indices);
+	void BuildBottomCap(vector<VertexMesh>& vertices, vector<UINT>& indices);
 
 private:
 	float topRadius;
