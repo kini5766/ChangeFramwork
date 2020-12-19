@@ -47,8 +47,8 @@ public:
 class Input
 {
 public:
-	static class IMouse* Mouse();
-	static class IKeyboard* Keyboard();
+	static IMouse* Mouse();
+	static IKeyboard* Keyboard();
 
 #pragma region Window
 public:
@@ -70,6 +70,6 @@ public:
 class Debug
 {
 public:
-	static class Performance* Performance;
+	static Performance* Performance;
 	//static class DebugLog* Log;
 };
