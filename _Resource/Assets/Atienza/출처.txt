@@ -1,7 +1,0 @@
-
-Mixamo
-ely_k_atienza -> Mesh
-Ready Idle -> Idle
-Roundhouse Kick -> Kick
-Walking -> Walk
-Standard Run ->Run
