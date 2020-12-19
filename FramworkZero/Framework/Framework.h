@@ -64,40 +64,40 @@ typedef D3DXPLANE Plane;
 #include "Settings/URI.h"
 #include "Settings/ShaderEffectName.h"
 
-#include "Systems/WinDesc.h"
 #include "Systems/D3D.h"
-#include "Systems/GameLogic.h"
-#include "Systems/Keyboard.h"
-#include "Systems/Mouse.h"
-#include "Systems/Time.h"
 #include "Systems/Gui.h"
 
-#include "Utilities/D3D/Math.h"
-#include "Utilities/D3D/Transform.h"
-#include "Utilities/D3D/DirectionalLight.h"
+#include "Tools/WinDesc.h"
+#include "Tools/Keyboard.h"
+#include "Tools/Mouse.h"
+#include "Tools/Time.h"
+#include "Tools/GameLogic.h"
+#include "Tools/Math.h"
+#include "Tools/Transform.h"
 
-#include "Viewer/Viewport.h"
-#include "Viewer/Projection.h"
-#include "Viewer/Perspective.h"
-#include "Viewer/Orthographic.h"
-#include "Viewer/Camera.h"
-#include "Viewer/Freedom.h"
+#include "Tools/SimpleD3D/Shader.h"
+#include "Tools/SimpleD3D/Texture.h"
+#include "Tools/SimpleD3D/DirectionalLight.h"
 
-#include "Renders/Shader.h"
-#include "Renders/Texture.h"
-#include "Renders/Context.h"
+#include "Tools/Viewer/Viewport.h"
+#include "Tools/Viewer/Projection.h"
+#include "Tools/Viewer/Perspective.h"
+#include "Tools/Viewer/Orthographic.h"
+#include "Tools/Viewer/Camera.h"
+#include "Tools/Viewer/Freedom.h"
 
-#include "Buffers/ShaderSetter.h"
-
-#include "Utilities/Basic/String.h"
-#include "Utilities/Basic/Path.h"
-
-#include "Meshes/MeshData.h"
+#include "Tools/Meshes/MeshData.h"
 //#include "Meshes/MeshQuad.h"
 //#include "Meshes/MeshPlane.h"
 //#include "Meshes/MeshCube.h"
 //#include "Meshes/MeshCylinder.h"
 //#include "Meshes/MeshSphere.h"
+
+#include "Rendering/Buffers/ShaderSetter.h"
+#include "Rendering/Context.h"
+
+#include "Utilities/String.h"
+#include "Utilities/Path.h"
 
 //#include "Objects/Render2D.h"
 

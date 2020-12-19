@@ -7,43 +7,34 @@
     <Filter Include="Systems">
       <UniqueIdentifier>{ed1f9b73-7cdd-48a6-860e-9b19206a71c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renders">
-      <UniqueIdentifier>{588a7f4e-84a5-44b6-b9c8-431800b75fbe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Meshes">
-      <UniqueIdentifier>{93b9a46d-7f1d-4058-bb16-a5962756cf72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utilities\My">
-      <UniqueIdentifier>{df71bff9-f7ac-4dfb-b022-9460f158a051}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utilities\Basic">
-      <UniqueIdentifier>{3bcb9e52-ea15-4cc5-8b3e-f9b0b9d72a4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utilities\D3D">
-      <UniqueIdentifier>{ec87d498-b2c7-4ff4-a938-6cd2bab152a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Settings">
       <UniqueIdentifier>{6b0e5222-c724-473e-ad95-c165488af261}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Viewer">
-      <UniqueIdentifier>{769ba1bd-3bd0-4c36-96d5-87d539e63575}</UniqueIdentifier>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{cf857d52-5a54-41ef-9502-169764b00d14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Buffers">
-      <UniqueIdentifier>{f96f13d5-a8bc-4e57-83b5-d4f2bf245200}</UniqueIdentifier>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{097536c6-1926-4989-868d-277f90966af2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Meshes">
+      <UniqueIdentifier>{9c621331-64d6-4056-9ba2-b2f5dc249ca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Viewer">
+      <UniqueIdentifier>{d550b37a-91d8-431d-a078-0447b5611375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\SimpleD3D">
+      <UniqueIdentifier>{892db836-fdd7-4445-80ed-bbaa0dea53b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Buffers">
+      <UniqueIdentifier>{9d9e51cf-5143-4dc1-bccf-fd45ef3267cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debugging">
+      <UniqueIdentifier>{65472379-8f57-45f9-bf7c-aa78819f1064}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="Systems\Gui.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Systems\Keyboard.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Systems\Mouse.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Systems\Time.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="Systems\Window.cpp">
@@ -52,68 +43,77 @@
     <ClCompile Include="Systems\D3D.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Renders\Shader.cpp">
-      <Filter>Renders</Filter>
+    <ClCompile Include="Utilities\BinaryFile.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Renders\Texture.cpp">
-      <Filter>Renders</Filter>
+    <ClCompile Include="Utilities\Path.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\D3D\Transform.cpp">
-      <Filter>Utilities\D3D</Filter>
+    <ClCompile Include="Utilities\String.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\Basic\Xml.cpp">
-      <Filter>Utilities\Basic</Filter>
+    <ClCompile Include="Utilities\Xml.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\Basic\String.cpp">
-      <Filter>Utilities\Basic</Filter>
+    <ClCompile Include="Rendering\Context.cpp">
+      <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\Basic\Path.cpp">
-      <Filter>Utilities\Basic</Filter>
+    <ClCompile Include="Tools\GameLogic.cpp">
+      <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\Basic\BinaryFile.cpp">
-      <Filter>Utilities\Basic</Filter>
+    <ClCompile Include="Tools\Keyboard.cpp">
+      <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\D3D\Math.cpp">
-      <Filter>Utilities\D3D</Filter>
+    <ClCompile Include="Tools\Math.cpp">
+      <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\My\ImGuiInputText.cpp">
-      <Filter>Utilities\My</Filter>
+    <ClCompile Include="Tools\Mouse.cpp">
+      <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\My\SphereCoord.cpp">
-      <Filter>Utilities\My</Filter>
+    <ClCompile Include="Tools\SphereCoord.cpp">
+      <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\WinDesc.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="Tools\Time.cpp">
+      <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\GameLogic.cpp">
-      <Filter>Systems</Filter>
+    <ClCompile Include="Tools\Transform.cpp">
+      <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Viewer\Camera.cpp">
-      <Filter>Viewer</Filter>
+    <ClCompile Include="Tools\WinDesc.cpp">
+      <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Viewer\Freedom.cpp">
-      <Filter>Viewer</Filter>
+    <ClCompile Include="Tools\Viewer\Camera.cpp">
+      <Filter>Tools\Viewer</Filter>
     </ClCompile>
-    <ClCompile Include="Viewer\Orthographic.cpp">
-      <Filter>Viewer</Filter>
+    <ClCompile Include="Tools\Viewer\Freedom.cpp">
+      <Filter>Tools\Viewer</Filter>
     </ClCompile>
-    <ClCompile Include="Viewer\Perspective.cpp">
-      <Filter>Viewer</Filter>
+    <ClCompile Include="Tools\Viewer\Orthographic.cpp">
+      <Filter>Tools\Viewer</Filter>
     </ClCompile>
-    <ClCompile Include="Viewer\Projection.cpp">
-      <Filter>Viewer</Filter>
+    <ClCompile Include="Tools\Viewer\Perspective.cpp">
+      <Filter>Tools\Viewer</Filter>
     </ClCompile>
-    <ClCompile Include="Viewer\Viewport.cpp">
-      <Filter>Viewer</Filter>
+    <ClCompile Include="Tools\Viewer\Projection.cpp">
+      <Filter>Tools\Viewer</Filter>
     </ClCompile>
-    <ClCompile Include="Renders\Context.cpp">
-      <Filter>Renders</Filter>
+    <ClCompile Include="Tools\Viewer\Viewport.cpp">
+      <Filter>Tools\Viewer</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\D3D\DirectionalLight.cpp">
-      <Filter>Utilities\D3D</Filter>
+    <ClCompile Include="Tools\SimpleD3D\DirectionalLight.cpp">
+      <Filter>Tools\SimpleD3D</Filter>
     </ClCompile>
-    <ClCompile Include="Buffers\ShaderSetter.cpp">
-      <Filter>Buffers</Filter>
+    <ClCompile Include="Tools\SimpleD3D\ImGuiInputText.cpp">
+      <Filter>Tools\SimpleD3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\SimpleD3D\Shader.cpp">
+      <Filter>Tools\SimpleD3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\SimpleD3D\Texture.cpp">
+      <Filter>Tools\SimpleD3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Buffers\ShaderSetter.cpp">
+      <Filter>Rendering\Buffers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,59 +124,14 @@
     <ClInclude Include="Systems\IExecute.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\Keyboard.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\Mouse.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\Time.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\Window.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Systems\D3D.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Renders\Shader.h">
-      <Filter>Renders</Filter>
-    </ClInclude>
-    <ClInclude Include="Renders\Texture.h">
-      <Filter>Renders</Filter>
-    </ClInclude>
-    <ClInclude Include="Meshes\MeshData.h">
-      <Filter>Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\D3D\Transform.h">
-      <Filter>Utilities\D3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\Basic\Xml.h">
-      <Filter>Utilities\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\Basic\String.h">
-      <Filter>Utilities\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\Basic\Path.h">
-      <Filter>Utilities\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\Basic\BinaryFile.h">
-      <Filter>Utilities\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\D3D\Math.h">
-      <Filter>Utilities\D3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\My\ImGuiInputText.h">
-      <Filter>Utilities\My</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\My\SphereCoord.h">
-      <Filter>Utilities\My</Filter>
-    </ClInclude>
     <ClInclude Include="Settings\WindowSettings.h">
       <Filter>Settings</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\WinDesc.h">
-      <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Settings\URI.h">
       <Filter>Settings</Filter>
@@ -184,38 +139,83 @@
     <ClInclude Include="Settings\ShaderEffectName.h">
       <Filter>Settings</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\GameLogic.h">
-      <Filter>Systems</Filter>
+    <ClInclude Include="Utilities\BinaryFile.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Viewer\Camera.h">
-      <Filter>Viewer</Filter>
+    <ClInclude Include="Utilities\Path.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Viewer\Freedom.h">
-      <Filter>Viewer</Filter>
+    <ClInclude Include="Utilities\String.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Viewer\Orthographic.h">
-      <Filter>Viewer</Filter>
+    <ClInclude Include="Utilities\Xml.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Viewer\Perspective.h">
-      <Filter>Viewer</Filter>
+    <ClInclude Include="Rendering\Context.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Viewer\Projection.h">
-      <Filter>Viewer</Filter>
+    <ClInclude Include="Tools\GameLogic.h">
+      <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Viewer\Viewport.h">
-      <Filter>Viewer</Filter>
+    <ClInclude Include="Tools\Keyboard.h">
+      <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Renders\Context.h">
-      <Filter>Renders</Filter>
+    <ClInclude Include="Tools\Math.h">
+      <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\D3D\DirectionalLight.h">
-      <Filter>Utilities\D3D</Filter>
+    <ClInclude Include="Tools\Mouse.h">
+      <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Buffers\IEffectVariable.h">
-      <Filter>Buffers</Filter>
+    <ClInclude Include="Tools\SphereCoord.h">
+      <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Buffers\ShaderSetter.h">
-      <Filter>Buffers</Filter>
+    <ClInclude Include="Tools\Time.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Transform.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\WinDesc.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Meshes\MeshData.h">
+      <Filter>Tools\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Camera.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Freedom.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Orthographic.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Perspective.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Projection.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Viewport.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\SimpleD3D\DirectionalLight.h">
+      <Filter>Tools\SimpleD3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\SimpleD3D\ImGuiInputText.h">
+      <Filter>Tools\SimpleD3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\SimpleD3D\Shader.h">
+      <Filter>Tools\SimpleD3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\SimpleD3D\Texture.h">
+      <Filter>Tools\SimpleD3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Buffers\IEffectVariable.h">
+      <Filter>Rendering\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Buffers\ShaderSetter.h">
+      <Filter>Rendering\Buffers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include "Framework.h"
 #include "DirectionalLight.h"
 
-#include "Utilities/My/SphereCoord.h"
+#include "Tools/SphereCoord.h"
 
 DirectionalLight::DirectionalLight()
 {
