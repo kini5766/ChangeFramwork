@@ -34,7 +34,7 @@ private:
 		Mouse* mouse;
 		Keyboard* keyboard;
 		Time* time;
-		GameLogic* game;
+		//GameLogic* game;
 		Context* context;
 
 	}* value;

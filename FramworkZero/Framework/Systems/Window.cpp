@@ -186,9 +186,7 @@ void Window::MainRender()
 	value->context->Update();
 	//DebugLine::Get()->Update();
 
-	value->game->Update();
-
-	//value->game->LateUpdate();
+	mainExecute->Update();
 
 	mainExecute->PreRender();
 	
@@ -238,19 +236,20 @@ void Window::WinValue::CreateGame()
 	input = new Input();
 	mouse = new Mouse();
 	keyboard = new Keyboard();
-	game = new GameLogic();
 	context = new Context();
+	//game = new GameLogic();
 	Time::SetGlobal(time);
 	Input::Set(input);
 	input->SetMouse(mouse);
 	input->SetKeyboard(keyboard);
-	GameLogic::Set(game);
 	Context::Set(context);
 
 	value->mouse->SetHandle(WinDesc::GetHandle());
 	value->time->Start();
 
 	Debug::Performance = new Performance();
+
+	//GameLogic::Set(game);
 }
 
 void Window::WinValue::DeleteGame()
@@ -258,9 +257,9 @@ void Window::WinValue::DeleteGame()
 	SafeDelete(Debug::Performance);
 
 	SafeDelete(context);
-	SafeDelete(game);
 	SafeDelete(keyboard);
 	SafeDelete(mouse);
 	SafeDelete(input);
 	SafeDelete(time);
+	//SafeDelete(game);
 }

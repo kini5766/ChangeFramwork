@@ -20,6 +20,12 @@ void Main::Destroy()
 	}
 }
 
+void Main::Update()
+{
+	for (IExecute* exe : executes)
+		exe->Update();
+}
+
 void Main::PreRender()
 {
 	for (IExecute* exe : executes)
@@ -48,7 +54,7 @@ void Main::Push(IExecute * execute)
 {
 	executes.push_back(execute);
 
-	AddTaskUpdate(execute);
+	//AddTaskUpdate(execute);
 
 	execute->Initialize();
 }

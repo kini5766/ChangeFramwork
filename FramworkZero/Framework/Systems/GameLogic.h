@@ -1,5 +1,7 @@
 #pragma once
 
+// 매 프레임 쓰레드 생성하는데
+// 쓰레드 생성이 느려서 사용안 함
 
 #pragma region TaskDesc
 

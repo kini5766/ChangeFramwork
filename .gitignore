@@ -24,11 +24,25 @@
 #*.ilk
 #*.suo
 
+
 Framework.lib
 Framework.pdb
-*Debug*
+imgui.ini
+
+# Resource
+D3D/_Resource/*
+D3D/_Libraries/*
+D3D/_ShaderCompiler/*
+
+# Visual Studio Temp
 *.vs*
-*_Resurce*
+
+# Debug
+*Debug/
+*Debug_Framework
+*Debug_UnitTest
+*Debug_ModelEditor
+*Debug_Homework
 
 # 파일 크기 때문에 새로 받아야할 듯 
 assimp-vc140-mt.pdb

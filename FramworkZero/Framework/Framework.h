@@ -83,11 +83,11 @@ typedef D3DXPLANE Plane;
 #include "Viewer/Camera.h"
 #include "Viewer/Freedom.h"
 
-#include "Buffers/ShaderSetter.h"
-
 #include "Renders/Shader.h"
 #include "Renders/Texture.h"
 #include "Renders/Context.h"
+
+#include "Buffers/ShaderSetter.h"
 
 #include "Utilities/Basic/String.h"
 #include "Utilities/Basic/Path.h"
