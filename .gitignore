@@ -30,9 +30,9 @@ Framework.pdb
 imgui.ini
 
 # Resource
-D3D/_Resource/*
-D3D/_Libraries/*
-D3D/_ShaderCompiler/*
+_Resource/*
+_Libraries/*
+_ShaderCompiler/*
 
 # Visual Studio Temp
 *.vs*
