@@ -35,7 +35,6 @@ private:
 		Keyboard* keyboard;
 		Time* time;
 		//GameLogic* game;
-		Context* context;
 
 	}* value;
 };

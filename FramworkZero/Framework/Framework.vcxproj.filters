@@ -115,6 +115,9 @@
     <ClCompile Include="Rendering\Buffers\ShaderSetter.cpp">
       <Filter>Rendering\Buffers</Filter>
     </ClCompile>
+    <ClCompile Include="Debugging\DebugLog.cpp">
+      <Filter>Debugging</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -216,6 +219,9 @@
     </ClInclude>
     <ClInclude Include="Rendering\Buffers\ShaderSetter.h">
       <Filter>Rendering\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugging\DebugLog.h">
+      <Filter>Debugging</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,10 +13,10 @@ void WorldDemo::Destroy()
 {
 }
 
-static float test = 0;
+static int test = 0;
 void WorldDemo::Update()
 {
-	ImGui::InputFloat("Test", &test);
+	ImGui::InputInt("Test", &test);
 }
 
 void WorldDemo::Render()

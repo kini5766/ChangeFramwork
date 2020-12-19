@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Debugging\DebugLog.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -51,6 +52,7 @@
     <ClCompile Include="Utilities\Xml.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Debugging\DebugLog.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Rendering\Buffers\IEffectVariable.h" />
     <ClInclude Include="Rendering\Buffers\ShaderSetter.h" />

@@ -154,8 +154,8 @@ LRESULT CALLBACK Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARA
 			if (D3D::Get() != nullptr)
 				D3D::Get()->ResizeScreen(Screen::Width(), Screen::Height());
 
-			if (value->context != nullptr)
-				value->context->ResizeScreen();
+			if (Context::Get() != nullptr)
+				Context::Get()->ResizeScreen();
 
 			mainExecute->ResizeScreen();
 		}
@@ -183,7 +183,7 @@ void Window::MainRender()
 	}
 
 	Gui::Get()->Update();
-	value->context->Update();
+	Context::Get()->Update();
 	//DebugLine::Get()->Update();
 
 	mainExecute->Update();
@@ -193,7 +193,7 @@ void Window::MainRender()
 	D3D::Get()->SetRenderTarget();
 	D3D::Get()->Clear();
 	{
-		value->context->Render();
+		Context::Get()->Render();
 		
 		mainExecute->Render();
 
@@ -236,30 +236,26 @@ void Window::WinValue::CreateGame()
 	input = new Input();
 	mouse = new Mouse();
 	keyboard = new Keyboard();
-	context = new Context();
-	//game = new GameLogic();
+	Context::Create();
+	Debug::Performance = new Performance();
+
 	Time::SetGlobal(time);
 	Input::Set(input);
 	input->SetMouse(mouse);
 	input->SetKeyboard(keyboard);
-	Context::Set(context);
 
 	value->mouse->SetHandle(WinDesc::GetHandle());
 	value->time->Start();
 
-	Debug::Performance = new Performance();
-
-	//GameLogic::Set(game);
 }
 
 void Window::WinValue::DeleteGame()
 {
 	SafeDelete(Debug::Performance);
 
-	SafeDelete(context);
+	Context::Delete();
 	SafeDelete(keyboard);
 	SafeDelete(mouse);
 	SafeDelete(input);
 	SafeDelete(time);
-	//SafeDelete(game);
 }

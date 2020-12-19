@@ -72,6 +72,7 @@ typedef D3DXPLANE Plane;
 #include "Tools/Mouse.h"
 #include "Tools/Time.h"
 #include "Tools/GameLogic.h"
+
 #include "Tools/Math.h"
 #include "Tools/Transform.h"
 
@@ -100,4 +101,6 @@ typedef D3DXPLANE Plane;
 #include "Utilities/Path.h"
 
 //#include "Objects/Render2D.h"
+
+#include "Debugging/DebugLog.h"
 

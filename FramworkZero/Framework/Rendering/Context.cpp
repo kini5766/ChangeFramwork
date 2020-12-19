@@ -1,16 +1,22 @@
 #include "Framework.h"
 #include "Context.h"
 
-I_Context* Context::instance = nullptr;
+Context* Context::instance = nullptr;
 
-I_Context * Context::Get()
+Context * Context::Get()
 {
 	return instance;
 }
 
-void Context::Set(I_Context * value)
+void Context::Create()
 {
-	instance = value;
+	SafeDelete(instance);
+	instance = new Context();
+}
+
+void Context::Delete()
+{
+	SafeDelete(instance);
 }
 
 
@@ -24,6 +30,18 @@ Context::~Context()
 {
 	SafeDelete(camera);
 	SafeDelete(light);
+}
+
+inline void Context::MainCamera(Camera * value)
+{
+	SafeDelete(camera);
+	camera = value;
+}
+
+inline void Context::Light(DirectionalLight * value)
+{
+	SafeDelete(light);
+	light = value;
 }
 
 D3DXMATRIX Context::View()
@@ -40,18 +58,6 @@ D3DXMATRIX Context::Projection()
 	camera->GetProjection()->GetMatrix(&projection);
 
 	return projection;
-}
-
-inline void Context::MainCamera(Camera * value) 
-{ 
-	SafeDelete(camera);
-	camera = value;
-}
-
-inline void Context::Light(DirectionalLight * value) 
-{ 
-	SafeDelete(light);
-	light = value;
 }
 
 void Context::ResizeScreen()

@@ -71,4 +71,5 @@ class Debug
 {
 public:
 	static class Performance* Performance;
+	//static class DebugLog* Log;
 };
