@@ -59,6 +59,7 @@ void Main::Push(IExecute * execute)
 	execute->Initialize();
 }
 
+/*
 void Main::AddTaskUpdate(IExecute * execute)
 {
 	TaskDesc* task = new TaskDesc();
@@ -75,6 +76,7 @@ void Main::TaskUpdate(IExecute * execute)
 	task->Working = bind(&Main::TaskUpdate, this, (execute));
 	GameLogic::AddUpdate(task);
 }
+*/
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR param, int command)
 {

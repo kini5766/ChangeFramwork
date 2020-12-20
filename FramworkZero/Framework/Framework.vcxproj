@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Debugger\DebugLine.cpp" />
     <ClCompile Include="Debugger\DebugLog.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -43,16 +44,16 @@
     <ClCompile Include="Rendering\Meshes\MeshSphere.cpp" />
     <ClCompile Include="Systems\D3D.cpp" />
     <ClCompile Include="Systems\Gui.cpp" />
-    <ClCompile Include="Systems\MainLogic\GameLogic.cpp" />
-    <ClCompile Include="Systems\MainLogic\Keyboard.cpp" />
-    <ClCompile Include="Systems\MainLogic\Mouse.cpp" />
-    <ClCompile Include="Systems\MainLogic\Time.cpp" />
+    <ClCompile Include="Tools\MainLogic\GameLogic.cpp" />
+    <ClCompile Include="Tools\MainLogic\Keyboard.cpp" />
+    <ClCompile Include="Tools\MainLogic\Mouse.cpp" />
+    <ClCompile Include="Tools\MainLogic\Time.cpp" />
     <ClCompile Include="Systems\Window.cpp" />
     <ClCompile Include="Tools\Math.cpp" />
-    <ClCompile Include="Tools\SimpleD3D\DirectionalLight.cpp" />
-    <ClCompile Include="Tools\SimpleD3D\ImGuiInputText.cpp" />
-    <ClCompile Include="Tools\SimpleD3D\Shader.cpp" />
-    <ClCompile Include="Tools\SimpleD3D\Texture.cpp" />
+    <ClCompile Include="Tools\DirectionalLight.cpp" />
+    <ClCompile Include="Tools\ImGuiInputText.cpp" />
+    <ClCompile Include="Rendering\Shader.cpp" />
+    <ClCompile Include="Tools\Texture.cpp" />
     <ClCompile Include="Tools\SphereCoord.cpp" />
     <ClCompile Include="Tools\Transform.cpp" />
     <ClCompile Include="Tools\Viewer\Camera.cpp" />
@@ -68,6 +69,7 @@
     <ClCompile Include="Utilities\Xml.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Debugger\DebugLine.h" />
     <ClInclude Include="Debugger\DebugLog.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Rendering\Buffers\Buffers.h" />
@@ -96,16 +98,16 @@
     <ClInclude Include="Systems\D3D.h" />
     <ClInclude Include="Systems\Gui.h" />
     <ClInclude Include="Systems\IExecute.h" />
-    <ClInclude Include="Systems\MainLogic\GameLogic.h" />
-    <ClInclude Include="Systems\MainLogic\Keyboard.h" />
-    <ClInclude Include="Systems\MainLogic\Mouse.h" />
-    <ClInclude Include="Systems\MainLogic\Time.h" />
+    <ClInclude Include="Tools\MainLogic\GameLogic.h" />
+    <ClInclude Include="Tools\MainLogic\Keyboard.h" />
+    <ClInclude Include="Tools\MainLogic\Mouse.h" />
+    <ClInclude Include="Tools\MainLogic\Time.h" />
     <ClInclude Include="Systems\Window.h" />
     <ClInclude Include="Tools\Math.h" />
-    <ClInclude Include="Tools\SimpleD3D\DirectionalLight.h" />
-    <ClInclude Include="Tools\SimpleD3D\ImGuiInputText.h" />
-    <ClInclude Include="Tools\SimpleD3D\Shader.h" />
-    <ClInclude Include="Tools\SimpleD3D\Texture.h" />
+    <ClInclude Include="Tools\DirectionalLight.h" />
+    <ClInclude Include="Tools\ImGuiInputText.h" />
+    <ClInclude Include="Rendering\Shader.h" />
+    <ClInclude Include="Tools\Texture.h" />
     <ClInclude Include="Tools\SphereCoord.h" />
     <ClInclude Include="Tools\Transform.h" />
     <ClInclude Include="Tools\Viewer\Camera.h" />

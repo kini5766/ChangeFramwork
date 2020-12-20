@@ -184,7 +184,7 @@ void Window::MainRender()
 
 	Gui::Get()->Update();
 	Context::Get()->Update();
-	//DebugLine::Get()->Update();
+	Debug::Line->Update();
 
 	mainExecute->Update();
 
@@ -198,7 +198,7 @@ void Window::MainRender()
 		mainExecute->Render();
 
 		mainExecute->PostRender();
-		//DebugLine::Get()->Render();  // 디버그 라인
+		Debug::Line->Render();  // 디버그 라인
 		Gui::Get()->Render();  // 글자
 	}
 	D3D::Get()->Present();
@@ -238,6 +238,7 @@ void Window::WinValue::CreateGame()
 	keyboard = new Keyboard();
 	Context::Create();
 	Debug::Performance = new Performance();
+	Debug::Line = new DebugLine();
 
 	Time::SetGlobal(time);
 	Input::Set(input);
@@ -251,6 +252,7 @@ void Window::WinValue::CreateGame()
 
 void Window::WinValue::DeleteGame()
 {
+	SafeDelete(Debug::Line);
 	SafeDelete(Debug::Performance);
 
 	Context::Delete();

@@ -67,18 +67,17 @@ typedef D3DXPLANE Plane;
 #include "Systems/D3D.h"
 #include "Systems/Gui.h"
 
-#include "Systems/MainLogic/Keyboard.h"
-#include "Systems/MainLogic/Mouse.h"
-#include "Systems/MainLogic/Time.h"
-#include "Systems/MainLogic/GameLogic.h"
+#include "Tools/MainLogic/Keyboard.h"
+#include "Tools/MainLogic/Mouse.h"
+#include "Tools/MainLogic/Time.h"
+//#include "Tools/MainLogic/GameLogic.h"
 
 #include "Tools/Math.h"
 #include "Tools/WinDesc.h"
 #include "Tools/Transform.h"
 
-#include "Tools/SimpleD3D/Shader.h"
-#include "Tools/SimpleD3D/Texture.h"
-#include "Tools/SimpleD3D/DirectionalLight.h"
+#include "Tools/Texture.h"
+#include "Tools/DirectionalLight.h"
 
 #include "Tools/Viewer/Viewport.h"
 #include "Tools/Viewer/Projection.h"
@@ -87,6 +86,7 @@ typedef D3DXPLANE Plane;
 #include "Tools/Viewer/Camera.h"
 #include "Tools/Viewer/Freedom.h"
 
+#include "Rendering/Shader.h"
 #include "Rendering/Buffers/Buffers.h"
 
 #include "Rendering/CBufferVariables/Context.h"
@@ -110,4 +110,5 @@ typedef D3DXPLANE Plane;
 //#include "Objects/Render2D.h"
 
 //#include "Debugger/DebugLog.h"
+#include "Debugger/DebugLine.h"
 

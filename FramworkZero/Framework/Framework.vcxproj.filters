@@ -19,14 +19,8 @@
     <Filter Include="Tools\Viewer">
       <UniqueIdentifier>{d550b37a-91d8-431d-a078-0447b5611375}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tools\SimpleD3D">
-      <UniqueIdentifier>{892db836-fdd7-4445-80ed-bbaa0dea53b5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Rendering\Buffers">
       <UniqueIdentifier>{9d9e51cf-5143-4dc1-bccf-fd45ef3267cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Systems\MainLogic">
-      <UniqueIdentifier>{7064a2d9-ed71-41ca-b2a2-aff5a722ba85}</UniqueIdentifier>
     </Filter>
     <Filter Include="Rendering\CBufferVariable">
       <UniqueIdentifier>{e6887cfd-501d-4ce4-b7da-1ed5c3f7e57f}</UniqueIdentifier>
@@ -36,6 +30,9 @@
     </Filter>
     <Filter Include="Debugger">
       <UniqueIdentifier>{65472379-8f57-45f9-bf7c-aa78819f1064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\MainLogic">
+      <UniqueIdentifier>{7064a2d9-ed71-41ca-b2a2-aff5a722ba85}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -88,32 +85,8 @@
     <ClCompile Include="Tools\Viewer\Viewport.cpp">
       <Filter>Tools\Viewer</Filter>
     </ClCompile>
-    <ClCompile Include="Tools\SimpleD3D\DirectionalLight.cpp">
-      <Filter>Tools\SimpleD3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\SimpleD3D\ImGuiInputText.cpp">
-      <Filter>Tools\SimpleD3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\SimpleD3D\Shader.cpp">
-      <Filter>Tools\SimpleD3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\SimpleD3D\Texture.cpp">
-      <Filter>Tools\SimpleD3D</Filter>
-    </ClCompile>
     <ClCompile Include="Tools\WinDesc.cpp">
       <Filter>Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="Systems\MainLogic\GameLogic.cpp">
-      <Filter>Systems\MainLogic</Filter>
-    </ClCompile>
-    <ClCompile Include="Systems\MainLogic\Keyboard.cpp">
-      <Filter>Systems\MainLogic</Filter>
-    </ClCompile>
-    <ClCompile Include="Systems\MainLogic\Mouse.cpp">
-      <Filter>Systems\MainLogic</Filter>
-    </ClCompile>
-    <ClCompile Include="Systems\MainLogic\Time.cpp">
-      <Filter>Systems\MainLogic</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Buffers\VertexBuffer.cpp">
       <Filter>Rendering\Buffers</Filter>
@@ -171,6 +144,33 @@
     </ClCompile>
     <ClCompile Include="Rendering\Meshes\MeshRenderer.cpp">
       <Filter>Rendering\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Debugger\DebugLine.cpp">
+      <Filter>Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\MainLogic\GameLogic.cpp">
+      <Filter>Tools\MainLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\MainLogic\Keyboard.cpp">
+      <Filter>Tools\MainLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\MainLogic\Mouse.cpp">
+      <Filter>Tools\MainLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\MainLogic\Time.cpp">
+      <Filter>Tools\MainLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Shader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\DirectionalLight.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\ImGuiInputText.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Texture.cpp">
+      <Filter>Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,32 +235,8 @@
     <ClInclude Include="Tools\Viewer\Viewport.h">
       <Filter>Tools\Viewer</Filter>
     </ClInclude>
-    <ClInclude Include="Tools\SimpleD3D\DirectionalLight.h">
-      <Filter>Tools\SimpleD3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\SimpleD3D\ImGuiInputText.h">
-      <Filter>Tools\SimpleD3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\SimpleD3D\Shader.h">
-      <Filter>Tools\SimpleD3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\SimpleD3D\Texture.h">
-      <Filter>Tools\SimpleD3D</Filter>
-    </ClInclude>
     <ClInclude Include="Tools\WinDesc.h">
       <Filter>Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\MainLogic\GameLogic.h">
-      <Filter>Systems\MainLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\MainLogic\Keyboard.h">
-      <Filter>Systems\MainLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\MainLogic\Mouse.h">
-      <Filter>Systems\MainLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\MainLogic\Time.h">
-      <Filter>Systems\MainLogic</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\Buffers\Buffers.h">
       <Filter>Rendering\Buffers</Filter>
@@ -327,6 +303,33 @@
     </ClInclude>
     <ClInclude Include="Rendering\Meshes\MeshRenderer.h">
       <Filter>Rendering\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugger\DebugLine.h">
+      <Filter>Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\MainLogic\GameLogic.h">
+      <Filter>Tools\MainLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\MainLogic\Keyboard.h">
+      <Filter>Tools\MainLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\MainLogic\Mouse.h">
+      <Filter>Tools\MainLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\MainLogic\Time.h">
+      <Filter>Tools\MainLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\DirectionalLight.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\ImGuiInputText.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Texture.h">
+      <Filter>Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
