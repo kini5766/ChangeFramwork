@@ -3,19 +3,11 @@
 
 MeshInstancing::MeshInstancing(Shader * shader, MeshData * data)
 {
-	meshData = new MeshData();
-	MeshData::Copy<VertexMesh>(meshData, data);
-	
-	material = new Material(shader);
+	renderer = new MeshRenderer(shader, data);
 	perframe = new PerFrame(shader);
-	vertexBuffer = new VertexBuffer(meshData->Vertices, meshData->VertexCount, meshData->Stride);
-	indexBuffer = new IndexBuffer(meshData->Indices, meshData->IndexCount);
 
 	instanceBuffer = new VertexBuffer(worlds, MESH_INSTANCE_MAX_COUNT, sizeof(Matrix), 1, true);
 	instanceColorBuffer = new VertexBuffer(colors, MESH_INSTANCE_MAX_COUNT, sizeof(Color), 2, true);
-
-	data->SafeDeleteData();
-	SafeDelete(data);
 }
 
 MeshInstancing::~MeshInstancing()
@@ -26,14 +18,8 @@ MeshInstancing::~MeshInstancing()
 	SafeDelete(instanceBuffer);
 	SafeDelete(instanceColorBuffer);
 
-	SafeDelete(material);
 	SafeDelete(perframe);
-
-	SafeDelete(vertexBuffer);
-	SafeDelete(indexBuffer);
-
-	meshData->SafeDeleteData();
-	SafeDelete(meshData);
+	SafeDelete(renderer);
 }
 
 void MeshInstancing::Update()
@@ -47,16 +33,8 @@ void MeshInstancing::Render()
 	instanceColorBuffer->Render();
 
 	perframe->Render();
-
-	vertexBuffer->Render();
-	indexBuffer->Render();
-
-	D3D::GetDC()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	material->Render();
-	material->GetShader()->DrawIndexedInstanced(0, pass, meshData->IndexCount, instances.size());
+	renderer->RenderInstance(instances.size());
 }
-
 
 MeshInstance * MeshInstancing::AddInstance()
 {

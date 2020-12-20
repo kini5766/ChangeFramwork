@@ -151,11 +151,13 @@ inline void MeshData::NewIndices(UINT count)
 
 inline void MeshData::NewSubMesh(UINT count)
 {
+	SubMeshCount = count;
 	SubMeshes = new SubMeshData[count];
 }
 
 inline void MeshData::NewSubMesh()
 {
+	SubMeshCount = 1;
 	SubMeshes = new SubMeshData[1];
 	SubMeshes->StartIndex = 0u;
 	SubMeshes->StartVertex = 0u;

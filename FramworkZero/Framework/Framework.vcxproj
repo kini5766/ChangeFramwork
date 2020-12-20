@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Debugging\DebugLog.cpp" />
+    <ClCompile Include="Debugger\DebugLog.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -39,6 +39,7 @@
     <ClCompile Include="Rendering\Meshes\MeshInstancing.cpp" />
     <ClCompile Include="Rendering\Meshes\MeshPlane.cpp" />
     <ClCompile Include="Rendering\Meshes\MeshQuad.cpp" />
+    <ClCompile Include="Rendering\Meshes\MeshRenderer.cpp" />
     <ClCompile Include="Rendering\Meshes\MeshSphere.cpp" />
     <ClCompile Include="Systems\D3D.cpp" />
     <ClCompile Include="Systems\Gui.cpp" />
@@ -67,7 +68,7 @@
     <ClCompile Include="Utilities\Xml.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Debugging\DebugLog.h" />
+    <ClInclude Include="Debugger\DebugLog.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Rendering\Buffers\Buffers.h" />
     <ClInclude Include="Rendering\Buffers\ConstantBuffer.h" />
@@ -88,6 +89,7 @@
     <ClInclude Include="Rendering\Meshes\MeshInstancing.h" />
     <ClInclude Include="Rendering\Meshes\MeshPlane.h" />
     <ClInclude Include="Rendering\Meshes\MeshQuad.h" />
+    <ClInclude Include="Rendering\Meshes\MeshRenderer.h" />
     <ClInclude Include="Rendering\Meshes\MeshSphere.h" />
     <ClInclude Include="Settings\ShaderEffectName.h" />
     <ClInclude Include="Settings\WindowSettings.h" />

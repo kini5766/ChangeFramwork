@@ -101,6 +101,7 @@ typedef D3DXPLANE Plane;
 #include "Rendering/Meshes/MeshCylinder.h"
 #include "Rendering/Meshes/MeshSphere.h"
 
+#include "Rendering/Meshes/MeshRenderer.h"
 #include "Rendering/Meshes/MeshInstancing.h"
 
 #include "Utilities/String.h"
@@ -108,5 +109,5 @@ typedef D3DXPLANE Plane;
 
 //#include "Objects/Render2D.h"
 
-//#include "Debugging/DebugLog.h"
+//#include "Debugger/DebugLog.h"
 

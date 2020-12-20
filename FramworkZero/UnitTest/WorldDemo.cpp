@@ -9,7 +9,7 @@ void WorldDemo::Initialize()
 	shader = Shader::Load(L"31_Instance.fxo");
 
 	box = new MeshInstancing(shader, new MeshCube());
-	box->GetMaterial()->DiffuseMap(L"Box.png");
+	box->GetRenderer()->GetDefultMaterial()->DiffuseMap(L"Box.png");
 
 	for (float x = -50; x <= 50; x += 2.5f)
 	{

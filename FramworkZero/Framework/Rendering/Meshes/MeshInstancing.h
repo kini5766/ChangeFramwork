@@ -8,6 +8,7 @@ class MeshInstance;
 class MeshInstancing
 {
 public:
+	// MeshData* : 그대로 사용 delete는 MeshRenderer 클레스에서
 	MeshInstancing(Shader* shader, MeshData* data);
 	~MeshInstancing();
 
@@ -16,8 +17,8 @@ public:
 	void Render();
 
 public:
-	void Pass(UINT value) { pass = value; }
-	Material* GetMaterial() { return material; }
+	void Pass(UINT value) { renderer->Pass(value); }
+	MeshRenderer* GetRenderer() { return renderer; }
 
 public:
 	MeshInstance* AddInstance();
@@ -29,18 +30,11 @@ public:
 public:
 	void SetColor(UINT instance, const Color& color);
 
-private: // renderer
-	MeshData* meshData;
-	Material* material;
-	UINT pass = 0;
-
+private: // render 관련
+	MeshRenderer* renderer;
 	PerFrame* perframe = nullptr;
 
-	VertexBuffer* vertexBuffer = nullptr;
-	IndexBuffer* indexBuffer = nullptr;
-
-
-private: // instance
+private: // instance 관련
 	vector<MeshInstance*> instances;
 	vector<UINT> junkInstances;
 
@@ -50,6 +44,11 @@ private: // instance
 	Color colors[MESH_INSTANCE_MAX_COUNT];
 	VertexBuffer* instanceColorBuffer;
 };
+
+
+// --
+// MeshInstance
+// --
 
 class MeshInstance
 {

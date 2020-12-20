@@ -25,9 +25,6 @@
     <Filter Include="Rendering\Buffers">
       <UniqueIdentifier>{9d9e51cf-5143-4dc1-bccf-fd45ef3267cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Debugging">
-      <UniqueIdentifier>{65472379-8f57-45f9-bf7c-aa78819f1064}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Systems\MainLogic">
       <UniqueIdentifier>{7064a2d9-ed71-41ca-b2a2-aff5a722ba85}</UniqueIdentifier>
     </Filter>
@@ -36,6 +33,9 @@
     </Filter>
     <Filter Include="Rendering\Meshes">
       <UniqueIdentifier>{71d8e83f-ece6-4b3f-b6f3-e926cf05419a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debugger">
+      <UniqueIdentifier>{65472379-8f57-45f9-bf7c-aa78819f1064}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,9 +99,6 @@
     </ClCompile>
     <ClCompile Include="Tools\SimpleD3D\Texture.cpp">
       <Filter>Tools\SimpleD3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Debugging\DebugLog.cpp">
-      <Filter>Debugging</Filter>
     </ClCompile>
     <ClCompile Include="Tools\WinDesc.cpp">
       <Filter>Tools</Filter>
@@ -167,6 +164,12 @@
       <Filter>Rendering\Meshes</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Meshes\MeshInstancing.cpp">
+      <Filter>Rendering\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Debugger\DebugLog.cpp">
+      <Filter>Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Meshes\MeshRenderer.cpp">
       <Filter>Rendering\Meshes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -244,9 +247,6 @@
     <ClInclude Include="Tools\SimpleD3D\Texture.h">
       <Filter>Tools\SimpleD3D</Filter>
     </ClInclude>
-    <ClInclude Include="Debugging\DebugLog.h">
-      <Filter>Debugging</Filter>
-    </ClInclude>
     <ClInclude Include="Tools\WinDesc.h">
       <Filter>Tools</Filter>
     </ClInclude>
@@ -320,6 +320,12 @@
       <Filter>Rendering\Meshes</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\Meshes\MeshInstancing.h">
+      <Filter>Rendering\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugger\DebugLog.h">
+      <Filter>Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Meshes\MeshRenderer.h">
       <Filter>Rendering\Meshes</Filter>
     </ClInclude>
   </ItemGroup>
