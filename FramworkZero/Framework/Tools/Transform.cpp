@@ -316,6 +316,15 @@ void Transform::SetParent(Transform * value)
 	LossyWorld(lossy);
 }
 
+void Transform::UnLink()
+{
+	for (UINT i = 0; i < childs.size(); i++)
+	{
+		childs[i]->SetParent(parent);
+	}
+	SetParent(nullptr);
+}
+
 void Transform::AddThis(Transform * oldParent, Transform * newparent)
 {
 	if (newparent == nullptr) return;

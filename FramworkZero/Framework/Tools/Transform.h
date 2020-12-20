@@ -82,6 +82,7 @@ private:
 
 public:
 	void SetParent(Transform* value);
+	void UnLink();  // 부모 자식 관계 해제
 	Transform* GetParent() { return parent; }
 	Transform** GetChilds() { return childs.data(); }
 	UINT ChildCount() const { return childs.size(); }

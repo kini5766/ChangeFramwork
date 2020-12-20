@@ -73,13 +73,7 @@ void MeshInstancing::RemoveInstance(MeshInstance * value)
 	assert(value->Perent() == this);
 
 	Transform* t = value->GetTransform();
-	Transform* parent = t->GetParent();
-	Transform** childs = t->GetChilds();
-	for (UINT i = 0; i < t->ChildCount(); i++)
-	{
-		childs[i]->SetParent(parent);
-	}
-	t->SetParent(nullptr);
+	t->UnLink();
 
 	Matrix m;
 	ZeroMemory(m, sizeof(Matrix));
