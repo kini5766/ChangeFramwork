@@ -2,7 +2,7 @@
 #include "MeshRenderer.h"
 
 MeshRenderer::MeshRenderer(Shader * shader, MeshData* data)
-	: meshData(data), defultMaterial(new Material(shader))
+	: meshData(data), defaultMaterial(new Material(shader))
 {
 	vertexBuffer = new VertexBuffer(meshData->Vertices, meshData->VertexCount, meshData->Stride);
 	indexBuffer = new IndexBuffer(meshData->Indices, meshData->IndexCount);
@@ -11,17 +11,12 @@ MeshRenderer::MeshRenderer(Shader * shader, MeshData* data)
 		meshData->NewSubMesh();
 
 	UINT SubMeshCount = meshData->SubMeshCount;
-	materials = new Material*[SubMeshCount];
-	for (UINT i = 0; i < SubMeshCount; i++)
-		materials[i] = defultMaterial;
+	materials.push_back(defaultMaterial);
 }
 
 MeshRenderer::~MeshRenderer()
 {
-	meshData->SafeDeleteData();
-	SafeDelete(meshData);
-	SafeDelete(defultMaterial);
-	SafeDeleteArray(materials);
+	SafeDelete(defaultMaterial);
 }
 
 void MeshRenderer::Update()
@@ -38,9 +33,10 @@ void MeshRenderer::Render()
 		SubMeshData& subMesh = meshData->SubMeshes[i];
 
 		D3D::GetDC()->IASetPrimitiveTopology(subMesh.topology);
+		Material* mat = materials[subMesh.MaterialIndex];
 
-		materials[i]->Render();
-		materials[i]->GetShader()->DrawIndexed(
+		mat->Render();
+		mat->GetShader()->DrawIndexed(
 			0, pass, subMesh.IndexCount, subMesh.StartIndex);
 	}
 }
@@ -55,15 +51,10 @@ void MeshRenderer::RenderInstance(UINT drawCount)
 		SubMeshData& subMesh = meshData->SubMeshes[i];
 
 		D3D::GetDC()->IASetPrimitiveTopology(subMesh.topology);
+		Material* mat = materials[subMesh.MaterialIndex];
 
-		materials[i]->Render();
-		materials[i]->GetShader()->DrawIndexedInstanced(
+		mat->Render();
+		mat->GetShader()->DrawIndexedInstanced(
 			0, pass, subMesh.IndexCount, drawCount, subMesh.StartIndex);
 	}
-}
-
-void MeshRenderer::SetMaterials(Material ** _materials, UINT count)
-{
-	// 주소복사
-	memcpy_s(materials, sizeof(Material*) * meshData->SubMeshCount, _materials, sizeof(Material*) * count);
 }

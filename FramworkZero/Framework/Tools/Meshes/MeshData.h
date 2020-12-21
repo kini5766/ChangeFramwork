@@ -44,25 +44,12 @@ struct VertexMesh
 
 struct SubMeshData
 {
-	// 메터리얼은 번호로 매핑
+	UINT MaterialIndex = 0;
 	UINT StartVertex;
 	UINT VertexCount;
 	UINT StartIndex;
 	UINT IndexCount;
 	D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-};
-
-struct MeshBindPose
-{
-	// 방법1
-	// StructuredBuffer -> Input : Matrix* Bones
-	// TextureBuffer -> Output : Srv
-
-	// 방법2
-	// TextureBuffer1 -> Input : (본 * 프레임) * 클립 
-	// 본 움직임 계산
-	// TextureBuffer2 -> Output : Srv
-	ID3D11ShaderResourceView* srvBonesMap;
 };
 
 struct MeshData
@@ -79,8 +66,6 @@ public:
 	UINT SubMeshCount = 0;
 	SubMeshData* SubMeshes = nullptr;
 
-	MeshBindPose* BindPose = nullptr;
-
 public:
 	// delete
 	void DeleteArray()
@@ -94,7 +79,6 @@ public:
 		//SafeDelete(PBind);
 		DeleteArray();
 		SafeDeleteArray(SubMeshes)
-		SafeDelete(BindPose)
 
 		VertexCount = 0;
 		Stride = 0;
@@ -109,20 +93,17 @@ public:
 	void NewIndices(UINT count);
 	void NewSubMesh(UINT count);
 	void NewSubMesh();
-	void NewBindPose();
 
 	// copy
 	template<typename T>
 	void SetVertices(const T* vertices, UINT count);
 	void SetIndices(const UINT* indeces, UINT count);
 	void SetSubMesh(const SubMeshData* subMeshes, UINT count);
-	void SetBindPose(const MeshBindPose* bindPose);
 
 	// move
 	void SetMoveVertices(void** vertices, UINT* stride, UINT* count);
 	void SetMoveIndices(UINT** indeces, UINT* count);
 	void SetMoveSubMesh(SubMeshData** subMeshes, UINT* count);
-	void SetMoveBindPose(MeshBindPose** bindPose);
 
 public:
 	// static
@@ -165,11 +146,6 @@ inline void MeshData::NewSubMesh()
 	SubMeshes->VertexCount = VertexCount;
 }
 
-inline void MeshData::NewBindPose()
-{
-	BindPose = new MeshBindPose();
-}
-
 // copy
 template<typename T>
 inline void MeshData::SetVertices(const T * vertices, UINT count)
@@ -194,14 +170,6 @@ inline void MeshData::SetSubMesh(const SubMeshData * subMeshes, UINT count)
 
 	NewSubMesh(count);
 	memcpy(SubMeshes, subMeshes, sizeof(SubMeshData) * count);
-}
-
-inline void MeshData::SetBindPose(const MeshBindPose * bindPose)
-{
-	if (bindPose == nullptr) return;
-
-	NewBindPose();
-	memcpy(BindPose, bindPose, sizeof(MeshBindPose));
 }
 
 // move
@@ -231,12 +199,6 @@ inline void MeshData::SetMoveSubMesh(SubMeshData ** subMeshes, UINT * count)
 	(*count) = 0;
 }
 
-inline void MeshData::SetMoveBindPose(MeshBindPose ** bindPose)
-{
-	BindPose = (*bindPose);
-	(*bindPose) = nullptr;
-}
-
 //static
 template<typename T>
 inline void MeshData::Copy(MeshData * dst, const MeshData * src)
@@ -247,7 +209,6 @@ inline void MeshData::Copy(MeshData * dst, const MeshData * src)
 	dst->SetVertices<T>((const T *)src->Vertices, src->VertexCount);
 	dst->SetIndices(src->Indices, src->IndexCount);
 	dst->SetSubMesh(src->SubMeshes, src->SubMeshCount);
-	dst->SetBindPose(src->BindPose);
 }
 
 inline void MeshData::Move(MeshData * dst, MeshData * src)
@@ -255,5 +216,4 @@ inline void MeshData::Move(MeshData * dst, MeshData * src)
 	dst->SetMoveVertices(&src->Vertices, &src->Stride, &src->VertexCount);
 	dst->SetMoveIndices(&src->Indices, &src->IndexCount);
 	dst->SetMoveSubMesh(&src->SubMeshes, &src->SubMeshCount);
-	dst->SetMoveBindPose(&src->BindPose);
 }

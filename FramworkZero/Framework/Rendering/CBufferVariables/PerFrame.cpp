@@ -29,10 +29,10 @@ void PerFrameBuffer::Update()
 	//desc.Clipping
 	desc.Time = Time::Get()->Running();
 
-	lightDesc.Ambient = Context::Get()->Ambient();
-	lightDesc.Specular = Context::Get()->Specular();
-	lightDesc.Direction = Context::Get()->Direction();
-	lightDesc.Position = Context::Get()->Position();
+	lightDesc.Ambient = Lighting::Get()->Ambient();
+	lightDesc.Specular = Lighting::Get()->Specular();
+	lightDesc.Direction = Lighting::Get()->Direction();
+	lightDesc.Position = Lighting::Get()->Position();
 }
 
 void PerFrameBuffer::Render()

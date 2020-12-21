@@ -17,7 +17,6 @@ WPARAM Window::Run(IExecute * main, HINSTANCE instance)
 
 	Gui::Create();
 	value->CreateGame();
-	//DebugLine::Create();
 
 	mainExecute->Initialize();
 
@@ -40,7 +39,6 @@ WPARAM Window::Run(IExecute * main, HINSTANCE instance)
 	}
 	mainExecute->Destroy();
 
-	//DebugLine::Delete();
 	value->DeleteGame();
 	Gui::Delete();
 	D3D::Delete();
@@ -237,6 +235,7 @@ void Window::WinValue::CreateGame()
 	mouse = new Mouse();
 	keyboard = new Keyboard();
 	Context::Create();
+	Lighting::Create();
 	Debug::Performance = new Performance();
 	Debug::Line = new DebugLine();
 
@@ -255,6 +254,7 @@ void Window::WinValue::DeleteGame()
 	SafeDelete(Debug::Line);
 	SafeDelete(Debug::Performance);
 
+	Lighting::Delete();
 	Context::Delete();
 	SafeDelete(keyboard);
 	SafeDelete(mouse);

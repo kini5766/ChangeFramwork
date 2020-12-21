@@ -14,8 +14,8 @@ public:
 
 private:
 	void Push(IExecute* execute);
-	void AddTaskUpdate(IExecute* execute);
-	void TaskUpdate(IExecute* execute);
+	//void AddTaskUpdate(IExecute* execute);
+	//void TaskUpdate(IExecute* execute);
 
 private:
 	vector<IExecute *> executes;

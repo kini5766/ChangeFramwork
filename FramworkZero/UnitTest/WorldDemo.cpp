@@ -6,10 +6,10 @@ void WorldDemo::Initialize()
 	Context::Get()->MainCamera()->RotationDegree(13, 70, 0);
 	Context::Get()->MainCamera()->Position(-20, 1, -3);
 
-	shader = Shader::Load(L"31_Instance.fxo");
+	shader = Shader::Load(L"01_Instance.fxo");
 
 	box = new MeshInstancing(shader, new MeshCube());
-	box->GetRenderer()->GetDefultMaterial()->DiffuseMap(L"Box.png");
+	box->GetRenderer()->GetDefaultMaterial()->DiffuseMap(L"Box.png");
 
 	for (float x = -50; x <= 50; x += 2.5f)
 	{

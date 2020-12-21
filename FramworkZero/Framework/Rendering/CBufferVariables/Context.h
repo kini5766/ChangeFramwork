@@ -11,7 +11,7 @@ public:
 private:
 	static Context* instance;
 
-public:
+private:
 	Context();
 	~Context();
 
@@ -19,20 +19,12 @@ public:
 	Camera* MainCamera() { return camera; }
 	void MainCamera(Camera* value);
 
-	DirectionalLight * Light() { return light; }
-	void Light(DirectionalLight * value);
-
 public:
 	D3DXMATRIX View();
 	D3DXMATRIX Projection();
 
 	Perspective* GetPerspective() { return camera->GetPerspective(); }
 	Viewport* GetViewport() { return camera->GetViewport(); }
-
-	Color & Ambient() { return light->Ambient(); }
-	Color & Specular() { return light->Specular(); }
-	Vector3 & Direction() { return light->Direction(); }
-	Vector3 & Position() { return light->Position(); }
 
 public:
 	void ResizeScreen();
@@ -42,5 +34,4 @@ public:
 
 private:
 	Camera* camera;
-	DirectionalLight* light;
 };

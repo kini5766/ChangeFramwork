@@ -7,7 +7,6 @@
 class MeshRenderer
 {
 public:
-	// MeshData* : 그대로 사용 delete도 이 클레스에서
 	MeshRenderer(Shader* shader, MeshData* data);
 	~MeshRenderer();
 
@@ -18,23 +17,21 @@ public:
 
 public:
 	void Pass(UINT value) { pass = value; }
-	Material* GetDefultMaterial() { return defultMaterial; }
-	// Material* 단위 복사
-	void SetMaterials(Material** materials, UINT count);
+	Material* GetDefaultMaterial() const { return defaultMaterial; }
 	void SetMaterial(UINT index, Material* material) { materials[index] = material; }
-	Material* GetMaterial(UINT index) { return materials[index]; }
-	Material** GetMaterials() { return materials; }
-	const MeshData* GetData() { return meshData; }
+	Material* GetMaterial(UINT index) const { return materials[index]; }
+	vector<Material*>& Materials() { return materials; }
+	const MeshData* GetData() const { return meshData; }
 
 
 private: // renderer
 	MeshData* meshData;
 
 	Shader* shader;
-	Material* defultMaterial;
+	Material* defaultMaterial;
 	// 서브메쉬 수만큼 배열 할당
 	// materials[]->
-	Material** materials;
+	vector<Material*> materials;
 	UINT pass = 0;
 
 	VertexBuffer* vertexBuffer = nullptr;

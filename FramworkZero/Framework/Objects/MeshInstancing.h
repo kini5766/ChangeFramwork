@@ -8,7 +8,7 @@ class MeshInstance;
 class MeshInstancing
 {
 public:
-	// MeshData* : 그대로 사용 delete는 MeshRenderer 클레스에서
+	// MeshData* : 그대로 사용 delete는 이 클레스에서
 	MeshInstancing(Shader* shader, MeshData* data);
 	~MeshInstancing();
 
@@ -18,7 +18,7 @@ public:
 
 public:
 	void Pass(UINT value) { renderer->Pass(value); }
-	MeshRenderer* GetRenderer() { return renderer; }
+	MeshRenderer* GetRenderer() const { return renderer; }
 
 public:
 	MeshInstance* AddInstance();
@@ -32,6 +32,7 @@ public:
 
 private: // render 관련
 	MeshRenderer* renderer;
+	MeshData* meshData;
 	PerFrame* perframe = nullptr;
 
 private: // instance 관련

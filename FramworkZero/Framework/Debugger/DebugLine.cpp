@@ -4,7 +4,7 @@
 DebugLine::DebugLine()
 	: stride(sizeof(VertexColor))
 {
-	shader = new ShaderSetter(L"12_DebugLine.fxo");
+	shader = new ShaderSetter(L"01_DebugLine.fxo");
 
 	// create vertex
 	vertices = new VertexColor[MAX_DEBUG_LINE];

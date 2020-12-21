@@ -2,6 +2,7 @@
 #include "MeshInstancing.h"
 
 MeshInstancing::MeshInstancing(Shader * shader, MeshData * data)
+	: meshData(data)
 {
 	renderer = new MeshRenderer(shader, data);
 	perframe = new PerFrame(shader);
@@ -20,6 +21,9 @@ MeshInstancing::~MeshInstancing()
 
 	SafeDelete(perframe);
 	SafeDelete(renderer);
+
+	meshData->SafeDeleteData();
+	SafeDelete(meshData);
 }
 
 void MeshInstancing::Update()

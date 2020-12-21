@@ -23,25 +23,17 @@ void Context::Delete()
 Context::Context()
 {
 	camera = new Freedom();
-	light = new DirectionalLight();
 }
 
 Context::~Context()
 {
 	SafeDelete(camera);
-	SafeDelete(light);
 }
 
 inline void Context::MainCamera(Camera * value)
 {
 	SafeDelete(camera);
 	camera = value;
-}
-
-inline void Context::Light(DirectionalLight * value)
-{
-	SafeDelete(light);
-	light = value;
 }
 
 D3DXMATRIX Context::View()

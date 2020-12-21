@@ -25,14 +25,23 @@
     <Filter Include="Rendering\CBufferVariable">
       <UniqueIdentifier>{e6887cfd-501d-4ce4-b7da-1ed5c3f7e57f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering\Meshes">
-      <UniqueIdentifier>{71d8e83f-ece6-4b3f-b6f3-e926cf05419a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Debugger">
       <UniqueIdentifier>{65472379-8f57-45f9-bf7c-aa78819f1064}</UniqueIdentifier>
     </Filter>
     <Filter Include="Tools\MainLogic">
       <UniqueIdentifier>{7064a2d9-ed71-41ca-b2a2-aff5a722ba85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Lighting">
+      <UniqueIdentifier>{1bd8028a-2c96-48fa-91c2-085542ea854a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Meshes">
+      <UniqueIdentifier>{f7a1e8cd-a945-435f-97ab-3a4fc7cff02c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{b0273287-577c-4b58-b452-865887d8d19c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Model">
+      <UniqueIdentifier>{b2a93c62-b3fc-43d7-a617-6d476964342e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -121,29 +130,8 @@
     <ClCompile Include="Rendering\CBufferVariables\PerFrame.cpp">
       <Filter>Rendering\CBufferVariable</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\Meshes\MeshCube.cpp">
-      <Filter>Rendering\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Meshes\MeshCylinder.cpp">
-      <Filter>Rendering\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Meshes\MeshPlane.cpp">
-      <Filter>Rendering\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Meshes\MeshQuad.cpp">
-      <Filter>Rendering\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Meshes\MeshSphere.cpp">
-      <Filter>Rendering\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Meshes\MeshInstancing.cpp">
-      <Filter>Rendering\Meshes</Filter>
-    </ClCompile>
     <ClCompile Include="Debugger\DebugLog.cpp">
       <Filter>Debugger</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Meshes\MeshRenderer.cpp">
-      <Filter>Rendering\Meshes</Filter>
     </ClCompile>
     <ClCompile Include="Debugger\DebugLine.cpp">
       <Filter>Debugger</Filter>
@@ -163,14 +151,50 @@
     <ClCompile Include="Rendering\Shader.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Tools\DirectionalLight.cpp">
-      <Filter>Tools</Filter>
-    </ClCompile>
     <ClCompile Include="Tools\ImGuiInputText.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
     <ClCompile Include="Tools\Texture.cpp">
       <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Lighting\DirectionalLight.cpp">
+      <Filter>Tools\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Meshes\MeshCube.cpp">
+      <Filter>Tools\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Meshes\MeshCylinder.cpp">
+      <Filter>Tools\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Meshes\MeshPlane.cpp">
+      <Filter>Tools\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Meshes\MeshQuad.cpp">
+      <Filter>Tools\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Meshes\MeshSphere.cpp">
+      <Filter>Tools\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\MeshInstancing.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\MeshRenderer.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\SkinnedMeshRenderer.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\CBufferVariables\Lighting.cpp">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Model\ModelAnimation.cpp">
+      <Filter>Objects\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Model\ModelData.cpp">
+      <Filter>Objects\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Model\ModelMesh.cpp">
+      <Filter>Objects\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -277,32 +301,8 @@
     <ClInclude Include="Rendering\CBufferVariables\PerFrame.h">
       <Filter>Rendering\CBufferVariable</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\Meshes\MeshCube.h">
-      <Filter>Rendering\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Meshes\MeshCylinder.h">
-      <Filter>Rendering\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Meshes\MeshData.h">
-      <Filter>Rendering\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Meshes\MeshPlane.h">
-      <Filter>Rendering\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Meshes\MeshQuad.h">
-      <Filter>Rendering\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Meshes\MeshSphere.h">
-      <Filter>Rendering\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Meshes\MeshInstancing.h">
-      <Filter>Rendering\Meshes</Filter>
-    </ClInclude>
     <ClInclude Include="Debugger\DebugLog.h">
       <Filter>Debugger</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Meshes\MeshRenderer.h">
-      <Filter>Rendering\Meshes</Filter>
     </ClInclude>
     <ClInclude Include="Debugger\DebugLine.h">
       <Filter>Debugger</Filter>
@@ -322,14 +322,53 @@
     <ClInclude Include="Rendering\Shader.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Tools\DirectionalLight.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
     <ClInclude Include="Tools\ImGuiInputText.h">
       <Filter>Tools</Filter>
     </ClInclude>
     <ClInclude Include="Tools\Texture.h">
       <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\DirectionalLight.h">
+      <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Meshes\MeshCube.h">
+      <Filter>Tools\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Meshes\MeshCylinder.h">
+      <Filter>Tools\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Meshes\MeshData.h">
+      <Filter>Tools\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Meshes\MeshPlane.h">
+      <Filter>Tools\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Meshes\MeshQuad.h">
+      <Filter>Tools\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Meshes\MeshSphere.h">
+      <Filter>Tools\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\MeshInstancing.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\MeshRenderer.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\SkinnedMeshRenderer.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\CBufferVariables\Lighting.h">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelAnimation.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelData.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelMesh.h">
+      <Filter>Objects\Model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
