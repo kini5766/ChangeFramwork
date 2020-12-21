@@ -31,7 +31,7 @@ struct Transform
 // --
 
 Texture2DArray InputClipMap;
-StructuredBuffer<KeyframeCount> InputKeyframeCount;
+RWTexture2DArray<uint> InputKeyframeCount;
 
 
 // --
@@ -88,10 +88,11 @@ void GetAnimTime(out AnimTime a, uint boneIndex, int clip, float time)
 	a.currT = a.currR = a.currS = -1;
 	a.timeT = a.timeR = a.timeS = 0.0f;
 
-	uint tCount = InputKeyframeCount[boneIndex].Translation;
-	uint rCount = InputKeyframeCount[boneIndex].Rotaion;
-	uint sCount = InputKeyframeCount[boneIndex].Scale;
-	uint maxCount = InputKeyframeCount[boneIndex].MaxCount;
+	uint4 countBuffer = InputKeyframeCount[int3(boneIndex, clip, 0)];
+	uint tCount = countBuffer.r;
+	uint rCount = countBuffer.g;
+	uint sCount = countBuffer.b;
+	uint maxCount = countBuffer.a;
 
 	float3 prvFrame = float3(0, 0, 0);
 	for (uint i = 0; i < maxCount; i++)

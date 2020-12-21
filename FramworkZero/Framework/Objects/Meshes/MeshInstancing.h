@@ -17,6 +17,7 @@ public:
 	void Render();
 
 public:
+	void SetColor(UINT instance, const Color& color);
 	void Pass(UINT value) { renderer->Pass(value); }
 	MeshRenderer* GetRenderer() const { return renderer; }
 
@@ -27,8 +28,6 @@ public:
 	void UpdateTransforms();
 	void UpdateColors();
 
-public:
-	void SetColor(UINT instance, const Color& color);
 
 private: // render ฐüทร
 	MeshRenderer* renderer;

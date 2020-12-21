@@ -82,13 +82,14 @@ typedef D3DXPLANE Plane;
 #include "Tools/MainLogic/Keyboard.h"
 #include "Tools/MainLogic/Mouse.h"
 #include "Tools/MainLogic/Time.h"
-#include "Tools/MainLogic/GameLogic.h"
+//#include "Tools/MainLogic/GameLogic.h"
 
 #include "Tools/Math.h"
-#include "Tools/WinDesc.h"
-#include "Tools/Transform.h"
+#include "Tools/WinDesc.h"  // new
+#include "Tools/Transform.h"  // change
 
 #include "Tools/Texture.h"
+#include "Tools/Texture2D.h"  // new
 
 #include "Tools/Viewer/Viewport.h"
 #include "Tools/Viewer/Projection.h"
@@ -96,13 +97,6 @@ typedef D3DXPLANE Plane;
 #include "Tools/Viewer/Orthographic.h"
 #include "Tools/Viewer/Camera.h"
 #include "Tools/Viewer/Freedom.h"
-
-#include "Tools/Meshes/MeshData.h"
-#include "Tools/Meshes/MeshQuad.h"
-#include "Tools/Meshes/MeshPlane.h"
-#include "Tools/Meshes/MeshCube.h"
-#include "Tools/Meshes/MeshCylinder.h"
-#include "Tools/Meshes/MeshSphere.h"
 
 #include "Tools/Lighting/DirectionalLight.h"
 
@@ -115,8 +109,8 @@ typedef D3DXPLANE Plane;
 
 #include "Rendering/CBufferVariables/Context.h"
 #include "Rendering/CBufferVariables/Lighting.h"
-#include "Rendering/CBufferVariables/ShaderSetter.h"
-#include "Rendering/CBufferVariables/Material.h"
+#include "Rendering/CBufferVariables/ShaderSetter.h"  // new
+#include "Rendering/CBufferVariables/Material.h"  // change
 #include "Rendering/CBufferVariables/PerFrame.h"
 
 
@@ -128,13 +122,22 @@ typedef D3DXPLANE Plane;
 
 
 // Objects
-// drow해서 물체를 그리는 클래스
+// Rendering클래스를 이용해서 물체를 그리는 클래스
 
-#include "Objects/MeshRenderer.h"
-#include "Objects/MeshInstancing.h"
-#include "Objects/SkinnedMeshRenderer.h"
+#include "Objects/Meshes/MeshData.h"  // new
+#include "Objects/Meshes/MeshQuad.h"
+#include "Objects/Meshes/MeshPlane.h"
+#include "Objects/Meshes/MeshCube.h"
+#include "Objects/Meshes/MeshCylinder.h"
+#include "Objects/Meshes/MeshSphere.h"
+#include "Objects/Meshes/MeshRenderer.h"  // change
+#include "Objects/Meshes/MeshInstancing.h"  // change
+#include "Objects/Meshes/SkinnedMeshRenderer.h"
 
-#include "Objects/Model/ModelData.h"
+#include "Objects/Model/ModelData.h"  // change
+#include "Objects/Model/ModelAnimationInstancing.h"  // change
+#include "Objects/Model/ModelSkinnedInstancing.h"  // change
+
 
 // Debugger
 // 디버그용 클래스들

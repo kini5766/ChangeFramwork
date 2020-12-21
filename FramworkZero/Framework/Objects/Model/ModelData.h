@@ -60,6 +60,7 @@ struct VertexModel
 	}
 };
 
+
 struct ModelMeshData
 {
 	wstring Name;
@@ -68,10 +69,44 @@ struct ModelMeshData
 	MeshData* Mesh;
 };
 
+
 struct ModelBoneData
 {
 	wstring Name;
 	int ParentIndex;
 	int Index;
 	Matrix Transform;
+};
+
+
+struct KeyVector
+{
+	Vector3 Value;
+	float Time;
+};
+
+struct KeyQuat
+{
+	Quaternion Value;
+	float Time;
+};
+
+struct ClipBoneData
+{
+	vector<KeyVector> KeyTranslations;
+	vector<KeyQuat> KeyRotations;
+	vector<KeyVector> KeyScales;
+	UINT TranslationCount;
+	UINT RotaionCount;
+	UINT ScaleCount;
+	UINT MaxFrame;
+	wstring BoneName;
+};
+
+struct ModelClipData
+{
+	wstring Name;
+	float FrameRate;
+	float Duration;
+	vector<ClipBoneData*> Bones;
 };

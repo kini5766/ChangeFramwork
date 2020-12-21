@@ -1,17 +1,32 @@
 #include "Framework.h"
-#include "ModelAnimation.h"
+#include "ModelAnimationInstancing.h"
 
 using namespace ShaderEffectName;
 
-ModelAnimation::ModelAnimation(ModelData * data)
+ModelAnimationInstancing::ModelAnimationInstancing(ModelData * data)
 {
+	// clipCount
 	boneCount = data->BoneCount();
 
 	// Todo : 클립맵 만들기
-	// keyframeCount = new
+
+	// keyframeCount[clipIndex * boneCount + boneIndex]
+	keyframeCount = new KeyframeCount[clipCount * boneCount];
+	for (UINT c = 0; c < clipCount; c++)
+	{
+		for (UINT b = 0; b < boneCount; b++)
+		{
+			KeyframeCount& k = keyframeCount[c * boneCount + b];
+			k.Translation;
+			k.Rotaion;
+			k.Scale;
+		}
+	}
+
+	CreateCompute();
 }
 
-ModelAnimation::~ModelAnimation()
+ModelAnimationInstancing::~ModelAnimationInstancing()
 {
 	SafeDeleteArray(keyframeCount);
 
@@ -21,7 +36,18 @@ ModelAnimation::~ModelAnimation()
 	SafeDelete(computeShader);
 }
 
-void ModelAnimation::CreateCompute()
+ID3D11ShaderResourceView * ModelAnimationInstancing::GetOutputSrv()
+{
+	return computeOutputBuffer->OutputSRV();
+}
+
+void ModelAnimationInstancing::Update()
+{
+	computeShader->Render();
+	computeShader->GetShader()->Dispatch(0, 0, boneCount, 1, 1);
+}
+
+void ModelAnimationInstancing::CreateCompute()
 {
 	computeShader = new ShaderSetter(L"02_AnimationInstance.fxo");
 
@@ -32,8 +58,13 @@ void ModelAnimation::CreateCompute()
 	// in : 클립트랜스폼
 	computeShader->SetSRV("InputClipMap", srvClipBoneMap);
 
-	// in : 키프레임 별 최대치 * 본 개수
-	computeCountBuffer = new StructuredBuffer(keyframeCount, sizeof(KeyframeCount), boneCount);
+	Texture2D t2d = Texture2D(boneCount, clipCount);
+	t2d.Format(4u * 4u, DXGI_FORMAT_R32G32B32A32_UINT);
+	t2d.SetColors(keyframeCount);
+	t2d.CreateTexture();
+
+	// in : 키프레임 별 최대치 * (본 개수 * 클립 개수)
+	computeCountBuffer = new TextureBuffer(t2d.GetTexture());
 	computeShader->SetSRV("InputKeyframeCount", computeCountBuffer->SRV());
 
 	ID3D11Texture2D* texture;
@@ -50,4 +81,5 @@ void ModelAnimation::CreateCompute()
 	// out : 로컬 본*인스턴스 texture
 	computeOutputBuffer = new TextureBuffer(texture);
 	computeShader->SetUAV("Output", computeOutputBuffer->UAV());
+	SafeRelease(texture);  // 텍스쳐 복사되서 유지할 필요 없음
 }

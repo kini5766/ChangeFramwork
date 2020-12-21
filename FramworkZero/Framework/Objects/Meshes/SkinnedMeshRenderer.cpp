@@ -37,11 +37,31 @@ void SkinnedMeshRenderer::RenderInstance(UINT drawCount)
 		renderer->RenderInstance(drawCount);
 }
 
+void SkinnedMeshRenderer::Pass(UINT value)
+{
+	for (MeshRenderer* renderer : renderers)
+		renderer->Pass(value);
+}
+
+void SkinnedMeshRenderer::SetMaterials(Material ** mats, UINT count)
+{
+	for (MeshRenderer* renderer : renderers)
+	{
+		renderer->Materials().clear();
+
+		for (UINT i = 0; i < count; i++)
+		{
+			mats[i]->SetSRV(CB_BonesMap, bindPose->SrvBonesMap);
+			renderer->Materials().push_back(mats[i]);
+		}
+	}
+}
+
 void SkinnedMeshRenderer::UpdateMaterials()
 {
 	for (MeshRenderer* renderer : renderers)
 	{
-		UINT size = renderer->GetData()->SubMeshCount;
+		UINT size = renderer->Materials().size();
 		for (UINT i = 0; i < size; i++)
 		{
 			for (Material* material : renderer->Materials())

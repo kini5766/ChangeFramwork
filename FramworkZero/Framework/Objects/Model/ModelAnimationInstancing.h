@@ -1,26 +1,32 @@
 #pragma once
 
-class ModelAnimation
+class ModelAnimationInstancing
 {
 public:
-	ModelAnimation(ModelData* data);
-	~ModelAnimation();
+	ModelAnimationInstancing(ModelData* data);
+	~ModelAnimationInstancing();
+
+public:
+	void Update();
+
+public:
+	ID3D11ShaderResourceView* GetOutputSrv();
 
 private:
 	void CreateCompute();
 
 private:
+	UINT clipCount;
 	UINT boneCount;
 	// 클립트랜스폼
 	ID3D11ShaderResourceView* srvClipBoneMap = nullptr;
-
 
 	ShaderSetter* computeShader;
 	// in : 블랜드정보 * 인스턴스
 	ConstantBuffer* blendBuffer;
 	// in : 클립트랜스폼
-	// in : 키프레임 별 최대치 * 본 개수
-	StructuredBuffer* computeCountBuffer;
+	// in : 키프레임 별 최대치 * 본 개수 * 클립 수
+	TextureBuffer* computeCountBuffer;
 	// out : 로컬 본*인스턴스 texture
 	TextureBuffer* computeOutputBuffer;
 
@@ -43,12 +49,12 @@ private:
 	}/*blendDesc[MODEL_INSTANCE_MAX_COUNT]*/;
 
 private:
-	// 키프레임 별 최대치
+	// 키프레임 별 최대치 (1클립-1본 중에)
 	struct KeyframeCount
 	{
-		UINT Translation;
-		UINT Rotaion;
-		UINT Scale;
-		UINT MaxCount;
+		UINT Translation;  // r
+		UINT Rotaion;  // g
+		UINT Scale;  // b
+		UINT MaxCount;  // a
 	}*keyframeCount;
 };
