@@ -89,6 +89,7 @@
     <ClInclude Include="Objects\Meshes\SkinnedMeshRenderer.h" />
     <ClInclude Include="Objects\Model\ModelAnimationInstancing.h" />
     <ClInclude Include="Objects\Model\ModelData.h" />
+    <ClInclude Include="Objects\Model\ModelDesc.h" />
     <ClInclude Include="Objects\Model\ModelSkinnedInstancing.h" />
     <ClInclude Include="Rendering\Buffers\Buffers.h" />
     <ClInclude Include="Rendering\Buffers\ConstantBuffer.h" />

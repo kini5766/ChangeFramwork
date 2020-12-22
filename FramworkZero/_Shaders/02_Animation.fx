@@ -33,7 +33,6 @@ struct Transform
 Texture2DArray InputClipMap;
 RWTexture2DArray<uint> InputKeyframeCount;
 
-
 // --
 // function
 // --
@@ -56,7 +55,14 @@ matrix Combine(Transform transform)
 	float yw2 = 2 * r.y * r.w;
 	float zw2 = 2 * r.z * r.w;
 
-	return matrix(
+	if (any(s))
+		return matrix(
+			0.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 0.0f
+			);
+	else return matrix(
 		(xz2 + yw2) * s.x, (yz2 - xw2) * s.x, (1.0f - xx2 - yy2) * s.x, 0.0f,
 		(xy2 - zw2) * s.y, (1.0f - xx2 - zz2) * s.y, (yz2 + xw2) * s.y, 0.0f,
 		(1.0f - yy2 - zz2) * s.z, (xy2 + zw2) * s.z, (xz2 - yw2) * s.z, 0.0f,
@@ -83,7 +89,7 @@ struct AnimTime
 	float timeT, timeR, timeS;
 };
 
-void GetAnimTime(out AnimTime a, uint boneIndex, int clip, float time)
+bool GetAnimTime(out AnimTime a, uint boneIndex, int clip, float time)
 {
 	a.currT = a.currR = a.currS = -1;
 	a.timeT = a.timeR = a.timeS = 0.0f;
@@ -93,6 +99,10 @@ void GetAnimTime(out AnimTime a, uint boneIndex, int clip, float time)
 	uint rCount = countBuffer.g;
 	uint sCount = countBuffer.b;
 	uint maxCount = countBuffer.a;
+
+	[flatten]
+	if (maxCount == 0)
+		return false;  // 에닝본 없는 메쉬본
 
 	float3 prvFrame = float3(0, 0, 0);
 	for (uint i = 0; i < maxCount; i++)
@@ -181,43 +191,60 @@ void GetAnimTime(out AnimTime a, uint boneIndex, int clip, float time)
 		if (bT && bR && bS) break;
 		else prvFrame = frame;
 	}
+
+	return true;
 }
 
 void GetAnimWorld(out Transform transform, uint boneIndex, int clip, float time)
 {
-	transform = (Transform)0;
-
 	[flatten]
-	if (clip == -1) return;
+	if (clip == -1)
+	{
+		// mesh 랜더에서 Default bone 적용
+		transform.Translation = float3(0.0f, 0.0f, 0.0f);
+		transform.Rotaion = float4(0.0f, 0.0f, 0.0f, 0.0f);
+		transform.Scale = float3(0.0f, 0.0f, 0.0f);
+		return;
+	}
 
 	AnimTime aTime;
-	GetAnimTime(aTime, boneIndex, clip, time);
-
-	float3 t = InputClipMap.Load(int4(boneIndex * 4 + 0, aTime.currT, clip, 0)).xyz;
-	[flatten]
-	if (aTime.timeT != 0.0f)
+	if (GetAnimTime(aTime, boneIndex, clip, time))
 	{
-		float3 prev = InputClipMap.Load(int4(boneIndex * 4 + 0, aTime.currT - 1, clip, 0)).xyz;
-		t = lerp(prev, t, aTime.timeT);
+		float3 t = InputClipMap.Load(int4(boneIndex * 4 + 0, aTime.currT, clip, 0)).xyz;
+		[flatten]
+		if (aTime.timeT != 0.0f)
+		{
+			float3 prev = InputClipMap.Load(int4(boneIndex * 4 + 0, aTime.currT - 1, clip, 0)).xyz;
+			t = lerp(prev, t, aTime.timeT);
+		}
+
+		float4 r = InputClipMap.Load(int4(boneIndex * 4 + 1, aTime.currR, clip, 0));
+		[flatten]
+		if (aTime.timeR != 0.0f)
+		{
+			float4 prev = InputClipMap.Load(int4(boneIndex * 4 + 0, aTime.currT - 1, clip, 0));
+			r = Slerp(prev, r, aTime.timeR);
+		}
+
+		float3 s = InputClipMap.Load(int4(boneIndex * 4 + 2, aTime.currS, clip, 0)).xyz;
+		[flatten]
+		if (aTime.timeS != 0.0f)
+		{
+			float3 prev = InputClipMap.Load(int4(boneIndex * 4 + 0, aTime.currT - 1, clip, 0)).xyz;
+			s = lerp(prev, s, aTime.timeS);
+		}
+
+		transform.Translation = t;
+		transform.Rotaion = r;
+		transform.Scale = s;
+	}
+	else
+	{
+		// mesh 랜더에서 Default bone 적용
+		transform.Translation = float3(0.0f, 0.0f, 0.0f);
+		transform.Rotaion = float4(0.0f, 0.0f, 0.0f, 0.0f);
+		transform.Scale = float3(0.0f, 0.0f, 0.0f);
+		return;
 	}
 
-	float4 r = InputClipMap.Load(int4(boneIndex * 4 + 1, aTime.currR, clip, 0));
-	[flatten]
-	if (aTime.timeR != 0.0f)
-	{
-		float4 prev = InputClipMap.Load(int4(boneIndex * 4 + 0, aTime.currT - 1, clip, 0));
-		r = Slerp(prev, r, aTime.timeR);
-	}
-
-	float3 s = InputClipMap.Load(int4(boneIndex * 4 + 2, aTime.currS, clip, 0)).xyz;
-	[flatten]
-	if (aTime.timeS != 0.0f)
-	{
-		float3 prev = InputClipMap.Load(int4(boneIndex * 4 + 0, aTime.currT - 1, clip, 0)).xyz;
-		s = lerp(prev, s, aTime.timeS);
-	}
-
-	transform.Translation = t;
-	transform.Rotaion = r;
-	transform.Scale = s;
 }

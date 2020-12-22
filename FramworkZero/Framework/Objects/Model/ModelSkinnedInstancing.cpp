@@ -129,6 +129,7 @@ void ModelSkinnedInstancing::ApplyModel(Shader* shader)
 
 		boneDesc[i].Parent = bone->ParentIndex;
 		D3DXMatrixInverse(&boneDesc[i].InvBone, nullptr, &bone->Transform);
+		boneDesc[i].DefaultBone = bone->Transform;
 	}
 
 	animation = new ModelAnimationInstancing(data);

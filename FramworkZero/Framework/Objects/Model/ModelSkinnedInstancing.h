@@ -28,6 +28,9 @@ private:
 	void ApplyModel(Shader* shader);
 	void CreateCompute();
 
+private: // animation 관련
+	class ModelAnimationInstancing* animation;
+
 private: // instance 관련
 	vector<ModelSkinnedInstance*> instances;
 	vector<UINT> junkInstances;
@@ -41,7 +44,6 @@ private: // instance 관련
 private: // render 관련
 	ModelData* data;
 	SkinnedMeshRenderer* renderer;
-	class ModelAnimationInstancing* animation;
 	Transform* transform;
 
 	Matrix world;
@@ -66,6 +68,8 @@ private:
 		int Parent;
 		// inv 본
 		Matrix InvBone;
+		// 에닝본 없을 시 적용 시킬 본
+		Matrix DefaultBone;
 	}* boneDesc;
 };
 

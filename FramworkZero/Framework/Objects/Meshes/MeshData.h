@@ -1,5 +1,8 @@
 #pragma once
 
+
+#pragma region VertexMesh
+
 struct VertexMesh
 {
 	Vector3 Position;
@@ -41,6 +44,9 @@ struct VertexMesh
 		Tangent = tangent;
 	}
 };
+
+#pragma endregion
+
 
 struct SubMeshData
 {

@@ -17,9 +17,10 @@ ModelAnimationInstancing::ModelAnimationInstancing(ModelData * data)
 		for (UINT b = 0; b < boneCount; b++)
 		{
 			KeyframeCount& k = keyframeCount[c * boneCount + b];
-			k.Translation;
-			k.Rotaion;
-			k.Scale;
+			//k.Translation = ;
+			//k.Rotaion = ;
+			//k.Scale = ;
+			//k.MaxCount = ;
 		}
 	}
 

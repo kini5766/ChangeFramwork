@@ -135,7 +135,7 @@ typedef D3DXPLANE Plane;
 #include "Objects/Meshes/SkinnedMeshRenderer.h"
 
 #include "Objects/Model/ModelData.h"  // change
-#include "Objects/Model/ModelAnimationInstancing.h"  // change
+#include "Objects/Model/ModelAnimationInstancing.h"  // ºÐÇÒ
 #include "Objects/Model/ModelSkinnedInstancing.h"  // change
 
 

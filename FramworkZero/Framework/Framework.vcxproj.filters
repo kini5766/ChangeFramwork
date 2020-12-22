@@ -376,5 +376,8 @@
     <ClInclude Include="Objects\Model\ModelAnimationInstancing.h">
       <Filter>Objects\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\Model\ModelDesc.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
