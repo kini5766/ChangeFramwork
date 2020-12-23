@@ -77,7 +77,7 @@ typedef D3DXPLANE Plane;
 
 
 // Tools
-// 필요할 때 꺼내 쓰는 클래스들
+// 필요할 때 꺼내 쓰는 클래스들 (특징 : Rendering 사용하지 않음)
 
 #include "Tools/MainLogic/Keyboard.h"
 #include "Tools/MainLogic/Mouse.h"
@@ -102,7 +102,7 @@ typedef D3DXPLANE Plane;
 
 
 //Rendering
-// IASet, Shader에 값 넘겨주는 클래스
+// IASet하거나, Shader에 값 넘겨주는 클래스들
 
 #include "Rendering/Shader.h"
 #include "Rendering/Buffers/Buffers.h"

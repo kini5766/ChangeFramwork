@@ -14,7 +14,7 @@ public:
 public:
 	void SetColorsArray(const void** datas);
 	void CreateTextureArray();
-	void CreateArraySRV();
+	void CreateSRVArray();
 
 public:
 	UINT Width() { return desc.Width; }
@@ -24,6 +24,12 @@ public:
 	UINT Stride() { return stride; }
 	DXGI_FORMAT Format() { return desc.Format; }
 	void Format(UINT stride, DXGI_FORMAT value) { desc.Format = value; this->stride = stride; }
+
+	UINT ArraySize() { return arraySize; }
+	// 1줄의 바이트 크기
+	UINT WidthSize() { return desc.Width * stride; }
+	// 1장의 바이트 크기
+	UINT PageSize() { return desc.Width * desc.Height * stride; }
 
 	ID3D11Texture2D* GetTexture() { return texture; }
 	ID3D11ShaderResourceView* GetSRV() { return srv; }

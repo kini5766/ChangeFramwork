@@ -7,7 +7,10 @@ ModelSkinnedInstancing::ModelSkinnedInstancing(Shader* shader, const ModelDesc& 
 {
 	transform = new Transform(&world);
 	data = new ModelData();
-	// Todo : ·Îµå
+	data->ReadMaterial(desc.MaterialFile);
+	data->ReadMesh(desc.MeshFile);
+	for (auto& file : desc.ClipFiles)
+		data->ReadClip(file);
 
 	ApplyModel(shader);
 }

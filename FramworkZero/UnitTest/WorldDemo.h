@@ -13,7 +13,10 @@ public:
 	void PostRender() override {};
 	void ResizeScreen() override {};
 
+	void Kachujin();
+
 private:
 	Shader* shader;
 	MeshInstancing* box;
+	ModelSkinnedInstancing* kachujin;
 };

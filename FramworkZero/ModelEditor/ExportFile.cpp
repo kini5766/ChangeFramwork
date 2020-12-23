@@ -6,7 +6,7 @@
 void ExportFile::Initialize()
 {
 	//Tank();
-	//Kachujin();
+	Kachujin();
 	//Tower();
 	//Airplane();
 

@@ -32,6 +32,7 @@
     <ClCompile Include="Objects\Meshes\MeshRenderer.cpp" />
     <ClCompile Include="Objects\Meshes\MeshSphere.cpp" />
     <ClCompile Include="Objects\Meshes\SkinnedMeshRenderer.cpp" />
+    <ClCompile Include="Objects\Model\ModelClipTexture.cpp" />
     <ClCompile Include="Objects\Model\ModelAnimationInstancing.cpp" />
     <ClCompile Include="Objects\Model\ModelData.cpp" />
     <ClCompile Include="Objects\Model\ModelSkinnedInstancing.cpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="Objects\Meshes\MeshRenderer.h" />
     <ClInclude Include="Objects\Meshes\MeshSphere.h" />
     <ClInclude Include="Objects\Meshes\SkinnedMeshRenderer.h" />
+    <ClInclude Include="Objects\Model\ModelClipTexture.h" />
     <ClInclude Include="Objects\Model\ModelAnimationInstancing.h" />
     <ClInclude Include="Objects\Model\ModelData.h" />
     <ClInclude Include="Objects\Model\ModelDesc.h" />

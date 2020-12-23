@@ -11,6 +11,7 @@ Texture2D::Texture2D(UINT width, UINT height, bool bCpuWirte, bool bGpuWrite, UI
 	desc.Height = height;
 	desc.ArraySize = arraySize;
 	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;  // 쉐이더에 사용할 텍스쳐
 	desc.MipLevels = 1;
 	desc.SampleDesc.Count = 1;
 
@@ -36,6 +37,8 @@ Texture2D::Texture2D(UINT width, UINT height, bool bCpuWirte, bool bGpuWrite, UI
 
 Texture2D::~Texture2D()
 {
+	SafeRelease(srv);
+	SafeRelease(texture);
 	SafeDeleteArray(datas);
 }
 
@@ -102,7 +105,7 @@ void Texture2D::CreateTextureArray()
 	SafeDeleteArray(subResouce);
 }
 
-void Texture2D::CreateArraySRV()
+void Texture2D::CreateSRVArray()
 {
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
 	ZeroMemory(&srvDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));

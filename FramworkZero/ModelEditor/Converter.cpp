@@ -596,6 +596,7 @@ void Converter::ReadKeyframeData(asExClip * clip, aiNode * node, vector<asExClip
 	{
 		bone = new asExClipBone();
 		bone->MaxFrame = 0;
+		bone->BoneName = node->mName;
 	}
 
 	clip->Bones.push_back(bone);

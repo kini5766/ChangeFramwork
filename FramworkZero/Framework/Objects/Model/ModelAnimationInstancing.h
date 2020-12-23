@@ -18,8 +18,9 @@ private:
 private:
 	UINT clipCount;
 	UINT boneCount;
+
 	// 클립트랜스폼
-	ID3D11ShaderResourceView* srvClipBoneMap = nullptr;
+	class ModelClipTexture* clipBoneMap;
 
 	ShaderSetter* computeShader;
 	// in : 블랜드정보 * 인스턴스
@@ -50,6 +51,7 @@ private:
 
 private:
 	// 키프레임 별 최대치 (1클립-1본 중에)
+	// 주소가 아닌 값을 넘겨야하기 때문에 1차원으로 선언
 	struct KeyframeCount
 	{
 		UINT Translation;  // r

@@ -199,6 +199,9 @@
     <ClCompile Include="Objects\Model\ModelAnimationInstancing.cpp">
       <Filter>Objects\Model</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Model\ModelClipTexture.cpp">
+      <Filter>Objects\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -377,6 +380,9 @@
       <Filter>Objects\Model</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Model\ModelDesc.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelClipTexture.h">
       <Filter>Objects\Model</Filter>
     </ClInclude>
   </ItemGroup>

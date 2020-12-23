@@ -20,12 +20,15 @@ void WorldDemo::Initialize()
 	}
 	box->UpdateTransforms();
 	box->UpdateColors();
+
+	Kachujin();
 }
 
 void WorldDemo::Destroy()
 {
-	SafeRelease(shader);
 	SafeDelete(box);
+	SafeDelete(kachujin);
+	SafeRelease(shader);
 }
 
 void WorldDemo::Update()
@@ -36,4 +39,20 @@ void WorldDemo::Update()
 void WorldDemo::Render()
 {
 	box->Render();
+}
+
+void WorldDemo::Kachujin()
+{
+	kachujin = new ModelSkinnedInstancing(shader, 
+		{
+			/*매쉬*/ L"Kachujin/Mesh",
+			/*매터리얼*/ L"Kachujin/Mesh",
+			/*클립*/ {
+				L"Kachujin/Idle",
+				L"Kachujin/Walk",
+				L"Kachujin/Run",
+				L"Kachujin/Slash",
+				L"Kachujin/Uprock",
+			}
+		});
 }

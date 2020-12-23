@@ -1,26 +1,29 @@
 #include "Framework.h"
 #include "ModelAnimationInstancing.h"
+#include "ModelClipTexture.h"
 
 using namespace ShaderEffectName;
 
 ModelAnimationInstancing::ModelAnimationInstancing(ModelData * data)
 {
-	// clipCount
+	clipCount = data->ClipCount();
 	boneCount = data->BoneCount();
 
-	// Todo : 클립맵 만들기
+	clipBoneMap = new ModelClipTexture(data);
 
 	// keyframeCount[clipIndex * boneCount + boneIndex]
 	keyframeCount = new KeyframeCount[clipCount * boneCount];
 	for (UINT c = 0; c < clipCount; c++)
 	{
-		for (UINT b = 0; b < boneCount; b++)
+		UINT boneSize = data->ClipByIndex(c)->Bones.size();
+		for (UINT b = 0; b < boneSize; b++)
 		{
 			KeyframeCount& k = keyframeCount[c * boneCount + b];
-			//k.Translation = ;
-			//k.Rotaion = ;
-			//k.Scale = ;
-			//k.MaxCount = ;
+			ClipBoneData* bone = data->Clips()[c]->Bones[b];
+			k.Translation = bone->KeyTranslations.size();
+			k.Rotaion = bone->KeyRotations.size();
+			k.Scale = bone->KeyScales.size();
+			k.MaxCount = bone->MaxFrame;
 		}
 	}
 
@@ -29,12 +32,13 @@ ModelAnimationInstancing::ModelAnimationInstancing(ModelData * data)
 
 ModelAnimationInstancing::~ModelAnimationInstancing()
 {
-	SafeDeleteArray(keyframeCount);
-
 	SafeDelete(computeOutputBuffer);
 	SafeDelete(computeCountBuffer);
 	SafeDelete(blendBuffer);
 	SafeDelete(computeShader);
+
+	SafeDeleteArray(keyframeCount);
+	SafeDelete(clipBoneMap);
 }
 
 ID3D11ShaderResourceView * ModelAnimationInstancing::GetOutputSrv()
@@ -57,7 +61,7 @@ void ModelAnimationInstancing::CreateCompute()
 	computeShader->SetConstantBuffer(CB_Keyframes, blendBuffer->Buffer());
 
 	// in : 클립트랜스폼
-	computeShader->SetSRV("InputClipMap", srvClipBoneMap);
+	computeShader->SetSRV("InputClipMap", clipBoneMap->GetSRV());
 
 	Texture2D t2d = Texture2D(boneCount, clipCount);
 	t2d.Format(4u * 4u, DXGI_FORMAT_R32G32B32A32_UINT);
