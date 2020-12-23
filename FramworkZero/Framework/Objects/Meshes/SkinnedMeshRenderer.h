@@ -31,5 +31,6 @@ private:
 
 struct MeshBindPose
 {
+	//ID3D11UnorderedAccessView* UavBonesMap = nullptr;
 	ID3D11ShaderResourceView* SrvBonesMap = nullptr;
 };

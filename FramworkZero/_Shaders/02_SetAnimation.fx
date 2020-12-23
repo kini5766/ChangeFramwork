@@ -31,7 +31,7 @@ struct Transform
 // --
 
 Texture2DArray InputClipMap;
-RWTexture2DArray<uint> InputKeyframeCount;
+Texture2DArray<uint> InputKeyframeCount;
 
 // --
 // function
@@ -55,19 +55,20 @@ matrix Combine(Transform transform)
 	float yw2 = 2 * r.y * r.w;
 	float zw2 = 2 * r.z * r.w;
 
-	if (any(s))
+
+	if (s.x == 0.0f)
 		return matrix(
 			0.0f, 0.0f, 0.0f, 0.0f,
 			0.0f, 0.0f, 0.0f, 0.0f,
 			0.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 0.0f
-			);
+			0.0f, 0.0f, 0.0f, 0.0f);
 	else return matrix(
-		(xz2 + yw2) * s.x, (yz2 - xw2) * s.x, (1.0f - xx2 - yy2) * s.x, 0.0f,
+		(1.0f - yy2 - zz2) * s.x, (xy2 + zw2) * s.x, (xz2 - yw2) * s.x, 0.0f,
 		(xy2 - zw2) * s.y, (1.0f - xx2 - zz2) * s.y, (yz2 + xw2) * s.y, 0.0f,
-		(1.0f - yy2 - zz2) * s.z, (xy2 + zw2) * s.z, (xz2 - yw2) * s.z, 0.0f,
+		(xz2 + yw2) * s.z, (yz2 - xw2) * s.z, (1.0f - xx2 - yy2) * s.z, 0.0f,
 		t.x, t.y, t.z, 1.0f
 		);
+
 }
 
 float4 Slerp(float4 r1, float4 r2, float t)
@@ -101,7 +102,7 @@ bool GetAnimTime(out AnimTime a, uint boneIndex, int clip, float time)
 	uint maxCount = countBuffer.a;
 
 	[flatten]
-	if (maxCount == 0)
+	if (maxCount == 0 || maxCount > 10000)
 		return false;  // 에닝본 없는 메쉬본
 
 	float3 prvFrame = float3(0, 0, 0);
@@ -126,13 +127,10 @@ bool GetAnimTime(out AnimTime a, uint boneIndex, int clip, float time)
 				float dist = frame.x - prvFrame.x;
 
 				if (dist != 0)
-				{
 					a.timeT = (time - prvFrame.x) / dist;
-				}
 				else
-				{
 					a.timeT = 0.0f;
-				}
+
 				bT = true;
 			}
 		}
@@ -151,13 +149,10 @@ bool GetAnimTime(out AnimTime a, uint boneIndex, int clip, float time)
 				float dist = frame.y - prvFrame.y;
 
 				if (dist != 0)
-				{
 					a.timeR = (time - prvFrame.y) / dist;
-				}
 				else
-				{
 					a.timeR = 0.0f;
-				}
+
 				bR = true;
 			}
 		}
@@ -176,13 +171,10 @@ bool GetAnimTime(out AnimTime a, uint boneIndex, int clip, float time)
 				float dist = frame.z - prvFrame.z;
 
 				if (dist != 0)
-				{
 					a.timeS = (time - prvFrame.z) / dist;
-				}
 				else
-				{
 					a.timeS = 0.0f;
-				}
+
 				bS = true;
 			}
 		}
@@ -222,7 +214,7 @@ void GetAnimWorld(out Transform transform, uint boneIndex, int clip, float time)
 		[flatten]
 		if (aTime.timeR != 0.0f)
 		{
-			float4 prev = InputClipMap.Load(int4(boneIndex * 4 + 0, aTime.currT - 1, clip, 0));
+			float4 prev = InputClipMap.Load(int4(boneIndex * 4 + 1, aTime.currR - 1, clip, 0));
 			r = Slerp(prev, r, aTime.timeR);
 		}
 
@@ -230,7 +222,7 @@ void GetAnimWorld(out Transform transform, uint boneIndex, int clip, float time)
 		[flatten]
 		if (aTime.timeS != 0.0f)
 		{
-			float3 prev = InputClipMap.Load(int4(boneIndex * 4 + 0, aTime.currT - 1, clip, 0)).xyz;
+			float3 prev = InputClipMap.Load(int4(boneIndex * 4 + 2, aTime.currS - 1, clip, 0)).xyz;
 			s = lerp(prev, s, aTime.timeS);
 		}
 
@@ -244,7 +236,6 @@ void GetAnimWorld(out Transform transform, uint boneIndex, int clip, float time)
 		transform.Translation = float3(0.0f, 0.0f, 0.0f);
 		transform.Rotaion = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		transform.Scale = float3(0.0f, 0.0f, 0.0f);
-		return;
 	}
 
 }

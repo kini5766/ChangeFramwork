@@ -17,12 +17,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{D5
 		_Shaders\00_Render.fx = _Shaders\00_Render.fx
 		_Shaders\01_DebugLine.fx = _Shaders\01_DebugLine.fx
 		_Shaders\01_Instance.fx = _Shaders\01_Instance.fx
-		_Shaders\02_Animation.fx = _Shaders\02_Animation.fx
 		_Shaders\02_AnimationInstance.fx = _Shaders\02_AnimationInstance.fx
-		_Shaders\02_GetBones.fx = _Shaders\02_GetBones.fx
+		_Shaders\02_GetBonesInstance.fx = _Shaders\02_GetBonesInstance.fx
+		_Shaders\02_SetAnimation.fx = _Shaders\02_SetAnimation.fx
+		_Shaders\02_SetBones.fx = _Shaders\02_SetBones.fx
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelEditor", "ModelEditor\ModelEditor.vcxproj", "{6EF9226B-71F0-4A4D-B086-C01A4DBEE97D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4BDED383-93FE-4A26-990D-FE41D472EB28} = {4BDED383-93FE-4A26-990D-FE41D472EB28}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

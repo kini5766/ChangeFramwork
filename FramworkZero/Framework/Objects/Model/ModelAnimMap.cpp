@@ -1,5 +1,57 @@
 #include "Framework.h"
-#include "ModelClipTexture.h"
+#include "ModelAnimMap.h"
+
+
+#pragma region ModelAnimMap
+
+ModelAnimMap::ModelAnimMap(ModelData * data)
+{
+	UINT clipCount = data->ClipCount();
+	UINT boneCount = data->BoneCount();
+
+	clipBoneMap = new ModelClipTexture(data);
+
+	frameCountsTexture = new Texture2D(boneCount, clipCount);
+
+	KeyframeCount* keyframeCounts = new KeyframeCount[clipCount * boneCount];
+	for (UINT c = 0; c < clipCount; c++)
+	{
+		UINT boneSize = data->ClipByIndex(c)->Bones.size();
+		for (UINT b = 0; b < boneSize; b++)
+		{
+			KeyframeCount& k = keyframeCounts[c * boneCount + b];
+			ClipBoneData* bone = data->Clips()[c]->Bones[b];
+			k.Translation = bone->KeyTranslations.size();
+			k.Rotaion = bone->KeyRotations.size();
+			k.Scale = bone->KeyScales.size();
+			k.MaxCount = bone->MaxFrame;
+		}
+	}
+
+	frameCountsTexture->Format(4u * 4u, DXGI_FORMAT_R32G32B32A32_UINT);
+	frameCountsTexture->SetColors(keyframeCounts);
+	frameCountsTexture->CreateTexture();
+	computeCountBuffer = new TextureBuffer(frameCountsTexture->GetTexture());
+	SafeDeleteArray(keyframeCounts);
+
+}
+
+ModelAnimMap::~ModelAnimMap()
+{
+	SafeDelete(computeCountBuffer);
+	SafeDelete(frameCountsTexture);
+	SafeDelete(clipBoneMap);
+}
+
+ID3D11ShaderResourceView * ModelAnimMap::ClipBoneMapSrv()
+{ 
+	return clipBoneMap->GetSRV(); 
+}
+
+#pragma endregion
+
+
+#pragma region ModelClipTexture
 
 ModelClipTexture::ModelClipTexture(ModelData * data)
 {
@@ -76,21 +128,23 @@ ModelClipTexture::~ModelClipTexture()
 	SafeDelete(texture);
 }
 
+#pragma endregion
+
 
 #pragma region ClipTransform
 
-ModelClipTexture::ClipTransform::ClipTransform()
+ClipTransform::ClipTransform()
 {
 }
 
-ModelClipTexture::ClipTransform::~ClipTransform()
+ClipTransform::~ClipTransform()
 {
 	for (UINT i = 0; i < maxFrameCount; i++)
 		SafeDeleteArray(datas[i]);
 	SafeDeleteArray(datas);
 }
 
-void ModelClipTexture::ClipTransform::NewArray(UINT _boneCount, UINT _maxFrameCount)
+void ClipTransform::NewArray(UINT _boneCount, UINT _maxFrameCount)
 {
 	boneCount = _boneCount;
 	maxFrameCount = _maxFrameCount;
@@ -103,12 +157,12 @@ void ModelClipTexture::ClipTransform::NewArray(UINT _boneCount, UINT _maxFrameCo
 	}
 }
 
-void ModelClipTexture::ClipTransform::SetData(ClipBoneData ** data, UINT BonesSize)
+void ClipTransform::SetData(ClipBoneData ** data, UINT BonesSize)
 {
 	for (UINT b = 0; b < BonesSize; b++)
 	{
 		UINT size;
-		
+
 		// Translation
 		size = data[b]->KeyTranslations.size();
 		for (UINT f = 0; f < size; f++)
@@ -148,7 +202,7 @@ void ModelClipTexture::ClipTransform::SetData(ClipBoneData ** data, UINT BonesSi
 	}
 }
 
-void * ModelClipTexture::ClipTransform::GetData(UINT height)
+void * ClipTransform::GetData(UINT height)
 {
 	return (void*)datas[height];
 }

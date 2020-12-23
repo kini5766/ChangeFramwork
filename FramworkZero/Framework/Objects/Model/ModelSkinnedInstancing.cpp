@@ -1,16 +1,16 @@
 #include "Framework.h"
 #include "ModelSkinnedInstancing.h"
+#include "ModelComputeAnimInst.h"
 
 using namespace ShaderEffectName;
 
 ModelSkinnedInstancing::ModelSkinnedInstancing(Shader* shader, const ModelDesc& desc)
 {
-	transform = new Transform(&world);
 	perframe = new PerFrame(shader);
 	data = new ModelData();
 
-	instanceBuffer = new VertexBuffer(worlds, MESH_INSTANCE_MAX_COUNT, sizeof(Matrix), 1, true);
-	instanceColorBuffer = new VertexBuffer(colors, MESH_INSTANCE_MAX_COUNT, sizeof(Color), 2, true);
+	instanceBuffer = new VertexBuffer(worlds, MODEL_INSTANCE_MAX_COUNT, sizeof(Matrix), 1, true);
+	instanceColorBuffer = new VertexBuffer(colors, MODEL_INSTANCE_MAX_COUNT, sizeof(Color), 2, true);
 
 	data->ReadMaterial(desc.MaterialFile);
 	data->ReadMesh(desc.MeshFile);
@@ -22,17 +22,11 @@ ModelSkinnedInstancing::ModelSkinnedInstancing(Shader* shader, const ModelDesc& 
 
 ModelSkinnedInstancing::~ModelSkinnedInstancing()
 {
-	SafeDelete(computeOutputBoneBuffer);
-	SafeDelete(computeOutputSrvBuffer);
-	SafeDelete(computeBoneDescBuffer);
-	SafeDelete(computeShader);
-
 	SafeDelete(instanceColorBuffer);
 	SafeDelete(instanceBuffer);
 
 	SafeDelete(renderer);
-	SafeDelete(animation);
-	SafeDeleteArray(boneDesc);
+	SafeDelete(compute);
 	SafeDelete(data);
 
 	SafeDelete(perframe);
@@ -42,11 +36,7 @@ ModelSkinnedInstancing::~ModelSkinnedInstancing()
 void ModelSkinnedInstancing::Update()
 {
 	perframe->Update();
-	animation->Update();
-
-	transform->UpdateWorld();
-	computeShader->Render();
-	computeShader->GetShader()->Dispatch(0, 0, boneCount, 1, 1);
+	compute->Update();
 
 	renderer->Update();
 }
@@ -57,7 +47,7 @@ void ModelSkinnedInstancing::Render()
 	instanceColorBuffer->Render();
 
 	perframe->Render();
-	renderer->Render();
+	renderer->RenderInstance(instances.size());
 }
 
 
@@ -118,7 +108,7 @@ void ModelSkinnedInstancing::UpdateTransforms()
 
 	D3D::GetDC()->Map(instanceBuffer->Buffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &subResource);
 	{
-		memcpy(subResource.pData, worlds, sizeof(Matrix) * MESH_INSTANCE_MAX_COUNT);
+		memcpy(subResource.pData, worlds, sizeof(Matrix) * MODEL_INSTANCE_MAX_COUNT);
 	}
 	D3D::GetDC()->Unmap(instanceBuffer->Buffer(), 0);
 }
@@ -129,7 +119,7 @@ void ModelSkinnedInstancing::UpdateColors()
 
 	D3D::GetDC()->Map(instanceColorBuffer->Buffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &subResource);
 	{
-		memcpy(subResource.pData, colors, sizeof(Color) * MESH_INSTANCE_MAX_COUNT);
+		memcpy(subResource.pData, colors, sizeof(Color) * MODEL_INSTANCE_MAX_COUNT);
 	}
 	D3D::GetDC()->Unmap(instanceColorBuffer->Buffer(), 0);
 }
@@ -148,19 +138,8 @@ void ModelSkinnedInstancing::ApplyModel(Shader* shader)
 		mat->SetShader(shader);
 
 	boneCount = data->BoneCount();
-	boneDesc = new BoneDesc[boneCount];
-	for (UINT i = 0; i < boneCount; i++)
-	{
-		ModelBoneData* bone = data->BoneByIndex(i);
 
-		boneDesc[i].Parent = bone->ParentIndex;
-		D3DXMatrixInverse(&boneDesc[i].InvBone, nullptr, &bone->Transform);
-		boneDesc[i].DefaultBone = bone->Transform;
-	}
-
-	animation = new ModelAnimationInstancing(data);
-
-	CreateCompute();
+	compute = new ModelComputeAnimInst(data, &world);
 
 	renderer = new SkinnedMeshRenderer();
 	UINT size = data->MeshCount();
@@ -169,42 +148,6 @@ void ModelSkinnedInstancing::ApplyModel(Shader* shader)
 		ModelMeshData* mesh = data->MeshByIndex(i);
 		renderer->Renderers().push_back(new MeshRenderer(shader, mesh->Mesh));
 	}
-	renderer->BindPose()->SrvBonesMap = computeOutputSrvBuffer->OutputSRV();
+	renderer->BindPose()->SrvBonesMap = compute->GetOutputBoneResultSrv();
 	renderer->SetMaterials(data->Materials().data(), data->Materials().size());
-}
-
-void ModelSkinnedInstancing::CreateCompute()
-{
-	computeShader = new ShaderSetter(L"02_GetBones.fxo");
-
-	// In : 모델World
-	computeShader->SetMatrixPointer(CB_World, &world);
-
-	// In : (애니메이션out) 로컬 본*인스턴스 texture
-	srvLocalBones = animation->GetOutputSrv();
-	computeShader->SetSRV("InputLocalBones", srvLocalBones);
-
-	// In : inv 본, 본 부모 인덱스들
-	computeBoneDescBuffer = new StructuredBuffer(boneDesc, sizeof(BoneDesc), boneCount);
-	computeShader->SetSRV("InputboneDesc", computeBoneDescBuffer->SRV());
-
-
-	ID3D11Texture2D* texture;
-	D3D11_TEXTURE2D_DESC desc;
-	ZeroMemory(&desc, sizeof(D3D11_TEXTURE2D_DESC));
-	desc.Width = boneCount * 4u;
-	desc.Height = MODEL_INSTANCE_MAX_COUNT;
-	desc.ArraySize = 1;
-	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	desc.MipLevels = 1;
-	desc.SampleDesc.Count = 1;
-	Check(D3D::GetDevice()->CreateTexture2D(&desc, nullptr, &texture));
-
-	// Out : 로직 본*인스턴스 texture
-	computeOutputBoneBuffer = new TextureBuffer(texture);
-	computeShader->SetUAV("OutputBone", computeOutputBoneBuffer->UAV());
-
-	// Out : Skinned적용시킬 본*인스턴트 texture
-	computeOutputSrvBuffer = new TextureBuffer(texture);
-	computeShader->SetUAV("OutputSkinned", computeOutputSrvBuffer->UAV());
 }

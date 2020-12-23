@@ -1,4 +1,4 @@
-#include "02_Animation.fx"
+#include "02_SetAnimation.fx"
 
 cbuffer CB_Keyframes
 {
@@ -14,8 +14,8 @@ void CS(uint3 id : SV_DispatchThreadID)
 {
 	Transform transform = (Transform)0;
 
-	int clip = Keyframes[id.y].Time;
-	float time = Keyframes[id.y].Clip;
+	int clip = Keyframes[id.y].Clip;
+	float time = Keyframes[id.y].Time;
 	GetAnimWorld(transform, id.x, clip, time);
 
 	matrix world = Combine(transform);

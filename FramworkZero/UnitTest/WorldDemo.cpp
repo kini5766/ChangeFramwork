@@ -62,4 +62,5 @@ void WorldDemo::Kachujin()
 	instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
 	kachujin->UpdateTransforms();
 	kachujin->UpdateColors();
+	kachujin->Pass(1);
 }

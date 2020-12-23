@@ -39,5 +39,4 @@ technique11 T0
 {
 	P_VP(P0, VS_Mesh, PS)
 	P_VP(P1, VS_Model, PS)
-	P_VP(P2, VS_Animation, PS)
 }
