@@ -6,7 +6,12 @@ using namespace ShaderEffectName;
 ModelSkinnedInstancing::ModelSkinnedInstancing(Shader* shader, const ModelDesc& desc)
 {
 	transform = new Transform(&world);
+	perframe = new PerFrame(shader);
 	data = new ModelData();
+
+	instanceBuffer = new VertexBuffer(worlds, MESH_INSTANCE_MAX_COUNT, sizeof(Matrix), 1, true);
+	instanceColorBuffer = new VertexBuffer(colors, MESH_INSTANCE_MAX_COUNT, sizeof(Color), 2, true);
+
 	data->ReadMaterial(desc.MaterialFile);
 	data->ReadMesh(desc.MeshFile);
 	for (auto& file : desc.ClipFiles)
@@ -22,15 +27,21 @@ ModelSkinnedInstancing::~ModelSkinnedInstancing()
 	SafeDelete(computeBoneDescBuffer);
 	SafeDelete(computeShader);
 
+	SafeDelete(instanceColorBuffer);
+	SafeDelete(instanceBuffer);
+
+	SafeDelete(renderer);
 	SafeDelete(animation);
 	SafeDeleteArray(boneDesc);
-	SafeDelete(transform);
-	SafeDelete(renderer);
 	SafeDelete(data);
+
+	SafeDelete(perframe);
+	SafeDelete(transform);
 }
 
 void ModelSkinnedInstancing::Update()
 {
+	perframe->Update();
 	animation->Update();
 
 	transform->UpdateWorld();
@@ -42,8 +53,15 @@ void ModelSkinnedInstancing::Update()
 
 void ModelSkinnedInstancing::Render()
 {
+	instanceBuffer->Render();
+	instanceColorBuffer->Render();
+
+	perframe->Render();
 	renderer->Render();
 }
+
+
+#pragma region Instance
 
 ModelSkinnedInstance * ModelSkinnedInstancing::AddInstance()
 {
@@ -121,9 +139,14 @@ void ModelSkinnedInstancing::SetColor(UINT instance, const Color & color)
 	colors[instance] = color;
 }
 
+#pragma endregion
+
 
 void ModelSkinnedInstancing::ApplyModel(Shader* shader)
 {
+	for (Material* mat : data->Materials())
+		mat->SetShader(shader);
+
 	boneCount = data->BoneCount();
 	boneDesc = new BoneDesc[boneCount];
 	for (UINT i = 0; i < boneCount; i++)

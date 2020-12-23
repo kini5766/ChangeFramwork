@@ -34,11 +34,13 @@ void WorldDemo::Destroy()
 void WorldDemo::Update()
 {
 	box->Update();
+	kachujin->Update();
 }
 
 void WorldDemo::Render()
 {
 	box->Render();
+	kachujin->Render();
 }
 
 void WorldDemo::Kachujin()
@@ -55,4 +57,9 @@ void WorldDemo::Kachujin()
 				L"Kachujin/Uprock",
 			}
 		});
+
+	ModelSkinnedInstance* instance = kachujin->AddInstance();
+	instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
+	kachujin->UpdateTransforms();
+	kachujin->UpdateColors();
 }

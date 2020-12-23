@@ -45,6 +45,7 @@ private: // render ฐüทร
 	ModelData* data;
 	SkinnedMeshRenderer* renderer;
 	Transform* transform;
+	PerFrame* perframe;
 
 	Matrix world;
 	UINT boneCount;
