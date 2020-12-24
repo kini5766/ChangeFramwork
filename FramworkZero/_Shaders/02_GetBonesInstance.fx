@@ -9,16 +9,7 @@ RWTexture2DArray<float4> OutputSkinned;
 void CS(uint3 id : SV_DispatchThreadID)
 {
 	matrix world;
-
-	if (GetWorld(world, id.x, id.y))
-	{
-		// 애닝본 있음
-	}
-	else
-	{
-		// 애닝본 없음
-		world = InputboneDesc[id.x].DefaultBone;
-	}
+	GetWorld(world, id.x, id.y);
 
 	// 메쉬본에서 애닝본으로 이동 
 	world = mul(InputboneDesc[id.x].InvBone, world);

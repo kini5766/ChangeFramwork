@@ -55,7 +55,6 @@ matrix Combine(Transform transform)
 	float yw2 = 2 * r.y * r.w;
 	float zw2 = 2 * r.z * r.w;
 
-
 	if (s.x == 0.0f)
 		return matrix(
 			0.0f, 0.0f, 0.0f, 0.0f,
@@ -74,7 +73,10 @@ matrix Combine(Transform transform)
 float4 Slerp(float4 r1, float4 r2, float t)
 {
 	float rad = acos(dot(r1, r2));
-	return (sin((1 - t) * rad) * r1 + sin(t * rad) * r2) / sin(rad);
+	float n_1 = 1 / sin(rad);
+	if (isfinite(n_1))
+		return (sin((1 - t) * rad) * r1 + sin(t * rad) * r2) * n_1;
+	else return lerp(r1, r2, t);
 }
 
 void Lerp(out Transform tOut, Transform t1, Transform t2, float t)
@@ -104,6 +106,10 @@ bool GetAnimTime(out AnimTime a, uint boneIndex, int clip, float time)
 	[flatten]
 	if (maxCount == 0 || maxCount > 10000)
 		return false;  // 에닝본 없는 메쉬본
+
+	//a.currT = a.currR = a.currS = 5;
+	//a.timeT = a.timeR = a.timeS = 0.0f;
+	//return true;
 
 	float3 prvFrame = float3(0, 0, 0);
 	for (uint i = 0; i < maxCount; i++)

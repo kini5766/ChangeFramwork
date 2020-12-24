@@ -329,8 +329,10 @@ void Transform::AddThis(Transform * oldParent, Transform * newparent)
 {
 	if (newparent == nullptr) return;
 
+	// 루프로 연결 되는 것을 방지하기 위해 ('A - B - C - A' 이런 형태가 되면 무한 루프가 된다)
 	for (auto p = newparent->parent; p != nullptr; p = p->parent)
 	{
+		// 새 부모의 부모가 자기 자신이라면 그 부모의 부모를 옛 부모로 만든다. 
 		if (p->parent == this)
 		{
 			p->SetParent(oldParent);
