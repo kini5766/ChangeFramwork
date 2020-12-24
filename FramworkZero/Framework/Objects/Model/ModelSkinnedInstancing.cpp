@@ -31,6 +31,7 @@ ModelSkinnedInstancing::~ModelSkinnedInstancing()
 
 	SafeDelete(perframe);
 	SafeDelete(transform);
+	SafeDelete(invBindPose);
 }
 
 void ModelSkinnedInstancing::Update()
@@ -129,6 +130,20 @@ void ModelSkinnedInstancing::SetColor(UINT instance, const Color & color)
 	colors[instance] = color;
 }
 
+void ModelSkinnedInstancing::GetAttachBones(UINT instace, Matrix * matrix)
+{
+	ID3D11Texture2D* texture = compute->CopyFromOutput();
+	D3D11_MAPPED_SUBRESOURCE subResource;
+	D3D::GetDC()->Map(texture, 0, D3D11_MAP_READ, 0, &subResource);
+	{
+		// 2의 승수로 받기 때문에 넣을 때 크기가 다를 수 있음
+		// RowPitch : 1줄, DepthPitch : 1장
+		BYTE* start = (BYTE*)subResource.pData + (instace * subResource.RowPitch);
+		memcpy(matrix, start, sizeof(Matrix) * boneCount);
+	}
+	D3D::GetDC()->Unmap(texture, 0);
+}
+
 #pragma endregion
 
 
@@ -149,5 +164,20 @@ void ModelSkinnedInstancing::ApplyModel(Shader* shader)
 		renderer->Renderers().push_back(new MeshRenderer(shader, mesh->Mesh));
 	}
 	renderer->BindPose()->SrvBonesMap = compute->GetOutputBoneResultSrv();
+
+	Matrix* boneDesc = new Matrix[boneCount];
+
+	for (UINT i = 0; i < boneCount; i++)
+		D3DXMatrixInverse(&boneDesc[i], nullptr, &data->BoneByIndex(i)->Transform);
+
+	invBindPose = new Texture2D(boneCount * 4, 1);
+	invBindPose->SetColors(boneDesc);
+	invBindPose->CreateTexture();
+	invBindPose->CreateSRV();
+
+	renderer->BindPose()->SrvInvBindPose = invBindPose->GetSRV();
+
 	renderer->SetMaterials(data->Materials().data(), data->Materials().size());
+
+	SafeDeleteArray(boneDesc);
 }

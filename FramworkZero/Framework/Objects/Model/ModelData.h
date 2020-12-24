@@ -10,20 +10,20 @@ public:
 	~ModelData();
 
 public:
-	UINT BoneCount() { return bones.size(); }
+	UINT BoneCount() const { return bones.size(); }
 	vector<ModelBoneData*>& Bones() { return bones; }
 	ModelBoneData* BoneByIndex(UINT index) { return bones[index]; }
 
-	UINT MeshCount() { return meshes.size(); }
+	UINT MeshCount() const { return meshes.size(); }
 	vector<ModelMeshData*>& Meshes() { return meshes; }
 	ModelMeshData* MeshByIndex(UINT index) { return meshes[index]; }
 
-	UINT MaterialCount() { return materials.size(); }
+	UINT MaterialCount() const { return materials.size(); }
 	vector<Material*>& Materials() { return materials; }
 	Material* MaterialByIndex(UINT index) { return materials[index]; }
 	UINT MaterialIndexByName(wstring name);
 
-	UINT ClipCount() { return clips.size(); }
+	UINT ClipCount() const { return clips.size(); }
 	vector<ModelClipData*>& Clips() { return clips; }
 	ModelClipData* ClipByIndex(UINT index) { return clips[index]; }
 

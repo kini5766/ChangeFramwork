@@ -37,10 +37,11 @@ using namespace std;
 #pragma comment(lib, "Effects11d.lib")
 
 //ImGui
-#include <ImGui_New/imgui.h>
-#include <ImGui_New/imgui_impl_dx11.h>
-#include <ImGui_New/imgui_impl_win32.h>
-#pragma comment(lib, "ImGui_New/imgui.lib")
+#include <ImGui/imgui.h>
+#include <ImGui/imgui_impl_dx11.h>
+#include <ImGui/imgui_impl_win32.h>
+#include <ImGui/ImGuizmo.h>
+#pragma comment(lib, "ImGui/imgui.lib")
 
 //DirectXTex
 #include <DirectXTex.h>
@@ -142,6 +143,7 @@ typedef D3DXPLANE Plane;
 // Debugger
 // 디버그용 클래스들
 
-//#include "Debugger/DebugLog.h"
+#include "Debugger/DebugLog.h"
 #include "Debugger/DebugLine.h"
+#include "Debugger/Gizmo.h"
 

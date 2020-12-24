@@ -13,6 +13,7 @@ public:
 public:
 	ID3D11ShaderResourceView* GetOutputAnimSrv();
 	ID3D11ShaderResourceView* GetOutputBoneResultSrv();
+	ID3D11Texture2D* CopyFromOutput();
 
 private:
 	void CreateComputeAnim();

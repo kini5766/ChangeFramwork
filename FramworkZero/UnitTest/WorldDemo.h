@@ -19,4 +19,6 @@ private:
 	Shader* shader;
 	MeshInstancing* box;
 	ModelSkinnedInstancing* kachujin;
+	Matrix* attachBones;
+	Transform* gizmo;
 };

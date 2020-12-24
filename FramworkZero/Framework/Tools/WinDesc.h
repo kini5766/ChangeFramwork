@@ -72,5 +72,6 @@ class Debug
 public:
 	static Performance* Performance;
 	static class DebugLine* Line;
-	//static class DebugLog* Log;
+	static class DebugLog* Log;
+	static class Gizmo* Gizmo;
 };

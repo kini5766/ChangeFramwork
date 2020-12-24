@@ -28,6 +28,8 @@ void WorldDemo::Destroy()
 {
 	SafeDelete(box);
 	SafeDelete(kachujin);
+	SafeDelete(gizmo);
+	SafeDeleteArray(attachBones);
 	SafeRelease(shader);
 }
 
@@ -35,6 +37,11 @@ void WorldDemo::Update()
 {
 	box->Update();
 	kachujin->Update();
+
+	static int bone;
+	ImGui::SliderInt("Bone", &bone, 0, kachujin->BoneCount() - 1);
+	kachujin->GetAttachBones(0, attachBones);
+	gizmo->LocalWorld(attachBones[bone]);
 }
 
 void WorldDemo::Render()
@@ -63,4 +70,9 @@ void WorldDemo::Kachujin()
 	kachujin->UpdateTransforms();
 	kachujin->UpdateColors();
 	kachujin->Pass(1);
+
+	attachBones = new Matrix[kachujin->BoneCount()];
+	gizmo = new Transform();
+	gizmo->SetParent(instance->GetTransform());
+	Debug::Gizmo->SetTransform(gizmo);
 }

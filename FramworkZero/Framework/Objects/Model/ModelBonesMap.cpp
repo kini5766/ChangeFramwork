@@ -11,9 +11,7 @@ ModelBonesMap::ModelBonesMap(ModelData * data)
 	for (UINT i = 0; i < boneCount; i++)
 	{
 		ModelBoneData* bone = data->BoneByIndex(i);
-
 		boneDesc[i].Parent = bone->ParentIndex;
-		D3DXMatrixInverse(&boneDesc[i].InvBone, nullptr, &bone->Transform);
 
 		// 로컬 월드 구하기 -> (DefaultBone)
 		if (bone->ParentIndex != -1)

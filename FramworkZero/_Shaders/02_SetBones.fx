@@ -3,7 +3,6 @@
 struct BoneDesc
 {
 	int Parent;
-	matrix InvBone;
 	matrix DefaultBone;
 };
 

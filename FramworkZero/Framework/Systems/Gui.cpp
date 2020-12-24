@@ -22,7 +22,7 @@ Gui * Gui::Get()
 
 LRESULT Gui::MsgProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	return ImGui_ImplWin32_Proc(handle, message, wParam, lParam);
+	return ImGui_ImplWin32_WndProcHandler(handle, message, wParam, lParam);
 }
 
 void Gui::Resize()
@@ -40,27 +40,27 @@ void Gui::Update()
 
 void Gui::Render()
 {
-	ImGuiViewport* viewport = ImGui::GetMainViewport();
-	ImGui::SetNextWindowPos(viewport->Pos);
-	ImGui::SetNextWindowSize(viewport->Size);
-	ImGui::SetNextWindowBgAlpha(0.0f);
+	//ImGuiViewport* viewport = ImGui::GetMainViewport();
+	//ImGui::SetNextWindowPos(viewport->Pos);
+	//ImGui::SetNextWindowSize(viewport->Size);
+	//ImGui::SetNextWindowBgAlpha(0.0f);
 
-	ImGui::Begin
-	(
-		"TextWindow", NULL,
-		ImGuiWindowFlags_NoTitleBar |
-		ImGuiWindowFlags_NoResize |
-		ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoScrollbar |
-		ImGuiWindowFlags_NoScrollWithMouse |
-		ImGuiWindowFlags_NoCollapse |
-		ImGuiWindowFlags_NoSavedSettings |
-		ImGuiWindowFlags_NoInputs |
-		ImGuiWindowFlags_NoFocusOnAppearing |
-		ImGuiWindowFlags_NoBringToFrontOnFocus |
-		ImGuiWindowFlags_NoDocking |
-		ImGuiWindowFlags_NoNavFocus
-	);
+	//ImGui::Begin
+	//(
+	//	"TextWindow", NULL,
+	//	ImGuiWindowFlags_NoTitleBar |
+	//	ImGuiWindowFlags_NoResize |
+	//	ImGuiWindowFlags_NoMove |
+	//	ImGuiWindowFlags_NoScrollbar |
+	//	ImGuiWindowFlags_NoScrollWithMouse |
+	//	ImGuiWindowFlags_NoCollapse |
+	//	ImGuiWindowFlags_NoSavedSettings |
+	//	ImGuiWindowFlags_NoInputs |
+	//	ImGuiWindowFlags_NoFocusOnAppearing |
+	//	ImGuiWindowFlags_NoBringToFrontOnFocus |
+	//	ImGuiWindowFlags_NoDocking |
+	//	ImGuiWindowFlags_NoNavFocus
+	//);
 
 	for (GuiText text : texts)
 	{
@@ -70,18 +70,18 @@ void Gui::Render()
 		ImGui::GetWindowDrawList()->AddText(position, color, text.Content.c_str());
 	}
 	texts.clear();
-	ImGui::End();
+	//ImGui::End();
 
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-	ImGuiIO& io = ImGui::GetIO();
-	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-	{
-		ImGui::UpdatePlatformWindows();
-		ImGui::RenderPlatformWindowsDefault();
-	}
+	//ImGuiIO& io = ImGui::GetIO();
+	//if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	//{
+	//	ImGui::UpdatePlatformWindows();
+	//	ImGui::RenderPlatformWindowsDefault();
+	//}
 }
 
 void Gui::RenderText(GuiText & text)

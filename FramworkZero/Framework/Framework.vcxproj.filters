@@ -205,6 +205,9 @@
     <ClCompile Include="Objects\Model\ModelBonesMap.cpp">
       <Filter>Objects\Model</Filter>
     </ClCompile>
+    <ClCompile Include="Debugger\Gizmo.cpp">
+      <Filter>Debugger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -393,6 +396,9 @@
     </ClInclude>
     <ClInclude Include="Objects\Model\ModelBonesMap.h">
       <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugger\Gizmo.h">
+      <Filter>Debugger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

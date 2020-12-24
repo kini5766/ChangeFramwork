@@ -12,6 +12,9 @@ struct GuiText
 	}
 };
 
+// 몸체 구현 직접 하지 않음
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND handle, UINT message, WPARAM wParam, LPARAM lParam);
+
 class Gui
 {
 public:

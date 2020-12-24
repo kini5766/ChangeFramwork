@@ -71,7 +71,7 @@ struct VertexModel
 	uint InstanceID : SV_InstanceID0;
 };
 
-//Texture2DArray BonesMap;
+Texture2D InvBindPose;
 Texture2DArray<float4> BonesMap;
 
 void SetModelWorld(inout matrix world, in VertexModel input)
@@ -94,8 +94,9 @@ void SetModelWorld(inout matrix world, in VertexModel input)
 
 	// 가중치가 누적된 정점의 위치
 	float4 c0, c1, c2, c3;
+	float4 n0, n1, n2, n3;
 	matrix transform = 0;
-	matrix curr = 0;
+	matrix curr = 0; matrix inv = 0;
 
 	[unroll(4)]
 	for (int i = 0; i < 4; i++)
@@ -104,11 +105,15 @@ void SetModelWorld(inout matrix world, in VertexModel input)
 		c1 = BonesMap[int3(indices[i] * 4 + 1, instance, 0)];
 		c2 = BonesMap[int3(indices[i] * 4 + 2, instance, 0)];
 		c3 = BonesMap[int3(indices[i] * 4 + 3, instance, 0)];
-		//c0 = BonesMap.Load(int4(indices[i] * 4 + 0, instance, 0, 0));
-		//c1 = BonesMap.Load(int4(indices[i] * 4 + 1, instance, 0, 0));
-		//c2 = BonesMap.Load(int4(indices[i] * 4 + 2, instance, 0, 0));
-		//c3 = BonesMap.Load(int4(indices[i] * 4 + 3, instance, 0, 0));
 		curr = matrix(c0, c1, c2, c3);
+
+		n0 = InvBindPose.Load(int3(indices[i] * 4 + 0, 0, 0));
+		n1 = InvBindPose.Load(int3(indices[i] * 4 + 1, 0, 0));
+		n2 = InvBindPose.Load(int3(indices[i] * 4 + 2, 0, 0));
+		n3 = InvBindPose.Load(int3(indices[i] * 4 + 3, 0, 0));
+		inv = matrix(n0, n1, n2, n3);
+
+		curr = mul(inv, curr);
 
 		transform += mul(weights[i], curr);
 	}

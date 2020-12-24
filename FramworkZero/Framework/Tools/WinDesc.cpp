@@ -65,3 +65,5 @@ void Input::SetKeyboard(IKeyboard * value)
 
 Performance* Debug::Performance = nullptr;
 DebugLine* Debug::Line = nullptr;
+DebugLog* Debug::Log = nullptr;
+Gizmo* Debug::Gizmo = nullptr;

@@ -41,6 +41,11 @@ ID3D11ShaderResourceView * ModelComputeAnimInst::GetOutputBoneResultSrv()
 	return computeOutputSrvBuffer->OutputSRV();
 }
 
+ID3D11Texture2D * ModelComputeAnimInst::CopyFromOutput()
+{
+	return computeOutputSrvBuffer->CopyFromOutput();
+}
+
 void ModelComputeAnimInst::Update()
 {
 	ImGui::SliderInt("Clip", &keyframeDesc[0].Clip, -1, clipCount - 1);

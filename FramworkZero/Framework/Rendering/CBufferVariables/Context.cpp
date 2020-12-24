@@ -67,11 +67,13 @@ void Context::Render()
 	camera->GetViewport()->RSSetViewport();
 
 	string str = string("FPS : ") + to_string(ImGui::GetIO().Framerate);
+	Debug::Log->Show(str);
 	//string str = string("FPS : ") + to_string(Time::Get()->FPS());
-	Gui::Get()->RenderText(5.0f, 5.0f, 1, 1, 1, str);
+	//Gui::Get()->RenderText(5.0f, 5.0f, 1, 1, 1, str);
 
 	//str = string("Performance : ") + to_string(Debug::Performance->Get());
 	//Gui::Get()->RenderText(5.0f, 50.0f, 1, 1, 1, str);
+	//Debug::Log->Show(str);
 
 	Vector3 P;
 	camera->Position(&P);
@@ -99,9 +101,11 @@ void Context::Render()
 	R *= Math::Rad2Deg;
 
 	str = "Camera(P) : " + to_string((int)P.x) + ", " + to_string((int)P.y) + ", " + to_string((int)P.z);
-	Gui::Get()->RenderText(5.0f, 20.0f, 1, 1, 1, str);
+	//Gui::Get()->RenderText(5.0f, 20.0f, 1, 1, 1, str);
+	Debug::Log->Show(str);
 
 	str = "Camera(R) : " + to_string((int)R.x) + ", " + to_string((int)R.y) + ", " + to_string((int)R.z);
-	Gui::Get()->RenderText(5.0f, 35.0f, 1, 1, 1, str);
+	//Gui::Get()->RenderText(5.0f, 35.0f, 1, 1, 1, str);
+	Debug::Log->Show(str);
 }
 

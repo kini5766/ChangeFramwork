@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Debugger\DebugLine.cpp" />
     <ClCompile Include="Debugger\DebugLog.cpp" />
+    <ClCompile Include="Debugger\Gizmo.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -79,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="Debugger\DebugLine.h" />
     <ClInclude Include="Debugger\DebugLog.h" />
+    <ClInclude Include="Debugger\Gizmo.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Objects\Meshes\MeshCube.h" />
     <ClInclude Include="Objects\Meshes\MeshCylinder.h" />

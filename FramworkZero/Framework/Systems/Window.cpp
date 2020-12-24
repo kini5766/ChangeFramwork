@@ -173,14 +173,11 @@ void Window::MainRender()
 {
 	value->time->Update();
 
-	if (ImGui::IsMouseHoveringAnyWindow() == false)
-	{
-		// 임구이창 위에 커서 있으면 업데이트 막아줌
-		value->keyboard->Update();
-		value->mouse->Update();
-	}
+	value->keyboard->Update();
+	value->mouse->Update();
 
 	Gui::Get()->Update();
+	Debug::Gizmo->Update();
 	Context::Get()->Update();
 	Debug::Line->Update();
 
@@ -197,6 +194,8 @@ void Window::MainRender()
 
 		mainExecute->PostRender();
 		Debug::Line->Render();  // 디버그 라인
+		Debug::Log->Render();
+		Debug::Gizmo->Render();
 		Gui::Get()->Render();  // 글자
 	}
 	D3D::Get()->Present();
@@ -238,6 +237,8 @@ void Window::WinValue::CreateGame()
 	Lighting::Create();
 	Debug::Performance = new Performance();
 	Debug::Line = new DebugLine();
+	Debug::Log = new DebugLog();
+	Debug::Gizmo = new Gizmo();
 
 	Time::SetGlobal(time);
 	Input::Set(input);
@@ -251,6 +252,8 @@ void Window::WinValue::CreateGame()
 
 void Window::WinValue::DeleteGame()
 {
+	SafeDelete(Debug::Gizmo);
+	SafeDelete(Debug::Log);
 	SafeDelete(Debug::Line);
 	SafeDelete(Debug::Performance);
 
