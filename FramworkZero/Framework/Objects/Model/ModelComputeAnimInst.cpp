@@ -8,11 +8,11 @@ using namespace ShaderEffectName;
 
 ModelComputeAnimInst::ModelComputeAnimInst(ModelData * data, Matrix* world)
 {
-	animMap = new ModelAnimMap(data);
-	modelBonesMap = new ModelBonesMap(data);
-
 	clipCount = data->ClipCount();
 	boneCount = data->BoneCount();
+
+	animMap = new ModelAnimMap(data);
+	modelBonesMap = new ModelBonesMap(data);
 
 	CreateComputeAnim();
 	CreateComputeBone(world);
@@ -48,8 +48,10 @@ ID3D11Texture2D * ModelComputeAnimInst::CopyFromOutput()
 
 void ModelComputeAnimInst::Update()
 {
-	ImGui::SliderInt("Clip", &keyframeDesc[0].Clip, -1, clipCount - 1);
-	ImGui::SliderFloat("Time", &keyframeDesc[0].Time, 0.0f, 100.0f);
+	static int instance = 0;
+	ImGui::SliderInt("Instance", &instance, 0, MODEL_INSTANCE_MAX_COUNT);
+	ImGui::SliderInt("Clip", &keyframeDesc[instance].Clip, -1, clipCount - 1);
+	ImGui::SliderFloat("Time", &keyframeDesc[instance].Time, 0.0f, 100.0f);
 	blendBuffer->Render();
 
 	computeShaderAnim->Render();

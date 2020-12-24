@@ -17,9 +17,8 @@ private:
 
 private:
 	Shader* shader;
-	ModelAnimator* kachujin = nullptr;
-
-	CubeSky* sky;
-	Shader* planeShader;
-	Mesh* plane;
+	MeshInstancing* box;
+	ModelSkinnedInstancing* kachujin;
+	Matrix* attachBones;
+	Transform* gizmo;
 };

@@ -19,11 +19,7 @@ private:
 
 private:
 	Shader* shader;
-	ModelRender* tank = nullptr;
-	ModelRender* tower = nullptr;
-	ModelRender* airplane = nullptr;
-
-	CubeSky* sky;
-	Shader* planeShader;
-	Mesh* plane;
+	ModelSkinnedInstancing* tank = nullptr;
+	ModelSkinnedInstancing* tower = nullptr;
+	ModelSkinnedInstancing* airplane = nullptr;
 };

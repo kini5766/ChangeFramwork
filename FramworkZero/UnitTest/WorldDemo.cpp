@@ -27,20 +27,21 @@ void WorldDemo::Initialize()
 void WorldDemo::Destroy()
 {
 	SafeDelete(box);
-	SafeDelete(kachujin);
 	SafeDelete(gizmo);
 	SafeDeleteArray(attachBones);
+	SafeDelete(kachujin);
 	SafeRelease(shader);
 }
 
 void WorldDemo::Update()
 {
+	static int bone = 0;
+	ImGui::SliderInt("Bone", &bone, 0, kachujin->BoneCount() - 1);
+
 	box->Update();
 	kachujin->Update();
 
-	static int bone;
-	ImGui::SliderInt("Bone", &bone, 0, kachujin->BoneCount() - 1);
-	kachujin->GetAttachBones(0, attachBones);
+	//kachujin->GetAttachBones(0, attachBones);
 	gizmo->LocalWorld(attachBones[bone]);
 }
 
@@ -67,6 +68,14 @@ void WorldDemo::Kachujin()
 
 	ModelSkinnedInstance* instance = kachujin->AddInstance();
 	instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
+
+	for (float x = -50; x <= 50; x += 2.5f)
+	{
+		Transform* t = kachujin->AddInstance()->GetTransform();
+		t->Position(x, 0, -5);
+		t->Scale(0.01f, 0.01f, 0.01f);
+	}
+
 	kachujin->UpdateTransforms();
 	kachujin->UpdateColors();
 	kachujin->Pass(1);

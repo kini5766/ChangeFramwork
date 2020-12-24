@@ -13,6 +13,7 @@ public:
 	void PostRender() override {};
 	void ResizeScreen() override {};
 
+private:
 	void Kachujin();
 
 private:

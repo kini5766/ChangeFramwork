@@ -37,7 +37,8 @@ ModelSkinnedInstancing::~ModelSkinnedInstancing()
 void ModelSkinnedInstancing::Update()
 {
 	perframe->Update();
-	compute->Update();
+	if (compute != nullptr)
+		compute->Update();
 
 	renderer->Update();
 }
@@ -130,6 +131,9 @@ void ModelSkinnedInstancing::SetColor(UINT instance, const Color & color)
 	colors[instance] = color;
 }
 
+#pragma endregion
+
+
 void ModelSkinnedInstancing::GetAttachBones(UINT instace, Matrix * matrix)
 {
 	ID3D11Texture2D* texture = compute->CopyFromOutput();
@@ -144,8 +148,6 @@ void ModelSkinnedInstancing::GetAttachBones(UINT instace, Matrix * matrix)
 	D3D::GetDC()->Unmap(texture, 0);
 }
 
-#pragma endregion
-
 
 void ModelSkinnedInstancing::ApplyModel(Shader* shader)
 {
@@ -154,30 +156,40 @@ void ModelSkinnedInstancing::ApplyModel(Shader* shader)
 
 	boneCount = data->BoneCount();
 
-	compute = new ModelComputeAnimInst(data, &world);
-
+	if (data->ClipCount() != 0)
+		compute = new ModelComputeAnimInst(data, &world);
 	renderer = new SkinnedMeshRenderer();
-	UINT size = data->MeshCount();
-	for (UINT i = 0; i < size; i++)
+
+	// Set BonesMap
 	{
-		ModelMeshData* mesh = data->MeshByIndex(i);
-		renderer->Renderers().push_back(new MeshRenderer(shader, mesh->Mesh));
+		UINT size = data->MeshCount();
+		for (UINT i = 0; i < size; i++)
+		{
+			ModelMeshData* mesh = data->MeshByIndex(i);
+			renderer->Renderers().push_back(new MeshRenderer(shader, mesh->Mesh));
+		}
+		if (data->ClipCount() == 0)
+			renderer->BindPose()->SrvBonesMap = nullptr;
+		else
+			renderer->BindPose()->SrvBonesMap = compute->GetOutputBoneResultSrv();
 	}
-	renderer->BindPose()->SrvBonesMap = compute->GetOutputBoneResultSrv();
 
-	Matrix* boneDesc = new Matrix[boneCount];
+	// Set InvBindPose
+	{
+		Matrix* boneDesc = new Matrix[boneCount];
 
-	for (UINT i = 0; i < boneCount; i++)
-		D3DXMatrixInverse(&boneDesc[i], nullptr, &data->BoneByIndex(i)->Transform);
+		for (UINT i = 0; i < boneCount; i++)
+			D3DXMatrixInverse(&boneDesc[i], nullptr, &data->BoneByIndex(i)->Transform);
 
-	invBindPose = new Texture2D(boneCount * 4, 1);
-	invBindPose->SetColors(boneDesc);
-	invBindPose->CreateTexture();
-	invBindPose->CreateSRV();
+		invBindPose = new Texture2D(boneCount * 4, 1);
+		invBindPose->SetColors(boneDesc);
+		invBindPose->CreateTexture();
+		invBindPose->CreateSRV();
+		SafeDeleteArray(boneDesc);
 
-	renderer->BindPose()->SrvInvBindPose = invBindPose->GetSRV();
+		renderer->BindPose()->SrvInvBindPose = invBindPose->GetSRV();
+	}
 
 	renderer->SetMaterials(data->Materials().data(), data->Materials().size());
 
-	SafeDeleteArray(boneDesc);
 }

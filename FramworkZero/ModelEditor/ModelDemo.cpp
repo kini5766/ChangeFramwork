@@ -3,27 +3,16 @@
 
 void ModelDemo::Initialize()
 {
-	shader = Shader::Load(L"17_Model.fxo");
+	shader = Shader::Load(L"01_Instance.fxo");
 
 	Tank();
 	Tower();
 	Airplane();
-
-	sky = new CubeSky(L"Environment/SnowCube1024.dds");
-	planeShader = Shader::Load(L"15_Mesh.fxo");
-
-	plane = new Mesh(planeShader, MeshPlane(6, 6));
-	plane->GetTransform()->Scale(12, 1, 12);
-	plane->DiffuseMap(L"Floor.png");
 }
 
 void ModelDemo::Destroy()
 {
 	SafeRelease(shader);
-	SafeDelete(sky);
-
-	SafeRelease(planeShader);
-	SafeDelete(plane);
 
 	SafeDelete(tank);
 	SafeDelete(airplane);
@@ -31,42 +20,22 @@ void ModelDemo::Destroy()
 
 void ModelDemo::Update()
 {
-	static Vector3 LightDirection = Vector3(-1, -1, +1);
-	ImGui::SliderFloat3("LightDirection", LightDirection, -1, 1);
-	shader->AsVector("LightDirection")->SetFloatVector(LightDirection);
-	planeShader->AsVector("LightDirection")->SetFloatVector(LightDirection);
-
-	static UINT Pass = 0;
-	ImGui::InputInt("Pass", (int*)&Pass);
-	Pass %= 2;
-
-	sky->Update();
-	plane->Update();
+	//static Vector3 LightDirection = Vector3(-1, -1, +1);
+	//ImGui::SliderFloat3("LightDirection", LightDirection, -1, 1);
+	//shader->AsVector("LightDirection")->SetFloatVector(LightDirection);
 
 	if (tank != nullptr)
-	{
-		tank->Pass(Pass);
 		tank->Update();
-	}
 
 	if (tower != nullptr)
-	{
-		tower->Pass(Pass);
 		tower->Update();
-	}
 
 	if (airplane != nullptr)
-	{
-		airplane->Pass(Pass);
 		airplane->Update();
-	}
 }
 
 void ModelDemo::Render()
 {
-	sky->Render();
-	plane->Render();
-
 	if (tank != nullptr)
 		tank->Render();
 
@@ -79,33 +48,55 @@ void ModelDemo::Render()
 
 void ModelDemo::Tank()
 {
-	tank = new ModelRender(shader);
-	tank->SetModel({
+	tank = new ModelSkinnedInstancing(shader, {
 		L"Tank/Tank", 
 		L"Tank/Tank" }
 	);
+
+	for (float x = -50; x <= 50; x += 2.5f)
+	{
+		Transform* transform = tank->AddInstance()->GetTransform();
+		transform->Position(Vector3(x, 0.0f, 5.0f));
+		transform->RotationDegree(0, Math::Random(-179.9f, 179.9f), 0);
+		transform->Scale(0.003f, 0.003f, 0.003f);
+	}
+
+	tank->UpdateTransforms();
 }
 
 void ModelDemo::Tower()
 {
-	tower = new ModelRender(shader);
-	tower->SetModel({
+	tower = new ModelSkinnedInstancing(shader, {
 		L"Tower/Tower",
 		L"Tower/Tower" }
 	);
-	tower->GetTransform()->Position(-5, 0, 0);
-	tower->GetTransform()->Scale(0.01f, 0.01f, 0.01f);
+
+	for (float x = -50; x <= 50; x += 2.5f)
+	{
+		Transform* transform = tower->AddInstance()->GetTransform();
+		transform->Position(Vector3(x, 0.0f, 7.0f));
+		transform->RotationDegree(0, Math::Random(-179.9f, 179.9f), 0);
+		transform->Scale(0.003f, 0.003f, 0.003f);
+	}
+
+	tower->UpdateTransforms();
 }
 
 void ModelDemo::Airplane()
 {
-	airplane = new ModelRender(shader);
-	airplane->SetModel({
+	airplane = new ModelSkinnedInstancing(shader, {
 		L"B787/Airplane",
 		L"B787/Airplane" }
 	);
-	airplane->GetTransform()->Position(-10, 0, 0);
-	airplane->GetTransform()->Rotation(0, 45, 0);
-	airplane->GetTransform()->Scale(0.001f, 0.001f, 0.001f);
+
+	for (float x = -50; x <= 50; x += 2.5f)
+	{
+		Transform* transform = airplane->AddInstance()->GetTransform();
+		transform->Position(Vector3(x, 0.0f, 2.5f));
+		transform->RotationDegree(0, Math::Random(-179.9f, 179.9f), 0);
+		transform->Scale(0.0003f, 0.0003f, 0.0003f);
+	}
+
+	airplane->UpdateTransforms();
 }
 
