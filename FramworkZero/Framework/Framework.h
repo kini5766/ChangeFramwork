@@ -103,6 +103,7 @@ typedef D3DXPLANE Plane;
 #include "Tools/Lighting/DirectionalLight.h"
 #include "Tools/Lighting/PointLight.h"
 #include "Tools/Lighting/SpotLight.h"
+#include "Tools/Lighting/BurntLight.h"
 #include "Tools/Lighting/Lighting.h"
 
 

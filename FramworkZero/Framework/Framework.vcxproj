@@ -51,6 +51,7 @@
     <ClCompile Include="Rendering\CBufferVariables\ShaderSetter.cpp" />
     <ClCompile Include="Systems\D3D.cpp" />
     <ClCompile Include="Systems\Gui.cpp" />
+    <ClCompile Include="Tools\Lighting\BurntLight.cpp" />
     <ClCompile Include="Tools\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="Tools\Lighting\Lighting.cpp" />
     <ClCompile Include="Tools\Lighting\PointLight.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="Systems\D3D.h" />
     <ClInclude Include="Systems\Gui.h" />
     <ClInclude Include="Systems\IExecute.h" />
+    <ClInclude Include="Tools\Lighting\BurntLight.h" />
     <ClInclude Include="Tools\Lighting\DirectionalLight.h" />
     <ClInclude Include="Tools\Lighting\Lighting.h" />
     <ClInclude Include="Tools\Lighting\LightingDesc.h" />

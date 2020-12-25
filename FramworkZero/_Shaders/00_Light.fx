@@ -379,3 +379,43 @@ void ComputeSpotLight(out MaterialDesc output, float3 normal, float3 wPosition)
 		output.Emissive += result.Emissive * att;
 	}
 }
+
+
+// --
+// Burnt Lighting
+// --
+
+// wPosition이 이 큐브 속에 있으면 DirectionalLight * 0.0f
+struct BurntLightDesc
+{
+	float3 Position;
+	float Padding;
+
+	float3 Scale;
+	float Padding2;
+};
+
+cbuffer CB_BurntLight
+{
+	BurntLightDesc BurntLight;
+};
+
+void ComputeBurntLight(inout MaterialDesc directional, float3 wPosition)
+{
+	[flatten]
+	if (all(BurntLight.Scale) == false)
+		return;
+
+	float3 dir = abs(wPosition - BurntLight.Position);
+	float3 halfScale = BurntLight.Scale * 0.5f;
+
+	if (dir.x <= halfScale.x &&
+		dir.y <= halfScale.y && 
+		dir.z <= halfScale.z)
+	{
+		directional.Ambient = float4(0, 0, 0, 0);
+		directional.Diffuse = float4(0, 0, 0, 0);
+		directional.Specular = float4(0, 0, 0, 0);
+		directional.Emissive = float4(0, 0, 0, 0);
+	}
+}

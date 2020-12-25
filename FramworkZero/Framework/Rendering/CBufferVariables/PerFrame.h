@@ -20,12 +20,14 @@ public:
 	ConstantBuffer* LightBuffer() { return lightBuffer; }
 	ConstantBuffer* PointLightBuffer() { return pointLightBuffer; }
 	ConstantBuffer* SpotLightBuffer() { return spotLightBuffer; }
+	ConstantBuffer* BurntLightBuffer() { return burntLightBuffer; }
 
 private:
 	ConstantBuffer* buffer;
 	ConstantBuffer* lightBuffer;
 	ConstantBuffer* pointLightBuffer;
 	ConstantBuffer* spotLightBuffer;
+	ConstantBuffer* burntLightBuffer;
 
 private:
 	struct Desc

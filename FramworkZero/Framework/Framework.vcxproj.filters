@@ -214,6 +214,9 @@
     <ClCompile Include="Tools\Lighting\SpotLight.cpp">
       <Filter>Tools\Lighting</Filter>
     </ClCompile>
+    <ClCompile Include="Tools\Lighting\BurntLight.cpp">
+      <Filter>Tools\Lighting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -413,6 +416,9 @@
       <Filter>Tools\Lighting</Filter>
     </ClInclude>
     <ClInclude Include="Tools\Lighting\SpotLight.h">
+      <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\BurntLight.h">
       <Filter>Tools\Lighting</Filter>
     </ClInclude>
   </ItemGroup>

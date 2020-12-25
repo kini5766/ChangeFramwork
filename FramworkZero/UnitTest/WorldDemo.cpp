@@ -10,8 +10,10 @@ void WorldDemo::Initialize()
 
 	Mesh();
 	Kachujin();
+	PointLights();
 
-	Debug::Gizmo->SetTransform(Lighting::Get()->GetDirectional()->GetTransform());
+	Lighting::Get()->GetBurntLight()->GetDesc()->Scale = Vector3(1, 1, 1);
+	Lighting::Get()->GetBurntLight()->ApplyLight();
 }
 
 void WorldDemo::Destroy()
@@ -26,15 +28,17 @@ void WorldDemo::Destroy()
 void WorldDemo::Update()
 {
 	box->Update();
-	//kachujin->Update();
+	kachujin->Update();
 	plane->Update();
 }
 
 void WorldDemo::Render()
 {
-	Lighting::Get()->GetDirectional()->ApplyTransform();
+	Debug::Gizmo->SetTransform(Lighting::Get()->GetBurntLight()->GetTransform());
+	Lighting::Get()->GetBurntLight()->ApplyTransform();
+
 	box->Render();
-	//kachujin->Render();
+	kachujin->Render();
 	plane->Render();
 }
 
@@ -96,4 +100,49 @@ void WorldDemo::Kachujin()
 	kachujin->UpdateTransforms();
 	kachujin->UpdateColors();
 	kachujin->Pass(1);
+}
+
+void WorldDemo::PointLights()
+{
+	PointLightDesc light;
+	light =
+	{
+	   Color(0.0f, 0.0f, 0.0f, 1.0f), //Ambient
+	   Color(0.0f, 0.3f, 1.0f, 1.0f), //Diffuse
+	   Color(0.0f, 0.0f, 0.7f, 1.0f), //Specular
+	   Color(0.0f, 0.0f, 0.7f, 1.0f), //Emissive
+	   Vector3(-30, 10, -30), 15.0f, 0.9f
+	};
+	Lighting::Get()->AddPointLight(light);
+
+	light =
+	{
+	   Color(0.0f, 0.0f, 0.0f, 1.0f),
+	   Color(1.0f, 0.0f, 0.0f, 1.0f),
+	   Color(0.6f, 0.2f, 0.0f, 1.0f),
+	   Color(0.6f, 0.3f, 0.0f, 1.0f),
+	   Vector3(15, 10, -30), 10.0f, 0.3f
+	};
+	Lighting::Get()->AddPointLight(light);
+
+	light =
+	{
+	   Color(0.0f, 0.0f, 0.0f, 1.0f), //Ambient
+	   Color(0.0f, 1.0f, 0.0f, 1.0f), //Diffuse
+	   Color(0.0f, 0.7f, 0.0f, 1.0f), //Specular
+	   Color(0.0f, 0.7f, 0.0f, 1.0f), //Emissive
+	   Vector3(-5, 1, -17.5f), 5.0f, 0.9f
+	};
+	Lighting::Get()->AddPointLight(light);
+
+	light =
+	{
+	   Color(0.0f, 0.0f, 0.0f, 1.0f),
+	   Color(0.0f, 0.0f, 1.0f, 1.0f),
+	   Color(0.0f, 0.0f, 0.7f, 1.0f),
+	   Color(0.0f, 0.0f, 0.7f, 1.0f),
+	   Vector3(-10, 1, -17.5f), 5.0f, 0.9f
+	};
+	Lighting::Get()->AddPointLight(light);
+
 }

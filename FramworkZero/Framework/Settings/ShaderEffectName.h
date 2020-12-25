@@ -18,6 +18,7 @@ namespace ShaderEffectName
 	const string CB_Material = "CB_Material";
 	const string CB_SpotLights = "CB_SpotLights";
 	const string CB_PointLights = "CB_PointLights";
+	const string CB_BurntLight = "CB_BurntLight";
 
 	// 02_AnimationMap.fx
 	const string CB_BonesMap = "CB_BonesMap";

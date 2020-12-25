@@ -5,12 +5,12 @@
 
 void ExportFile::Initialize()
 {
-	//Tank();
-	//Kachujin();
-	//Tower();
-	//Airplane();
+	Tank();
+	Kachujin();
+	Tower();
+	Airplane();
 
-	//Atienza();
+	Atienza();
 }
 
 void ExportFile::Tank()

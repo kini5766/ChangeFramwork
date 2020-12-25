@@ -60,3 +60,13 @@ struct SpotLightsDesc
 
 	SpotLightDesc Lights[POINT_LIGHT_MAX_COUNT];
 };
+
+// wPosition이 이 큐브 속에 있으면 DirectionalLight * 0.0f
+struct BurntLightDesc
+{
+	Vector3 Position = Vector3(0.0f, 0.0f, 0.0f);
+	float Padding;
+
+	Vector3 Scale = Vector3(0.0f, 0.0f, 0.0f);
+	float Padding2;
+};

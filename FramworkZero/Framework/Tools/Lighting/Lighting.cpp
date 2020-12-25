@@ -22,6 +22,7 @@ void Lighting::Delete()
 Lighting::Lighting()
 {
 	directional = new DirectionalLight(&directionalDesc);
+	burntLight = new BurntLight(&burntDesc);
 }
 
 Lighting::~Lighting()
@@ -30,6 +31,7 @@ Lighting::~Lighting()
 		SafeDelete(d);
 	for (auto d : spotLights)
 		SafeDelete(d);
+	SafeDelete(burntLight);
 	SafeDelete(directional);
 }
 
