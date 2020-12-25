@@ -10,13 +10,17 @@ using namespace ShaderEffectName;
 PerFrameBuffer::PerFrameBuffer()
 {
 	buffer = new ConstantBuffer(&desc, sizeof(Desc));
-	lightBuffer = new ConstantBuffer(&lightDesc, sizeof(LightDesc));
+	lightBuffer = new ConstantBuffer(Lighting::Get()->DirectionalDesc(), sizeof(DirectionalLightDesc));
+	pointLightBuffer = new ConstantBuffer(Lighting::Get()->PointDesc(), sizeof(PointLightsDesc));
+	spotLightBuffer = new ConstantBuffer(Lighting::Get()->SpotDesc(), sizeof(SpotLightsDesc));
 }
 
 PerFrameBuffer::~PerFrameBuffer()
 {
 	SafeDelete(buffer);
 	SafeDelete(lightBuffer);
+	SafeDelete(pointLightBuffer);
+	SafeDelete(spotLightBuffer);
 }
 
 void PerFrameBuffer::Update()
@@ -28,17 +32,14 @@ void PerFrameBuffer::Update()
 	//desc.Culling
 	//desc.Clipping
 	desc.Time = Time::Get()->Running();
-
-	lightDesc.Ambient = Lighting::Get()->Ambient();
-	lightDesc.Specular = Lighting::Get()->Specular();
-	lightDesc.Direction = Lighting::Get()->Direction();
-	lightDesc.Position = Lighting::Get()->Position();
 }
 
 void PerFrameBuffer::Render()
 {
 	buffer->Render();
 	lightBuffer->Render();
+	pointLightBuffer->Render();
+	spotLightBuffer->Render();
 }
 
 
@@ -52,6 +53,8 @@ PerFrame::PerFrame(Shader * shader)
 	buffer = new PerFrameBuffer();
 	this->shader->SetConstantBuffer(CB_PerFrame, buffer->BufferPerFrame()->Buffer());
 	this->shader->SetConstantBuffer(CB_Light, buffer->LightBuffer()->Buffer());
+	this->shader->SetConstantBuffer(CB_PointLights, buffer->PointLightBuffer()->Buffer());
+	this->shader->SetConstantBuffer(CB_SpotLights, buffer->SpotLightBuffer()->Buffer());
 }
 
 PerFrame::~PerFrame()

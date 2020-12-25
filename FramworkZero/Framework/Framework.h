@@ -78,7 +78,7 @@ typedef D3DXPLANE Plane;
 
 
 // Tools
-// 필요할 때 꺼내 쓰는 클래스들 (특징 : Rendering 사용하지 않음)
+// 필요할 때 꺼내 쓰는 클래스들 (특징 : Rendering폴더 클래스를 사용하지 않음)
 
 #include "Tools/MainLogic/Keyboard.h"
 #include "Tools/MainLogic/Mouse.h"
@@ -86,11 +86,11 @@ typedef D3DXPLANE Plane;
 //#include "Tools/MainLogic/GameLogic.h"
 
 #include "Tools/Math.h"
-#include "Tools/WinDesc.h"  // new
-#include "Tools/Transform.h"  // change
+#include "Tools/WinDesc.h"
+#include "Tools/Transform.h"
 
 #include "Tools/Texture.h"
-#include "Tools/Texture2D.h"  // new
+#include "Tools/Texture2D.h"
 
 #include "Tools/Viewer/Viewport.h"
 #include "Tools/Viewer/Projection.h"
@@ -99,7 +99,11 @@ typedef D3DXPLANE Plane;
 #include "Tools/Viewer/Camera.h"
 #include "Tools/Viewer/Freedom.h"
 
+#include "Tools/Lighting/LightingDesc.h"
 #include "Tools/Lighting/DirectionalLight.h"
+#include "Tools/Lighting/PointLight.h"
+#include "Tools/Lighting/SpotLight.h"
+#include "Tools/Lighting/Lighting.h"
 
 
 //Rendering
@@ -109,9 +113,8 @@ typedef D3DXPLANE Plane;
 #include "Rendering/Buffers/Buffers.h"
 
 #include "Rendering/CBufferVariables/Context.h"
-#include "Rendering/CBufferVariables/Lighting.h"
-#include "Rendering/CBufferVariables/ShaderSetter.h"  // new
-#include "Rendering/CBufferVariables/Material.h"  // change
+#include "Rendering/CBufferVariables/ShaderSetter.h"
+#include "Rendering/CBufferVariables/Material.h"
 #include "Rendering/CBufferVariables/PerFrame.h"
 
 
@@ -125,19 +128,19 @@ typedef D3DXPLANE Plane;
 // Objects
 // Rendering클래스를 이용해서 물체를 그리는 클래스
 
-#include "Objects/Meshes/MeshData.h"  // new
+#include "Objects/Meshes/MeshData.h"
 #include "Objects/Meshes/MeshQuad.h"
 #include "Objects/Meshes/MeshPlane.h"
 #include "Objects/Meshes/MeshCube.h"
 #include "Objects/Meshes/MeshCylinder.h"
 #include "Objects/Meshes/MeshSphere.h"
-#include "Objects/Meshes/MeshRenderer.h"  // change
-#include "Objects/Meshes/MeshInstancing.h"  // change
+#include "Objects/Meshes/MeshRenderer.h"
+#include "Objects/Meshes/MeshInstancing.h"
 #include "Objects/Meshes/SkinnedMeshRenderer.h"
 
-#include "Objects/Model/ModelData.h"  // change
+#include "Objects/Model/ModelData.h"
 #include "Objects/Model/ModelAnimationDesc.h"
-#include "Objects/Model/ModelSkinnedInstancing.h"  // change
+#include "Objects/Model/ModelSkinnedInstancing.h"
 
 
 // Debugger

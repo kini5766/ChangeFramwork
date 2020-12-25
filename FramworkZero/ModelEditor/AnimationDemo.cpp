@@ -6,7 +6,7 @@ void AnimationDemo::Initialize()
 	Context::Get()->MainCamera()->RotationDegree(13, 70, 0);
 	Context::Get()->MainCamera()->Position(-20, 1, -3);
 
-	shader = Shader::Load(L"01_Instance.fxo");
+	shader = Shader::Load(L"01_Material.fxo");
 
 	Kachujin();
 }
@@ -56,18 +56,6 @@ void AnimationDemo::Update()
 	//		}
 	//	}
 	//}
-
-	// Light
-	{
-		ImGui::Text("Light");
-		static Vector3 LightDirection = Vector3(-1, -1, +1);
-		ImGui::SliderFloat3("LightDirection", LightDirection, -1, 1);
-		shader->AsVector("LightDirection")->SetFloatVector(LightDirection);
-	}
-
-	static UINT Pass = 0;
-	ImGui::InputInt("Pass", (int*)&Pass);
-	Pass %= 2;
 
 	static int bone = 0;
 	ImGui::SliderInt("Bone", &bone, 0, kachujin->BoneCount() - 1);

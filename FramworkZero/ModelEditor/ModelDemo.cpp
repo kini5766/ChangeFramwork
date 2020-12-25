@@ -3,7 +3,7 @@
 
 void ModelDemo::Initialize()
 {
-	shader = Shader::Load(L"01_Instance.fxo");
+	shader = Shader::Load(L"01_Material.fxo");
 
 	Tank();
 	Tower();
@@ -20,10 +20,6 @@ void ModelDemo::Destroy()
 
 void ModelDemo::Update()
 {
-	//static Vector3 LightDirection = Vector3(-1, -1, +1);
-	//ImGui::SliderFloat3("LightDirection", LightDirection, -1, 1);
-	//shader->AsVector("LightDirection")->SetFloatVector(LightDirection);
-
 	if (tank != nullptr)
 		tank->Update();
 

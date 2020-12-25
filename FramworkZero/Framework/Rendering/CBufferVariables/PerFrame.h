@@ -18,10 +18,14 @@ public:
 public:
 	ConstantBuffer* BufferPerFrame() { return buffer; }
 	ConstantBuffer* LightBuffer() { return lightBuffer; }
+	ConstantBuffer* PointLightBuffer() { return pointLightBuffer; }
+	ConstantBuffer* SpotLightBuffer() { return spotLightBuffer; }
 
 private:
 	ConstantBuffer* buffer;
 	ConstantBuffer* lightBuffer;
+	ConstantBuffer* pointLightBuffer;
+	ConstantBuffer* spotLightBuffer;
 
 private:
 	struct Desc
@@ -37,17 +41,6 @@ private:
 		float Time;
 		float Padding[3];
 	} desc;
-
-	struct LightDesc
-	{
-		Color Ambient;
-		Color Specular;
-		Vector3 Direction;
-		float Padding;
-
-		Vector3 Position;
-		float Padding2;
-	}lightDesc;
 };
 
 

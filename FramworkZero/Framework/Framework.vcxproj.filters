@@ -31,9 +31,6 @@
     <Filter Include="Tools\MainLogic">
       <UniqueIdentifier>{7064a2d9-ed71-41ca-b2a2-aff5a722ba85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tools\Lighting">
-      <UniqueIdentifier>{1bd8028a-2c96-48fa-91c2-085542ea854a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Objects">
       <UniqueIdentifier>{b0273287-577c-4b58-b452-865887d8d19c}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,9 @@
     </Filter>
     <Filter Include="Objects\Meshes">
       <UniqueIdentifier>{091e21f6-5bdd-4bd8-b070-cc3f75ddb160}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Lighting">
+      <UniqueIdentifier>{831dbbd4-8c93-40e3-965c-ab74c8ee1435}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -157,12 +157,6 @@
     <ClCompile Include="Tools\Texture.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Tools\Lighting\DirectionalLight.cpp">
-      <Filter>Tools\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\CBufferVariables\Lighting.cpp">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\Model\ModelData.cpp">
       <Filter>Objects\Model</Filter>
     </ClCompile>
@@ -207,6 +201,18 @@
     </ClCompile>
     <ClCompile Include="Debugger\Gizmo.cpp">
       <Filter>Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Lighting\DirectionalLight.cpp">
+      <Filter>Tools\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Lighting\Lighting.cpp">
+      <Filter>Tools\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Lighting\PointLight.cpp">
+      <Filter>Tools\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Lighting\SpotLight.cpp">
+      <Filter>Tools\Lighting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -340,12 +346,6 @@
     <ClInclude Include="Tools\Texture.h">
       <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Tools\Lighting\DirectionalLight.h">
-      <Filter>Tools\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\CBufferVariables\Lighting.h">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\Model\ModelData.h">
       <Filter>Objects\Model</Filter>
     </ClInclude>
@@ -399,6 +399,21 @@
     </ClInclude>
     <ClInclude Include="Debugger\Gizmo.h">
       <Filter>Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\DirectionalLight.h">
+      <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\Lighting.h">
+      <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\LightingDesc.h">
+      <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\PointLight.h">
+      <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\SpotLight.h">
+      <Filter>Tools\Lighting</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

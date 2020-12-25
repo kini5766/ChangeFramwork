@@ -6,7 +6,53 @@ void WorldDemo::Initialize()
 	Context::Get()->MainCamera()->RotationDegree(13, 70, 0);
 	Context::Get()->MainCamera()->Position(-20, 1, -3);
 
-	shader = Shader::Load(L"01_Instance.fxo");
+	shader = Shader::Load(L"01_Material.fxo");
+
+	Mesh();
+	Kachujin();
+
+	Debug::Gizmo->SetTransform(Lighting::Get()->GetDirectional()->GetTransform());
+}
+
+void WorldDemo::Destroy()
+{
+	SafeDelete(plane);
+
+	SafeDelete(box);
+	SafeDelete(kachujin);
+	SafeRelease(shader);
+}
+
+void WorldDemo::Update()
+{
+	box->Update();
+	//kachujin->Update();
+	plane->Update();
+}
+
+void WorldDemo::Render()
+{
+	Lighting::Get()->GetDirectional()->ApplyTransform();
+	box->Render();
+	//kachujin->Render();
+	plane->Render();
+}
+
+void WorldDemo::Mesh()
+{
+	plane = new MeshInstancing(shader, new MeshPlane(2.5f, 2.5f));
+	Transform* t = plane->AddInstance()->GetTransform();
+	t->Scale(12, 1, 12);
+
+	Material* m = plane->GetRenderer()->GetDefaultMaterial();
+	m->DiffuseMap(L"Floor.png");
+	m->SpecularMap(L"Floor_Specular.png");
+	m->Specular(1, 1, 1, 20);
+	m->NormalMap(L"Floor_Normal.png");
+
+	plane->UpdateTransforms();
+	plane->UpdateColors();
+
 
 	box = new MeshInstancing(shader, new MeshCube());
 	box->GetRenderer()->GetDefaultMaterial()->DiffuseMap(L"Box.png");
@@ -20,35 +66,6 @@ void WorldDemo::Initialize()
 	}
 	box->UpdateTransforms();
 	box->UpdateColors();
-
-	Kachujin();
-}
-
-void WorldDemo::Destroy()
-{
-	SafeDelete(box);
-	SafeDelete(gizmo);
-	SafeDeleteArray(attachBones);
-	SafeDelete(kachujin);
-	SafeRelease(shader);
-}
-
-void WorldDemo::Update()
-{
-	static int bone = 0;
-	ImGui::SliderInt("Bone", &bone, 0, kachujin->BoneCount() - 1);
-
-	box->Update();
-	kachujin->Update();
-
-	//kachujin->GetAttachBones(0, attachBones);
-	gizmo->LocalWorld(attachBones[bone]);
-}
-
-void WorldDemo::Render()
-{
-	box->Render();
-	kachujin->Render();
 }
 
 void WorldDemo::Kachujin()
@@ -79,9 +96,4 @@ void WorldDemo::Kachujin()
 	kachujin->UpdateTransforms();
 	kachujin->UpdateColors();
 	kachujin->Pass(1);
-
-	attachBones = new Matrix[kachujin->BoneCount()];
-	gizmo = new Transform();
-	gizmo->SetParent(instance->GetTransform());
-	Debug::Gizmo->SetTransform(gizmo);
 }

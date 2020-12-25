@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{D5
 		_Shaders\00_Render.fx = _Shaders\00_Render.fx
 		_Shaders\01_DebugLine.fx = _Shaders\01_DebugLine.fx
 		_Shaders\01_Instance.fx = _Shaders\01_Instance.fx
+		_Shaders\01_Material.fx = _Shaders\01_Material.fx
 		_Shaders\02_AnimationInstance.fx = _Shaders\02_AnimationInstance.fx
 		_Shaders\02_GetBonesInstance.fx = _Shaders\02_GetBonesInstance.fx
 		_Shaders\02_SetAnimation.fx = _Shaders\02_SetAnimation.fx

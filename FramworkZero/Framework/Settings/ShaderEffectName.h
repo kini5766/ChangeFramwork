@@ -16,13 +16,11 @@ namespace ShaderEffectName
 	// 00_Light.fx
 	const string CB_Light = "CB_Light";
 	const string CB_Material = "CB_Material";
+	const string CB_SpotLights = "CB_SpotLights";
+	const string CB_PointLights = "CB_PointLights";
 
 	// 02_AnimationMap.fx
 	const string CB_BonesMap = "CB_BonesMap";
 	const string CB_Keyframes = "CB_Keyframes";
-
-	// 00_Terrain.fx
-	const string CB_Brush = "CB_Brush";
-	const string CB_TerrainLine = "CB_TerrainLine";
 
 }

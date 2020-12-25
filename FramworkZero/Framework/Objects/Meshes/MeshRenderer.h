@@ -3,7 +3,6 @@
 // 기존과는 다르게 트랜스폼 없음
 
 // MeshData의 메쉬와 서브메쉬들 렌더
-// Materials 인덱스 == 서브메쉬 인덱스
 class MeshRenderer
 {
 public:
