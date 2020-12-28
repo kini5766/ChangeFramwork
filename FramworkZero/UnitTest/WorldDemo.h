@@ -25,7 +25,9 @@ public:
 private:
 	void Mesh();
 	void Kachujin();
+	void BurntLight();
 	void PointLights();
+	void SpotLights();
 
 private:
 	Shader* shader;

@@ -47,6 +47,21 @@ void Gizmo::Render()
 	ImGuizmo::Manipulate(V, P, operation, mode, W);
 
 	transform->LossyWorld(W);
+
+	Debug::Log->Show("");
+	Debug::Log->Show("__Gizmo__");
+	string str;
+	Vector3 v3;
+
+	transform->Position(&v3);
+	str = "Position : " + to_string((int)v3.x) + ", " + to_string((int)v3.y) + ", " + to_string((int)v3.z);
+	Debug::Log->Show(str);
+	transform->RotationDegree(&v3);
+	str = "Rotation : " + to_string((int)v3.x) + ", " + to_string((int)v3.y) + ", " + to_string((int)v3.z);
+	Debug::Log->Show(str);
+	transform->Scale(&v3);
+	str = "Scale : " + to_string((int)v3.x) + ", " + to_string((int)v3.y) + ", " + to_string((int)v3.z);
+	Debug::Log->Show(str);
 }
 
 void Gizmo::SetTransform(Transform * transform)

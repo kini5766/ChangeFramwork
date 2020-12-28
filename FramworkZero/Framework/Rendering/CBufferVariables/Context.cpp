@@ -60,11 +60,6 @@ void Context::ResizeScreen()
 void Context::Update()
 {
 	camera->Update();
-}
-
-void Context::Render()
-{
-	camera->GetViewport()->RSSetViewport();
 
 	string str = string("FPS : ") + to_string(ImGui::GetIO().Framerate);
 	Debug::Log->Show(str);
@@ -107,5 +102,10 @@ void Context::Render()
 	str = "Camera(R) : " + to_string((int)R.x) + ", " + to_string((int)R.y) + ", " + to_string((int)R.z);
 	//Gui::Get()->RenderText(5.0f, 35.0f, 1, 1, 1, str);
 	Debug::Log->Show(str);
+}
+
+void Context::Render()
+{
+	camera->GetViewport()->RSSetViewport();
 }
 

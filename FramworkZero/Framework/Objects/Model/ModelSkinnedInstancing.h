@@ -14,6 +14,7 @@ public:
 
 public:
 	ModelSkinnedInstance* AddInstance();
+	ModelSkinnedInstance* GetInstance(UINT instance) { return instances[instance]; }
 	void RemoveInstance(ModelSkinnedInstance* value);
 
 	void UpdateTransforms();

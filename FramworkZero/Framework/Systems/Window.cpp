@@ -177,8 +177,8 @@ void Window::MainRender()
 	value->mouse->Update();
 
 	Gui::Get()->Update();
-	Debug::Gizmo->Update();
 	Context::Get()->Update();
+	Debug::Gizmo->Update();
 	Debug::Line->Update();
 
 	mainExecute->Update();
@@ -193,9 +193,9 @@ void Window::MainRender()
 		mainExecute->Render();
 
 		mainExecute->PostRender();
+		Debug::Gizmo->Render();
 		Debug::Line->Render();  // 디버그 라인
 		Debug::Log->Render();
-		Debug::Gizmo->Render();
 		Gui::Get()->Render();  // 글자
 	}
 	D3D::Get()->Present();

@@ -23,6 +23,7 @@ public:
 
 public:
 	MeshInstance* AddInstance();
+	MeshInstance* GetInstance(UINT index) { return instances[index]; }
 	void RemoveInstance(MeshInstance* value);
 
 	void UpdateTransforms();

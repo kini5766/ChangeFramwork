@@ -407,11 +407,11 @@ void ComputeBurntLight(inout MaterialDesc directional, float3 wPosition)
 		return;
 
 	float3 dir = abs(wPosition - BurntLight.Position);
-	float3 halfScale = BurntLight.Scale * 0.5f;
+	float3 halfScale = BurntLight.Scale * 0.5f - 1.401298E-5f;
 
-	if (dir.x <= halfScale.x &&
-		dir.y <= halfScale.y && 
-		dir.z <= halfScale.z)
+	if (dir.x < halfScale.x &&
+		dir.y < halfScale.y && 
+		dir.z < halfScale.z)
 	{
 		directional.Ambient = float4(0, 0, 0, 0);
 		directional.Diffuse = float4(0, 0, 0, 0);
