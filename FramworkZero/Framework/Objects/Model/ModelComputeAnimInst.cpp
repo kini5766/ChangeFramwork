@@ -46,9 +46,9 @@ ID3D11Texture2D * ModelComputeAnimInst::CopyFromOutput()
 	return computeOutputSrvBuffer->CopyFromOutput();
 }
 
-KeyframeDesc * ModelComputeAnimInst::GetDesc(UINT index)
+BlendDesc * ModelComputeAnimInst::GetDesc(UINT index)
 {
-	return keyframeDesc + index;
+	return blendDesc + index;
 }
 
 void ModelComputeAnimInst::Update()
@@ -67,8 +67,8 @@ void ModelComputeAnimInst::CreateComputeAnim()
 	computeShaderAnim = new ShaderSetter(L"02_AnimationInstance.fxo");
 
 	// in : 블랜드정보 * 인스턴스
-	blendBuffer = new ConstantBuffer(keyframeDesc, sizeof(KeyframeDesc) * MODEL_INSTANCE_MAX_COUNT);
-	computeShaderAnim->SetConstantBuffer(CB_Keyframes, blendBuffer->Buffer());
+	blendBuffer = new ConstantBuffer(blendDesc, sizeof(BlendDesc) * MODEL_INSTANCE_MAX_COUNT);
+	computeShaderAnim->SetConstantBuffer(CB_BlendingFrame, blendBuffer->Buffer());
 
 	// in : 클립트랜스폼
 	computeShaderAnim->SetSRV("InputClipMap", animMap->ClipBoneMapSrv());

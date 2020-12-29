@@ -22,6 +22,6 @@ namespace ShaderEffectName
 
 	// 02_AnimationMap.fx
 	const string CB_BonesMap = "CB_BonesMap";
-	const string CB_Keyframes = "CB_Keyframes";
+	const string CB_BlendingFrame = "CB_BlendingFrame";
 
 }

@@ -11,6 +11,13 @@ struct KeyframeDesc
 	float2 Padding;
 };
 
+struct BlendDesc
+{
+	float Alpha;
+	float3 Padding;
+	KeyframeDesc Clip[2];
+};
+
 struct KeyframeCount
 {
 	uint Translation;

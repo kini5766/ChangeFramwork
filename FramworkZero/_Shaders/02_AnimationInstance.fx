@@ -1,8 +1,8 @@
 #include "02_SetAnimation.fx"
 
-cbuffer CB_Keyframes
+cbuffer CB_BlendingFrame
 {
-	KeyframeDesc Keyframes[MODEL_INSTANCE_MAX_COUNT];
+	BlendDesc BlendingFrames[MODEL_INSTANCE_MAX_COUNT];
 };
 
 RWTexture2DArray<float4> Output;
@@ -12,11 +12,27 @@ RWTexture2DArray<float4> Output;
 [numthreads(1, MODEL_INSTANCE_MAX_COUNT, 1)]
 void CS(uint3 id : SV_DispatchThreadID)
 {
-	Transform transform = (Transform)0;
+	Transform transform;
 
-	int clip = Keyframes[id.y].Clip;
-	float time = Keyframes[id.y].Time;
-	GetAnimWorld(transform, id.x, clip, time);
+	Transform curr, next;
+	int clip;
+	float time;
+
+	clip = BlendingFrames[id.y].Clip[0].Clip;
+	time = BlendingFrames[id.y].Clip[0].Time;
+	GetAnimWorld(curr, id.x, clip, time);
+
+	float alpha = BlendingFrames[id.y].Alpha;
+
+	[flatten]
+	if (alpha != 0.0f)
+	{
+		clip = BlendingFrames[id.y].Clip[1].Clip;
+		time = BlendingFrames[id.y].Clip[1].Time;
+		GetAnimWorld(next, id.x, clip, time);
+
+		Lerp(transform, curr, next, alpha);
+	}
 
 	matrix world = Combine(transform);
 	Output[int3(id.x * 4 + 0, id.y, 0)] = world._11_12_13_14;

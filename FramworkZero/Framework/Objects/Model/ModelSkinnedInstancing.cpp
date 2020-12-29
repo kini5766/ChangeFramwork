@@ -151,7 +151,7 @@ void ModelSkinnedInstancing::GetAttachBones(UINT instace, Matrix * matrix)
 	D3D::GetDC()->Unmap(texture, 0);
 }
 
-KeyframeDesc * ModelSkinnedInstancing::GetAnimationDesc(UINT index)
+BlendDesc * ModelSkinnedInstancing::GetAnimationDesc(UINT index)
 {
 	return compute->GetDesc(index);
 }

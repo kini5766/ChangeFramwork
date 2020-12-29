@@ -7,7 +7,7 @@
 class ModelAnimation
 {
 public:
-	ModelAnimation(const ModelData* clips, KeyframeDesc* frameDesc);
+	ModelAnimation(const ModelData* clips, BlendDesc* blendingFrames);
 	~ModelAnimation();
 
 public:
@@ -16,10 +16,10 @@ public:
 public:
 	UINT GetClipCount() const { return clips->ClipCount(); }
 	const ModelClipData* GetClipData(UINT index) { return clips->ClipByIndex(index); }
-	void SetAnimator(function<void(KeyframeDesc*out)> func) { funcGetAnimDesc = func; }
+	void SetAnimator(function<void(BlendDesc*out)> func) { funcGetAnimDesc = func; }
 
 private:
 	const ModelData* clips;
-	KeyframeDesc* frameDesc;
-	function<void(KeyframeDesc*out)> funcGetAnimDesc;
+	BlendDesc* blendingFrames;
+	function<void(BlendDesc*out)> funcGetAnimDesc;
 };

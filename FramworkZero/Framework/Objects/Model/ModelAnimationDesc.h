@@ -11,9 +11,8 @@ struct KeyframeDesc
 
 struct BlendDesc
 {
-	UINT Mode = 0;  // bool 1바이트 애매함
 	float Alpha = 0;
-	float Padding[2];
+	float Padding[3];
 
 	KeyframeDesc Clip[2];
 };

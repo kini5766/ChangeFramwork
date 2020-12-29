@@ -24,7 +24,7 @@ public:
 	void Pass(UINT value) { renderer->Pass(value); }
 	void SetColor(UINT instance, const Color& color);
 	void GetAttachBones(UINT instace, Matrix * matrix);
-	KeyframeDesc* GetAnimationDesc(UINT index);
+	BlendDesc* GetAnimationDesc(UINT index);
 	const ModelData* GetModel() const { return data; }
 
 private:

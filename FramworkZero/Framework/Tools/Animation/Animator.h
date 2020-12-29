@@ -11,16 +11,19 @@ public:
 public:
 	void Play(UINT clip) { inputNext = (int)clip; }
 	void PlayTempBlend(UINT next, float tweenTime);
+	void SetCurrBlendEdge(UINT start, UINT end);
+
+public:
 	void Update();
+	void UpdateBlend();
+	void UpdateClip();
 
 public:
 	void AddNode(float duration, float speed = 1.0f, float frameRate = 1.0f, function<void(void)> funcPlay = []() {});
 	void AddBlendEdge(UINT start, UINT end, float tweenTime, bool bDefault = false);
-	void GetAnimDesc(struct KeyframeDesc* outDesc);
+	void GetAnimDesc(struct BlendDesc* outDesc);
 
 private:
-	void UpdateTweening();
-	void UpdateClip();
 	void NextInput();
 
 private:
@@ -36,12 +39,12 @@ private:
 		UINT Start;
 		UINT End;
 		// 전환 시간
-		float TweenTime = 0.1f;
-	}*currEdge;
+		float TweenTime;
+	}*currEdge;//, *inputEdge;
 
 private:
 	void PlayNextClip(BlendEdge * next, bool bTemp);
-	void EndTween();
+	void EndBlend();
 
 private:
 	struct ClipNode

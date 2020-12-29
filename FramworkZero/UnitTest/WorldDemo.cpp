@@ -35,12 +35,18 @@ void WorldDemo::Update()
 
 void WorldDemo::Render()
 {
-	//KeyframeDesc* keyframeDesc = kachujin->GetInstance(0)->GetAnimation();
-	//ImGui::SliderInt("Clip", &keyframeDesc->Clip, -1, kachujin->GetModel()->ClipCount() - 1);
-	//ImGui::SliderFloat("Time", &keyframeDesc->Time, 0.0f, 100.0f);
+	static UINT clip = 0;
 
-	if (ImGui::Button("Play1"))
-		kachujinAnimator->PlayTempBlend(1, 0.1f);
+	ImGui::InputInt("Clip", (int*)&clip);
+	clip %= kachujin->GetModel()->ClipCount();
+	static float tweenTime = 0.1f;
+	ImGui::SliderFloat("tweenTime", &tweenTime, 0.0f, 1.0f);
+
+	if (ImGui::Button("Play"))
+	{
+		kachujinAnimator->PlayTempBlend(clip, tweenTime);
+	}
+
 	kachujinAnimator->Update();
 
 	if (ImGui::Button("unSelect"))
@@ -152,6 +158,11 @@ void WorldDemo::Kachujin()
 	kachujin->Pass(1);
 
 	kachujinAnimator = new Animator(instance->GetAnimation());
+	kachujinAnimator->AddBlendEdge(0, 1, 0.1f, true);
+	kachujinAnimator->AddBlendEdge(1, 2, 0.1f, true);
+	kachujinAnimator->AddBlendEdge(2, 3, 0.1f, true);
+	kachujinAnimator->AddBlendEdge(3, 4, 0.1f, true);
+	kachujinAnimator->AddBlendEdge(4, 0, 0.1f, true);
 }
 
 void WorldDemo::BurntLight()

@@ -14,7 +14,7 @@ public:
 	ID3D11ShaderResourceView* GetOutputAnimSrv();
 	ID3D11ShaderResourceView* GetOutputBoneResultSrv();
 	ID3D11Texture2D* CopyFromOutput();
-	KeyframeDesc* GetDesc(UINT index);
+	BlendDesc* GetDesc(UINT index);
 
 private:
 	void CreateComputeAnim();
@@ -27,7 +27,7 @@ private:
 
 private:  // Anim
 	class ModelAnimMap* animMap;
-	KeyframeDesc keyframeDesc[MODEL_INSTANCE_MAX_COUNT];
+	BlendDesc blendDesc[MODEL_INSTANCE_MAX_COUNT];
 
 private:  // Compute
 	ShaderSetter* computeShaderAnim;
