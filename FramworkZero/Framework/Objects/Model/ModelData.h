@@ -11,21 +11,17 @@ public:
 
 public:
 	UINT BoneCount() const { return bones.size(); }
-	vector<ModelBoneData*>& Bones() { return bones; }
 	ModelBoneData* BoneByIndex(UINT index) { return bones[index]; }
 
 	UINT MeshCount() const { return meshes.size(); }
-	vector<ModelMeshData*>& Meshes() { return meshes; }
 	ModelMeshData* MeshByIndex(UINT index) { return meshes[index]; }
 
-	UINT MaterialCount() const { return materials.size(); }
 	vector<Material*>& Materials() { return materials; }
-	Material* MaterialByIndex(UINT index) { return materials[index]; }
 	UINT MaterialIndexByName(wstring name);
 
 	UINT ClipCount() const { return clips.size(); }
 	vector<ModelClipData*>& Clips() { return clips; }
-	ModelClipData* ClipByIndex(UINT index) { return clips[index]; }
+	const ModelClipData* ClipByIndex(UINT index) const { return clips[index]; }
 
 public:
 	// 읽기 순서 지켜주세요

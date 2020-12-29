@@ -33,6 +33,7 @@
     <ClCompile Include="Objects\Meshes\MeshRenderer.cpp" />
     <ClCompile Include="Objects\Meshes\MeshSphere.cpp" />
     <ClCompile Include="Objects\Meshes\SkinnedMeshRenderer.cpp" />
+    <ClCompile Include="Objects\Model\ModelAnimation.cpp" />
     <ClCompile Include="Objects\Model\ModelAnimMap.cpp" />
     <ClCompile Include="Objects\Model\ModelBonesMap.cpp" />
     <ClCompile Include="Objects\Model\ModelComputeAnimInst.cpp" />
@@ -51,6 +52,9 @@
     <ClCompile Include="Rendering\CBufferVariables\ShaderSetter.cpp" />
     <ClCompile Include="Systems\D3D.cpp" />
     <ClCompile Include="Systems\Gui.cpp" />
+    <ClCompile Include="Tools\Animation\Animator.cpp" />
+    <ClCompile Include="Tools\Animation\ClipTimer.cpp" />
+    <ClCompile Include="Tools\Animation\SimpleAnimator.cpp" />
     <ClCompile Include="Tools\Lighting\BurntLight.cpp" />
     <ClCompile Include="Tools\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="Tools\Lighting\Lighting.cpp" />
@@ -94,6 +98,7 @@
     <ClInclude Include="Objects\Meshes\MeshRenderer.h" />
     <ClInclude Include="Objects\Meshes\MeshSphere.h" />
     <ClInclude Include="Objects\Meshes\SkinnedMeshRenderer.h" />
+    <ClInclude Include="Objects\Model\ModelAnimation.h" />
     <ClInclude Include="Objects\Model\ModelAnimMap.h" />
     <ClInclude Include="Objects\Model\ModelAnimationDesc.h" />
     <ClInclude Include="Objects\Model\ModelBonesMap.h" />
@@ -119,6 +124,9 @@
     <ClInclude Include="Systems\D3D.h" />
     <ClInclude Include="Systems\Gui.h" />
     <ClInclude Include="Systems\IExecute.h" />
+    <ClInclude Include="Tools\Animation\Animator.h" />
+    <ClInclude Include="Tools\Animation\ClipTimer.h" />
+    <ClInclude Include="Tools\Animation\SimpleAnimator.h" />
     <ClInclude Include="Tools\Lighting\BurntLight.h" />
     <ClInclude Include="Tools\Lighting\DirectionalLight.h" />
     <ClInclude Include="Tools\Lighting\Lighting.h" />

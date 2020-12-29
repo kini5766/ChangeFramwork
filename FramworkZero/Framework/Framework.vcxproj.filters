@@ -43,6 +43,9 @@
     <Filter Include="Tools\Lighting">
       <UniqueIdentifier>{831dbbd4-8c93-40e3-965c-ab74c8ee1435}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tools\Animation">
+      <UniqueIdentifier>{c10df74a-95ed-4d06-94fe-e3af44751106}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -216,6 +219,18 @@
     </ClCompile>
     <ClCompile Include="Tools\Lighting\BurntLight.cpp">
       <Filter>Tools\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Model\ModelAnimation.cpp">
+      <Filter>Objects\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Animation\SimpleAnimator.cpp">
+      <Filter>Tools\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Animation\ClipTimer.cpp">
+      <Filter>Tools\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Animation\Animator.cpp">
+      <Filter>Tools\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -420,6 +435,18 @@
     </ClInclude>
     <ClInclude Include="Tools\Lighting\BurntLight.h">
       <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelAnimation.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Animation\SimpleAnimator.h">
+      <Filter>Tools\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Animation\ClipTimer.h">
+      <Filter>Tools\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Animation\Animator.h">
+      <Filter>Tools\Animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -46,12 +46,13 @@ ID3D11Texture2D * ModelComputeAnimInst::CopyFromOutput()
 	return computeOutputSrvBuffer->CopyFromOutput();
 }
 
+KeyframeDesc * ModelComputeAnimInst::GetDesc(UINT index)
+{
+	return keyframeDesc + index;
+}
+
 void ModelComputeAnimInst::Update()
 {
-	static int instance = 0;
-	ImGui::SliderInt("Instance", &instance, 0, MODEL_INSTANCE_MAX_COUNT);
-	ImGui::SliderInt("Clip", &keyframeDesc[instance].Clip, -1, clipCount - 1);
-	ImGui::SliderFloat("Time", &keyframeDesc[instance].Time, 0.0f, 100.0f);
 	blendBuffer->Render();
 
 	computeShaderAnim->Render();

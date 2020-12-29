@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "WorldDemo.h"
 
+#include "Objects/Model/ModelAnimation.h"
+
 void WorldDemo::Initialize()
 {
 	Context::Get()->MainCamera()->RotationDegree(13, 70, 0);
@@ -33,6 +35,14 @@ void WorldDemo::Update()
 
 void WorldDemo::Render()
 {
+	//KeyframeDesc* keyframeDesc = kachujin->GetInstance(0)->GetAnimation();
+	//ImGui::SliderInt("Clip", &keyframeDesc->Clip, -1, kachujin->GetModel()->ClipCount() - 1);
+	//ImGui::SliderFloat("Time", &keyframeDesc->Time, 0.0f, 100.0f);
+
+	if (ImGui::Button("Play1"))
+		kachujinAnimator->PlayTempBlend(1, 0.1f);
+	kachujinAnimator->Update();
+
 	if (ImGui::Button("unSelect"))
 	{
 		Debug::Gizmo->SetTransform(nullptr);
@@ -61,7 +71,6 @@ void WorldDemo::Render()
 	{
 		Debug::Gizmo->SetTransform(box->GetInstance(0)->GetTransform());
 	}
-
 
 	Lighting::Get()->GetDirectional()->ApplyTransform();
 	Lighting::Get()->GetPointLight(0)->ApplyTransform();
@@ -141,6 +150,8 @@ void WorldDemo::Kachujin()
 	kachujin->UpdateTransforms();
 	kachujin->UpdateColors();
 	kachujin->Pass(1);
+
+	kachujinAnimator = new Animator(instance->GetAnimation());
 }
 
 void WorldDemo::BurntLight()

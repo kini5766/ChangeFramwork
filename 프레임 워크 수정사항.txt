@@ -1,0 +1,71 @@
+__폴더명 의미__
+
+Settings/
+// 실행 전 셋팅할 값들
+
+Systems/
+// 윈도우, d3d, imgui 생성
+
+Tools/
+// 필요할 때 꺼내 쓰는 클래스들 (특징 : Rendering폴더 클래스를 사용하지 않음)
+
+Rendering/
+// IASet하거나, Shader에 값 넘겨주는 클래스들
+
+Utilities/
+// 유용한
+
+Objects/
+// Rendering클래스를 이용해서 물체를 그리는 클래스
+
+Debugger/
+// 디버그용 클래스들
+
+
+__이름 수정__
+과거 : D3D::GetDesc()->Width(); 
+현재 : Screen::Width();
+
+과거 : Mouse::Get()->
+현재 : Input::Mouse()->
+
+과거 : DebugLine::Get()->
+현재 : Debug::Line->
+
+과거 : Mesh
+현재 : MeshRenderer
+
+과거 : MeshReanderer
+현재 : MeshInstancing
+
+과거 : ModelAnimator
+현재 : ModelSkinnedInstancing
+
+
+__기능 수정__
+
+-Transform
+부모 자식 관계 추가 (트리구조)
+버퍼 제거 (TransformBuffer클래스 만들 예정)
+
+-모델애니메이션(미완)
+매트릭스가 아닌 쿼터니온 slerp로 보간
+모델컨버터 클립 부분 수정됨
+
+
+__기능 추가__ 
+
+namespace URI
+{ 폴더명을 바꿀 때 편하게 수정하기 위함 }
+
+class Texture2D
+{ 텍스쳐 생성 및 SRV 생성 편하게 하기 위한 클래스 }
+
+class ShaderSetter
+{ 셰이더 이펙트 베리어블을 편하게 관리, Material이 상속함 }
+
+class MeshData
+{ 메쉬 값 생성을 편하게하기 위함, MeshQuad, MeshPlane 등이 상속함 }
+
+class DebugLog
+{ 임구이로 편하게 값 찍을 때 사용 }

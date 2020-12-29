@@ -34,4 +34,5 @@ private:
 	MeshInstancing* plane;
 	MeshInstancing* box;
 	ModelSkinnedInstancing* kachujin;
+	Animator* kachujinAnimator;
 };

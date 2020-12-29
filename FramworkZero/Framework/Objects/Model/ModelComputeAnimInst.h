@@ -14,6 +14,7 @@ public:
 	ID3D11ShaderResourceView* GetOutputAnimSrv();
 	ID3D11ShaderResourceView* GetOutputBoneResultSrv();
 	ID3D11Texture2D* CopyFromOutput();
+	KeyframeDesc* GetDesc(UINT index);
 
 private:
 	void CreateComputeAnim();
@@ -28,6 +29,7 @@ private:  // Anim
 	class ModelAnimMap* animMap;
 	KeyframeDesc keyframeDesc[MODEL_INSTANCE_MAX_COUNT];
 
+private:  // Compute
 	ShaderSetter* computeShaderAnim;
 	// in : 블랜드정보 * 인스턴스
 	ConstantBuffer* blendBuffer;

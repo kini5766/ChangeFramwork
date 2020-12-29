@@ -58,7 +58,7 @@ void AnimationDemo::Update()
 	//}
 
 	static int bone = 0;
-	ImGui::SliderInt("Bone", &bone, 0, kachujin->BoneCount() - 1);
+	ImGui::SliderInt("Bone", &bone, 0, kachujin->GetModel()->BoneCount() - 1);
 	
 	if (kachujin != nullptr)
 	{
@@ -104,7 +104,7 @@ void AnimationDemo::Kachujin()
 	kachujin->UpdateColors();
 	kachujin->Pass(1);
 
-	attachBones = new Matrix[kachujin->BoneCount()];
+	attachBones = new Matrix[kachujin->GetModel()->BoneCount()];
 	gizmo = new Transform();
 	gizmo->SetParent(instance->GetTransform());
 	Debug::Gizmo->SetTransform(gizmo);

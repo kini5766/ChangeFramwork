@@ -36,6 +36,9 @@ ModelSkinnedInstancing::~ModelSkinnedInstancing()
 
 void ModelSkinnedInstancing::Update()
 {
+	for (ModelSkinnedInstance* instance : instances)
+		instance->Update();
+
 	perframe->Update();
 	if (compute != nullptr)
 		compute->Update();
@@ -148,6 +151,11 @@ void ModelSkinnedInstancing::GetAttachBones(UINT instace, Matrix * matrix)
 	D3D::GetDC()->Unmap(texture, 0);
 }
 
+KeyframeDesc * ModelSkinnedInstancing::GetAnimationDesc(UINT index)
+{
+	return compute->GetDesc(index);
+}
+
 
 void ModelSkinnedInstancing::ApplyModel(Shader* shader)
 {
@@ -192,4 +200,33 @@ void ModelSkinnedInstancing::ApplyModel(Shader* shader)
 
 	renderer->SetMaterials(data->Materials().data(), data->Materials().size());
 
+}
+
+
+// --
+// MeshInstance
+// --
+
+#include "ModelAnimation.h"
+
+
+ModelSkinnedInstance::ModelSkinnedInstance(ModelSkinnedInstancing * perent, UINT id)
+	: perent(perent), id(id)
+{
+	transform = new Transform();
+	animation = new ModelAnimation(
+		perent->GetModel(),
+		perent->GetAnimationDesc(id)
+	);
+}
+
+ModelSkinnedInstance::~ModelSkinnedInstance()
+{
+	SafeDelete(transform);
+	SafeDelete(animation);
+}
+
+void ModelSkinnedInstance::Update()
+{
+	animation->Update();
 }

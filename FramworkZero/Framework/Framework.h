@@ -106,6 +106,8 @@ typedef D3DXPLANE Plane;
 #include "Tools/Lighting/BurntLight.h"
 #include "Tools/Lighting/Lighting.h"
 
+#include "Tools/Animation/ClipTimer.h"
+#include "Tools/Animation/Animator.h"
 
 //Rendering
 // IASet하거나, Shader에 값 넘겨주는 클래스들
