@@ -23,6 +23,9 @@ public:
 	void AddBlendEdge(UINT start, UINT end, float tweenTime, bool bDefault = false);
 	void GetAnimDesc(struct BlendDesc* outDesc);
 
+public:
+	// get clip
+
 private:
 	void NextInput();
 

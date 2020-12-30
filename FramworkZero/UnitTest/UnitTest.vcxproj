@@ -131,6 +131,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Character\CharacterController.cpp" />
+    <ClCompile Include="Character\Kachujin.cpp" />
+    <ClCompile Include="Character\UserKeyState.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -138,6 +141,9 @@
     <ClCompile Include="WorldDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Character\CharacterController.h" />
+    <ClInclude Include="Character\Kachujin.h" />
+    <ClInclude Include="Character\UserKeyState.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="WorldDemo.h" />

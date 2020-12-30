@@ -4,10 +4,33 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="WorldDemo.cpp" />
+    <ClCompile Include="Character\Kachujin.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\CharacterController.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\UserKeyState.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="WorldDemo.h" />
+    <ClInclude Include="Character\Kachujin.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\CharacterController.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\UserKeyState.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Character">
+      <UniqueIdentifier>{5f036dd1-dfc0-4334-9e7e-6f2c3740d30d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

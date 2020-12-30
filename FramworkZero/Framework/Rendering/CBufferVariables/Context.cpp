@@ -30,7 +30,7 @@ Context::~Context()
 	SafeDelete(camera);
 }
 
-inline void Context::MainCamera(Camera * value)
+void Context::MainCamera(Camera * value)
 {
 	SafeDelete(camera);
 	camera = value;

@@ -26,6 +26,7 @@ public:
 	Vector3 RectCoord_Z();
 	// 자주 사용
 	Vector3 RectCoord_Y();
+	Vector3 RectCoord_YNormal();
 
 
 	// 구면좌표 -> 오일러
@@ -35,6 +36,9 @@ public:
 	Vector3 YawPitch_Y();
 	// 자주 사용
 	Vector3 YawPitch_Z();
+
+public:
+	static void Lerp(SphereCoord* out, const SphereCoord* s1, const SphereCoord* s2, float t);
 
 private:
 	void ToAngle(float* outTheta, float* outPhi);

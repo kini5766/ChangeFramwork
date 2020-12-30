@@ -19,30 +19,28 @@ void Freedom::Update()
 	if (Input::Mouse()->Press(1) == false)
 		return;
 
-	Vector3 f = Forward();
-	Vector3 r = Right();
-	Vector3 u = Up();
-
 	// move
 	{
 		Vector3 P;
 		Position(&P);
 
+		float moveDelta = move * Time::Delta();
+		// move
 		if (Input::Keyboard()->Press('W'))
-			P = P + f * move * Time::Delta();
+			P += Forward() * moveDelta;
 		else if (Input::Keyboard()->Press('S'))
-			P = P - f * move * Time::Delta();
+			P -= Forward() * moveDelta;
 
 		if (Input::Keyboard()->Press('D'))
-			P = P + r * move * Time::Delta();
+			P += Right() * moveDelta;
 		else if (Input::Keyboard()->Press('A'))
-			P = P - r * move * Time::Delta();
+			P -= Right() * moveDelta;
 
 
 		if (Input::Keyboard()->Press('E'))
-			P = P + u * move * Time::Delta();
+			P += Up() * moveDelta;
 		else if (Input::Keyboard()->Press('Q'))
-			P = P - u * move * Time::Delta();
+			P -= Up() * moveDelta;
 
 		Position(P);
 	}

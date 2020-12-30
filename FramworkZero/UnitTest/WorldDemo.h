@@ -47,5 +47,6 @@ private:
 	MeshInstancing* plane;
 	MeshInstancing* box;
 	ModelSkinnedInstancing* kachujin;
-	Animator* kachujinAnimator;
+	class KachujinInstance* character;
+	class CharacterController* player;
 };

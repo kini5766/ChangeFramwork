@@ -1,13 +1,12 @@
 #include "stdafx.h"
 #include "WorldDemo.h"
 
-#include "Objects/Model/ModelAnimation.h"
+#include "Tools/Viewer/OrbitCamera.h"
+#include "Character/Kachujin.h"
+#include "Character/CharacterController.h"
 
 void WorldDemo::Initialize()
 {
-	Context::Get()->MainCamera()->RotationDegree(13, 70, 0);
-	Context::Get()->MainCamera()->Position(-20, 1, -3);
-
 	shader = Shader::Load(L"01_Material.fxo");
 
 	Mesh();
@@ -15,10 +14,26 @@ void WorldDemo::Initialize()
 	BurntLight();
 	PointLights();
 	SpotLights();
+
+	character = new KachujinInstance(kachujin->GetInstance(0));
+	player = new CharacterController
+	(
+		character->GetInstance()->GetTransform(), 
+		character->GetAnimator()
+	);
+
+	OrbitCamera* camera = new OrbitCamera();
+	camera->SetTarget(player);
+	Context::Get()->MainCamera(camera);
+	//Context::Get()->MainCamera()->RotationDegree(13, 70, 0);
+	//Context::Get()->MainCamera()->Position(-20, 1, -3);
 }
 
 void WorldDemo::Destroy()
 {
+	SafeDelete(player);
+	SafeDelete(character);
+
 	SafeDelete(plane);
 
 	SafeDelete(box);
@@ -28,6 +43,9 @@ void WorldDemo::Destroy()
 
 void WorldDemo::Update()
 {
+	character->Update();
+	player->Update();
+
 	box->Update();
 	kachujin->Update();
 	plane->Update();
@@ -35,20 +53,6 @@ void WorldDemo::Update()
 
 void WorldDemo::Render()
 {
-	static UINT clip = 0;
-
-	ImGui::InputInt("Clip", (int*)&clip);
-	clip %= kachujin->GetModel()->ClipCount();
-	static float tweenTime = 0.1f;
-	ImGui::SliderFloat("tweenTime", &tweenTime, 0.0f, 1.0f);
-
-	if (ImGui::Button("Play"))
-	{
-		kachujinAnimator->PlayTempBlend(clip, tweenTime);
-	}
-
-	kachujinAnimator->Update();
-
 	if (ImGui::Button("unSelect"))
 	{
 		Debug::Gizmo->SetTransform(nullptr);
@@ -156,13 +160,6 @@ void WorldDemo::Kachujin()
 	kachujin->UpdateTransforms();
 	kachujin->UpdateColors();
 	kachujin->Pass(1);
-
-	kachujinAnimator = new Animator(instance->GetAnimation());
-	kachujinAnimator->AddBlendEdge(0, 1, 0.1f, true);
-	kachujinAnimator->AddBlendEdge(1, 2, 0.1f, true);
-	kachujinAnimator->AddBlendEdge(2, 3, 0.1f, true);
-	kachujinAnimator->AddBlendEdge(3, 4, 0.1f, true);
-	kachujinAnimator->AddBlendEdge(4, 0, 0.1f, true);
 }
 
 void WorldDemo::BurntLight()

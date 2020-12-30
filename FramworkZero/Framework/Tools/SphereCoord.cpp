@@ -29,9 +29,10 @@ void SphereCoord::Phi(float value)
 
 void SphereCoord::SetRectCoord(const Vector3 & value)
 {
-	Phi(atan2(value.y, value.x));
-	Theta(acosf(value.z));
-	Rho(1.0f);
+	Rho(D3DXVec3Length(&value));
+	Vector3 normalized = value / Rho();
+	Phi(atan2(normalized.y, normalized.x));
+	Theta(acosf(normalized.z));
 }
 
 void SphereCoord::SetRectCoord_Y(const Vector3 & value)
@@ -55,6 +56,15 @@ Vector3 SphereCoord::RectCoord_Y()
 	return Vector3(result.y, result.z, result.x);
 }
 
+Vector3 SphereCoord::RectCoord_YNormal()
+{
+	float sinT = sinf(theta);
+	float cosT = cosf(theta);
+	float sinP = sinf(phi);
+	float cosP = cosf(phi);
+	return Vector3(sinT * sinP, cosT, sinT * cosP);
+}
+
 Vector3 SphereCoord::YawPitch_Y()
 {
 	float thetaTemp;
@@ -69,6 +79,22 @@ Vector3 SphereCoord::YawPitch_Z()
 	Vector3 result = YawPitch_Y();
 	result.x -= PI * 0.5f;  // 출발 좌표 보정 (구면 : 010), (오일러 : 001)
 	return result;
+}
+
+void SphereCoord::Lerp(SphereCoord * out, const SphereCoord * s1, const SphereCoord * s2, float t)
+{
+	out->rho = (1 - t) * s1->rho + t * s1->rho;
+	out->theta = (1 - t) * s1->theta + t * s2->theta;
+	float a = s1->phi;
+	float b = s2->phi;
+	if (abs(a - b) >= PI)
+	{
+		if (a > b)
+			a = fmodf(a + PI, PI * 2.0f) - PI - 2.0 * PI;
+		else
+			b = fmodf(b + PI, PI * 2.0f) - PI - 2.0 * PI;
+	}
+	out->phi = (1 - t) * a + t * b;
 }
 
 void SphereCoord::ToAngle(float * outTheta, float * outPhi)

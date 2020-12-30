@@ -232,6 +232,9 @@
     <ClCompile Include="Tools\Animation\Animator.cpp">
       <Filter>Tools\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="Tools\Viewer\OrbitCamera.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -447,6 +450,12 @@
     </ClInclude>
     <ClInclude Include="Tools\Animation\Animator.h">
       <Filter>Tools\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\OrbitCamera.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\IFocus.h">
+      <Filter>Tools\Viewer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

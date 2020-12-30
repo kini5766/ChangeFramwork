@@ -74,6 +74,7 @@
     <ClCompile Include="Tools\Transform.cpp" />
     <ClCompile Include="Tools\Viewer\Camera.cpp" />
     <ClCompile Include="Tools\Viewer\Freedom.cpp" />
+    <ClCompile Include="Tools\Viewer\OrbitCamera.cpp" />
     <ClCompile Include="Tools\Viewer\Orthographic.cpp" />
     <ClCompile Include="Tools\Viewer\Perspective.cpp" />
     <ClCompile Include="Tools\Viewer\Projection.cpp" />
@@ -147,6 +148,8 @@
     <ClInclude Include="Tools\Transform.h" />
     <ClInclude Include="Tools\Viewer\Camera.h" />
     <ClInclude Include="Tools\Viewer\Freedom.h" />
+    <ClInclude Include="Tools\Viewer\IFocus.h" />
+    <ClInclude Include="Tools\Viewer\OrbitCamera.h" />
     <ClInclude Include="Tools\Viewer\Orthographic.h" />
     <ClInclude Include="Tools\Viewer\Perspective.h" />
     <ClInclude Include="Tools\Viewer\Projection.h" />
