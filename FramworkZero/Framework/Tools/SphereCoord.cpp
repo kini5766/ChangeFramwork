@@ -84,17 +84,9 @@ Vector3 SphereCoord::YawPitch_Z()
 void SphereCoord::Lerp(SphereCoord * out, const SphereCoord * s1, const SphereCoord * s2, float t)
 {
 	out->rho = (1 - t) * s1->rho + t * s1->rho;
-	out->theta = (1 - t) * s1->theta + t * s2->theta;
-	float a = s1->phi;
-	float b = s2->phi;
-	if (abs(a - b) >= PI)
-	{
-		if (a > b)
-			a = fmodf(a + PI, PI * 2.0f) - PI - 2.0 * PI;
-		else
-			b = fmodf(b + PI, PI * 2.0f) - PI - 2.0 * PI;
-	}
-	out->phi = (1 - t) * a + t * b;
+	out->theta = Math::LerpBetweenTwoAngles(s1->theta, s2->theta, t);
+	out->phi = Math::LerpBetweenTwoAngles(s1->phi, s2->phi, t);
+	//Debug::Log->Print(to_string(s1->phi) + ", " + to_string(s2->phi));
 }
 
 void SphereCoord::ToAngle(float * outTheta, float * outPhi)

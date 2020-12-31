@@ -6,6 +6,25 @@ const float Math::EPSILON = 0.000001f;
 const float Math::Deg2Rad = 0.01745329251f;
 const float Math::Rad2Deg = 57.2957795131f;
 
+float Math::NormalizeRadian(float rad)
+{
+	return fmodf(fmodf(rad - PI * 2.0f, PI * 2.0f) + PI * 3.0f, PI * 2.0f) - PI;
+}
+
+float Math::LerpBetweenTwoAngles(float rad_1, float rad_2, float t)
+{
+	rad_1 = NormalizeRadian(rad_1);
+	rad_2 = NormalizeRadian(rad_2);
+	if (abs(rad_1 - rad_2) >= PI)
+	{
+		if (rad_1 > rad_2)
+			rad_1 -= 2.0 * PI;
+		else
+			rad_2 -= 2.0 * PI;
+	}
+	return (1 - t) * rad_1 + t * rad_2;
+}
+
 float Math::Modulo(float val1, float val2)
 {
 	while (val1 - val2 >= 0)

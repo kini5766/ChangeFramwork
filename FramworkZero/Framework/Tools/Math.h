@@ -7,6 +7,9 @@ public:
 	static const float Deg2Rad;
 	static const float Rad2Deg;
 
+	static float NormalizeRadian(float rad);
+	static float LerpBetweenTwoAngles(float rad_1, float rad_2, float t);
+
 	static float Modulo(float val1, float val2);
 
 	static int Random(int r1, int r2);
