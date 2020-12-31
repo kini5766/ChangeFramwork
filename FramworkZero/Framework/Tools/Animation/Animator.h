@@ -12,6 +12,7 @@ public:
 	void Play(UINT clip) { inputNext = (int)clip; }
 	void PlayTempBlend(UINT next, float tweenTime);
 	void SetCurrBlendEdge(UINT start, UINT end);
+	void SetblendAlpha(float value) { blendAlpha = value; }
 
 public:
 	void Update();
@@ -19,8 +20,9 @@ public:
 	void UpdateClip();
 
 public:
-	void AddNode(float duration, float speed = 1.0f, float frameRate = 1.0f, function<void(void)> funcPlay = []() {});
+	void AddNode(float duration, float speed = 1.0f, float frameRate = 1.0f);
 	void AddBlendEdge(UINT start, UINT end, float tweenTime, bool bDefault = false);
+	void SetFuncNext(function<void(UINT)> value) { funcNext = value; }
 	void GetAnimDesc(struct BlendDesc* outDesc);
 
 public:
@@ -34,6 +36,7 @@ private:
 	UINT currClip = 0;
 	int inputNext = -1;  // -1은 입력 없음
 	bool bTempEdge = false;
+	function<void(UINT clip)> funcNext = [](UINT) {};
 
 
 private:
@@ -56,7 +59,6 @@ private:
 		UINT ClipNum;
 		ClipTimer Time;
 		float Speed;
-		function<void(void)> Play;
 
 		BlendEdge* DefaultEdge;
 		vector<BlendEdge*> Edges;

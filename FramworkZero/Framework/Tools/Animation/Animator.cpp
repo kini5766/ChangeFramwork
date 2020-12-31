@@ -93,7 +93,7 @@ void Animator::UpdateClip()
 	{
 		// 다음 클립 업데이트
 		ClipNode* next = nodes[currEdge->End];
-		//next->Time.Update();
+		next->Time.Update();
 	}
 	else
 	{
@@ -108,11 +108,10 @@ void Animator::UpdateClip()
 }
 
 
-void Animator::AddNode(float duration, float speed, float frameRate, function<void(void)> funcPlay)
+void Animator::AddNode(float duration, float speed, float frameRate)
 {
 	ClipNode* node = new ClipNode();
 	node->ClipNum = nodes.size();
-	node->Play = funcPlay;
 	node->Time.SetClip(node->ClipNum, duration, frameRate);
 	node->Speed = speed;
 	nodes.push_back(node);
@@ -128,7 +127,7 @@ void Animator::AddNode(float duration, float speed, float frameRate, function<vo
 	if (node->ClipNum == currClip)
 	{
 		ClipNode* curr = nodes[currClip];
-		curr->Play();
+		funcNext(currClip);
 		curr->Time.PlayOnce(curr->Speed);
 	}
 
@@ -195,7 +194,6 @@ void Animator::PlayNextClip(BlendEdge * next, bool bTemp)
 	currEdge = next;
 
 	ClipNode* nextClip = nodes[currEdge->End];
-	nextClip->Play();
 	nextClip->Time.PlayOnce(nextClip->Speed);
 	//nextClip->Time.PlayLoop(nextClip->Speed);
 
@@ -209,6 +207,7 @@ void Animator::PlayNextClip(BlendEdge * next, bool bTemp)
 void Animator::EndBlend()
 {
 	currClip = currEdge->End;
+	funcNext(currClip);
 	currEdge = nullptr;
 	blendAlpha = 0.0f;
 }
