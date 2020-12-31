@@ -49,6 +49,9 @@ void WorldDemo::Update()
 	box->Update();
 	kachujin->Update();
 	plane->Update();
+
+	for (Collider* collider : colliders)
+		Debug::Box->RenderBox(collider->GetTransform(), Color(0, 1, 0, 1));
 }
 
 void WorldDemo::Render()
@@ -96,9 +99,16 @@ void WorldDemo::Render()
 
 void WorldDemo::Mesh()
 {
+	Collider* collider;
+
 	plane = new MeshInstancing(shader, new MeshPlane(2.5f, 2.5f));
 	Transform* t = plane->AddInstance()->GetTransform();
+	collider = CollisionManager::Get()->CreateCollider();
+	colliders.push_back(collider);
+	collider->GetTransform()->SetParent(t);
+	collider->GetTransform()->Scale(10, 0.5f, 10);
 	t->Scale(12, 1, 12);
+
 
 	Material* m = plane->GetRenderer()->GetDefaultMaterial();
 	m->DiffuseMap(L"Floor.png");
@@ -108,6 +118,7 @@ void WorldDemo::Mesh()
 
 	plane->UpdateTransforms();
 	plane->UpdateColors();
+
 
 
 	box = new MeshInstancing(shader, new MeshCube());
@@ -123,14 +134,23 @@ void WorldDemo::Mesh()
 	}
 
 	transform = box->AddInstance()->GetTransform();
+	//collider = CollisionManager::Get()->CreateCollider();
+	//colliders.push_back(collider);
+	//collider->GetTransform()->SetParent(transform);
 	transform->Position(12, 7, 7);
 	transform->Scale(16, 14, 2);
 
 	transform = box->AddInstance()->GetTransform();
+	collider = CollisionManager::Get()->CreateCollider();
+	colliders.push_back(collider);
+	collider->GetTransform()->SetParent(transform);
 	transform->Position(12, 7, -7);
 	transform->Scale(16, 14, 2);
 
 	transform = box->AddInstance()->GetTransform();
+	//collider = CollisionManager::Get()->CreateCollider();
+	//colliders.push_back(collider);
+	//collider->GetTransform()->SetParent(transform);
 	transform->Position(12, 13, 0);
 	transform->Scale(16, 2, 12);
 

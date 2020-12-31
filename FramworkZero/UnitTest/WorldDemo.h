@@ -49,4 +49,6 @@ private:
 	ModelSkinnedInstancing* kachujin;
 	class KachujinInstance* character;
 	class CharacterController* player;
+
+	vector<Collider*> colliders;
 };

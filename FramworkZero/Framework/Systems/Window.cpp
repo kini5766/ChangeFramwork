@@ -171,34 +171,7 @@ LRESULT CALLBACK Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARA
 
 void Window::MainRender()
 {
-	value->time->Update();
-
-	value->keyboard->Update();
-	value->mouse->Update();
-
-	Gui::Get()->Update();
-	Context::Get()->Update();
-	Debug::Gizmo->Update();
-	Debug::Line->Update();
-
-	mainExecute->Update();
-
-	mainExecute->PreRender();
-	
-	D3D::Get()->SetRenderTarget();
-	D3D::Get()->Clear();
-	{
-		Context::Get()->Render();
-		
-		mainExecute->Render();
-
-		mainExecute->PostRender();
-		Debug::Gizmo->Render();
-		Debug::Line->Render();  // 디버그 라인
-		Debug::Log->Render();
-		Gui::Get()->Render();  // 글자
-	}
-	D3D::Get()->Present();
+	value->UpdateGame();
 }
 
 
@@ -235,9 +208,11 @@ void Window::WinValue::CreateGame()
 	keyboard = new Keyboard();
 	Context::Create();
 	Lighting::Create();
+	CollisionManager::Create();
 	Debug::Performance = new Performance();
 	Debug::Line = new DebugLine();
 	Debug::Log = new DebugLog();
+	Debug::Box = new DebugBox();
 	Debug::Gizmo = new Gizmo();
 
 	Time::SetGlobal(time);
@@ -253,14 +228,49 @@ void Window::WinValue::CreateGame()
 void Window::WinValue::DeleteGame()
 {
 	SafeDelete(Debug::Gizmo);
+	SafeDelete(Debug::Box);
 	SafeDelete(Debug::Log);
 	SafeDelete(Debug::Line);
 	SafeDelete(Debug::Performance);
 
+	CollisionManager::Delete();
 	Lighting::Delete();
 	Context::Delete();
 	SafeDelete(keyboard);
 	SafeDelete(mouse);
 	SafeDelete(input);
 	SafeDelete(time);
+}
+
+void Window::WinValue::UpdateGame()
+{
+	value->time->Update();
+
+	value->keyboard->Update();
+	value->mouse->Update();
+
+	Gui::Get()->Update();
+	Context::Get()->Update();
+	Debug::Gizmo->Update();
+	Debug::Line->Update();
+
+	mainExecute->Update();
+
+	mainExecute->PreRender();
+
+	D3D::Get()->SetRenderTarget();
+	D3D::Get()->Clear();
+	{
+		Context::Get()->Render();
+
+		mainExecute->Render();
+
+		mainExecute->PostRender();
+		Debug::Gizmo->Render();
+		Debug::Box->Render();
+		Debug::Line->Render();  // 디버그 라인
+		Debug::Log->Render();
+		Gui::Get()->Render();  // 글자
+	}
+	D3D::Get()->Present();
 }

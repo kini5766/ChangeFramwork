@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Debugger\DebugBox.cpp" />
     <ClCompile Include="Debugger\DebugLine.cpp" />
     <ClCompile Include="Debugger\DebugLog.cpp" />
     <ClCompile Include="Debugger\Gizmo.cpp" />
@@ -55,6 +56,8 @@
     <ClCompile Include="Tools\Animation\Animator.cpp" />
     <ClCompile Include="Tools\Animation\ClipTimer.cpp" />
     <ClCompile Include="Tools\Animation\SimpleAnimator.cpp" />
+    <ClCompile Include="Tools\Collider\Collider.cpp" />
+    <ClCompile Include="Tools\Collider\CollisionManager.cpp" />
     <ClCompile Include="Tools\Lighting\BurntLight.cpp" />
     <ClCompile Include="Tools\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="Tools\Lighting\Lighting.cpp" />
@@ -86,6 +89,7 @@
     <ClCompile Include="Utilities\Xml.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Debugger\DebugBox.h" />
     <ClInclude Include="Debugger\DebugLine.h" />
     <ClInclude Include="Debugger\DebugLog.h" />
     <ClInclude Include="Debugger\Gizmo.h" />
@@ -128,6 +132,8 @@
     <ClInclude Include="Tools\Animation\Animator.h" />
     <ClInclude Include="Tools\Animation\ClipTimer.h" />
     <ClInclude Include="Tools\Animation\SimpleAnimator.h" />
+    <ClInclude Include="Tools\Collider\Collider.h" />
+    <ClInclude Include="Tools\Collider\CollisionManager.h" />
     <ClInclude Include="Tools\Lighting\BurntLight.h" />
     <ClInclude Include="Tools\Lighting\DirectionalLight.h" />
     <ClInclude Include="Tools\Lighting\Lighting.h" />

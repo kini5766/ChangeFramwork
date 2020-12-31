@@ -25,6 +25,7 @@ private:
 
 		void CreateGame();
 		void DeleteGame();
+		void UpdateGame();
 
 	public:
 		WinDesc* desc;

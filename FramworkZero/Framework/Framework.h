@@ -109,6 +109,9 @@ typedef D3DXPLANE Plane;
 #include "Tools/Animation/ClipTimer.h"
 #include "Tools/Animation/Animator.h"
 
+#include "Tools/Collider/Collider.h"
+#include "Tools/Collider/CollisionManager.h"
+
 //Rendering
 // IASet하거나, Shader에 값 넘겨주는 클래스들
 
@@ -151,5 +154,6 @@ typedef D3DXPLANE Plane;
 
 #include "Debugger/DebugLog.h"
 #include "Debugger/DebugLine.h"
+#include "Debugger/DebugBox.h"
 #include "Debugger/Gizmo.h"
 

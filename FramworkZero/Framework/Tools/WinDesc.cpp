@@ -67,3 +67,4 @@ Performance* Debug::Performance = nullptr;
 DebugLine* Debug::Line = nullptr;
 DebugLog* Debug::Log = nullptr;
 Gizmo* Debug::Gizmo = nullptr;
+DebugBox* Debug::Box = nullptr;

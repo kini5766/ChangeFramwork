@@ -74,4 +74,5 @@ public:
 	static class DebugLine* Line;
 	static class DebugLog* Log;
 	static class Gizmo* Gizmo;
+	static class DebugBox* Box;
 };

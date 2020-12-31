@@ -46,6 +46,9 @@
     <Filter Include="Tools\Animation">
       <UniqueIdentifier>{c10df74a-95ed-4d06-94fe-e3af44751106}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tools\Collider">
+      <UniqueIdentifier>{be6ffecb-a04b-41b8-9a11-70d77d161bf1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -234,6 +237,15 @@
     </ClCompile>
     <ClCompile Include="Tools\Viewer\OrbitCamera.cpp">
       <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Collider\Collider.cpp">
+      <Filter>Tools\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Collider\CollisionManager.cpp">
+      <Filter>Tools\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Debugger\DebugBox.cpp">
+      <Filter>Debugger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -456,6 +468,15 @@
     </ClInclude>
     <ClInclude Include="Tools\Viewer\IFocus.h">
       <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Collider\CollisionManager.h">
+      <Filter>Tools\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Collider\Collider.h">
+      <Filter>Tools\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugger\DebugBox.h">
+      <Filter>Debugger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

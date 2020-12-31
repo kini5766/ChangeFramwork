@@ -23,8 +23,6 @@ private:
 
 	class SphereCoord* sphereCoord;
 	class IFocus* target = nullptr;
-	
-	// t = d / limit
-	float limit = 2.0f;
-	//float distance = 10.0f;
+	float distance = 15.0f;
+	vector<Collider*> colliders;
 };

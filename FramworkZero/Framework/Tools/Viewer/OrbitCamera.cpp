@@ -12,7 +12,7 @@ OrbitCamera::OrbitCamera()
 
 
 	sphereCoord = new SphereCoord();
-	sphereCoord->Rho(15.0f);
+	sphereCoord->Rho(distance);
 	//sphereCoord->Theta(Math::PI * 0.65f);
 	Position(sphereCoord->RectCoord_Y());
 	Rotation(sphereCoord->YawPitch_Z());
@@ -46,13 +46,13 @@ void OrbitCamera::Update()
 
 	// 확대 축소
 	{
-		float rho = sphereCoord->Rho();
-		rho -= axis.z * 0.007f;
-		if (rho < 6.0f)
-			rho = 6.0f;
-		else if (rho > 100.0f)
-			rho = 100.0f;
-		sphereCoord->Rho(rho);
+		//float rho = sphereCoord->Rho();
+		distance -= axis.z * 0.007f;
+		if (distance < 6.0f)
+			distance = 6.0f;
+		else if (distance > 100.0f)
+			distance = 100.0f;
+		//sphereCoord->Rho(rho);
 	}
 
 	if (Input::Mouse()->Press(1))
@@ -74,6 +74,26 @@ void OrbitCamera::Update()
 	if (theta > Math::PI * 0.9f)
 		theta = Math::PI * 0.9f;
 	sphereCoord->Theta(theta);
+
+	// 충돌 검사
+	{
+		CollisionManager::Get()->GetColliders(&colliders);
+
+		float d = distance;
+		for (Collider* collider : colliders)
+		{
+			if ((collider->GetMask() & Collider::COLLIDER_LAYER_CAMERA) != 0)
+			{
+				float temp;
+				if (collider->Intersection(focus, -sphereCoord->RectCoord_YNormal(), &temp))
+				{
+					if (d > temp && temp != 0)
+						d = temp;
+				}
+			}
+		}
+		sphereCoord->Rho(d);
+	}
 
 	pos = focus - sphereCoord->RectCoord_Y();
 	Position(pos);
