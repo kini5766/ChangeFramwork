@@ -40,6 +40,7 @@ private:
 
 private:
 	void ApplyStyle();
+	void SetConfig();
 
 private:
 	static Gui* instance;

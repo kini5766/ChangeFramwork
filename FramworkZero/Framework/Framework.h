@@ -36,12 +36,21 @@ using namespace std;
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "Effects11d.lib")
 
-//ImGui
+//ImGui (구버전)
+//#include <ImGui/imgui.h>
+//#include <ImGui/imgui_impl_dx11.h>
+//#include <ImGui/imgui_impl_win32.h>
+//#include <ImGui/ImGuizmo.h>
+//#include "../ImGui/ImGuizmo.h"
+//#pragma comment(lib, "ImGui/imgui.lib")
+
+// ImGui (DockSpace)
 #include <ImGui/imgui.h>
-#include <ImGui/imgui_impl_dx11.h>
-#include <ImGui/imgui_impl_win32.h>
-#include <ImGui/ImGuizmo.h>
-#pragma comment(lib, "ImGui/imgui.lib")
+#include <ImGui/backends/imgui_impl_dx11.h>
+#include <ImGui/backends/imgui_impl_win32.h>
+//#pragma comment(lib, "Debug/imgui.lib");  // 참조 추가하면 lib알아서 붙음
+#include <ImGuizmo/ImGuizmo.h>
+
 
 //DirectXTex
 #include <DirectXTex.h>
@@ -112,6 +121,7 @@ typedef D3DXPLANE Plane;
 #include "Tools/Collider/Ray.h"
 #include "Tools/Collider/Collider.h"
 #include "Tools/Collider/CollisionManager.h"
+
 
 //Rendering
 // IASet하거나, Shader에 값 넘겨주는 클래스들

@@ -3,34 +3,24 @@
 
 #include "Utilities/BinaryFile.h"
 #include "ObjectEditorFactory.h"
-#include "SceneValues.h"
+#include "SceneValue.h"
 #include "IObjectEditor.h"
-#include "IObjectDebuger.h"
 
 SceneEditor::SceneEditor()
 {
 	factory = new ObjectEditorFactory();
-	sceneValue = new SceneValues();
-
-	factory->InsertDebuger();
+	value = new SceneValue();
 }
 
 SceneEditor::~SceneEditor()
 {
-	for (auto d : objects)
-		SafeDelete(d);
-
-	for (auto d : debugObjects)
-		SafeDelete(d);
-
+	SafeDelete(value);
 	SafeDelete(factory);
-	SafeDelete(sceneValue);
 }
 
 void SceneEditor::Update()
 {
-	for (auto obj : sceneValue->Objs)
-		obj->Update();
+	value->Update();
 }
 
 void SceneEditor::Render()
@@ -41,17 +31,13 @@ void SceneEditor::Render()
 	RenderObjectButton();
 	ImGui::End();
 
-	RenderSelectedEditor();
+	RenderSelected();
 
-	for (auto obj : sceneValue->Objs)
-		obj->Render();
+	value->Render();
 }
 
-void SceneEditor::AddDebug(const char* objectName, const char * typeName, void * targetObject)
-{
-	ObjectDebuger* debuger = new ObjectDebuger(factory, objectName, typeName, targetObject);
-	debugObjects.push_back(debuger);
-}
+
+#pragma region Render ImGui
 
 void SceneEditor::RenderTopMenu()
 {
@@ -62,70 +48,51 @@ void SceneEditor::RenderTopMenu()
 	if (ImGui::Button("CreateObject")) CreateEditor();
 	if (selectedType == SelectedType::Editor)
 	{
-		if (ImGui::Button("DeleteObject")) DestoryEditor(selectedNum);
+		if (ImGui::Button("DeleteObject"))
+		{
+			UINT num = selectedNum;
+			SelectNone();
+			value->Destroy(num);
+		}
 	}
 	else
 	{
 		ImGui::NewLine();
-		ImGui::NewLine();
+		ImGui::Spacing();
+		ImGui::Spacing();
 	}
 }
 
 void SceneEditor::RenderObjectButton()
 {
-	ImGui::LabelText("", "Debug Objects");
-	UINT sizeDebug = debugObjects.size();
-	for (UINT i = 0; i < sizeDebug; i++)
+	if (ImGui::CollapsingHeader("Edit Objects", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::PushID(i);
-		if (ImGui::Button(debugObjects[i]->Name(), btnSize))
-			SelectDebug(i);
-		ImGui::PopID();
-	}
-
-	//ImGui::NewLine();
-	//ImGui::NewLine();
-	ImGui::Separator();
-
-	ImGui::LabelText("", "Edit Objects");
-	UINT size = objects.size();
-	for (UINT i = 0; i < size; i++)
-	{
-		ImGui::PushID(sizeDebug + i);
-		if (ImGui::Button(objects[i]->Name(), btnSize))
-			Select(i);
-		ImGui::PopID();
+		UINT size = value->Size();
+		for (UINT i = 0; i < size; i++)
+		{
+			ImGui::PushID(i);
+			if (ImGui::Button(value->Obj(i)->Name(), btnSize))
+				Select(i);
+			ImGui::PopID();
+		}
 	}
 }
 
-void SceneEditor::RenderSelectedEditor()
+void SceneEditor::RenderSelected()
 {
 	if (selectedType == SelectedType::Editor)
-		objects[selectedNum]->Render();
-	if (selectedType == SelectedType::Debug)
-		debugObjects[selectedNum]->Render();
+		value->Obj(selectedNum)->ImGuiRender();
 }
 
-void SceneEditor::CreateEditor()
-{
-	ObjectEditor* obj = new ObjectEditor(factory, static_cast<int>(objects.size()), sceneValue);
-	objects.push_back(obj);
-}
+#pragma endregion
 
-void SceneEditor::DestoryEditor(UINT index)
-{
-	vector<ObjectEditor*>::iterator iter = objects.begin() + index;
-	SafeDelete(*iter);
-	objects.erase(iter);
-	SelectNone();
-}
+
+#pragma region Select
 
 void SceneEditor::Deselect()
 {
 	if (selectedType == SelectedType::Editor)
-		objects[selectedNum]->Off();
-	else if (selectedType == SelectedType::Debug)
-		debugObjects[selectedNum]->Off();
+		value->Obj(selectedNum)->Off();
 }
 
 void SceneEditor::SelectNone()
@@ -145,28 +112,71 @@ void SceneEditor::Select(UINT index)
 	Deselect();
 	selectedType = SelectedType::Editor;
 	selectedNum = index;
-	objects[index]->On();
+	value->Obj(selectedNum)->On();
 }
 
-void SceneEditor::SelectDebug(UINT index)
+#pragma endregion
+
+
+#pragma region Object Create
+
+ObjectEditor* SceneEditor::CreateEditor()
 {
-	if (selectedType == SelectedType::Debug && index == selectedNum)
-	{
-		SelectNone();
-		return;
-	}
-	Deselect();
-	selectedType = SelectedType::Debug;
-	selectedNum = index;
-	debugObjects[index]->On();
+	ObjectEditor* obj = new ObjectEditor(factory, static_cast<int>(value->Size()));
+	value->Add(obj);
+	return obj;
 }
+
+#pragma endregion
+
+
+#pragma region File
 
 void SceneEditor::Save()
 {
-	//Path::SaveFileDialog();
+	Path::SaveFileDialog(file,
+		L"Scene File\0*.scene", URI::Scenes,
+		bind(&SceneEditor::WriteFile, this, placeholders::_1),
+		WinDesc::GetHandle()
+	);
 }
 
 void SceneEditor::Load()
 {
-	//Path::OpenFileDialog();
+	Path::OpenFileDialog(file,
+		L"Scene File\0*.scene", URI::Scenes,
+		bind(&SceneEditor::OpenFile, this, placeholders::_1),
+		WinDesc::GetHandle()
+	);
 }
+
+void SceneEditor::WriteFile(wstring file)
+{
+	BinaryWriter w(file);
+
+	UINT size = value->Size();
+	w.UInt(size);
+
+	for (UINT i = 0; i < size; i++)
+		value->Obj(i)->Save(&w);
+}
+
+void SceneEditor::OpenFile(wstring file)
+{
+	SelectNone();
+	value->Clear();
+
+	BinaryReader r(file);
+
+	UINT size = r.UInt();
+
+	for (UINT i = 0; i < size; i++)
+	{
+		ObjectEditor* obj = CreateEditor();
+		obj->Load(&r);
+	}
+}
+
+#pragma endregion
+
+

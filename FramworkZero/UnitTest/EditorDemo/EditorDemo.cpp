@@ -6,7 +6,6 @@
 void EditorDemo::Initialize()
 {
 	editor = new SceneEditor();
-	editor->AddDebug("MainCamera", "MainCamera");
 }
 
 void EditorDemo::Destroy()

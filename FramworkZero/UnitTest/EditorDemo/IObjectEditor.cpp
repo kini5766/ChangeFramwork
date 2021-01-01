@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "IObjectEditor.h"
 
-#include "Utilities/ImGuiInputText.h"
 #include "Utilities/BinaryFile.h"
+#include "Tools/ImGuiInputText.h"
 #include "ObjectEditorFactory.h"
-#include "SceneValues.h"
 
-ObjectEditor::ObjectEditor(ObjectEditorFactory * factory, int number, SceneValues* targetScene)
-	: factory(factory), targetScene(targetScene)
+
+ObjectEditor::ObjectEditor(ObjectEditorFactory * factory, int number)
+	: factory(factory)
 {
 	inputName = new ImGuiInputText(28);
 	inputName->Text(("Object " + to_string(number)).c_str());
@@ -19,7 +19,19 @@ ObjectEditor::~ObjectEditor()
 	SafeDelete(target);
 }
 
+void ObjectEditor::Update()
+{
+	if (target != nullptr)
+		target->Update();
+}
+
 void ObjectEditor::Render()
+{
+	if (target != nullptr)
+		target->Render();
+}
+
+void ObjectEditor::ImGuiRender()
 {
 	ImGui::Begin("Inspector");
 	inputName->Render("Name");
@@ -27,22 +39,24 @@ void ObjectEditor::Render()
 
 	if (target != nullptr)
 	{
-		target->Render();
+		target->ImGuiRender();
 		ImGui::End();
 		return;
 	}
 
 	// 수정하고 있는 오브젝트가 없는 경우
-	UINT size;
-	string* names = factory->GetNames(&size);
-	for (UINT i = 0; i < size; i++)
+	if (ImGui::CollapsingHeader("Select Object Type", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		if (ImGui::Button(names[i].c_str()))
+		UINT size;
+		string* names = factory->GetNames(&size);
+		for (UINT i = 0; i < size; i++)
 		{
-			typeName = names[i];
-			target = factory->CreateEditor(typeName);
-			target->Initialize(targetScene);
-			On();
+			if (ImGui::Button(names[i].c_str()))
+			{
+				typeName = names[i];
+				target = factory->CreateEditor(typeName);
+				On();
+			}
 		}
 	}
 
@@ -59,6 +73,32 @@ void ObjectEditor::Off()
 {
 	if (target)
 		target->Off();
+}
+
+void ObjectEditor::Save(BinaryWriter * w)
+{
+	w->String(typeName);
+	w->String(inputName->Text());
+
+	if (target)
+	{
+		target->Save(w);
+	}
+	
+}
+
+void ObjectEditor::Load(BinaryReader * r)
+{
+	typeName = r->String();
+	inputName->Text(r->String().c_str());
+
+	SafeDelete(target);
+	if (typeName != "None")
+	{
+		target = factory->CreateEditor(typeName);
+		assert(target != nullptr);
+		target->Load(r);
+	}
 }
 
 

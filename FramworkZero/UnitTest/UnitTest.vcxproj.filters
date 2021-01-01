@@ -13,6 +13,24 @@
     <ClCompile Include="Character\UserKeyState.cpp">
       <Filter>Character</Filter>
     </ClCompile>
+    <ClCompile Include="EditorDemo\EditorDemo.cpp">
+      <Filter>EditorDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\IObjectEditor.cpp">
+      <Filter>EditorDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\ObjectEditorFactory.cpp">
+      <Filter>EditorDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\SceneEditor.cpp">
+      <Filter>EditorDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\MeshInstancingEditor.cpp">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\SceneValue.cpp">
+      <Filter>EditorDemo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
@@ -27,10 +45,34 @@
     <ClInclude Include="Character\UserKeyState.h">
       <Filter>Character</Filter>
     </ClInclude>
+    <ClInclude Include="EditorDemo\EditorDemo.h">
+      <Filter>EditorDemo</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\IObjectEditor.h">
+      <Filter>EditorDemo</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\ObjectEditorFactory.h">
+      <Filter>EditorDemo</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\SceneEditor.h">
+      <Filter>EditorDemo</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\MeshInstancingEditor.h">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\SceneValue.h">
+      <Filter>EditorDemo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">
       <UniqueIdentifier>{5f036dd1-dfc0-4334-9e7e-6f2c3740d30d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorDemo">
+      <UniqueIdentifier>{38718355-3b79-40cc-819e-9812f434f421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorDemo\Objects">
+      <UniqueIdentifier>{1838f51f-aa90-4467-a190-537210b9c343}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,17 +1,13 @@
 #include "stdafx.h"
 #include "ObjectEditorFactory.h"
 
+#include "IObjectEditor.h"
+#include "Objects/MeshInstancingEditor.h"
+
 void ObjectEditorFactory::Insert()
 {
-	//creator.push_back(make_pair("Cube",
-	//	[]()->IInspectorEditor* { return new CubeEditor(); }));
-}
-
-#include "Objects/MainCameraDebug.h"
-void ObjectEditorFactory::InsertDebuger()
-{
-	debugerCreator.push_back(make_pair("MainCamera",
-		[]()->IObjectDebuger* { return new MainCameraDebug(); }));
+	creator.push_back(make_pair("MeshInstancing",
+		[]()->IObjectEditor* { return new MeshInstancingEditor(); }));
 }
 
 
@@ -42,22 +38,6 @@ IObjectEditor * ObjectEditorFactory::CreateEditor(string typeName)
 	IObjectEditor* result = nullptr;
 
 	for (auto c : creator)
-	{
-		if (typeName == c.first)
-		{
-			result = c.second();
-			break;
-		}
-	}
-
-	return result;
-}
-
-IObjectDebuger * ObjectEditorFactory::CreateDebuger(string typeName)
-{
-	IObjectDebuger* result = nullptr;
-
-	for (auto c : debugerCreator)
 	{
 		if (typeName == c.first)
 		{

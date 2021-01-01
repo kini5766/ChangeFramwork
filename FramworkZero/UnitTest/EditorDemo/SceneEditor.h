@@ -9,34 +9,32 @@ public:
 public:
 	void Update();
 	void Render();
-	void AddDebug(const char* objectName, const char* typeName, void* targetObject = nullptr);
 
 private:
 	void RenderTopMenu();
 	void RenderObjectButton();
-	void RenderSelectedEditor();
+	void RenderSelected();
 
-	void CreateEditor();
-	void DestoryEditor(UINT index);
+	class ObjectEditor* CreateEditor();
 
 	void Deselect();
 	void SelectNone();
 	void Select(UINT index);
-	void SelectDebug(UINT index);
 
 private:
 	void Save();
 	void Load();
+	void WriteFile(wstring file);
+	void OpenFile(wstring file);
 
 private:
 	ImVec2 btnSize = ImVec2(180.0f, 24.0f);
 
-	struct SceneValues* sceneValue;
+	class SceneValue* value;
 	class ObjectEditorFactory* factory;
-	vector<class ObjectEditor*> objects;
-	vector<class ObjectDebuger*> debugObjects;
 
 	UINT selectedNum = 0;
+	wstring file = L"new scene.scene";
 
 private:
 	enum class SelectedType { 

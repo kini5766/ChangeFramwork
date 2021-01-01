@@ -3,11 +3,12 @@
 #include "Systems/Window.h"
 
 #include "WorldDemo.h"
+#include "EditorDemo/EditorDemo.h"
 
 void Main::Initialize()
 {
-	Push(new WorldDemo());
-
+	//Push(new WorldDemo());
+	Push(new EditorDemo());
 }
 
 
