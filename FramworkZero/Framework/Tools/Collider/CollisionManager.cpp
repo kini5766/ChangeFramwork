@@ -24,8 +24,24 @@ CollisionManager::CollisionManager()
 
 CollisionManager::~CollisionManager()
 {
+	for (auto d : cameraRays)
+		SafeDelete(d);
 	for (auto d : colliders)
 		SafeDelete(d);
+}
+
+void CollisionManager::Update()
+{
+	for (Collider* collider : colliders)
+	{
+		UINT layerMask = collider->GetMask();
+		if (layerMask == Collider::COLLIDER_LAYER_NONE)
+			continue;
+
+		collider->UpdateBounding();
+	}
+	UpdateInput();
+	CheckCollision();
 }
 
 
@@ -71,4 +87,70 @@ void CollisionManager::ReleseCollider(Collider* value)
 	t->LossyWorld(m);
 
 	junkInstances.push_back(value->Id());
+}
+
+Raycast * CollisionManager::CreateCameraRaycast(const Ray & ray)
+{
+	RaycastOutput* output = new RaycastOutput(ray);
+	Raycast* result = new Raycast(output);
+	cameraRays.push_back(new RaycastPair{ output, result });
+	return result;
+}
+
+void CollisionManager::UpdateInput()
+{
+	list<RaycastPair*>::iterator iter = cameraRays.begin();
+	while (iter != cameraRays.end())
+	{
+		if ((*iter)->Input->IsInput() == false)
+		{
+			++iter;
+			continue;
+		}
+
+		if ((*iter)->Input->IsDestroy())
+		{
+			list<RaycastPair*>::iterator erase = iter++;
+			cameraRays.erase(erase);
+			continue;
+		}
+
+		(*iter)->Output->Ray = (*iter)->Input->GetRay();
+		(*iter)->Output->IsActive = (*iter)->Input->IsActive();
+		(*iter)->Output->IsCollision = false;
+		++iter;
+	}
+}
+
+void CollisionManager::CheckCollision()
+{
+	CollisionManager::Get()->GetColliders(&colliders);
+
+	for (Collider* collider : colliders)
+	{
+		UINT layerMask = collider->GetMask();
+		if (layerMask == Collider::COLLIDER_LAYER_NONE)
+			continue;
+
+		if ((collider->GetMask() & Collider::COLLIDER_LAYER_CAMERA) != 0)
+		{
+			for (RaycastPair* ray : cameraRays)
+			{
+				if (ray->Output->IsActive = false) continue;
+				if ((collider->GetMask() & Collider::COLLIDER_LAYER_CAMERA) != 0)
+				{
+					float temp;
+					if (collider->Intersection(
+						ray->Output->Ray.Position,
+						ray->Output->Ray.Direction,
+						&temp
+					))
+					{
+						ray->Output->IsCollision = true;
+						ray->Output->OutMinDistance = temp;
+					}
+				}
+			}
+		}
+	}
 }

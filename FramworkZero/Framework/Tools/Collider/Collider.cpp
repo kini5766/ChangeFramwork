@@ -4,12 +4,12 @@
 Collider::Collider(UINT instanceId)
 	: instanceId(instanceId)
 {
-	transform = new Transform();
+	initTransform = new Transform();
 }
 
 Collider::~Collider()
 {
-	SafeDelete(transform);
+	SafeDelete(initTransform);
 }
 
 void Collider::Relese()
@@ -22,7 +22,7 @@ void Collider::UpdateBounding()
 	Bounding& a = bounding;
 
 	Matrix wa;
-	transform->LossyWorld(&wa);
+	initTransform->LossyWorld(&wa);
 
 	a.AxisX = Vector3(wa._11, wa._12, wa._13);
 	a.AxisY = Vector3(wa._21, wa._22, wa._23);
@@ -37,81 +37,85 @@ void Collider::UpdateBounding()
 	a.HalfSize *= 0.5f;
 }
 
-bool Collider::Intersection(const Vector3 & position, const Vector3 & direction, float * outDistance)
+bool Collider::Intersection(const Vector3 & position, const Vector3 & direction, float * outDistance) const
 {
 	return Intersection(Ray(position, direction), outDistance);
 }
 
-bool Collider::Intersection(Ray ray, float * outDistance)
+bool Collider::Intersection(const Ray& ray, float * outDistance) const
 {
 	Matrix w;
-	transform->LossyWorld(&w);
-	Vector3 scale;
-	scale.x = D3DXVec3Length(&Vector3(w._11, w._12, w._13));
-	scale.y = D3DXVec3Length(&Vector3(w._21, w._22, w._23));
-	scale.z = D3DXVec3Length(&Vector3(w._31, w._32, w._33));
-	scale *= 0.5f;
+	Vector3 ori, dir;
+	{
+		initTransform->LossyWorld(&w);
 
-	Matrix invW;
-	D3DXMatrixInverse(&invW, nullptr, &w);
-	D3DXVec3TransformCoord(&ray.Position, &ray.Position, &invW);
-	D3DXVec3TransformNormal(&ray.Direction, &ray.Direction, &invW);
+		Matrix invW;
+		D3DXMatrixInverse(&invW, nullptr, &w);
+		D3DXVec3TransformCoord(&ori, &ray.Position, &invW);
+		D3DXVec3TransformNormal(&dir, &ray.Direction, &invW);
+
+		if (ori.x < 0.0f) { ori.x = -ori.x; dir.x = -dir.x; }
+		if (ori.y < 0.0f) { ori.y = -ori.y; dir.y = -dir.y; }
+		if (ori.z < 0.0f) { ori.z = -ori.z; dir.z = -dir.z; }
+	}
 
 	Vector3 point(0.0f, 0.0f, 0.0f);
 
-	// x충돌 검사
-	// 박스 안에 레이존재
-	if (abs(ray.Position.x) < scale.x)
-		point.x = 0.0f;
-	// P | D
-	// + * + : 충돌아님
-	// + * - : 충돌
-	// - * + : 충돌
-	// - * - : 충돌아님
-	else if (ray.Position.x * ray.Direction.x < 0.0f)
-		point.x = abs(ray.Position.x) - scale.x;
-	// 충돌아님
-	else return false;
-
-	if (abs(ray.Position.y) < scale.y)
-		point.y = 0.0f;
-	else if (ray.Position.y * ray.Direction.y < 0.0f)
-		point.y = abs(ray.Position.y) - scale.y;
-	else return false;
-
-	if (abs(ray.Position.z) < scale.z)
-		point.z = 0.0f;
-	else if (ray.Position.z * ray.Direction.z < 0.0f)
-		point.z = abs(ray.Position.z) - scale.z;
-	else return false;
+	if (ori.z <= 0.5f)
+	{
+		if (ori.y <= 0.5f)
+		{
+			if (ori.x <= 0.5f)
+			{
+			}
+			else if (dir.x >= 0.0f)
+			{
+				return false;
+			}
+			else
+			{
+				point = dir * ((0.5f - ori.x) / dir.x);
+				if (fabsf(point.y + ori.y) > 0.5f || fabsf(point.z + + ori.z) > 0.5f)
+					return false;
+			}  // end x
+		}
+		else if (dir.y >= 0.0f)
+		{
+			return false;
+		}
+		else
+		{
+			point = dir * ((0.5f - ori.y) / dir.y);
+			if (fabsf(point.x + ori.x) > 0.5f || fabsf(point.z + ori.z) > 0.5f)
+				return false;
+		}  // end y
+	}
+	else if (dir.z >= 0.0f)
+	{
+		return false;
+	}
+	else
+	{
+		point = dir * ((0.5f - ori.z) / dir.z);
+		if (fabsf(point.x + ori.x) > 0.5f || fabsf(point.y + ori.y) > 0.5f)
+			return false;
+	} // end z
 
 	if (outDistance != nullptr)
 	{
-		if (fabsf(ray.Direction.x == 0)) ray.Direction.x = 1e-6f;
-		if (fabsf(ray.Direction.y == 0)) ray.Direction.y = 1e-6f;
-		if (fabsf(ray.Direction.z == 0)) ray.Direction.z = 1e-6f;
-
-		point.x /= ray.Direction.x;
-		point.y /= ray.Direction.y;
-		point.z /= ray.Direction.z;
-
-		*outDistance = 0.0f;
-		*outDistance = max(*outDistance, abs(point.x));
-		*outDistance = max(*outDistance, abs(point.y));
-		*outDistance = max(*outDistance, abs(point.z));
-
-		// hitPoint = ray.Position + ray.Direction * (*outDistance);
+		D3DXVec3TransformNormal(&point, &(point), &w);
+		*outDistance = D3DXVec3Length(&point);
 	}
 
 	return true;
 }
 
-bool Collider::Intersection(Collider * other)
+bool Collider::Intersection(Collider * other) const
 {
 	return Collision(this->bounding, other->bounding);
 }
 
-bool Collider::SepratePlane(const Vector3 & distance, const Vector3 & direction, const Bounding & box1, const Bounding & box2)
+bool Collider::SepratePlane(const Vector3 & distance, const Vector3 & direction, const Bounding & box1, const Bounding & box2) const
 {
 	float dotDist = fabsf(D3DXVec3Dot(&direction, &distance));
 	float dotSize = 0.0f;
@@ -126,7 +130,7 @@ bool Collider::SepratePlane(const Vector3 & distance, const Vector3 & direction,
 	return dotDist > dotSize;
 }
 
-bool Collider::Collision(const Bounding & box1, const Bounding & box2)
+bool Collider::Collision(const Bounding & box1, const Bounding & box2) const
 {
 	Vector3 distance = box2.Position - box1.Position;
 
@@ -153,7 +157,7 @@ bool Collider::Collision(const Bounding & box1, const Bounding & box2)
 	return true;
 }
 
-Vector3 Collider::Cross(const Vector3 & v1, const Vector3 & v2)
+Vector3 Collider::Cross(const Vector3 & v1, const Vector3 & v2) const
 {
 	return Vector3(
 		v1.y * v2.z - v1.z * v2.y,

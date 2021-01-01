@@ -41,6 +41,9 @@ __이름 수정__
 과거 : ModelAnimator
 현재 : ModelSkinnedInstancing
 
+과거 : new Shader(
+현재 Shader::Load(
+
 
 __기능 수정__
 
@@ -69,3 +72,9 @@ class MeshData
 
 class DebugLog
 { 임구이로 편하게 값 찍을 때 사용 }
+
+class Animator
+{ 미리 트위닝 셋팅, 기본 동작 전환 }
+
+class CollisionManager
+{ 콜라이더 충돌 관리 }

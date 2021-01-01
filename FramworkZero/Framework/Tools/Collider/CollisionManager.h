@@ -14,11 +14,35 @@ private:
 	~CollisionManager();
 
 public:
+	void Update();
+
+public:
 	Collider* CreateCollider();
 	void ReleseCollider(Collider* value);
 	void GetColliders(vector<Collider*>* out) { (*out) = colliders; }
 
+public:
+	Raycast* CreateCameraRaycast(const Ray& ray);
+
+private:
+	void UpdateInput();
+	void CheckCollision();
+
 private:
 	vector<Collider*> colliders;
 	vector<UINT> junkInstances;
+
+private:
+	struct RaycastPair
+	{
+		RaycastOutput* Output;
+		Raycast* Input;
+
+		~RaycastPair()
+		{
+			SafeDelete(Output);
+			SafeDelete(Input);
+		}
+	};
+	list<RaycastPair*> cameraRays;
 };

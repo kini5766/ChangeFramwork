@@ -24,5 +24,5 @@ private:
 	class SphereCoord* sphereCoord;
 	class IFocus* target = nullptr;
 	float distance = 15.0f;
-	vector<Collider*> colliders;
+	Raycast* ray;
 };

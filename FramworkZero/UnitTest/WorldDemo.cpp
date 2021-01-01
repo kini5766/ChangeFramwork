@@ -105,8 +105,9 @@ void WorldDemo::Mesh()
 	Transform* t = plane->AddInstance()->GetTransform();
 	collider = CollisionManager::Get()->CreateCollider();
 	colliders.push_back(collider);
+	//collider->SetLayer(collider->GetMask() & ~Collider::COLLIDER_LAYER_CAMERA);
 	collider->GetTransform()->SetParent(t);
-	collider->GetTransform()->Scale(10, 0.5f, 10);
+	collider->GetTransform()->Scale(10, 2.5f, 10);
 	t->Scale(12, 1, 12);
 
 
@@ -134,23 +135,26 @@ void WorldDemo::Mesh()
 	}
 
 	transform = box->AddInstance()->GetTransform();
-	//collider = CollisionManager::Get()->CreateCollider();
-	//colliders.push_back(collider);
-	//collider->GetTransform()->SetParent(transform);
+	collider = CollisionManager::Get()->CreateCollider();
+	colliders.push_back(collider);
+	//collider->SetLayer(collider->GetMask() & ~Collider::COLLIDER_LAYER_CAMERA);
+	collider->GetTransform()->SetParent(transform);
 	transform->Position(12, 7, 7);
 	transform->Scale(16, 14, 2);
 
 	transform = box->AddInstance()->GetTransform();
 	collider = CollisionManager::Get()->CreateCollider();
 	colliders.push_back(collider);
+	//collider->SetLayer(collider->GetMask() & ~Collider::COLLIDER_LAYER_CAMERA);
 	collider->GetTransform()->SetParent(transform);
 	transform->Position(12, 7, -7);
 	transform->Scale(16, 14, 2);
 
 	transform = box->AddInstance()->GetTransform();
-	//collider = CollisionManager::Get()->CreateCollider();
-	//colliders.push_back(collider);
-	//collider->GetTransform()->SetParent(transform);
+	collider = CollisionManager::Get()->CreateCollider();
+	colliders.push_back(collider);
+	//collider->SetLayer(collider->GetMask() & ~Collider::COLLIDER_LAYER_CAMERA);
+	collider->GetTransform()->SetParent(transform);
 	transform->Position(12, 13, 0);
 	transform->Scale(16, 2, 12);
 

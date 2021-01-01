@@ -253,6 +253,7 @@ void Window::WinValue::UpdateGame()
 	Context::Get()->Update();
 	Debug::Gizmo->Update();
 	Debug::Line->Update();
+	CollisionManager::Get()->Update();
 
 	mainExecute->Update();
 

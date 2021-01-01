@@ -16,10 +16,15 @@ OrbitCamera::OrbitCamera()
 	//sphereCoord->Theta(Math::PI * 0.65f);
 	Position(sphereCoord->RectCoord_Y());
 	Rotation(sphereCoord->YawPitch_Z());
+
+	ray = CollisionManager::Get()->CreateCameraRaycast(
+		Ray(Vector3(0.0f, 0.0f, 0.0f), -sphereCoord->RectCoord_YNormal())
+	);
 }
 
 OrbitCamera::~OrbitCamera()
 {
+	ray->Destroy();
 	SafeDelete(perspective);
 	SafeDelete(viewport);
 }
@@ -75,30 +80,21 @@ void OrbitCamera::Update()
 		theta = Math::PI * 0.9f;
 	sphereCoord->Theta(theta);
 
-	// 충돌 검사
+	if (ray->IsCollision())
 	{
-		CollisionManager::Get()->GetColliders(&colliders);
-
-		float d = distance;
-		for (Collider* collider : colliders)
-		{
-			if ((collider->GetMask() & Collider::COLLIDER_LAYER_CAMERA) != 0)
-			{
-				float temp;
-				if (collider->Intersection(focus, -sphereCoord->RectCoord_YNormal(), &temp))
-				{
-					if (d > temp && temp != 0)
-						d = temp;
-				}
-			}
-		}
-		sphereCoord->Rho(d);
+		float minDistance = min(distance, ray->GetMinDistance());
+		sphereCoord->Rho(minDistance);
+	}
+	else
+	{
+		sphereCoord->Rho(distance);
 	}
 
 	pos = focus - sphereCoord->RectCoord_Y();
 	Position(pos);
 
 	Rotation(sphereCoord->YawPitch_Z());
+	ray->SetRay(Ray(focus, -sphereCoord->RectCoord_YNormal()));
 }
 
 void OrbitCamera::ResizeScreen(float width, float height)

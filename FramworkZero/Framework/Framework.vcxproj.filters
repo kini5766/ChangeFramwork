@@ -247,6 +247,9 @@
     <ClCompile Include="Debugger\DebugBox.cpp">
       <Filter>Debugger</Filter>
     </ClCompile>
+    <ClCompile Include="Tools\Collider\Ray.cpp">
+      <Filter>Tools\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -477,6 +480,9 @@
     </ClInclude>
     <ClInclude Include="Debugger\DebugBox.h">
       <Filter>Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Collider\Ray.h">
+      <Filter>Tools\Collider</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

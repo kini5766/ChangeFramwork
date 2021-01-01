@@ -109,6 +109,7 @@ typedef D3DXPLANE Plane;
 #include "Tools/Animation/ClipTimer.h"
 #include "Tools/Animation/Animator.h"
 
+#include "Tools/Collider/Ray.h"
 #include "Tools/Collider/Collider.h"
 #include "Tools/Collider/CollisionManager.h"
 

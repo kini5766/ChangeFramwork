@@ -1,16 +1,5 @@
 #pragma once
 
-// ¹ÝÁ÷¼±
-struct Ray
-{
-	Ray() {};
-	Ray(const Vector3& position, const Vector3& direction)
-		: Position(position), Direction(direction) {};
-
-	Vector3 Position = Vector3(0, 0, 0);
-	Vector3 Direction = Vector3(0, 0, 0);
-};
-
 class Collider
 {
 public:
@@ -25,7 +14,7 @@ public:
 
 	// Getter, Setter
 public:
-	Transform* GetTransform() { return transform; }
+	Transform* GetTransform() { return initTransform; }
 	bool IsActiveSelf() const { return bActive; }
 	void SetActiveSelf(bool value) { bActive = value; }
 	void SetLayer(UINT value) { layer = value; }
@@ -39,12 +28,12 @@ public:
 	void UpdateBounding();
 public:
 	UINT GetMask() const { return (bActive) ? layer : COLLIDER_LAYER_NONE; }
-	bool Intersection(const Vector3& position, const Vector3& direction, float* outDistance);
-	bool Intersection(Ray ray, float* outDistance);
-	bool Intersection(Collider* other);
+	bool Intersection(const Vector3& position, const Vector3& direction, float* outDistance) const;
+	bool Intersection(const Ray& ray, float* outDistance) const;
+	bool Intersection(Collider* other) const;
 
 private:
-	Transform* transform;
+	Transform* initTransform;
 	bool bActive = false;
 	UINT layer = 0;
 	UINT instanceId;
@@ -60,7 +49,7 @@ private:
 	}bounding;
 
 private:
-	bool SepratePlane(const Vector3& distance, const Vector3& direction, const Bounding& box1, const Bounding& box2);
-	bool Collision(const Bounding& box1, const Bounding& box2);
-	Vector3 Cross(const Vector3& v1, const Vector3& v2);
+	bool SepratePlane(const Vector3& distance, const Vector3& direction, const Bounding& box1, const Bounding& box2) const;
+	bool Collision(const Bounding& box1, const Bounding& box2) const;
+	Vector3 Cross(const Vector3& v1, const Vector3& v2) const;
 };

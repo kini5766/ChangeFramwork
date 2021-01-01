@@ -58,6 +58,7 @@
     <ClCompile Include="Tools\Animation\SimpleAnimator.cpp" />
     <ClCompile Include="Tools\Collider\Collider.cpp" />
     <ClCompile Include="Tools\Collider\CollisionManager.cpp" />
+    <ClCompile Include="Tools\Collider\Ray.cpp" />
     <ClCompile Include="Tools\Lighting\BurntLight.cpp" />
     <ClCompile Include="Tools\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="Tools\Lighting\Lighting.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="Tools\Animation\SimpleAnimator.h" />
     <ClInclude Include="Tools\Collider\Collider.h" />
     <ClInclude Include="Tools\Collider\CollisionManager.h" />
+    <ClInclude Include="Tools\Collider\Ray.h" />
     <ClInclude Include="Tools\Lighting\BurntLight.h" />
     <ClInclude Include="Tools\Lighting\DirectionalLight.h" />
     <ClInclude Include="Tools\Lighting\Lighting.h" />
