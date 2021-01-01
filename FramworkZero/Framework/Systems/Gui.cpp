@@ -210,20 +210,8 @@ void Gui::ApplyStyle()
 	style.Colors[ImGuiCol_DragDropTarget] = backgroundLight;
 }
 
-// code by ROCU
 void Gui::SetConfig()
 {
 	ImGuiIO* io_ = &ImGui::GetIO();
-	//io_->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
-	//io_->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        // Enable Gamepad Controls
-	io_->ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-	//io_->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
-	//io_->ConfigViewportsNoAutoMerge = true;
-	//io_->ConfigViewportsNoDecoration = true;
-	//io.ConfigViewportsNoTaskBarIcon = true;
-	//io_->ConfigViewportsNoDefaultParent = true;
-	//io.ConfigDockingAlwaysTabBar = true;
-	//io_->ConfigDockingTransparentPayload = true;
-	//io_->ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleFonts;     // FIXME-DPI: THIS CURRENTLY DOESN'T WORK AS EXPECTED. DON'T USE IN USER APP!
-	//io_->ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleViewports; // FIXME-DPI
+	io_->ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }

@@ -5,8 +5,10 @@ class Collider
 public:
 	static const UINT COLLIDER_LAYER_NONE = 0x00000000u;
 	static const UINT COLLIDER_LAYER_ALL = 0xFFFFFFFFu;
-	static const UINT COLLIDER_LAYER_DEFAULT = 0x00000001u;
-	static const UINT COLLIDER_LAYER_CAMERA = 0x00000010u;
+	static const UINT COLLIDER_LAYER_DEFAULT = 0xFFFFFF0Fu;
+	static const UINT COLLIDER_LAYER_CAMERA = 0x00000002u;
+	static const UINT COLLIDER_LAYER_HITBOX = 0x00000020u;
+	static const UINT COLLIDER_LAYER_ATTACKBOX = 0x00000040u;
 
 public:
 	Collider(UINT instanceId);
@@ -21,7 +23,7 @@ public:
 
 	// instance
 public:
-	void Relese();
+	void Release();
 	UINT Id() const { return instanceId; }
 
 public:

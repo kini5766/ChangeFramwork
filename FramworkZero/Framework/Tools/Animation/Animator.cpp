@@ -99,7 +99,7 @@ void Animator::UpdateClip()
 	{
 		BlendEdge* edge = curr->DefaultEdge;
 		float startTime = curr->Time.Duration();
-		startTime -= curr->Time.FrameRate() * edge->TweenTime;
+		startTime -= curr->Time.FrameRate() * curr->Time.Speed() * edge->TweenTime;
 
 		// 클립 재생시간 끝났는 데도 입력이 없을 경우
 		if (curr->Time.RunningTime() >= startTime)

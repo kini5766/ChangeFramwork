@@ -19,21 +19,40 @@ public:
 	void Off() override;
 
 private:
-	void MakingMesh();
-	void CreateMesh(UINT i);
+	void AddInstance();
+	void Select(int i);
+	Collider* AddCollider(UINT index);
 
+	// create instancing
+private:
+	void MakingInstancing();
+	void LoadInstancing(UINT item);
+	void SetInstancing(MeshInstancing* value);
+
+	// render
 private:
 	Shader* shader;
-	MeshInstancing* meshInstancing = nullptr;
 	vector<MeshInstance*> meshes;
 	vector<Collider*> colliders;
 
+	// imgui
+private:
+	int selected = -1;
+
+	// save load
+private:
+	MeshInstancing* meshInstancing = nullptr;
+	class TransformEditor* tImGui;
+	class ColliderEditor* cImGui;
+	wstring diffuse = L"";
 	float _f1 = 1.0f;
 	float _f2 = 1.0f;
 	UINT _u1 = 1u;
 	UINT _u2 = 1u;
 
 	int item = 0;
+
+private:
 	const char* meshItems = {
 		"Cube\0"
 		"Cylinder\0"

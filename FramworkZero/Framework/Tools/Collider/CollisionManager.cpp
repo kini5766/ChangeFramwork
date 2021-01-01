@@ -69,13 +69,13 @@ Collider * CollisionManager::CreateCollider()
 		junkInstances.pop_back();
 	}
 
-	instance->SetLayer(Collider::COLLIDER_LAYER_ALL);
+	instance->SetLayer(Collider::COLLIDER_LAYER_DEFAULT);
 	instance->SetActiveSelf(true);
 
 	return instance;
 }
 
-void CollisionManager::ReleseCollider(Collider* value)
+void CollisionManager::ReleaseCollider(Collider* value)
 {
 	value->SetActiveSelf(false);
 	value->SetLayer(Collider::COLLIDER_LAYER_ALL);

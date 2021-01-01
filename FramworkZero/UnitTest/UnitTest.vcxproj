@@ -137,7 +137,9 @@
     <ClCompile Include="EditorDemo\EditorDemo.cpp" />
     <ClCompile Include="EditorDemo\IObjectEditor.cpp" />
     <ClCompile Include="EditorDemo\ObjectEditorFactory.cpp" />
+    <ClCompile Include="EditorDemo\Objects\ColliderEditor.cpp" />
     <ClCompile Include="EditorDemo\Objects\MeshInstancingEditor.cpp" />
+    <ClCompile Include="EditorDemo\Objects\TransformEditor.cpp" />
     <ClCompile Include="EditorDemo\SceneEditor.cpp" />
     <ClCompile Include="EditorDemo\SceneValue.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -153,7 +155,9 @@
     <ClInclude Include="EditorDemo\EditorDemo.h" />
     <ClInclude Include="EditorDemo\IObjectEditor.h" />
     <ClInclude Include="EditorDemo\ObjectEditorFactory.h" />
+    <ClInclude Include="EditorDemo\Objects\ColliderEditor.h" />
     <ClInclude Include="EditorDemo\Objects\MeshInstancingEditor.h" />
+    <ClInclude Include="EditorDemo\Objects\TransformEditor.h" />
     <ClInclude Include="EditorDemo\SceneEditor.h" />
     <ClInclude Include="EditorDemo\SceneValue.h" />
     <ClInclude Include="Main.h" />

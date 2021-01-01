@@ -31,6 +31,12 @@
     <ClCompile Include="EditorDemo\SceneValue.cpp">
       <Filter>EditorDemo</Filter>
     </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\TransformEditor.cpp">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\ColliderEditor.cpp">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
@@ -63,6 +69,12 @@
     <ClInclude Include="EditorDemo\SceneValue.h">
       <Filter>EditorDemo</Filter>
     </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\TransformEditor.h">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\ColliderEditor.h">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">
@@ -73,6 +85,9 @@
     </Filter>
     <Filter Include="EditorDemo\Objects">
       <UniqueIdentifier>{1838f51f-aa90-4467-a190-537210b9c343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorDemo\Objects\Component">
+      <UniqueIdentifier>{f3bed2c3-11b9-423c-b63d-984c34bd74ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

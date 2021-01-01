@@ -18,7 +18,7 @@ public:
 
 public:
 	Collider* CreateCollider();
-	void ReleseCollider(Collider* value);
+	void ReleaseCollider(Collider* value);
 	void GetColliders(vector<Collider*>* out) { (*out) = colliders; }
 
 public:

@@ -20,5 +20,9 @@ void EditorDemo::Update()
 
 void EditorDemo::Render()
 {
+	if (ImGui::Button("Direction Light"))
+	{
+		Debug::Gizmo->SetTransform(Lighting::Get()->GetDirectional()->GetTransform());
+	}
 	editor->Render();
 }

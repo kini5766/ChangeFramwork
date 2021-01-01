@@ -12,9 +12,9 @@ Collider::~Collider()
 	SafeDelete(initTransform);
 }
 
-void Collider::Relese()
+void Collider::Release()
 {
-	CollisionManager::Get()->ReleseCollider(this);
+	CollisionManager::Get()->ReleaseCollider(this);
 }
 
 void Collider::UpdateBounding()
