@@ -81,7 +81,7 @@ bool Collider::CheckRayPlane(Vector3* outPoint, const Vector3 & ori, const Vecto
 		if (*outPoint == Vector3(0.0f, 0.0f, 0.0f))
 			return true;
 
-		// 3면 모두 충돌아님
+		// 3면 모두 바깥으로 나감
 		else return false;
 	}
 
@@ -100,22 +100,25 @@ bool Collider::CheckRayPlane(Vector3* outPoint, const Vector3 & ori, const Vecto
 		dirAxis = -dirAxis; 
 	}
 
-	// 다른 면 판단 (시작 지점이 상자 안에 있음)
+	// (시작 지점이 면 안에 있으면) { 다른 면 판단 }
 	if (oriAxis < scale)
 		return CheckRayPlane(outPoint, ori, dir, axis + 1);
 
-	// 충돌아님 (반직선이 다른 방향으로 나감)
+	// (반직선이 다른 방향으로 나가면) { 충돌 아님 }
 	if (dirAxis >= 0.0f)
 		return false;
 
+	// 판단 면과의 거리를 구함
 	*outPoint = dir * ((scale - oriAxis) / dirAxis);
+
+	// (반 직선이 면 바깥으로 나가면) { 다른 면 판단 }
 	if (fabsf((*outPoint)[plane1] + ori[plane1]) > scale ||
 		fabsf((*outPoint)[plane2] + ori[plane2]) > scale)
 	{
-		// 다른 면 판단 (반 직선이 면 바깥으로 나감)
 		return CheckRayPlane(outPoint, ori, dir, axis + 1);
 	}
 
+	// 반 직선이 면 안으로 통과함 { 충돌됨 }
 	return true;
 }
 
