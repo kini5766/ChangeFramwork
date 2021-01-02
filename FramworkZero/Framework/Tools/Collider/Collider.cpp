@@ -53,19 +53,11 @@ bool Collider::Intersection(const Ray& ray, float * outDistance) const
 		D3DXMatrixInverse(&invW, nullptr, &w);
 		D3DXVec3TransformCoord(&ori, &ray.Position, &invW);
 		D3DXVec3TransformNormal(&dir, &ray.Direction, &invW);
-
-		if (ori.x < 0.0f) { ori.x = -ori.x; dir.x = -dir.x; }
-		if (ori.y < 0.0f) { ori.y = -ori.y; dir.y = -dir.y; }
-		if (ori.z < 0.0f) { ori.z = -ori.z; dir.z = -dir.z; }
 	}
 
 	Vector3 point(0.0f, 0.0f, 0.0f);
-	float distance = FLT_MAX;
-
 	if (CheckRayPlane(&point, ori, dir, 0) == false)
-	{
 		return false;
-	}
 
 	if (outDistance != nullptr)
 	{
@@ -98,26 +90,29 @@ bool Collider::CheckRayPlane(Vector3* outPoint, const Vector3 & ori, const Vecto
 	UINT plane1 = (axis + 1) % 3;
 	UINT plane2 = (axis + 2) % 3;
 
-	if (oriAxis >= 0.5f)
+	// 0.5f : 반직선을 역트랜스폼 이랑 곱함
+	float scale = 0.5f;
+
+	// 가까운 면 구하기 (상자는 중점에 있음)
+	if (oriAxis < 0.0f) 
 	{
-		if (dirAxis >= 0.0f)
-		{
-			return false;
-		}
-		else
-		{
-			*outPoint = dir * ((0.5f - oriAxis) / dirAxis);
-			if (fabsf((*outPoint)[plane1] + ori[plane1]) > 0.5f ||
-				fabsf((*outPoint)[plane2] + ori[plane2]) > 0.5f)
-			{
-				// 다른 면 판단
-				return CheckRayPlane(outPoint, ori, dir, axis + 1);
-			}
-		}
+		oriAxis = -oriAxis;
+		dirAxis = -dirAxis; 
 	}
-	else
+
+	// 다른 면 판단 (시작 지점이 상자 안에 있음)
+	if (oriAxis < scale)
+		return CheckRayPlane(outPoint, ori, dir, axis + 1);
+
+	// 충돌아님 (반직선이 다른 방향으로 나감)
+	if (dirAxis >= 0.0f)
+		return false;
+
+	*outPoint = dir * ((scale - oriAxis) / dirAxis);
+	if (fabsf((*outPoint)[plane1] + ori[plane1]) > scale ||
+		fabsf((*outPoint)[plane2] + ori[plane2]) > scale)
 	{
-		// 다른 면 판단
+		// 다른 면 판단 (반 직선이 면 바깥으로 나감)
 		return CheckRayPlane(outPoint, ori, dir, axis + 1);
 	}
 
