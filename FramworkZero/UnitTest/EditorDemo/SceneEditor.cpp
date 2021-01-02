@@ -18,6 +18,18 @@ SceneEditor::~SceneEditor()
 	SafeDelete(factory);
 }
 
+SceneValue * SceneEditor::Takeout(wstring file)
+{
+	SceneValue * result;
+
+	OpenFile(URI::Scenes + file + L".scene");
+
+	result = value;
+	value = nullptr;
+
+	return result;
+}
+
 void SceneEditor::Update()
 {
 	value->Update();

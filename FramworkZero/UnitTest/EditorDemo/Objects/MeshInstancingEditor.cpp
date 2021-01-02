@@ -20,87 +20,8 @@ MeshInstancingEditor::~MeshInstancingEditor()
 	SafeRelease(shader);
 }
 
-void MeshInstancingEditor::ImGuiRender()
-{
-	// 매쉬 유형 선택
-	if (meshInstancing == nullptr)
-	{
-		MakingInstancing();
-		return;
-	}
-
-	// 선택 매쉬 구성요소 수정
-	if (selected != -1)
-	{
-		MeshInstance* mesh = meshes[selected];
-		ImGui::Text(("Instance " + to_string(selected)).c_str());
-
-		// 선택 매쉬 인스턴스 제거
-		if (ImGui::Button("Destroy Instance"))
-		{
-			int erase = selected;
-			Select(-1);
-			mesh->Release();
-			if (colliders[erase] != nullptr)
-				colliders[erase]->Release();
-			colliders.erase(colliders.begin() + erase);
-			meshes.erase(meshes.begin() + erase);
-		}
-
-		// 트랜스폼
-		Transform* transform = mesh->GetTransform();
-		tImGui->RenderImGui(transform);
-
-		// 콜라이더
-		Collider* collider = colliders[selected];
-		if (collider != nullptr)
-		{
-			if (ImGui::Button("Delete Collider"))
-			{
-				SafeRelease(collider);
-				colliders[selected] = nullptr;
-			}
-			else
-			{
-				cImGui->RenderImGui(collider);
-			}
-		}
-		else if (ImGui::Button("Create Collider"))
-		{
-			AddCollider(selected);
-		}
-
-		ImGui::Separator();
-	}
-
-
-	if (ImGui::CollapsingHeader("Instance", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		// 매쉬 인스턴스 선택
-		for (UINT i = 0; i < meshes.size(); i++)
-		{
-			if (ImGui::Button(("Instance " + to_string(i)).c_str()))
-			{
-				Select(i);
-			}
-		}
-	}
-
-	ImGui::Separator();
-
-	// 매쉬 인스턴스 추가
-	if (ImGui::Button("+ Add Instance"))
-	{
-		AddInstance();
-	}
-}
-
 void MeshInstancingEditor::Update()
 {
-	if (meshInstancing == nullptr)
-		return;
-
-	meshInstancing->UpdateTransforms();
 	meshInstancing->Update();
 }
 
@@ -110,7 +31,14 @@ void MeshInstancingEditor::Render()
 		return;
 
 	meshInstancing->Render();
+
+	for (Collider* collider: colliders)
+		if (collider != nullptr)
+			Debug::Box->RenderBox(collider->GetTransform(), Color(0.0f, 1.0f, 0.0f, 1.0f));
 }
+
+
+#pragma region Save Load
 
 void MeshInstancingEditor::Save(BinaryWriter * w)
 {
@@ -119,7 +47,7 @@ void MeshInstancingEditor::Save(BinaryWriter * w)
 		w->Int(-1);
 		return;
 	}
-	w->Int(item);
+	w->Int(meshType);
 
 	// meshInstancing
 	w->Float(_f1);
@@ -146,8 +74,8 @@ void MeshInstancingEditor::Save(BinaryWriter * w)
 
 void MeshInstancingEditor::Load(BinaryReader * r)
 {
-	int tem = r->Int();
-	if (tem == -1) return;
+	imguiItem = r->Int();
+	if (imguiItem == -1) return;
 
 	// meshInstancing
 	_f1 = r->Float();
@@ -156,7 +84,7 @@ void MeshInstancingEditor::Load(BinaryReader * r)
 	_u2 = r->UInt();
 	diffuse = String::ToWString(r->String());
 
-	LoadInstancing(tem);
+	LoadInstancing(imguiItem);
 
 	// meshInstance
 	UINT size = r->UInt();
@@ -171,6 +99,94 @@ void MeshInstancingEditor::Load(BinaryReader * r)
 		if (hasCollider)
 			cImGui->Load(AddCollider(i), r);
 	}
+
+	meshInstancing->UpdateTransforms();
+}
+
+#pragma endregion
+
+
+#pragma region Editor
+
+void MeshInstancingEditor::ImGuiRender()
+{
+	// 매쉬 유형 선택
+	if (meshInstancing == nullptr)
+	{
+		MakingInstancing();
+		return;
+	}
+
+	// 선택 매쉬 구성요소 수정
+	if (selected != -1)
+	{
+		MeshInstance* mesh = meshes[selected];
+		ImGui::Text(("Instance " + to_string(selected)).c_str());
+
+		// 선택 매쉬 인스턴스 제거
+		if (ImGui::Button("Destroy Instance"))
+		{
+			int erase = selected;
+			Select(-1);
+			mesh->Release();
+			if (colliders[erase] != nullptr)
+				colliders[erase]->Release();
+			colliders.erase(colliders.begin() + erase);
+			meshes.erase(meshes.begin() + erase);
+		}
+		else
+		{
+			// 트랜스폼
+			Transform* transform = mesh->GetTransform();
+			tImGui->RenderImGui(transform);
+
+			// 콜라이더
+			Collider* collider = colliders[selected];
+			if (collider != nullptr)
+			{
+				if (ImGui::Button("Delete Collider"))
+				{
+					SafeRelease(collider);
+					colliders[selected] = nullptr;
+				}
+				else
+				{
+					cImGui->RenderImGui(collider);
+				}
+			}
+			else if (ImGui::Button("Create Collider"))
+			{
+				AddCollider(selected);
+			}
+
+			ImGui::Separator();
+
+		}  // end Destroy else
+
+	}
+
+
+	if (ImGui::CollapsingHeader("Instance", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		// 매쉬 인스턴스 선택
+		for (UINT i = 0; i < meshes.size(); i++)
+		{
+			if (ImGui::Button(("Instance " + to_string(i)).c_str()))
+			{
+				Select(i);
+			}
+		}
+	}
+
+	ImGui::Separator();
+
+	// 매쉬 인스턴스 추가
+	if (ImGui::Button("+ Add Instance"))
+	{
+		AddInstance();
+	}
+
+	meshInstancing->UpdateTransforms();
 }
 
 void MeshInstancingEditor::On()
@@ -197,6 +213,20 @@ void MeshInstancingEditor::Select(int i)
 	}
 }
 
+#pragma endregion
+
+
+#pragma region Create
+
+void MeshInstancingEditor::AddInstance()
+{
+	int index = meshes.size();
+	meshes.push_back(meshInstancing->AddInstance());
+	colliders.push_back(nullptr);
+
+	Select(index);
+}
+
 Collider* MeshInstancingEditor::AddCollider(UINT index)
 {
 	Collider* collider = CollisionManager::Get()->CreateCollider();
@@ -211,24 +241,11 @@ Collider* MeshInstancingEditor::AddCollider(UINT index)
 	return collider;
 }
 
-
-void MeshInstancingEditor::AddInstance()
-{
-	int index = meshes.size();
-	meshes.push_back(meshInstancing->AddInstance());
-	colliders.push_back(nullptr);
-
-	Select(index);
-}
-
-
-#pragma region Create Instancing
-
 void MeshInstancingEditor::MakingInstancing()
 {
-	if (ImGui::Combo("Mesh", &item, meshItems))
+	if (ImGui::Combo("Mesh", &imguiItem, meshItems))
 	{
-		switch (item)
+		switch (imguiItem)
 		{
 		case 0: /* Cube */ break;
 		case 1: /* Cylinder */ _f1 = 0.5f; _f2 = 3.0f; _u1 = 20; _u2 = 20; break;
@@ -238,7 +255,7 @@ void MeshInstancingEditor::MakingInstancing()
 		}
 	}
 
-	switch (item)
+	switch (imguiItem)
 	{
 	case 0:
 	{
@@ -324,6 +341,7 @@ void MeshInstancingEditor::SetInstancing(MeshInstancing * value)
 	meshInstancing = value;
 	if (diffuse.size() != 0)
 		value->GetRenderer()->GetDefaultMaterial()->DiffuseMap(diffuse);
+	meshType = imguiItem;
 }
 
 #pragma endregion

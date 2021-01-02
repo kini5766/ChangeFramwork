@@ -60,46 +60,12 @@ bool Collider::Intersection(const Ray& ray, float * outDistance) const
 	}
 
 	Vector3 point(0.0f, 0.0f, 0.0f);
+	float distance = FLT_MAX;
 
-	if (ori.z <= 0.5f)
-	{
-		if (ori.y <= 0.5f)
-		{
-			if (ori.x <= 0.5f)
-			{
-			}
-			else if (dir.x >= 0.0f)
-			{
-				return false;
-			}
-			else
-			{
-				point = dir * ((0.5f - ori.x) / dir.x);
-				if (fabsf(point.y + ori.y) > 0.5f || fabsf(point.z + + ori.z) > 0.5f)
-					return false;
-			}  // end x
-		}
-		else if (dir.y >= 0.0f)
-		{
-			return false;
-		}
-		else
-		{
-			point = dir * ((0.5f - ori.y) / dir.y);
-			if (fabsf(point.x + ori.x) > 0.5f || fabsf(point.z + ori.z) > 0.5f)
-				return false;
-		}  // end y
-	}
-	else if (dir.z >= 0.0f)
+	if (CheckRayPlane(&point, ori, dir, 0) == false)
 	{
 		return false;
 	}
-	else
-	{
-		point = dir * ((0.5f - ori.z) / dir.z);
-		if (fabsf(point.x + ori.x) > 0.5f || fabsf(point.y + ori.y) > 0.5f)
-			return false;
-	} // end z
 
 	if (outDistance != nullptr)
 	{
@@ -113,6 +79,49 @@ bool Collider::Intersection(const Ray& ray, float * outDistance) const
 bool Collider::Intersection(Collider * other) const
 {
 	return Collision(this->bounding, other->bounding);
+}
+
+bool Collider::CheckRayPlane(Vector3* outPoint, const Vector3 & ori, const Vector3 & dir, UINT axis) const
+{
+	if (axis == 3)
+	{
+		// 시작 지점이 상자 안에 있음
+		if (*outPoint == Vector3(0.0f, 0.0f, 0.0f))
+			return true;
+
+		// 3면 모두 충돌아님
+		else return false;
+	}
+
+	float oriAxis = ori[axis];
+	float dirAxis = dir[axis];
+	UINT plane1 = (axis + 1) % 3;
+	UINT plane2 = (axis + 2) % 3;
+
+	if (oriAxis >= 0.5f)
+	{
+		if (dirAxis >= 0.0f)
+		{
+			return false;
+		}
+		else
+		{
+			*outPoint = dir * ((0.5f - oriAxis) / dirAxis);
+			if (fabsf((*outPoint)[plane1] + ori[plane1]) > 0.5f ||
+				fabsf((*outPoint)[plane2] + ori[plane2]) > 0.5f)
+			{
+				// 다른 면 판단
+				return CheckRayPlane(outPoint, ori, dir, axis + 1);
+			}
+		}
+	}
+	else
+	{
+		// 다른 면 판단
+		return CheckRayPlane(outPoint, ori, dir, axis + 1);
+	}
+
+	return true;
 }
 
 bool Collider::SepratePlane(const Vector3 & distance, const Vector3 & direction, const Bounding & box1, const Bounding & box2) const

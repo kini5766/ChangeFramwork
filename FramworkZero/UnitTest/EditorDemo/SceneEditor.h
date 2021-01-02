@@ -7,6 +7,9 @@ public:
 	~SceneEditor();
 
 public:
+	class SceneValue* Takeout(wstring file);
+
+public:
 	void Update();
 	void Render();
 

@@ -41,6 +41,9 @@ private:
 	UINT instanceId;
 
 private:
+	bool CheckRayPlane(Vector3* outPoint, const Vector3& ori, const Vector3& dir, UINT axis) const;
+
+private:
 	struct Bounding
 	{
 		Vector3 Position;

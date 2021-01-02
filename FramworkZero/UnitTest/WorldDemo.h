@@ -44,11 +44,10 @@ private:
 
 private:
 	Shader* shader;
-	MeshInstancing* plane;
-	MeshInstancing* box;
 	ModelSkinnedInstancing* kachujin;
 	class KachujinInstance* character;
 	class CharacterController* player;
 
+	class SceneValue* scene;
 	vector<Collider*> colliders;
 };

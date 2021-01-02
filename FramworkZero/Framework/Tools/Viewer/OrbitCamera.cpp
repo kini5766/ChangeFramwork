@@ -80,10 +80,13 @@ void OrbitCamera::Update()
 		theta = Math::PI * 0.9f;
 	sphereCoord->Theta(theta);
 
+	// 콜라이더 충돌
 	if (ray->IsCollision())
 	{
 		float minDistance = min(distance, ray->GetMinDistance());
-		sphereCoord->Rho(minDistance);
+		if (minDistance != 0.0f)
+			sphereCoord->Rho(minDistance);
+		else sphereCoord->Rho(distance);
 	}
 	else
 	{

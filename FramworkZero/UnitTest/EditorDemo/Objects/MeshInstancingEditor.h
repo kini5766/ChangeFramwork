@@ -38,6 +38,7 @@ private:
 	// imgui
 private:
 	int selected = -1;
+	int imguiItem = 0;
 
 	// save load
 private:
@@ -49,8 +50,8 @@ private:
 	float _f2 = 1.0f;
 	UINT _u1 = 1u;
 	UINT _u2 = 1u;
+	int meshType = -1;
 
-	int item = 0;
 
 private:
 	const char* meshItems = {

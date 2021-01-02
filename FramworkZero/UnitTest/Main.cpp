@@ -7,8 +7,8 @@
 
 void Main::Initialize()
 {
-	//Push(new WorldDemo());
-	Push(new EditorDemo());
+	Push(new WorldDemo());
+	//Push(new EditorDemo());
 }
 
 

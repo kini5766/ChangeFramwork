@@ -57,7 +57,6 @@ void ColliderEditor::RenderImGui(Collider * c)
 		if (rota2.z != 0.0f)
 			t->RotateRoll(rota2.z);
 
-		Debug::Box->RenderBox(t, Color(0.0f, 1.0f, 0.0f, 1.0f));
 
 		ImGui::PopID();
 	}

@@ -4,6 +4,8 @@
 #include "Tools/Viewer/OrbitCamera.h"
 #include "Character/Kachujin.h"
 #include "Character/CharacterController.h"
+#include "EditorDemo/SceneValue.h"
+#include "EditorDemo/SceneEditor.h"
 
 void WorldDemo::Initialize()
 {
@@ -25,18 +27,14 @@ void WorldDemo::Initialize()
 	OrbitCamera* camera = new OrbitCamera();
 	camera->SetTarget(player);
 	Context::Get()->MainCamera(camera);
-	//Context::Get()->MainCamera()->RotationDegree(13, 70, 0);
-	//Context::Get()->MainCamera()->Position(-20, 1, -3);
 }
 
 void WorldDemo::Destroy()
 {
+	SafeDelete(scene);
 	SafeDelete(player);
 	SafeDelete(character);
 
-	SafeDelete(plane);
-
-	SafeDelete(box);
 	SafeDelete(kachujin);
 	SafeRelease(shader);
 }
@@ -46,9 +44,8 @@ void WorldDemo::Update()
 	character->Update();
 	player->Update();
 
-	box->Update();
+	scene->Update();
 	kachujin->Update();
-	plane->Update();
 
 	for (Collider* collider : colliders)
 		Debug::Box->RenderBox(collider->GetTransform(), Color(0, 1, 0, 1));
@@ -80,86 +77,21 @@ void WorldDemo::Render()
 	{
 		Debug::Gizmo->SetTransform(kachujin->GetInstance(0)->GetTransform());
 	}
-	if (ImGui::Button("Box"))
-	{
-		Debug::Gizmo->SetTransform(box->GetInstance(0)->GetTransform());
-	}
 
 	Lighting::Get()->GetDirectional()->ApplyTransform();
 	Lighting::Get()->GetPointLight(0)->ApplyTransform();
 	Lighting::Get()->GetBurntLight()->ApplyTransform();
 	Lighting::Get()->GetSpotLight(0)->ApplyTransform();
 	kachujin->UpdateTransforms();
-	box->UpdateTransforms();
 
-	box->Render();
 	kachujin->Render();
-	plane->Render();
+	scene->Render();
 }
 
 void WorldDemo::Mesh()
 {
-	Collider* collider;
-
-	plane = new MeshInstancing(shader, new MeshPlane(2.5f, 2.5f));
-	Transform* t = plane->AddInstance()->GetTransform();
-	collider = CollisionManager::Get()->CreateCollider();
-	colliders.push_back(collider);
-	//collider->SetLayer(collider->GetMask() & ~Collider::COLLIDER_LAYER_CAMERA);
-	collider->GetTransform()->SetParent(t);
-	collider->GetTransform()->Scale(10, 2.5f, 10);
-	t->Scale(12, 1, 12);
-
-
-	Material* m = plane->GetRenderer()->GetDefaultMaterial();
-	m->DiffuseMap(L"Floor.png");
-	m->SpecularMap(L"Floor_Specular.png");
-	m->Specular(1, 1, 1, 20);
-	m->NormalMap(L"Floor_Normal.png");
-
-	plane->UpdateTransforms();
-	plane->UpdateColors();
-
-
-
-	box = new MeshInstancing(shader, new MeshCube());
-	box->GetRenderer()->GetDefaultMaterial()->DiffuseMap(L"Box.png");
-
-	Transform* transform;
-	for (float x = -50; x <= 50; x += 2.5f)
-	{
-		transform = box->AddInstance()->GetTransform();
-		transform->Scale(0.25f, 0.25f, 0.25f);
-		transform->Position(Vector3(x, 0.25f * 0.5f, 0.0f));
-		transform->Rotation(0, Math::Random(-(float)D3DX_PI, (float)D3DX_PI), 0);
-	}
-
-	transform = box->AddInstance()->GetTransform();
-	collider = CollisionManager::Get()->CreateCollider();
-	colliders.push_back(collider);
-	//collider->SetLayer(collider->GetMask() & ~Collider::COLLIDER_LAYER_CAMERA);
-	collider->GetTransform()->SetParent(transform);
-	transform->Position(12, 7, 7);
-	transform->Scale(16, 14, 2);
-
-	transform = box->AddInstance()->GetTransform();
-	collider = CollisionManager::Get()->CreateCollider();
-	colliders.push_back(collider);
-	//collider->SetLayer(collider->GetMask() & ~Collider::COLLIDER_LAYER_CAMERA);
-	collider->GetTransform()->SetParent(transform);
-	transform->Position(12, 7, -7);
-	transform->Scale(16, 14, 2);
-
-	transform = box->AddInstance()->GetTransform();
-	collider = CollisionManager::Get()->CreateCollider();
-	colliders.push_back(collider);
-	//collider->SetLayer(collider->GetMask() & ~Collider::COLLIDER_LAYER_CAMERA);
-	collider->GetTransform()->SetParent(transform);
-	transform->Position(12, 13, 0);
-	transform->Scale(16, 2, 12);
-
-	box->UpdateTransforms();
-	box->UpdateColors();
+	SceneEditor editor;
+	scene = editor.Takeout(L"World2");
 }
 
 void WorldDemo::Kachujin()
