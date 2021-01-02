@@ -41,6 +41,7 @@ private:
 	void BurntLight();
 	void PointLights();
 	void SpotLights();
+	void Colliders();
 
 private:
 	Shader* shader;
@@ -49,5 +50,7 @@ private:
 	class CharacterController* player;
 
 	class SceneValue* scene;
-	vector<Collider*> colliders;
+	SendBox* sendbox1;
+	SendBox* sendbox2;
+	int message;
 };

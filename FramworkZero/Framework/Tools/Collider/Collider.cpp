@@ -1,8 +1,7 @@
 #include "Framework.h"
 #include "Collider.h"
 
-Collider::Collider(UINT instanceId)
-	: instanceId(instanceId)
+Collider::Collider()
 {
 	initTransform = new Transform();
 }
@@ -10,11 +9,6 @@ Collider::Collider(UINT instanceId)
 Collider::~Collider()
 {
 	SafeDelete(initTransform);
-}
-
-void Collider::Release()
-{
-	CollisionManager::Get()->ReleaseCollider(this);
 }
 
 void Collider::UpdateBounding()
@@ -68,7 +62,7 @@ bool Collider::Intersection(const Ray& ray, float * outDistance) const
 	return true;
 }
 
-bool Collider::Intersection(Collider * other) const
+bool Collider::Intersection(const Collider * other) const
 {
 	return Collision(this->bounding, other->bounding);
 }

@@ -22,4 +22,5 @@ private:
 	float speed = 15.0f;
 	UINT currState = 0;
 
+	ReceiveBox* collider;
 };

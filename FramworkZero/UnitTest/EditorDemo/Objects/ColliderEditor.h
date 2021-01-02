@@ -6,9 +6,9 @@ public:
 	ColliderEditor();
 	~ColliderEditor();
 
-	void RenderImGui(Collider* c);
-	void Save(Collider* c, class BinaryWriter * w);
-	void Load(Collider* c, class BinaryReader * r);
+	void RenderImGui(ReceiveBox* c);
+	void Save(ReceiveBox* c, class BinaryWriter * w);
+	void Load(ReceiveBox* c, class BinaryReader * r);
 
 private:
 	int inputMask = 0;

@@ -76,6 +76,7 @@ typedef D3DXPLANE Plane;
 // 실행 전 셋팅할 값들
 
 #include "Settings/URI.h"
+#include "Settings/Layer.h"
 #include "Settings/ShaderEffectName.h"
 
 
@@ -120,6 +121,8 @@ typedef D3DXPLANE Plane;
 
 #include "Tools/Collider/Ray.h"
 #include "Tools/Collider/Collider.h"
+#include "Tools/Collider/SendBox.h"
+#include "Tools/Collider/ReceiveBox.h"
 #include "Tools/Collider/CollisionManager.h"
 
 

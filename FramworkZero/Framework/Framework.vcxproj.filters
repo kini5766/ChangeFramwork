@@ -250,6 +250,12 @@
     <ClCompile Include="Tools\Collider\Ray.cpp">
       <Filter>Tools\Collider</Filter>
     </ClCompile>
+    <ClCompile Include="Tools\Collider\ReceiveBox.cpp">
+      <Filter>Tools\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Collider\SendBox.cpp">
+      <Filter>Tools\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -482,6 +488,15 @@
       <Filter>Debugger</Filter>
     </ClInclude>
     <ClInclude Include="Tools\Collider\Ray.h">
+      <Filter>Tools\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings\Layer.h">
+      <Filter>Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Collider\ReceiveBox.h">
+      <Filter>Tools\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Collider\SendBox.h">
       <Filter>Tools\Collider</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,7 +11,7 @@ ColliderEditor::~ColliderEditor()
 {
 }
 
-void ColliderEditor::RenderImGui(Collider * c)
+void ColliderEditor::RenderImGui(ReceiveBox * c)
 {
 	if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -25,13 +25,13 @@ void ColliderEditor::RenderImGui(Collider * c)
 		if (ImGui::Button("Off"))
 			c->SetLayer(c->GetMask() & ~(1 << inputMask));
 		if (ImGui::Button("Default"))
-			c->SetLayer(Collider::COLLIDER_LAYER_DEFAULT);
+			c->SetLayer(COLLIDER_LAYER_DEFAULT);
 		ImGui::SameLine();
 		if (ImGui::Button("None"))
-			c->SetLayer(Collider::COLLIDER_LAYER_NONE);
+			c->SetLayer(COLLIDER_LAYER_NONE);
 		ImGui::SameLine();
 		if (ImGui::Button("All"))
-			c->SetLayer(Collider::COLLIDER_LAYER_ALL);
+			c->SetLayer(COLLIDER_LAYER_ALL);
 
 		Vector3 pos;
 		Vector3 rota1, rota2;
@@ -62,7 +62,7 @@ void ColliderEditor::RenderImGui(Collider * c)
 	}
 }
 
-void ColliderEditor::Save(Collider * c, BinaryWriter * w)
+void ColliderEditor::Save(ReceiveBox * c, BinaryWriter * w)
 {
 	Vector3 pos;
 	Quaternion rota;
@@ -80,7 +80,7 @@ void ColliderEditor::Save(Collider * c, BinaryWriter * w)
 	w->UInt(c->GetMask());
 }
 
-void ColliderEditor::Load(Collider * c, BinaryReader * r)
+void ColliderEditor::Load(ReceiveBox * c, BinaryReader * r)
 {
 	Transform* t = c->GetTransform();
 	t->Position(r->Vector3());

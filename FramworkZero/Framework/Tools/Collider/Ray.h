@@ -16,7 +16,7 @@ struct RaycastOutput
 	RaycastOutput(const Ray& ray) : Ray(ray) {}
 
 	Ray Ray;
-	bool IsActive = true;
+	UINT LayerMask;
 	bool IsCollision = false;
 	float OutMinDistance = 0.0f;
 };
@@ -24,15 +24,18 @@ struct RaycastOutput
 class Raycast
 {
 public:
-	Raycast(const RaycastOutput* output);
+	Raycast(const RaycastOutput* output, UINT layer);
 	~Raycast();
 
 public:
 	bool IsCollision() const { return output->IsCollision; }
 	float GetMinDistance() const { return output->OutMinDistance; }
+	void Destroy() { bools[2] = true; bools[0] = true; }
+
 	void SetRay(const Ray& value) { inputRay = value; bools[0] = true; }
 	void SetActiveSelf(bool value) { bools[1] = value; bools[0] = true; }
-	void Destroy() { bools[2] = true; bools[0] = true; }
+	void SetLayer(UINT value) { layer = value; bools[0] = true; }
+	UINT GetMask() const { return (IsActive()) ? layer : COLLIDER_LAYER_NONE; }
 
 public:
 	bool IsInput() const { return bools[0]; }
@@ -48,4 +51,5 @@ public:
 	// [3] : temp
 	bitset<4> bools;
 	const RaycastOutput* output;
+	UINT layer = 0;
 };

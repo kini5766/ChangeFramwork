@@ -27,6 +27,8 @@ void WorldDemo::Initialize()
 	OrbitCamera* camera = new OrbitCamera();
 	camera->SetTarget(player);
 	Context::Get()->MainCamera(camera);
+
+	Colliders();
 }
 
 void WorldDemo::Destroy()
@@ -47,8 +49,9 @@ void WorldDemo::Update()
 	scene->Update();
 	kachujin->Update();
 
-	for (Collider* collider : colliders)
-		Debug::Box->RenderBox(collider->GetTransform(), Color(0, 1, 0, 1));
+	sendbox2->OnSendMessage();
+	Debug::Box->RenderBox(sendbox1->GetTransform(), Color(0.0f, 1.0f, 0.0f, 1.0f));
+	Debug::Box->RenderBox(sendbox2->GetTransform(), Color(0.3f, 0.7f, 0.3f, 1.0f));
 }
 
 void WorldDemo::Render()
@@ -164,4 +167,21 @@ void WorldDemo::SpotLights()
 	   Vector3(0, -1, 0), 40.0f, 0.9f
 	};
 	Lighting::Get()->AddSpotLight(light);
+}
+
+void WorldDemo::Colliders()
+{
+	sendbox1 = CollisionManager::Get()->CreateSendBox();
+	sendbox1->GetTransform()->Position(10.0f, 2.0f, 10.0f);
+	sendbox1->GetTransform()->Scale(2.0f, 2.0f, 2.0f);
+	sendbox1->SetSendMessageData(&message);
+	sendbox1->SetLayer(COLLIDER_LAYER_HITBOX);
+	sendbox1->SetTag(L"1 hit");
+
+	sendbox2 = CollisionManager::Get()->CreateSendBox();
+	sendbox2->GetTransform()->Position(-10.0f, 1.0f, -10.0f);
+	sendbox2->GetTransform()->Scale(2.0f, 2.0f, 2.0f);
+	sendbox2->SetSendMessageData(&message);
+	sendbox2->SetLayer(COLLIDER_LAYER_HITBOX);
+	sendbox2->SetTag(L"update hit");
 }

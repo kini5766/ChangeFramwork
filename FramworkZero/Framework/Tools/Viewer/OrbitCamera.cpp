@@ -17,8 +17,9 @@ OrbitCamera::OrbitCamera()
 	Position(sphereCoord->RectCoord_Y());
 	Rotation(sphereCoord->YawPitch_Z());
 
-	ray = CollisionManager::Get()->CreateCameraRaycast(
-		Ray(Vector3(0.0f, 0.0f, 0.0f), -sphereCoord->RectCoord_YNormal())
+	ray = CollisionManager::Get()->CreateRaycast(
+		Ray(Vector3(0.0f, 0.0f, 0.0f), -sphereCoord->RectCoord_YNormal()),
+		COLLIDER_LAYER_CAMERA
 	);
 }
 

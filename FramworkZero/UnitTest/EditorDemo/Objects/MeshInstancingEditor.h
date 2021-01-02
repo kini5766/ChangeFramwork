@@ -21,7 +21,7 @@ public:
 private:
 	void AddInstance();
 	void Select(int i);
-	Collider* AddCollider(UINT index);
+	ReceiveBox* AddCollider(UINT index);
 
 	// create instancing
 private:
@@ -33,7 +33,7 @@ private:
 private:
 	Shader* shader;
 	vector<MeshInstance*> meshes;
-	vector<Collider*> colliders;
+	vector<ReceiveBox*> colliders;
 
 	// imgui
 private:

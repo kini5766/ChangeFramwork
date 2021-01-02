@@ -10,7 +10,7 @@ private:
 	~DebugBox();
 
 public:
-	void RenderBox(Transform* box, const Color& color);
+	void RenderBox(Transform* box, const Color& color = Color(0.0f, 1.0f, 0.0f, 1.0f));
 
 private:  // Window
 	void Render();

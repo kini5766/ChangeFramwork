@@ -16,22 +16,30 @@ private:
 public:
 	void Update();
 
-public:
-	Collider* CreateCollider();
-	void ReleaseCollider(Collider* value);
-	void GetColliders(vector<Collider*>* out) { (*out) = colliders; }
-
-public:
-	Raycast* CreateCameraRaycast(const Ray& ray);
-
 private:
 	void UpdateInput();
 	void CheckCollision();
 
+	// ReceiveBox
+public:
+	ReceiveBox* CreateCollider();
+	void ReleaseCollider(ReceiveBox* value);
+	void GetColliders(vector<ReceiveBox*>* out) { (*out) = colliders; }
 private:
-	vector<Collider*> colliders;
-	vector<UINT> junkInstances;
+	vector<ReceiveBox*> colliders;
+	vector<UINT> junkColliders;
 
+	// SendBox
+public:
+	SendBox* CreateSendBox();
+	void ReleaseSendBox(SendBox* value);
+private:
+	vector<SendBox*> sendBoxes;
+	vector<UINT> junkSendBoxes;
+
+	// Raycast
+public:
+	Raycast* CreateRaycast(const Ray& ray, UINT layer);
 private:
 	struct RaycastPair
 	{
@@ -44,5 +52,5 @@ private:
 			SafeDelete(Input);
 		}
 	};
-	list<RaycastPair*> cameraRays;
+	list<RaycastPair*> rays;
 };

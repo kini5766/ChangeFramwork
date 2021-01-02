@@ -32,7 +32,7 @@ void MeshInstancingEditor::Render()
 
 	meshInstancing->Render();
 
-	for (Collider* collider: colliders)
+	for (ReceiveBox* collider: colliders)
 		if (collider != nullptr)
 			Debug::Box->RenderBox(collider->GetTransform(), Color(0.0f, 1.0f, 0.0f, 1.0f));
 }
@@ -63,7 +63,7 @@ void MeshInstancingEditor::Save(BinaryWriter * w)
 	{
 		MeshInstance* mesh = meshes[i];
 		tImGui->Save(mesh->GetTransform(), w);
-		Collider* collider = colliders[i];
+		ReceiveBox* collider = colliders[i];
 
 		bool hasCollider = collider != nullptr;
 		w->Bool(hasCollider);
@@ -141,7 +141,7 @@ void MeshInstancingEditor::ImGuiRender()
 			tImGui->RenderImGui(transform);
 
 			// 콜라이더
-			Collider* collider = colliders[selected];
+			ReceiveBox* collider = colliders[selected];
 			if (collider != nullptr)
 			{
 				if (ImGui::Button("Delete Collider"))
@@ -227,9 +227,9 @@ void MeshInstancingEditor::AddInstance()
 	Select(index);
 }
 
-Collider* MeshInstancingEditor::AddCollider(UINT index)
+ReceiveBox* MeshInstancingEditor::AddCollider(UINT index)
 {
-	Collider* collider = CollisionManager::Get()->CreateCollider();
+	ReceiveBox* collider = CollisionManager::Get()->CreateCollider();
 
 	Transform* transform = meshes[index]->GetTransform();
 	collider->GetTransform()->SetParent(transform);

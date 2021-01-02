@@ -7,6 +7,14 @@ CharacterController::CharacterController(Transform * transform, Animator * anima
 	: transform(transform), animator(animator)
 {
 	userInput = new UserKeyState();
+	collider = CollisionManager::Get()->CreateCollider();
+	collider->GetTransform()->SetParent(transform);
+	Matrix w;
+	D3DXMatrixIdentity(&w);
+	collider->GetTransform()->Position(0.0f, 100.0f, 0.0f);
+	collider->GetTransform()->Rotation(0.0f, 0.0f, 0.0f);
+	collider->GetTransform()->Scale(75.0f, 200.0f, 75.0f);
+	collider->SetLayer(collider->GetMask() | COLLIDER_LAYER_HITBOX);
 }
 
 CharacterController::~CharacterController()
@@ -50,6 +58,20 @@ void CharacterController::Update()
 	{
 		animator->Play(next);
 		currState = next;
+	}
+
+	Debug::Box->RenderBox(collider->GetTransform(), Color(0.0f, 1.0f, 0.0f, 1.0f));
+	vector<SendBoxMessage*>& ms = collider->GetMessages();
+	for (SendBoxMessage* m : ms)
+	{
+		if (m->Tag == L"1 hit")
+		{
+			Debug::Log->Print("1 hit!");
+		}
+		else if (m->Tag == L"update hit")
+		{
+			Debug::Log->Show("--<update hit!>--");
+		}
 	}
 }
 
