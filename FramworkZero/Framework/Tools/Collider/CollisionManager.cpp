@@ -84,7 +84,6 @@ void CollisionManager::CheckCollision()
 {
 	for (ColliderBox* collider : colliders)
 	{
-		collider->ClearReceived();
 		UINT layerMask = collider->GetMask();
 		if (layerMask == COLLIDER_LAYER_NONE)
 			continue;
