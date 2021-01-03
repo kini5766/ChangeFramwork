@@ -26,11 +26,12 @@ public:
 	bool IsReceiver() { return bReceiver; }
 	void SetReceiver(bool value) { bReceiver = value; }
 
-	UINT GetMask() const { return (bActive) ? layer : COLLIDER_LAYER_NONE; }
+	UINT GetLayer() const { return layer; }
 	void SetLayer(UINT value) { layer = value; }
 
 	// collision
 public:
+	UINT GetMask() const { return (bActive) ? layer : COLLIDER_LAYER_NONE; }
 	const Collider* GetCollider() const { return collider; }
 	void UpdateBounding() { collider->UpdateBounding(); }
 

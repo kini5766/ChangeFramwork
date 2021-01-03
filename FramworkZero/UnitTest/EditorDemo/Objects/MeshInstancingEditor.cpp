@@ -1,19 +1,23 @@
 #include "stdafx.h"
 #include "MeshInstancingEditor.h"
 
-#include "TransformEditor.h"
-#include "ColliderEditor.h"
 #include "Utilities/BinaryFile.h"
+
+#include "Component/TransformEditor.h"
+#include "Component/ColliderEditor.h"
+#include "Component/MaterialEditor.h"
 
 MeshInstancingEditor::MeshInstancingEditor()
 {
 	shader = Shader::Load(L"01_Material.fxo");
 	tImGui = new TransformEditor();
 	cImGui = new ColliderEditor();
+	mImGui = new MaterialEditor();
 }
 
 MeshInstancingEditor::~MeshInstancingEditor()
 {
+	SafeDelete(mImGui);
 	SafeDelete(cImGui);
 	SafeDelete(tImGui);
 	SafeDelete(meshInstancing);
@@ -22,6 +26,9 @@ MeshInstancingEditor::~MeshInstancingEditor()
 
 void MeshInstancingEditor::Update()
 {
+	if (meshInstancing == nullptr)
+		return;
+
 	meshInstancing->Update();
 }
 
@@ -54,7 +61,7 @@ void MeshInstancingEditor::Save(BinaryWriter * w)
 	w->Float(_f2);
 	w->UInt(_u1);
 	w->UInt(_u2);
-	w->String(String::ToString(diffuse));
+	mImGui->Save(w);
 
 	// meshInstance
 	UINT size = meshes.size();
@@ -82,7 +89,8 @@ void MeshInstancingEditor::Load(BinaryReader * r)
 	_f2 = r->Float();
 	_u1 = r->UInt();
 	_u2 = r->UInt();
-	diffuse = String::ToWString(r->String());
+
+	mImGui->Load(r);
 
 	LoadInstancing(imguiItem);
 
@@ -114,6 +122,8 @@ void MeshInstancingEditor::ImGuiRender()
 	if (meshInstancing == nullptr)
 	{
 		MakingInstancing();
+		ImGui::Separator();
+		mImGui->RenderImGui();
 		return;
 	}
 
@@ -184,6 +194,13 @@ void MeshInstancingEditor::ImGuiRender()
 	if (ImGui::Button("+ Add Instance"))
 	{
 		AddInstance();
+	}
+
+	ImGui::Separator();
+	mImGui->RenderImGui();
+	if (ImGui::Button("Apply Material"))
+	{
+		mImGui->Apply(meshInstancing->GetRenderer()->GetDefaultMaterial());
 	}
 
 	meshInstancing->UpdateTransforms();
@@ -305,21 +322,12 @@ void MeshInstancingEditor::MakingInstancing()
 		ImGui::InputInt("StackCount", (int*)&_u1);
 		ImGui::InputInt("SliceCount", (int*)&_u2);
 		if (ImGui::Button("Create Sphere"))
+		{
 			SetInstancing(new MeshInstancing(shader, new MeshSphere(_f1, _u1, _u2)));
+			AddInstance();
+		}
 	}break;
 
-	}
-
-	if (ImGui::Button(("Diffuse : " + String::ToString(diffuse)).c_str()))
-	{
-		Path::OpenFileDialog(L"",
-			L"Texture File\0*.PNG\0*.TGA\0*.JPG", URI::Textures,
-			[&](wstring r)
-		{
-			diffuse = Path::GetFileName(r);
-		},
-			WinDesc::GetHandle()
-			);
 	}
 
 }
@@ -339,8 +347,7 @@ void MeshInstancingEditor::LoadInstancing(UINT item)
 void MeshInstancingEditor::SetInstancing(MeshInstancing * value)
 {
 	meshInstancing = value;
-	if (diffuse.size() != 0)
-		value->GetRenderer()->GetDefaultMaterial()->DiffuseMap(diffuse);
+	mImGui->Apply(value->GetRenderer()->GetDefaultMaterial());
 	meshType = imguiItem;
 }
 

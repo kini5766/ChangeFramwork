@@ -19,6 +19,7 @@ CharacterController::CharacterController(Transform * transform, Animator * anima
 	receiver = new ReceiveBox(collider);
 	receiver->AddReceiveTag(L"1 hit");
 	receiver->AddReceiveTag(L"update hit");
+	receiver->AddReceiveTag(L"1 second hit");
 }
 
 CharacterController::~CharacterController()
@@ -32,9 +33,8 @@ void CharacterController::Update()
 	UINT next = currState;
 	userInput->Update();
 
-	Vector2 keyAxis;
-
-	keyAxis = userInput->GetAxis();
+	Vector2 keyAxis = userInput->GetAxis();
+	float speedDelta = Time::Delta() * speed;
 
 	if (keyAxis.x == 0 && keyAxis.y == 0)
 		next = 0;
@@ -52,10 +52,51 @@ void CharacterController::Update()
 		Vector3 moveAxis = Vector3(0.0f, 0.0f, 0.0f);
 		moveAxis += cameraFoword * keyAxis.y;
 		moveAxis += cameraRight * keyAxis.x;
+		//
+		{
+			Vector3 forward = -transform->Forward();
 
+			float dDot = D3DXVec3Dot(&moveAxis, &forward);
+			// 남은 방향
+			float rad = acosf(dDot);
+
+			// 남은 방향이 없을 경우
+			if (rad <= FLT_EPSILON) {}
+			else if (rad < speedDelta)
+			{
+				// 남은 방향(축)
+				Vector3 dAxis;
+				D3DXVec3Cross(&dAxis, &forward, &moveAxis);
+				D3DXVec3Normalize(&dAxis, &dAxis);
+
+				// 목표 회전
+				Quaternion dQ;
+				D3DXQuaternionRotationAxis(&dQ, &dAxis, rad);
+
+				Quaternion q;
+				transform->Rotation(&q);
+				transform->Rotation(q * dQ);
+			}
+			else
+			{
+				// 남은 방향(축)
+				Vector3 dAxis;
+				D3DXVec3Cross(&dAxis, &forward, &moveAxis);
+				D3DXVec3Normalize(&dAxis, &dAxis);
+
+				// speedDelta만큼 회전
+				Quaternion dQ;
+				D3DXQuaternionRotationAxis(&dQ, &dAxis, speedDelta);
+
+				Quaternion q;
+				transform->Rotation(&q);
+				transform->Rotation(q * dQ);
+			}
+		}
+		//
 		Vector3 position;
 		transform->Position(&position);
-		position += moveAxis * Time::Delta() * speed;
+		position += moveAxis * speedDelta;
 		transform->Position(position);
 	}
 
@@ -73,6 +114,10 @@ void CharacterController::Update()
 		if (m.Tag == L"1 hit")
 		{
 			Debug::Log->Print("1 hit!");
+		}
+		else if (m.Tag == L"1 second hit")
+		{
+			Debug::Log->Print("1 second hit!");
 		}
 		else if (m.Tag == L"update hit")
 		{

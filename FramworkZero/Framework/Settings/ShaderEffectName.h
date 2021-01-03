@@ -1,27 +1,44 @@
 #pragma once
 
+
 namespace ShaderEffectName
 {
-
-
-	// --------------------------------------------------------
-	// Constant Buffer
-	// --------------------------------------------------------
-
 	// 00_Global.fx
-	const string CB_PerFrame = "CB_PerFrame";
-	const string CB_World = "CB_World";
-
+	constexpr auto CB_PERFRAME = "CB_PerFrame";
+	constexpr auto CB_WORLD = "CB_World";
 
 	// 00_Light.fx
-	const string CB_Light = "CB_Light";
-	const string CB_Material = "CB_Material";
-	const string CB_SpotLights = "CB_SpotLights";
-	const string CB_PointLights = "CB_PointLights";
-	const string CB_BurntLight = "CB_BurntLight";
+	constexpr auto CB_MATERIAL = "CB_Material";
+	constexpr auto DIFFUSEMAP = "DiffuseMap";
+	constexpr auto SPECULARMAP = "SpecularMap";
+	constexpr auto NORMALMAP = "NormalMap";
 
-	// 02_AnimationMap.fx
-	const string CB_BonesMap = "CB_BonesMap";
-	const string CB_BlendingFrame = "CB_BlendingFrame";
+	constexpr auto CB_LIGHT = "CB_Light";
+	constexpr auto CB_LIGHT_SPOT = "CB_SpotLights";
+	constexpr auto CB_LIGHT_POINT = "CB_PointLights";
+	constexpr auto CB_LIGHT_BURNT = "CB_BurntLight";
+
+	// 00_Render.fx
+	constexpr auto INV_BINDPOSE = "InvBindPose";
+	constexpr auto BONESMAP = "BonesMap";
+
+	// --------------------------------------------------------
+
+	// 02_AnimationInstance.fx
+	constexpr auto CB_BLENDING_FRAME = "CB_BlendingFrame";
+	constexpr auto OUTPUT = "Output";
+
+	// 02_GetBonesInstance.fx
+	constexpr auto OUTPUT_SKINNED = "OutputSkinned";
+
+	// 02_SetAnimation.fx
+	constexpr auto INPUT_CLIP_MAP = "InputClipMap";
+	constexpr auto INPUT_KEYFRAME_COUNTS = "InputKeyframeCount";
+
+	// 02_SetBones.fx
+	constexpr auto INPUT_LOCAL_BONES = "InputLocalBones";
+	constexpr auto INPUT_BONE_DESC = "InputboneDesc";
 
 }
+
+

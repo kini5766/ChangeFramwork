@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IObjectEditor.h"
+#include "../Main/IObjectEditor.h"
 
 class MeshInstancingEditor : public IObjectEditor
 {
@@ -45,7 +45,7 @@ private:
 	MeshInstancing* meshInstancing = nullptr;
 	class TransformEditor* tImGui;
 	class ColliderEditor* cImGui;
-	wstring diffuse = L"";
+	class MaterialEditor* mImGui;
 	float _f1 = 1.0f;
 	float _f2 = 1.0f;
 	UINT _u1 = 1u;

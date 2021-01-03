@@ -54,11 +54,11 @@ PerFrame::PerFrame(Shader * shader)
 	: shader(new ShaderSetter(shader))
 {
 	buffer = new PerFrameBuffer();
-	this->shader->SetConstantBuffer(CB_PerFrame, buffer->BufferPerFrame()->Buffer());
-	this->shader->SetConstantBuffer(CB_Light, buffer->LightBuffer()->Buffer());
-	this->shader->SetConstantBuffer(CB_PointLights, buffer->PointLightBuffer()->Buffer());
-	this->shader->SetConstantBuffer(CB_SpotLights, buffer->SpotLightBuffer()->Buffer());
-	this->shader->SetConstantBuffer(CB_BurntLight, buffer->BurntLightBuffer()->Buffer());
+	this->shader->SetConstantBuffer(CB_PERFRAME, buffer->BufferPerFrame()->Buffer());
+	this->shader->SetConstantBuffer(CB_LIGHT, buffer->LightBuffer()->Buffer());
+	this->shader->SetConstantBuffer(CB_LIGHT_POINT, buffer->PointLightBuffer()->Buffer());
+	this->shader->SetConstantBuffer(CB_LIGHT_SPOT, buffer->SpotLightBuffer()->Buffer());
+	this->shader->SetConstantBuffer(CB_LIGHT_BURNT, buffer->BurntLightBuffer()->Buffer());
 }
 
 PerFrame::~PerFrame()

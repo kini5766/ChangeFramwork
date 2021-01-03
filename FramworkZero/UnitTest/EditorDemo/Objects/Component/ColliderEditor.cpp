@@ -17,13 +17,13 @@ void ColliderEditor::RenderImGui(ColliderBox * c)
 	{
 		ImGui::PushID("Collider");
 
-		ImGui::Text(("Mask : " + to_string(c->GetMask())).c_str());
+		ImGui::Text(("Layer : " + to_string(c->GetLayer())).c_str());
 		ImGui::InputInt("Layer", &inputMask);
 		if (ImGui::Button("On"))
-			c->SetLayer(c->GetMask() | (1 << inputMask));
+			c->SetLayer(c->GetLayer() | (1 << inputMask));
 		ImGui::SameLine();
 		if (ImGui::Button("Off"))
-			c->SetLayer(c->GetMask() & ~(1 << inputMask));
+			c->SetLayer(c->GetLayer() & ~(1 << inputMask));
 		if (ImGui::Button("Default"))
 			c->SetLayer(COLLIDER_LAYER_DEFAULT);
 		ImGui::SameLine();
@@ -77,7 +77,7 @@ void ColliderEditor::Save(ColliderBox * c, BinaryWriter * w)
 	w->Vector4((float*)rota);
 	w->Vector3(scale);
 
-	w->UInt(c->GetMask());
+	w->UInt(c->GetLayer());
 }
 
 void ColliderEditor::Load(ColliderBox * c, BinaryReader * r)

@@ -2,7 +2,7 @@
 #include "ObjectEditorFactory.h"
 
 #include "IObjectEditor.h"
-#include "Objects/MeshInstancingEditor.h"
+#include "../Objects/MeshInstancingEditor.h"
 
 void ObjectEditorFactory::Insert()
 {

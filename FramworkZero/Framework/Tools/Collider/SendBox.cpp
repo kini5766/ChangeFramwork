@@ -22,3 +22,14 @@ void SendBox::OnSendMessage()
 { 
 	message->SendTime = Time::Get()->Running();
 }
+
+void SendBox::UpdateCycle(float delta)
+{
+	runningTime += delta;
+
+	if (cycleTime <= runningTime)
+	{
+		OnSendMessage();
+		runningTime -= cycleTime;
+	}
+}

@@ -87,7 +87,7 @@ void Material::DiffuseMap(wstring file)
 	SafeDelete(diffuseMap);
 
 	diffuseMap = new Texture(file);
-	SetTexture("DiffuseMap", diffuseMap);
+	SetTexture(DIFFUSEMAP, diffuseMap);
 }
 
 void Material::SpecularMap(string file)
@@ -100,7 +100,7 @@ void Material::SpecularMap(wstring file)
 	SafeDelete(specularMap);
 
 	specularMap = new Texture(file);
-	SetTexture("SpecularMap", specularMap);
+	SetTexture(SPECULARMAP, specularMap);
 }
 
 void Material::NormalMap(string file)
@@ -113,7 +113,7 @@ void Material::NormalMap(wstring file)
 	SafeDelete(normalMap);
 
 	normalMap = new Texture(file);
-	SetTexture("NormalMap", normalMap);
+	SetTexture(NORMALMAP, normalMap);
 }
 
 void Material::Initialize()
@@ -124,8 +124,8 @@ void Material::Initialize()
 
 	buffer = new ConstantBuffer(&colorDesc, sizeof(ColorDesc));
 
-	SetTexture("DiffuseMap", diffuseMap);
-	SetTexture("SpecularMap", specularMap);
-	SetTexture("NormalMap", normalMap);
-	SetConstantBuffer(CB_Material, buffer->Buffer());
+	SetTexture(DIFFUSEMAP, diffuseMap);
+	SetTexture(SPECULARMAP, specularMap);
+	SetTexture(NORMALMAP, normalMap);
+	SetConstantBuffer(CB_MATERIAL, buffer->Buffer());
 }

@@ -4,8 +4,8 @@
 #include "Tools/Viewer/OrbitCamera.h"
 #include "Character/Kachujin.h"
 #include "Character/CharacterController.h"
-#include "EditorDemo/SceneValue.h"
-#include "EditorDemo/SceneEditor.h"
+#include "EditorDemo/Main/SceneValue.h"
+#include "EditorDemo/Main/SceneEditor.h"
 
 void WorldDemo::Initialize()
 {
@@ -53,8 +53,10 @@ void WorldDemo::Update()
 	kachujin->Update();
 
 	sendbox2->OnSendMessage();
+	sendbox3->UpdateCycle(Time::Delta());
 	Debug::Box->RenderBox(sendbox1->GetTransform(), Color(0.0f, 1.0f, 0.0f, 1.0f));
 	Debug::Box->RenderBox(sendbox2->GetTransform(), Color(0.3f, 0.7f, 0.3f, 1.0f));
+	Debug::Box->RenderBox(sendbox3->GetTransform(), Color(0.3f, 0.3f, 0.7f, 1.0f));
 }
 
 void WorldDemo::Render()
@@ -187,4 +189,12 @@ void WorldDemo::Colliders()
 	sendbox2->SetSendMessageData(&message);
 	sendbox2->SetLayer(COLLIDER_LAYER_HITBOX);
 	sendbox2->SetTag(L"update hit");
+
+	sendbox3 = new SendBox(CollisionManager::Get()->CreateCollider());
+	sendbox3->GetTransform()->Position(10.0f, 2.0f, -10.0f);
+	sendbox3->GetTransform()->Scale(3.0f, 3.0f, 3.0f);
+	sendbox3->SetSendMessageData(&message);
+	sendbox3->SetLayer(COLLIDER_LAYER_HITBOX);
+	sendbox3->SetTag(L"1 second hit");
+	sendbox3->SetCycle(1.0f);
 }

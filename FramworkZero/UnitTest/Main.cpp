@@ -3,7 +3,7 @@
 #include "Systems/Window.h"
 
 #include "WorldDemo.h"
-#include "EditorDemo/EditorDemo.h"
+#include "EditorDemo/Scene/EditorDemo.h"
 
 void Main::Initialize()
 {

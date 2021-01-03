@@ -4,7 +4,7 @@
 ReceiveBox::ReceiveBox(ColliderBox * collider)
 	: collider(collider)
 {
-	collider->SetLayer(collider->GetMask() | COLLIDER_LAYER_HITBOX);
+	collider->SetLayer(collider->GetLayer() | COLLIDER_LAYER_HITBOX);
 	collider->SetReceiver(true);
 }
 

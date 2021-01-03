@@ -51,8 +51,8 @@ void SkinnedMeshRenderer::SetMaterials(Material ** mats, UINT count)
 
 		for (UINT i = 0; i < count; i++)
 		{
-			mats[i]->SetSRV("InvBindPose", bindPose->SrvInvBindPose);
-			mats[i]->SetSRV("BonesMap", bindPose->SrvBonesMap);
+			mats[i]->SetSRV(INV_BINDPOSE, bindPose->SrvInvBindPose);
+			mats[i]->SetSRV(BONESMAP, bindPose->SrvBonesMap);
 			renderer->Materials().push_back(mats[i]);
 		}
 	}
@@ -67,8 +67,8 @@ void SkinnedMeshRenderer::UpdateMaterials()
 		{
 			for (Material* material : renderer->Materials())
 			{
-				material->SetSRV("InvBindPose", bindPose->SrvInvBindPose);
-				material->SetSRV("BonesMap", bindPose->SrvBonesMap);
+				material->SetSRV(INV_BINDPOSE, bindPose->SrvInvBindPose);
+				material->SetSRV(BONESMAP, bindPose->SrvBonesMap);
 			}
 		}
 	}

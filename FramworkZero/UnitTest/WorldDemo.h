@@ -52,5 +52,6 @@ private:
 	class SceneValue* scene;
 	SendBox* sendbox1;
 	SendBox* sendbox2;
+	SendBox* sendbox3;
 	int message;
 };

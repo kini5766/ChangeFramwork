@@ -16,26 +16,29 @@
     <ClCompile Include="EditorDemo\Objects\MeshInstancingEditor.cpp">
       <Filter>EditorDemo\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="EditorDemo\Objects\TransformEditor.cpp">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\Objects\ColliderEditor.cpp">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\IObjectEditor.cpp">
-      <Filter>EditorDemo\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\ObjectEditorFactory.cpp">
-      <Filter>EditorDemo\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\SceneEditor.cpp">
-      <Filter>EditorDemo\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\SceneValue.cpp">
-      <Filter>EditorDemo\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\EditorDemo.cpp">
+    <ClCompile Include="EditorDemo\Scene\EditorDemo.cpp">
       <Filter>EditorDemo\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Main\IObjectEditor.cpp">
+      <Filter>EditorDemo\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Main\ObjectEditorFactory.cpp">
+      <Filter>EditorDemo\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Main\SceneEditor.cpp">
+      <Filter>EditorDemo\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Main\SceneValue.cpp">
+      <Filter>EditorDemo\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\Component\TransformEditor.cpp">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\Component\ColliderEditor.cpp">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\Component\MaterialEditor.cpp">
+      <Filter>EditorDemo\Objects\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,26 +57,29 @@
     <ClInclude Include="EditorDemo\Objects\MeshInstancingEditor.h">
       <Filter>EditorDemo\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="EditorDemo\Objects\TransformEditor.h">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\Objects\ColliderEditor.h">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\IObjectEditor.h">
-      <Filter>EditorDemo\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\ObjectEditorFactory.h">
-      <Filter>EditorDemo\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\SceneEditor.h">
-      <Filter>EditorDemo\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\SceneValue.h">
-      <Filter>EditorDemo\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\EditorDemo.h">
+    <ClInclude Include="EditorDemo\Scene\EditorDemo.h">
       <Filter>EditorDemo\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Main\IObjectEditor.h">
+      <Filter>EditorDemo\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Main\ObjectEditorFactory.h">
+      <Filter>EditorDemo\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Main\SceneEditor.h">
+      <Filter>EditorDemo\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Main\SceneValue.h">
+      <Filter>EditorDemo\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\Component\TransformEditor.h">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\Component\ColliderEditor.h">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\Component\MaterialEditor.h">
+      <Filter>EditorDemo\Objects\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

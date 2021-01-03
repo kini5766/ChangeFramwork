@@ -68,13 +68,13 @@ void ModelComputeAnimInst::CreateComputeAnim()
 
 	// in : 블랜드정보 * 인스턴스
 	blendBuffer = new ConstantBuffer(blendDesc, sizeof(BlendDesc) * MODEL_INSTANCE_MAX_COUNT);
-	computeShaderAnim->SetConstantBuffer(CB_BlendingFrame, blendBuffer->Buffer());
+	computeShaderAnim->SetConstantBuffer(CB_BLENDING_FRAME, blendBuffer->Buffer());
 
 	// in : 클립트랜스폼
-	computeShaderAnim->SetSRV("InputClipMap", animMap->ClipBoneMapSrv());
+	computeShaderAnim->SetSRV(INPUT_CLIP_MAP, animMap->ClipBoneMapSrv());
 
 	// in : 키프레임 별 최대치 * (본 개수 * 클립 개수)
-	computeShaderAnim->SetSRV("InputKeyframeCount", animMap->FrameCountsSrv());
+	computeShaderAnim->SetSRV(INPUT_KEYFRAME_COUNTS, animMap->FrameCountsSrv());
 
 	ID3D11Texture2D* texture;
 	D3D11_TEXTURE2D_DESC desc;
@@ -89,7 +89,7 @@ void ModelComputeAnimInst::CreateComputeAnim()
 
 	// out : 로컬 본*인스턴스 texture
 	computeOutputAnimBuffer = new TextureBuffer(texture);
-	computeShaderAnim->SetUAV("Output", computeOutputAnimBuffer->UAV());
+	computeShaderAnim->SetUAV(OUTPUT, computeOutputAnimBuffer->UAV());
 	SafeRelease(texture);  // 텍스쳐 복사되서 유지할 필요 없음
 }
 
@@ -98,13 +98,13 @@ void ModelComputeAnimInst::CreateComputeBone(Matrix* world)
 	computeShaderBone = new ShaderSetter(L"02_GetBonesInstance.fxo");
 
 	// In : 모델World
-	computeShaderBone->SetMatrixPointer(CB_World, world);
+	computeShaderBone->SetMatrixPointer(CB_WORLD, world);
 
 	// In : (애니메이션out) 로컬 본*인스턴스 texture
-	computeShaderBone->SetSRV("InputLocalBones", GetOutputAnimSrv());
+	computeShaderBone->SetSRV(INPUT_LOCAL_BONES, GetOutputAnimSrv());
 
 	// In : inv 본, 본 부모 인덱스들
-	computeShaderBone->SetSRV("InputboneDesc", modelBonesMap->SRV());
+	computeShaderBone->SetSRV(INPUT_BONE_DESC, modelBonesMap->SRV());
 
 
 	ID3D11Texture2D* texture;
@@ -120,5 +120,5 @@ void ModelComputeAnimInst::CreateComputeBone(Matrix* world)
 
 	// Out : Skinned적용시킬 본*인스턴트 texture
 	computeOutputSrvBuffer = new TextureBuffer(texture);
-	computeShaderBone->SetUAV("OutputSkinned", computeOutputSrvBuffer->UAV());
+	computeShaderBone->SetUAV(OUTPUT_SKINNED, computeOutputSrvBuffer->UAV());
 }

@@ -19,7 +19,7 @@ public:
 	bool IsActiveSelf() const { return collider->IsActiveSelf(); }
 	void SetActiveSelf(bool value) { collider->SetActiveSelf(value); }
 
-	UINT GetMask() const { return collider->GetMask(); }
+	UINT GetLayer() const { return collider->GetLayer(); }
 	void SetLayer(UINT value) { collider->SetLayer(value); }
 
 	// send massage
@@ -28,7 +28,14 @@ public:
 	void SetSendMessageData(void* value) { message->Message = value; }
 	void OnSendMessage();
 
+	// Renewal cycle
+public:
+	void SetCycle(float value) { cycleTime = value; runningTime = 0.0f; }
+	void UpdateCycle(float delta);
+
 private:
 	ColliderBox* collider;
 	TriggerBoxMessageDesc* message;
+	float cycleTime = 0.0f;
+	float runningTime = 0.0f;
 };

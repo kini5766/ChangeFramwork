@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "EditorDemo.h"
 
-#include "SceneEditor.h"
+#include "../Main/SceneEditor.h"
 
 void EditorDemo::Initialize()
 {
