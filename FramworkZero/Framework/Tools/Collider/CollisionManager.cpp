@@ -101,8 +101,15 @@ void CollisionManager::CheckCollision()
 				&temp
 			))
 			{
-				ray->Output->IsCollision = true;
-				ray->Output->OutMinDistance = temp;
+				if (ray->Output->IsCollision)
+				{
+					ray->Output->OutMinDistance = min(ray->Output->OutMinDistance, temp);
+				}
+				else
+				{
+					ray->Output->IsCollision = true;
+					ray->Output->OutMinDistance = temp;
+				}
 			}
 		}
 
