@@ -14,11 +14,16 @@ CharacterController::CharacterController(Transform * transform, Animator * anima
 	collider->GetTransform()->Position(0.0f, 100.0f, 0.0f);
 	collider->GetTransform()->Rotation(0.0f, 0.0f, 0.0f);
 	collider->GetTransform()->Scale(75.0f, 200.0f, 75.0f);
-	collider->SetLayer(collider->GetMask() | COLLIDER_LAYER_HITBOX);
+	collider->SetLayer(COLLIDER_LAYER_HITBOX);
+
+	receiver = new ReceiveBox(collider);
+	receiver->AddReceiveTag(L"1 hit");
+	receiver->AddReceiveTag(L"update hit");
 }
 
 CharacterController::~CharacterController()
 {
+	SafeDelete(receiver);
 	SafeDelete(userInput);
 }
 
@@ -61,14 +66,15 @@ void CharacterController::Update()
 	}
 
 	Debug::Box->RenderBox(collider->GetTransform(), Color(0.0f, 1.0f, 0.0f, 1.0f));
-	vector<SendBoxMessage*>& ms = collider->GetMessages();
-	for (SendBoxMessage* m : ms)
+
+	receiver->Update();
+	for (BoxReceveDesc& m : receiver->GetReceived())
 	{
-		if (m->Tag == L"1 hit")
+		if (m.Tag == L"1 hit")
 		{
 			Debug::Log->Print("1 hit!");
 		}
-		else if (m->Tag == L"update hit")
+		else if (m.Tag == L"update hit")
 		{
 			Debug::Log->Show("--<update hit!>--");
 		}

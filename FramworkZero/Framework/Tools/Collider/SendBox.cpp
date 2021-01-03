@@ -1,56 +1,24 @@
 #include "Framework.h"
 #include "SendBox.h"
 
-SendBox::SendBox(UINT instanceId)
-	: instanceId(instanceId)
+SendBox::SendBox(ColliderBox * collider)
+	: collider(collider)
 {
-	collider = new Collider();
-	message = new SendBoxMessage();
-	message->Id = instanceId;
-	message->SendTime = 0.0f;
+	message = new TriggerBoxMessageDesc();
+	collider->Tag(COLLIDER_TAG_SENDBOX);
+	
+	collider->SetLayer(COLLIDER_LAYER_HITBOX);
+	collider->SetSendMessageData(message);
+	collider->SetReceiver(false);
 }
 
 SendBox::~SendBox()
 {
+	SafeRelease(collider);
 	SafeDelete(message);
-	SafeDelete(collider);
 }
 
-void SendBox::Release()
-{
-	CollisionManager::Get()->ReleaseSendBox(this);
-}
-
-UINT SendBox::Junk()
-{
-	bActive = false;
-	layer = COLLIDER_LAYER_NONE;
-	Transform* t = collider->GetTransform();
-	t->UnLink();
-
-	Matrix m;
-	ZeroMemory(m, sizeof(Matrix));
-	t->LossyWorld(m);
-
-	message->Message = nullptr;
-	message->SendTime = 0.0f;
-
-	return instanceId;
-}
-
-void SendBox::Recycle()
-{
-	Matrix m;
-	D3DXMatrixIdentity(&m);
-	collider->GetTransform()->LossyWorld(m);
-
-	layer = COLLIDER_LAYER_DEFAULT;
-	bActive = true;
-}
-
-SendBoxMessage * SendBox::GetSendMessage() const
+void SendBox::OnSendMessage()
 { 
-	if (message->Message != nullptr)
-		return message;
-	else return nullptr;
+	message->SendTime = Time::Get()->Running();
 }

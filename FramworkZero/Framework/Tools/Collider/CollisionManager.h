@@ -20,22 +20,15 @@ private:
 	void UpdateInput();
 	void CheckCollision();
 
-	// ReceiveBox
+	// ColliderBox
 public:
-	ReceiveBox* CreateCollider();
-	void ReleaseCollider(ReceiveBox* value);
-	void GetColliders(vector<ReceiveBox*>* out) { (*out) = colliders; }
+	ColliderBox* CreateCollider();
+	void ReleaseCollider(ColliderBox* value);
+	void GetColliders(vector<ColliderBox*>* out) { (*out) = colliders; }
 private:
-	vector<ReceiveBox*> colliders;
+	vector<ColliderBox*> colliders;
 	vector<UINT> junkColliders;
-
-	// SendBox
-public:
-	SendBox* CreateSendBox();
-	void ReleaseSendBox(SendBox* value);
-private:
-	vector<SendBox*> sendBoxes;
-	vector<UINT> junkSendBoxes;
+	int idNext = 0;
 
 	// Raycast
 public:

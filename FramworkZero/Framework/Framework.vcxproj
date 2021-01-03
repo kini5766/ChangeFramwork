@@ -53,6 +53,7 @@
     <ClCompile Include="Rendering\CBufferVariables\ShaderSetter.cpp" />
     <ClCompile Include="Systems\D3D.cpp" />
     <ClCompile Include="Systems\Gui.cpp" />
+    <ClCompile Include="Tools\Collider\ReceiveBox.cpp" />
     <ClCompile Include="Tools\Collider\SendBox.cpp" />
     <ClCompile Include="Tools\Animation\Animator.cpp" />
     <ClCompile Include="Tools\Animation\ClipTimer.cpp" />
@@ -60,7 +61,7 @@
     <ClCompile Include="Tools\Collider\Collider.cpp" />
     <ClCompile Include="Tools\Collider\CollisionManager.cpp" />
     <ClCompile Include="Tools\Collider\Ray.cpp" />
-    <ClCompile Include="Tools\Collider\ReceiveBox.cpp" />
+    <ClCompile Include="Tools\Collider\ColliderBox.cpp" />
     <ClCompile Include="Tools\Lighting\BurntLight.cpp" />
     <ClCompile Include="Tools\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="Tools\Lighting\Lighting.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="Systems\Gui.h" />
     <ClInclude Include="Systems\IExecute.h" />
     <ClInclude Include="Settings\Layer.h" />
+    <ClInclude Include="Tools\Collider\ReceiveBox.h" />
     <ClInclude Include="Tools\Collider\SendBox.h" />
     <ClInclude Include="Tools\Animation\Animator.h" />
     <ClInclude Include="Tools\Animation\ClipTimer.h" />
@@ -140,7 +142,7 @@
     <ClInclude Include="Tools\Collider\Collider.h" />
     <ClInclude Include="Tools\Collider\CollisionManager.h" />
     <ClInclude Include="Tools\Collider\Ray.h" />
-    <ClInclude Include="Tools\Collider\ReceiveBox.h" />
+    <ClInclude Include="Tools\Collider\ColliderBox.h" />
     <ClInclude Include="Tools\Lighting\BurntLight.h" />
     <ClInclude Include="Tools\Lighting\DirectionalLight.h" />
     <ClInclude Include="Tools\Lighting\Lighting.h" />

@@ -32,8 +32,6 @@ CollisionManager::~CollisionManager()
 {
 	for (auto d : rays)
 		SafeDelete(d);
-	for (auto d : sendBoxes)
-		SafeDelete(d);
 	for (auto d : colliders)
 		SafeDelete(d);
 }
@@ -46,6 +44,7 @@ void CollisionManager::Update()
 
 void CollisionManager::UpdateInput()
 {
+	// look
 	list<RaycastPair*>::iterator iter = rays.begin();
 	while (iter != rays.end())
 	{
@@ -69,30 +68,23 @@ void CollisionManager::UpdateInput()
 		++iter;
 	}
 
-	for (ReceiveBox* collider : colliders)
+	for (ColliderBox* collider : colliders)
 	{
 		UINT layerMask = collider->GetMask();
 		if (layerMask == COLLIDER_LAYER_NONE)
 			continue;
 
 		collider->UpdateBounding();
+		collider->ClearReceived();
 	}
-
-	for (SendBox* send : sendBoxes)
-	{
-		UINT layerMask = send->GetMask();
-		if (layerMask == COLLIDER_LAYER_NONE)
-			continue;
-
-		send->UpdateBounding();
-	}
+	// unlook
 }
 
 void CollisionManager::CheckCollision()
 {
-	for (ReceiveBox* collider : colliders)
+	for (ColliderBox* collider : colliders)
 	{
-		collider->ClearMassage();
+		collider->ClearReceived();
 		UINT layerMask = collider->GetMask();
 		if (layerMask == COLLIDER_LAYER_NONE)
 			continue;
@@ -114,12 +106,20 @@ void CollisionManager::CheckCollision()
 			}
 		}
 
-		for (SendBox* send : sendBoxes)
+		if (collider->IsReceiver() == false)
+			continue;
+		
+		for (ColliderBox* send : colliders)
 		{
 			if ((layerMask & send->GetMask()) == 0)
 				continue;
-			if (collider->GetCollider()->Intersection(send->GetCollider()))
-				collider->Send(send->GetSendMessage());
+
+			if (collider->GetCollider()->Intersection(send->GetCollider()) == false)
+				continue;
+
+			// look
+			send->SendMassageColliderBox(collider);
+			// unlook
 		}
 	}
 }
@@ -127,14 +127,14 @@ void CollisionManager::CheckCollision()
 
 #pragma region Instance
 
-ReceiveBox * CollisionManager::CreateCollider()
+ColliderBox * CollisionManager::CreateCollider()
 {
-	ReceiveBox* instance = nullptr;
+	ColliderBox* instance = nullptr;
 
 	if (junkColliders.size() == 0)
 	{
 		UINT index = colliders.size();
-		instance = new ReceiveBox(index);
+		instance = new ColliderBox(index);
 		colliders.push_back(instance);
 	}
 	else
@@ -143,40 +143,14 @@ ReceiveBox * CollisionManager::CreateCollider()
 		instance = colliders[junkColliders.back()];
 		junkColliders.pop_back();
 	}
-	instance->Recycle();
+	instance->Recycle(idNext++);
 
 	return instance;
 }
 
-void CollisionManager::ReleaseCollider(ReceiveBox * value)
+void CollisionManager::ReleaseCollider(ColliderBox * value)
 {
 	junkColliders.push_back(value->Junk());
-}
-
-SendBox * CollisionManager::CreateSendBox()
-{
-	SendBox* instance = nullptr;
-
-	if (junkSendBoxes.size() == 0)
-	{
-		UINT index = sendBoxes.size();
-		instance = new SendBox(index);
-		sendBoxes.push_back(instance);
-	}
-	else
-	{
-		UINT index = junkSendBoxes.back();
-		instance = sendBoxes[index];
-		junkSendBoxes.pop_back();
-	}
-	instance->Recycle();
-
-	return instance;
-}
-
-void CollisionManager::ReleaseSendBox(SendBox * value)
-{
-	junkSendBoxes.push_back(value->Junk());
 }
 
 Raycast * CollisionManager::CreateRaycast(const Ray & ray, UINT layer)

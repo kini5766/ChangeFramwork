@@ -1,50 +1,42 @@
 #pragma once
 
+struct BoxReceveDesc
+{
+	const wstring& Tag;
+	const void* Data;
+};
 
 class ReceiveBox
 {
 public:
-	ReceiveBox(UINT instanceId);
+	ReceiveBox(ColliderBox* collider);
 	~ReceiveBox();
 
-	// Getter, Setter
 public:
-	bool IsActiveSelf() const { return bActive; }
-	void SetActiveSelf(bool value) { bActive = value; }
+	void Update();
 
-	void SetLayer(UINT value) { layer = value; }
-	UINT GetMask() const { return (bActive) ? layer : COLLIDER_LAYER_NONE; }
-
-	const Collider* GetCollider() const { return collider; }
-	Transform* GetTransform() { return collider->GetTransform(); }
-	void UpdateBounding() { collider->UpdateBounding(); }
-
-
-	// instance
 public:
-	void Release();
-	UINT Junk();
-	void Recycle();
-
-	// Receive
-public:
-	void ClearMassage();
-	vector<SendBoxMessage*>& GetMessages() { return sends; }
-	void Send(SendBoxMessage* message);
+	void ReleaseColliderBox() { SafeRelease(collider); }
+	ColliderBox* GetCollider() { return collider; }
+	vector<BoxReceveDesc>& GetReceived() { return received; }
+	
+	void AddReceiveTag(wstring value) { receiveTags.push_back(value); }
+	void ResetChecker() { receiveDescs.clear(); }
 
 private:
-	bool bActive = false;
-	UINT layer = 0;
-	UINT instanceId;
-	Collider* collider;
+	bool CheckTag(const BoxMessageDesc* value);
+	void ReceiveBoxMessage(const BoxMessageDesc* value);
 
 private:
-	struct ReceiveBoxMessage
+	ColliderBox* collider;
+	vector<BoxReceveDesc> received;
+	vector<wstring> receiveTags;
+
+private:
+	struct ReceiveMessageDesc
 	{
-		int SendId;
-		float SendActiveTime;
+		int Id;
+		float Time;
 	};
-	UINT findIndex = 0;
-	list<ReceiveBoxMessage> receives;
-	vector<SendBoxMessage*> sends;
+	list<ReceiveMessageDesc> receiveDescs;
 };

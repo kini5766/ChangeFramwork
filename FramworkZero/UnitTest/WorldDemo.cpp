@@ -37,6 +37,9 @@ void WorldDemo::Destroy()
 	SafeDelete(player);
 	SafeDelete(character);
 
+	SafeDelete(sendbox1);
+	SafeDelete(sendbox2);
+
 	SafeDelete(kachujin);
 	SafeRelease(shader);
 }
@@ -171,14 +174,14 @@ void WorldDemo::SpotLights()
 
 void WorldDemo::Colliders()
 {
-	sendbox1 = CollisionManager::Get()->CreateSendBox();
+	sendbox1 = new SendBox(CollisionManager::Get()->CreateCollider());
 	sendbox1->GetTransform()->Position(10.0f, 2.0f, 10.0f);
 	sendbox1->GetTransform()->Scale(2.0f, 2.0f, 2.0f);
 	sendbox1->SetSendMessageData(&message);
 	sendbox1->SetLayer(COLLIDER_LAYER_HITBOX);
 	sendbox1->SetTag(L"1 hit");
 
-	sendbox2 = CollisionManager::Get()->CreateSendBox();
+	sendbox2 = new SendBox(CollisionManager::Get()->CreateCollider());
 	sendbox2->GetTransform()->Position(-10.0f, 1.0f, -10.0f);
 	sendbox2->GetTransform()->Scale(2.0f, 2.0f, 2.0f);
 	sendbox2->SetSendMessageData(&message);

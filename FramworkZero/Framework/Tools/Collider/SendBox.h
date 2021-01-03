@@ -1,49 +1,34 @@
 #pragma once
 
-struct SendBoxMessage
+struct TriggerBoxMessageDesc
 {
-	int Id;  // 보내는 이
-	wstring Tag;  // 받는 이
-	float SendTime;  // 보낸 시각
+	float SendTime;
 	void* Message;
 };
 
 class SendBox
 {
 public:
-	SendBox(UINT instanceId);
+	SendBox(ColliderBox* collider);
 	~SendBox();
 
 	// Getter, Setter
 public:
-	bool IsActiveSelf() const { return bActive; }
-	void SetActiveSelf(bool value) { bActive = value; }
-
-	void SetLayer(UINT value) { layer = value; }
-	UINT GetMask() const { return (bActive) ? layer : COLLIDER_LAYER_NONE; }
-
-	const Collider* GetCollider() const { return collider; }
 	Transform* GetTransform() { return collider->GetTransform(); }
-	void UpdateBounding() { collider->UpdateBounding(); }
 
-	// instance
-public:
-	void Release();
-	UINT Junk();
-	void Recycle();
+	bool IsActiveSelf() const { return collider->IsActiveSelf(); }
+	void SetActiveSelf(bool value) { collider->SetActiveSelf(value); }
+
+	UINT GetMask() const { return collider->GetMask(); }
+	void SetLayer(UINT value) { collider->SetLayer(value); }
 
 	// send massage
 public:
-	SendBoxMessage* GetSendMessage() const;
-	void SetTag(wstring value) { message->Tag = value; }
+	void SetTag(wstring value) { collider->Tag(value); }
 	void SetSendMessageData(void* value) { message->Message = value; }
-	void OnSendMessage() { message->SendTime = Time::Get()->Running(); }
+	void OnSendMessage();
 
 private:
-	Collider* collider;
-	UINT instanceId;
-	bool bActive = true;
-	UINT layer = COLLIDER_LAYER_DEFAULT;
-
-	SendBoxMessage* message;
+	ColliderBox* collider;
+	TriggerBoxMessageDesc* message;
 };

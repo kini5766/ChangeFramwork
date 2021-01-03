@@ -121,9 +121,10 @@ typedef D3DXPLANE Plane;
 
 #include "Tools/Collider/Ray.h"
 #include "Tools/Collider/Collider.h"
+#include "Tools/Collider/ColliderBox.h"
+#include "Tools/Collider/CollisionManager.h"
 #include "Tools/Collider/SendBox.h"
 #include "Tools/Collider/ReceiveBox.h"
-#include "Tools/Collider/CollisionManager.h"
 
 
 //Rendering

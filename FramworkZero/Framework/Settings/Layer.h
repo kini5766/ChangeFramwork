@@ -5,3 +5,6 @@ constexpr unsigned int COLLIDER_LAYER_ALL = 0xFFFFFFFFu;
 constexpr unsigned int COLLIDER_LAYER_DEFAULT = 0xFFFFFF0Fu;
 constexpr unsigned int COLLIDER_LAYER_CAMERA = 0x00000002u;  // 1 << 1
 constexpr unsigned int COLLIDER_LAYER_HITBOX = 0x00000020u;  // 1 << 5
+
+
+constexpr auto COLLIDER_TAG_SENDBOX = L"SendBox";

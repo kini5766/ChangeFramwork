@@ -1,75 +1,58 @@
 #include "Framework.h"
 #include "ReceiveBox.h"
 
-ReceiveBox::ReceiveBox(UINT instanceId)
-	: instanceId(instanceId)
+ReceiveBox::ReceiveBox(ColliderBox * collider)
+	: collider(collider)
 {
-	collider = new Collider();
+	collider->SetLayer(collider->GetMask() | COLLIDER_LAYER_HITBOX);
+	collider->SetReceiver(true);
 }
 
 ReceiveBox::~ReceiveBox()
 {
-	SafeDelete(collider);
 }
 
-void ReceiveBox::ClearMassage()
+void ReceiveBox::Update()
 {
-	findIndex = 0;
-	sends.clear();
-}
+	received.clear();
 
-void ReceiveBox::Send(SendBoxMessage * message)
-{
-	if (message == nullptr) return;
+	UINT size;
+	const BoxMessageDesc*const* ms = collider->GetReceived(&size);
 
-	bool bfound = false;
-	for (ReceiveBoxMessage& m : receives)
+	for (UINT i = 0; i < size; i++)
 	{
-		if (m.SendId == message->Id)
-		{
-			if (m.SendActiveTime != message->SendTime)
-			{
-				sends.push_back(message);
-				m.SendActiveTime = message->SendTime;
-			}
-			bfound = true;
-			break;
-		}
-	}
-	if (bfound == false)
-	{
-		sends.insert(sends.begin(), message);
-		receives.push_back({ message->Id, message->SendTime });
+		if (CheckTag(ms[i]) == false)
+			continue;
+		ReceiveBoxMessage(ms[i]);
 	}
 }
 
-void ReceiveBox::Release()
+bool ReceiveBox::CheckTag(const BoxMessageDesc * value)
 {
-	CollisionManager::Get()->ReleaseCollider(this);
+	for (wstring& tag : receiveTags)
+	{
+		if (tag == value->Tag)
+			return true;
+	}
+	return false;
 }
 
-UINT ReceiveBox::Junk()
+void ReceiveBox::ReceiveBoxMessage(const BoxMessageDesc * value)
 {
-	bActive = false;
-	layer = COLLIDER_LAYER_NONE;
-	Transform* t = collider->GetTransform();
-	t->UnLink();
+	auto m = (TriggerBoxMessageDesc*)value->Message;
+	for (ReceiveMessageDesc& r : receiveDescs)
+	{
+		if (r.Id != value->Id) 
+			continue;
 
-	Matrix m;
-	ZeroMemory(m, sizeof(Matrix));
-	t->LossyWorld(m);
+		if (r.Time == m->SendTime)
+			return;
 
-	ClearMassage();
+		received.push_back({ value->Tag, m->Message });
+		r.Time = m->SendTime;
+		return;
+	}
 
-	return instanceId;
-}
-
-void ReceiveBox::Recycle()
-{
-	Matrix m;
-	D3DXMatrixIdentity(&m);
-	collider->GetTransform()->LossyWorld(m);
-
-	layer = COLLIDER_LAYER_DEFAULT;
-	bActive = true;
+	received.push_back({ value->Tag, m->Message });
+	receiveDescs.insert(receiveDescs.begin(), { value->Id, m->SendTime });
 }

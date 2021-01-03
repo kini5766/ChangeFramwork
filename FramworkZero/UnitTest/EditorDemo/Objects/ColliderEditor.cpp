@@ -11,7 +11,7 @@ ColliderEditor::~ColliderEditor()
 {
 }
 
-void ColliderEditor::RenderImGui(ReceiveBox * c)
+void ColliderEditor::RenderImGui(ColliderBox * c)
 {
 	if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -62,7 +62,7 @@ void ColliderEditor::RenderImGui(ReceiveBox * c)
 	}
 }
 
-void ColliderEditor::Save(ReceiveBox * c, BinaryWriter * w)
+void ColliderEditor::Save(ColliderBox * c, BinaryWriter * w)
 {
 	Vector3 pos;
 	Quaternion rota;
@@ -80,7 +80,7 @@ void ColliderEditor::Save(ReceiveBox * c, BinaryWriter * w)
 	w->UInt(c->GetMask());
 }
 
-void ColliderEditor::Load(ReceiveBox * c, BinaryReader * r)
+void ColliderEditor::Load(ColliderBox * c, BinaryReader * r)
 {
 	Transform* t = c->GetTransform();
 	t->Position(r->Vector3());
