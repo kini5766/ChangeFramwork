@@ -18,6 +18,7 @@ private:
 public:
 	Camera* MainCamera() { return camera; }
 	void MainCamera(Camera* value);
+	class CanvasCamera* Canvas();
 
 public:
 	D3DXMATRIX View();
@@ -34,4 +35,5 @@ public:
 
 private:
 	Camera* camera;
+	class CanvasCamera* canvas;
 };

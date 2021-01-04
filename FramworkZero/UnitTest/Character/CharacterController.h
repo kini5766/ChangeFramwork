@@ -21,7 +21,4 @@ private:
 	class UserKeyState * userInput;
 	float speed = 15.0f;
 	UINT currState = 0;
-
-	ColliderBox* collider;
-	ReceiveBox* receiver;
 };

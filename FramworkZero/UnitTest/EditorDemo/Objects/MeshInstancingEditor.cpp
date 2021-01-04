@@ -181,7 +181,11 @@ void MeshInstancingEditor::ImGuiRender()
 		// 매쉬 인스턴스 선택
 		for (UINT i = 0; i < meshes.size(); i++)
 		{
-			if (ImGui::Button(("Instance " + to_string(i)).c_str()))
+			string imguiName = "Instance " + to_string(i);
+			if (selected == i)
+				imguiName = ">" + imguiName + "<";
+
+			if (ImGui::Button((imguiName).c_str()))
 			{
 				Select(i);
 			}

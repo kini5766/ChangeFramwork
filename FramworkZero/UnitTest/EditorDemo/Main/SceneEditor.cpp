@@ -38,6 +38,7 @@ void SceneEditor::Update()
 void SceneEditor::Render()
 {
 	ImGui::Begin("Editor");
+	//ImGui::DockSpace(ImGui::GetID("Editor"));
 	RenderTopMenu();
 	ImGui::Separator();
 	RenderObjectButton();
@@ -83,7 +84,11 @@ void SceneEditor::RenderObjectButton()
 		for (UINT i = 0; i < size; i++)
 		{
 			ImGui::PushID(i);
-			if (ImGui::Button(value->Obj(i)->Name(), btnSize))
+			string imguiName = value->Obj(i)->Name();
+			if (selectedNum == i)
+				imguiName = ">" + imguiName + "<";
+
+			if (ImGui::Button(imguiName.c_str(), btnSize))
 				Select(i);
 			ImGui::PopID();
 		}

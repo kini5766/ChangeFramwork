@@ -40,6 +40,15 @@
     <ClCompile Include="EditorDemo\Objects\Component\MaterialEditor.cpp">
       <Filter>EditorDemo\Objects\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Component\HPSystem.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\WorldPlayer.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\WorldLightGroup.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
@@ -81,6 +90,15 @@
     <ClInclude Include="EditorDemo\Objects\Component\MaterialEditor.h">
       <Filter>EditorDemo\Objects\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Component\HPSystem.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\WorldPlayer.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\WorldLightGroup.h">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">
@@ -100,6 +118,9 @@
     </Filter>
     <Filter Include="EditorDemo\Scene">
       <UniqueIdentifier>{d49bacb5-a9b9-4239-b003-2b5790d664fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{81f742fd-c104-46df-adbd-29e74570a516}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

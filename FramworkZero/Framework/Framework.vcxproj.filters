@@ -259,6 +259,12 @@
     <ClCompile Include="Tools\Collider\ReceiveBox.cpp">
       <Filter>Tools\Collider</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Render2D.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\CanvasCamera.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -504,6 +510,12 @@
     </ClInclude>
     <ClInclude Include="Tools\Collider\ReceiveBox.h">
       <Filter>Tools\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Render2D.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\CanvasCamera.h">
+      <Filter>Tools\Viewer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

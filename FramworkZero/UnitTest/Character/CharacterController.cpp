@@ -7,24 +7,10 @@ CharacterController::CharacterController(Transform * transform, Animator * anima
 	: transform(transform), animator(animator)
 {
 	userInput = new UserKeyState();
-	collider = CollisionManager::Get()->CreateCollider();
-	collider->GetTransform()->SetParent(transform);
-	Matrix w;
-	D3DXMatrixIdentity(&w);
-	collider->GetTransform()->Position(0.0f, 100.0f, 0.0f);
-	collider->GetTransform()->Rotation(0.0f, 0.0f, 0.0f);
-	collider->GetTransform()->Scale(75.0f, 200.0f, 75.0f);
-	collider->SetLayer(COLLIDER_LAYER_HITBOX);
-
-	receiver = new ReceiveBox(collider);
-	receiver->AddReceiveTag(L"1 hit");
-	receiver->AddReceiveTag(L"update hit");
-	receiver->AddReceiveTag(L"1 second hit");
 }
 
 CharacterController::~CharacterController()
 {
-	SafeDelete(receiver);
 	SafeDelete(userInput);
 }
 
@@ -106,24 +92,6 @@ void CharacterController::Update()
 		currState = next;
 	}
 
-	Debug::Box->RenderBox(collider->GetTransform(), Color(0.0f, 1.0f, 0.0f, 1.0f));
-
-	receiver->Update();
-	for (BoxReceveDesc& m : receiver->GetReceived())
-	{
-		if (m.Tag == L"1 hit")
-		{
-			Debug::Log->Print("1 hit!");
-		}
-		else if (m.Tag == L"1 second hit")
-		{
-			Debug::Log->Print("1 second hit!");
-		}
-		else if (m.Tag == L"update hit")
-		{
-			Debug::Log->Show("--<update hit!>--");
-		}
-	}
 }
 
 void CharacterController::Focus(Vector3 * outPosition)

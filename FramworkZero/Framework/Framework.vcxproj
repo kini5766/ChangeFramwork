@@ -40,6 +40,7 @@
     <ClCompile Include="Objects\Model\ModelComputeAnimInst.cpp" />
     <ClCompile Include="Objects\Model\ModelData.cpp" />
     <ClCompile Include="Objects\Model\ModelSkinnedInstancing.cpp" />
+    <ClCompile Include="Objects\Render2D.cpp" />
     <ClCompile Include="Rendering\Buffers\ConstantBuffer.cpp" />
     <ClCompile Include="Rendering\Buffers\CsResource.cpp" />
     <ClCompile Include="Rendering\Buffers\IndexBuffer.cpp" />
@@ -80,6 +81,7 @@
     <ClCompile Include="Tools\Texture2D.cpp" />
     <ClCompile Include="Tools\Transform.cpp" />
     <ClCompile Include="Tools\Viewer\Camera.cpp" />
+    <ClCompile Include="Tools\Viewer\CanvasCamera.cpp" />
     <ClCompile Include="Tools\Viewer\Freedom.cpp" />
     <ClCompile Include="Tools\Viewer\OrbitCamera.cpp" />
     <ClCompile Include="Tools\Viewer\Orthographic.cpp" />
@@ -115,6 +117,7 @@
     <ClInclude Include="Objects\Model\ModelData.h" />
     <ClInclude Include="Objects\Model\ModelDesc.h" />
     <ClInclude Include="Objects\Model\ModelSkinnedInstancing.h" />
+    <ClInclude Include="Objects\Render2D.h" />
     <ClInclude Include="Rendering\Buffers\Buffers.h" />
     <ClInclude Include="Rendering\Buffers\ConstantBuffer.h" />
     <ClInclude Include="Rendering\Buffers\CsResource.h" />
@@ -162,6 +165,7 @@
     <ClInclude Include="Tools\Texture2D.h" />
     <ClInclude Include="Tools\Transform.h" />
     <ClInclude Include="Tools\Viewer\Camera.h" />
+    <ClInclude Include="Tools\Viewer\CanvasCamera.h" />
     <ClInclude Include="Tools\Viewer\Freedom.h" />
     <ClInclude Include="Tools\Viewer\IFocus.h" />
     <ClInclude Include="Tools\Viewer\OrbitCamera.h" />

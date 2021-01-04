@@ -134,6 +134,9 @@
     <ClCompile Include="Character\CharacterController.cpp" />
     <ClCompile Include="Character\Kachujin.cpp" />
     <ClCompile Include="Character\UserKeyState.cpp" />
+    <ClCompile Include="Character\WorldPlayer.cpp" />
+    <ClCompile Include="Component\HPSystem.cpp" />
+    <ClCompile Include="Component\WorldLightGroup.cpp" />
     <ClCompile Include="EditorDemo\Objects\Component\MaterialEditor.cpp" />
     <ClCompile Include="EditorDemo\Scene\EditorDemo.cpp" />
     <ClCompile Include="EditorDemo\Main\IObjectEditor.cpp" />
@@ -153,6 +156,9 @@
     <ClInclude Include="Character\CharacterController.h" />
     <ClInclude Include="Character\Kachujin.h" />
     <ClInclude Include="Character\UserKeyState.h" />
+    <ClInclude Include="Character\WorldPlayer.h" />
+    <ClInclude Include="Component\HPSystem.h" />
+    <ClInclude Include="Component\WorldLightGroup.h" />
     <ClInclude Include="EditorDemo\Objects\Component\MaterialEditor.h" />
     <ClInclude Include="EditorDemo\Scene\EditorDemo.h" />
     <ClInclude Include="EditorDemo\Main\IObjectEditor.h" />

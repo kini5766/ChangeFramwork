@@ -163,6 +163,8 @@ typedef D3DXPLANE Plane;
 #include "Objects/Model/ModelAnimationDesc.h"
 #include "Objects/Model/ModelSkinnedInstancing.h"
 
+#include "Objects/Render2D.h"
+
 
 // Debugger
 // 디버그용 클래스들

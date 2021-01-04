@@ -1,6 +1,8 @@
 #include "Framework.h"
 #include "Context.h"
 
+#include "Tools/Viewer/CanvasCamera.h"
+
 Context* Context::instance = nullptr;
 
 Context * Context::Get()
@@ -23,10 +25,12 @@ void Context::Delete()
 Context::Context()
 {
 	camera = new Freedom();
+	canvas = new CanvasCamera();
 }
 
 Context::~Context()
 {
+	SafeDelete(canvas);
 	SafeDelete(camera);
 }
 
@@ -34,6 +38,11 @@ void Context::MainCamera(Camera * value)
 {
 	SafeDelete(camera);
 	camera = value;
+}
+
+CanvasCamera * Context::Canvas()
+{
+	return canvas;
 }
 
 D3DXMATRIX Context::View()
@@ -55,6 +64,7 @@ D3DXMATRIX Context::Projection()
 void Context::ResizeScreen()
 {
 	camera->ResizeScreen(Screen::Width(), Screen::Height());
+	canvas->ResizeScreen(Screen::Width(), Screen::Height());
 }
 
 void Context::Update()
