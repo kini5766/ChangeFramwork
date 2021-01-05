@@ -147,6 +147,8 @@
     <ClCompile Include="EditorDemo\Objects\Component\TransformEditor.cpp" />
     <ClCompile Include="EditorDemo\Main\SceneEditor.cpp" />
     <ClCompile Include="EditorDemo\Main\SceneValue.cpp" />
+    <ClCompile Include="Enemy\EnemyAttackSystem.cpp" />
+    <ClCompile Include="Enemy\EnemyInstancing.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -170,6 +172,8 @@
     <ClInclude Include="EditorDemo\Objects\Component\TransformEditor.h" />
     <ClInclude Include="EditorDemo\Main\SceneEditor.h" />
     <ClInclude Include="EditorDemo\Main\SceneValue.h" />
+    <ClInclude Include="Enemy\EnemyAttackSystem.h" />
+    <ClInclude Include="Enemy\EnemyInstancing.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="WorldDemo.h" />

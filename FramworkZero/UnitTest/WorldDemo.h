@@ -28,7 +28,6 @@ public:
 
 private:
 	void LoadScene();
-	void Colliders();
 
 private:
 	Shader* shader;
@@ -44,9 +43,5 @@ private:
 	class WorldPlayer* player;
 	class SceneValue* scene;
 	class WorldLightGroup* lights;
-	SendBox* sendbox1;
-	SendBox* sendbox2;
-	SendBox* sendbox3;
-	int message;
-
+	class EnemyInstancing* enemy;
 };

@@ -24,10 +24,6 @@ WorldPlayer::WorldPlayer(Shader * shader)
 	instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
 	instance->GetTransform()->RotationDegree(0.0f, -90.0f, 0.0f);
 
-	kachujin->UpdateTransforms();
-	kachujin->UpdateColors();
-	kachujin->Pass(1);
-
 	character = new KachujinInstance(instance);
 	player = new CharacterController
 	(
@@ -38,11 +34,16 @@ WorldPlayer::WorldPlayer(Shader * shader)
 	playerHp = new HPSystem();
 	playerHp->GetHpbar()->SetParent(instance->GetTransform());
 	playerHp->GetHpbar()->Position(0, 200.0f, 0);
+	playerHp->AddTag(L"Enemy");
 
 	playerHp->GetHurtbox()->GetTransform()->SetParent(instance->GetTransform());
 	playerHp->GetHurtbox()->GetTransform()->Position(0.0f, 100.0f, 0.0f);
 	playerHp->GetHurtbox()->GetTransform()->Rotation(0.0f, 0.0f, 0.0f);
 	playerHp->GetHurtbox()->GetTransform()->Scale(75.0f, 200.0f, 75.0f);
+
+	kachujin->UpdateTransforms();
+	kachujin->UpdateColors();
+	kachujin->Pass(1);
 }
 
 WorldPlayer::~WorldPlayer()

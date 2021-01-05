@@ -2,6 +2,7 @@
 #include "HPSystem.h"
 
 #include "HPBar.h"
+#include "Enemy/EnemyAttackSystem.h"
 
 HPSystem::HPSystem()
 {
@@ -9,9 +10,6 @@ HPSystem::HPSystem()
 	hurtbox->SetLayer(COLLIDER_LAYER_HITBOX);
 
 	hurtReceiver = new ReceiveBox(hurtbox);
-	hurtReceiver->AddReceiveTag(L"1 hit");
-	hurtReceiver->AddReceiveTag(L"update hit");
-	hurtReceiver->AddReceiveTag(L"1 second hit");
 
 	hpBar = new HPBar();
 }
@@ -31,26 +29,13 @@ void HPSystem::Update()
 	Color c(0.0f, 1.0f, 0.0f, 1.0f);
 	for (BoxReceveDesc& m : hurtReceiver->GetReceived())
 	{
-		if (m.Tag == L"1 hit")
-		{
-			Debug::Log->Print("30 damage");
-			Debug::Log->Print("1 hit!");
-			hp -= 30;
-		}
-		else if (m.Tag == L"1 second hit")
-		{
-			Debug::Log->Print("10 damage");
-			Debug::Log->Print("1 second hit!");
-			hp -= 10;
-		}
-		else if (m.Tag == L"update hit")
-		{
-			Debug::Log->Show("delta 10 damage");
-			Debug::Log->Show("--<update hit!>--");
-			c = Color(1.0f, 0.0f, 0.0f, 1.0f);
-			hp -= 10 * Time::Delta();
-		}
+		AttackDesc* attack = (AttackDesc*)m.Data;
+		hp -= attack->Attack;
+
+		Debug::Log->Print("Attack : " + to_string((int)attack->Attack));
+		Debug::Log->Print("Tag : " + String::ToString(m.Tag));
 	}
+
 	if (hp < 0.0f)
 		hp = 0;
 
@@ -75,4 +60,9 @@ void HPSystem::Render()
 Transform * HPSystem::GetHpbar()
 {
 	return hpBar->GetTransform();
+}
+
+void HPSystem::AddTag(wstring value)
+{
+	hurtReceiver->AddReceiveTag(value);
 }

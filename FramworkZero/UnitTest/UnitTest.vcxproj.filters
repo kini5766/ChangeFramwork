@@ -52,6 +52,12 @@
     <ClCompile Include="Component\HPBar.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy\EnemyInstancing.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyAttackSystem.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
@@ -105,6 +111,12 @@
     <ClInclude Include="Component\HPBar.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy\EnemyInstancing.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyAttackSystem.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">
@@ -127,6 +139,9 @@
     </Filter>
     <Filter Include="Component">
       <UniqueIdentifier>{81f742fd-c104-46df-adbd-29e74570a516}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy">
+      <UniqueIdentifier>{278b0a78-90de-4cbd-a192-52cc4235721a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

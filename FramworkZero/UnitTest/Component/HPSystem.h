@@ -13,6 +13,7 @@ public:
 public:
 	Transform* GetHpbar();
 	ColliderBox* GetHurtbox() { return hurtbox; }
+	void AddTag(wstring value);
 
 private:
 	ColliderBox* hurtbox;
@@ -23,4 +24,6 @@ private:
 	
 	class HPBar* hpBar;
 	function<void(void)> hpZeroTrigger = []() {};
+	
+	wstring tag;
 };
