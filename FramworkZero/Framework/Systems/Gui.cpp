@@ -40,27 +40,27 @@ void Gui::Update()
 
 void Gui::Render()
 {
-	//ImGuiViewport* viewport = ImGui::GetMainViewport();
-	//ImGui::SetNextWindowPos(viewport->Pos);
-	//ImGui::SetNextWindowSize(viewport->Size);
-	//ImGui::SetNextWindowBgAlpha(0.0f);
+	Viewport* vp = Context::Get()->GetViewport();
+	ImGui::SetNextWindowPos(ImVec2(0, 0));
+	ImGui::SetNextWindowSize(ImVec2(vp->GetWidth(), vp->GetHeight()));
+	ImGui::SetNextWindowBgAlpha(0.0f);
 
-	//ImGui::Begin
-	//(
-	//	"TextWindow", NULL,
-	//	ImGuiWindowFlags_NoTitleBar |
-	//	ImGuiWindowFlags_NoResize |
-	//	ImGuiWindowFlags_NoMove |
-	//	ImGuiWindowFlags_NoScrollbar |
-	//	ImGuiWindowFlags_NoScrollWithMouse |
-	//	ImGuiWindowFlags_NoCollapse |
-	//	ImGuiWindowFlags_NoSavedSettings |
-	//	ImGuiWindowFlags_NoInputs |
-	//	ImGuiWindowFlags_NoFocusOnAppearing |
-	//	ImGuiWindowFlags_NoBringToFrontOnFocus |
-	//	ImGuiWindowFlags_NoDocking |
-	//	ImGuiWindowFlags_NoNavFocus
-	//);
+	ImGui::Begin
+	(
+		"TextWindow", NULL,
+		ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_NoResize |
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoScrollbar |
+		ImGuiWindowFlags_NoScrollWithMouse |
+		ImGuiWindowFlags_NoCollapse |
+		ImGuiWindowFlags_NoSavedSettings |
+		ImGuiWindowFlags_NoInputs |
+		ImGuiWindowFlags_NoFocusOnAppearing |
+		ImGuiWindowFlags_NoBringToFrontOnFocus |
+		//ImGuiWindowFlags_NoDocking |
+		ImGuiWindowFlags_NoNavFocus
+	);
 
 	for (GuiText text : texts)
 	{
@@ -70,7 +70,7 @@ void Gui::Render()
 		ImGui::GetWindowDrawList()->AddText(position, color, text.Content.c_str());
 	}
 	texts.clear();
-	//ImGui::End();
+	ImGui::End();
 
 
 	ImGui::Render();

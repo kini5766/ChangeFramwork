@@ -8,14 +8,6 @@ Render2D::Render2D()
 	shader = new ShaderSetter(L"01_Render2D.fxo");
 	transform = new Transform(&world);
 	shader->SetMatrixPointer("World", &world);
-
-	D3DXMatrixLookAtLH
-	(
-		&desc.View,
-		&Vector3(0, 0, 0),
-		&Vector3(0, 0, 1),
-		&Vector3(0, 1, 0)
-	);
 	buffer = new ConstantBuffer(&desc, sizeof(Desc));
 	shader->SetConstantBuffer("CB_Render2D", buffer->Buffer());
 

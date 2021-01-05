@@ -40,6 +40,7 @@
     <ClCompile Include="Objects\Model\ModelComputeAnimInst.cpp" />
     <ClCompile Include="Objects\Model\ModelData.cpp" />
     <ClCompile Include="Objects\Model\ModelSkinnedInstancing.cpp" />
+    <ClCompile Include="Objects\PostEffect.cpp" />
     <ClCompile Include="Objects\Render2D.cpp" />
     <ClCompile Include="Rendering\Buffers\ConstantBuffer.cpp" />
     <ClCompile Include="Rendering\Buffers\CsResource.cpp" />
@@ -76,9 +77,11 @@
     <ClCompile Include="Tools\Math.cpp" />
     <ClCompile Include="Tools\ImGuiInputText.cpp" />
     <ClCompile Include="Rendering\Shader.cpp" />
-    <ClCompile Include="Tools\Texture.cpp" />
+    <ClCompile Include="Tools\Texture\DepthStencil.cpp" />
+    <ClCompile Include="Tools\Texture\RenderTarget.cpp" />
+    <ClCompile Include="Tools\Texture\Texture.cpp" />
     <ClCompile Include="Tools\SphereCoord.cpp" />
-    <ClCompile Include="Tools\Texture2D.cpp" />
+    <ClCompile Include="Tools\Texture\Texture2D.cpp" />
     <ClCompile Include="Tools\Transform.cpp" />
     <ClCompile Include="Tools\Viewer\Camera.cpp" />
     <ClCompile Include="Tools\Viewer\CanvasCamera.cpp" />
@@ -117,6 +120,7 @@
     <ClInclude Include="Objects\Model\ModelData.h" />
     <ClInclude Include="Objects\Model\ModelDesc.h" />
     <ClInclude Include="Objects\Model\ModelSkinnedInstancing.h" />
+    <ClInclude Include="Objects\PostEffect.h" />
     <ClInclude Include="Objects\Render2D.h" />
     <ClInclude Include="Rendering\Buffers\Buffers.h" />
     <ClInclude Include="Rendering\Buffers\ConstantBuffer.h" />
@@ -160,9 +164,11 @@
     <ClInclude Include="Tools\Math.h" />
     <ClInclude Include="Tools\ImGuiInputText.h" />
     <ClInclude Include="Rendering\Shader.h" />
-    <ClInclude Include="Tools\Texture.h" />
+    <ClInclude Include="Tools\Texture\DepthStencil.h" />
+    <ClInclude Include="Tools\Texture\RenderTarget.h" />
+    <ClInclude Include="Tools\Texture\Texture.h" />
     <ClInclude Include="Tools\SphereCoord.h" />
-    <ClInclude Include="Tools\Texture2D.h" />
+    <ClInclude Include="Tools\Texture\Texture2D.h" />
     <ClInclude Include="Tools\Transform.h" />
     <ClInclude Include="Tools\Viewer\Camera.h" />
     <ClInclude Include="Tools\Viewer\CanvasCamera.h" />

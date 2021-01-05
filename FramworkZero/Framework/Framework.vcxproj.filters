@@ -49,6 +49,9 @@
     <Filter Include="Tools\Collider">
       <UniqueIdentifier>{be6ffecb-a04b-41b8-9a11-70d77d161bf1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tools\Texture">
+      <UniqueIdentifier>{ee14abaf-d68a-4313-9310-12ee8519cd46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -160,9 +163,6 @@
     <ClCompile Include="Tools\ImGuiInputText.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Tools\Texture.cpp">
-      <Filter>Tools</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\Model\ModelData.cpp">
       <Filter>Objects\Model</Filter>
     </ClCompile>
@@ -192,9 +192,6 @@
     </ClCompile>
     <ClCompile Include="Objects\Model\ModelSkinnedInstancing.cpp">
       <Filter>Objects\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\Texture2D.cpp">
-      <Filter>Tools</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Model\ModelComputeAnimInst.cpp">
       <Filter>Objects\Model</Filter>
@@ -264,6 +261,21 @@
     </ClCompile>
     <ClCompile Include="Tools\Viewer\CanvasCamera.cpp">
       <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Texture\Texture2D.cpp">
+      <Filter>Tools\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Texture\Texture.cpp">
+      <Filter>Tools\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Texture\RenderTarget.cpp">
+      <Filter>Tools\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Texture\DepthStencil.cpp">
+      <Filter>Tools\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\PostEffect.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -394,9 +406,6 @@
     <ClInclude Include="Tools\ImGuiInputText.h">
       <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Tools\Texture.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\Model\ModelData.h">
       <Filter>Objects\Model</Filter>
     </ClInclude>
@@ -429,9 +438,6 @@
     </ClInclude>
     <ClInclude Include="Objects\Model\ModelSkinnedInstancing.h">
       <Filter>Objects\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\Texture2D.h">
-      <Filter>Tools</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Model\ModelDesc.h">
       <Filter>Objects\Model</Filter>
@@ -516,6 +522,21 @@
     </ClInclude>
     <ClInclude Include="Tools\Viewer\CanvasCamera.h">
       <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Texture\Texture2D.h">
+      <Filter>Tools\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Texture\Texture.h">
+      <Filter>Tools\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Texture\RenderTarget.h">
+      <Filter>Tools\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Texture\DepthStencil.h">
+      <Filter>Tools\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\PostEffect.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

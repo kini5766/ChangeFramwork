@@ -21,7 +21,7 @@ public:
 	void Initialize() override;
 	void Destroy() override;
 	void Update() override;
-	void PreRender() override {};
+	void PreRender() override;
 	void Render() override;
 	void PostRender() override {};
 	void ResizeScreen() override {};
@@ -33,6 +33,14 @@ private:
 private:
 	Shader* shader;
 
+private:
+	RenderTarget* renderTarget;
+	DepthStencil* depthStencil;
+	Viewport* viewport;
+
+	PostEffect* postEffect;
+
+private:
 	class WorldPlayer* player;
 	class SceneValue* scene;
 	class WorldLightGroup* lights;

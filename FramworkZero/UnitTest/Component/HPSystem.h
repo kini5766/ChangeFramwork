@@ -11,13 +11,16 @@ public:
 	void Render();
 
 public:
-	Transform* GetHpbar() { return hpbarPos; }
+	Transform* GetHpbar();
 	ColliderBox* GetHurtbox() { return hurtbox; }
 
 private:
-	Transform* hpbarPos;
-	Render2D* hpbar;
-	Texture* green;
 	ColliderBox* hurtbox;
 	ReceiveBox* hurtReceiver;
+
+	float hp = 100.0f;
+	float hpMax = 100.0f;
+	
+	class HPBar* hpBar;
+	function<void(void)> hpZeroTrigger = []() {};
 };

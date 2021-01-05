@@ -99,8 +99,10 @@ typedef D3DXPLANE Plane;
 #include "Tools/WinDesc.h"
 #include "Tools/Transform.h"
 
-#include "Tools/Texture.h"
-#include "Tools/Texture2D.h"
+#include "Tools/Texture/Texture.h"
+#include "Tools/Texture/Texture2D.h"
+#include "Tools/Texture/DepthStencil.h"
+#include "Tools/Texture/RenderTarget.h"
 
 #include "Tools/Viewer/Viewport.h"
 #include "Tools/Viewer/Projection.h"
@@ -164,6 +166,7 @@ typedef D3DXPLANE Plane;
 #include "Objects/Model/ModelSkinnedInstancing.h"
 
 #include "Objects/Render2D.h"
+#include "Objects/PostEffect.h"
 
 
 // Debugger

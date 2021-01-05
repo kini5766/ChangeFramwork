@@ -49,6 +49,9 @@
     <ClCompile Include="Component\WorldLightGroup.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="Component\HPBar.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
@@ -97,6 +100,9 @@
       <Filter>Character</Filter>
     </ClInclude>
     <ClInclude Include="Component\WorldLightGroup.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\HPBar.h">
       <Filter>Component</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,6 +20,7 @@ public:
 	ColliderBox* GetCollider() { return collider; }
 	vector<BoxReceveDesc>& GetReceived() { return received; }
 	
+	void ClearTag() { receiveTags.clear(); }
 	void AddReceiveTag(wstring value) { receiveTags.push_back(value); }
 	void ResetChecker() { receiveDescs.clear(); }
 

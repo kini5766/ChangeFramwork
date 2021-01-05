@@ -21,10 +21,24 @@ void WorldDemo::Initialize()
 
 	lights = new WorldLightGroup();
 	Colliders();
+
+	float width = Screen::Width(), height = Screen::Height();
+	renderTarget = new RenderTarget(width, height);
+	depthStencil = new DepthStencil(width, height);
+	viewport = new Viewport(width, height);
+
+	postEffect = new PostEffect(L"01_PostProcessing.fxo");
+	postEffect->SRV(renderTarget->SRV());
 }
 
 void WorldDemo::Destroy()
 {
+	SafeDelete(postEffect);
+
+	SafeDelete(viewport);
+	SafeDelete(depthStencil);
+	SafeDelete(renderTarget);
+
 	SafeDelete(sendbox1);
 	SafeDelete(sendbox2);
 
@@ -49,13 +63,22 @@ void WorldDemo::Update()
 		Debug::Box->RenderBox(sendbox3->GetTransform(), Color(0.3f, 0.3f, 0.7f, 1.0f));
 	}
 
+	postEffect->Update();
+}
+
+void WorldDemo::PreRender()
+{
+	viewport->RSSetViewport();
+	renderTarget->PreRender(depthStencil);
+
+	lights->Render();
+	scene->Render();
+	player->Render();
 }
 
 void WorldDemo::Render()
 {
-	lights->Render();
-	scene->Render();
-	player->Render();
+	postEffect->Render();
 }
 
 void WorldDemo::LoadScene()
