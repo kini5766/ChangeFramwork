@@ -16,7 +16,6 @@ public:
 public:
 	Transform* GetTransform();
 	void SetTag(wstring value);
-	void Range(float value) { range = value; }
 
 private:
 	void StartAttack();
@@ -29,17 +28,14 @@ private:
 
 public:
 	void Update();
-	bool IsAttackAble(const Vector3& position);
+	bool IsAttackAble();
 	void OnAttack();
 
 private:
-	float readyTime = 0.3f;
-	float endTime = 1.0f;
+	float readyTime = 0.5f;
+	float endTime = 1.05f;
 	float delayTime = 2.0f;
 	float runningTime = 0.0f;
-	IFocus* player;
-
-	float range = 5.0f;
 
 	enum class AttackState{ 
 		None, Ready, Attack, Delay

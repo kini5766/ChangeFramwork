@@ -12,8 +12,10 @@ public:
 	void Render();
 
 private:
+	void AddInstance();
+
+private:
 	ModelSkinnedInstancing* modelInstancing;
-	class KachujinInstance* character;
-	class HPSystem* hp;
-	class EnemyAttackSystem* attack;
+	class EnemyInstance* instance;
+	class IFocus* player;
 };

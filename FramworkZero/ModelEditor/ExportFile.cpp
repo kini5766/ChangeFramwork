@@ -5,12 +5,13 @@
 
 void ExportFile::Initialize()
 {
-	Tank();
-	Kachujin();
-	Tower();
-	Airplane();
+	//Tank();
+	//Kachujin();
+	//Tower();
+	//Airplane();
 
-	Atienza();
+	//Atienza();
+	Paladin();
 }
 
 void ExportFile::Tank()
@@ -104,5 +105,41 @@ void ExportFile::Atienza()
 		Converter conv;
 		conv.ReadFile(L"Atienza/Kick.fbx");
 		conv.ExportAnimClip(0, L"Atienza/Kick");
+	}
+}
+
+void ExportFile::Paladin()
+{
+	{
+		Converter conv;
+		conv.ReadFile(L"Paladin/Mesh.fbx");
+		conv.ExportMesh(L"Paladin/Mesh");
+		conv.ExportMaterial(L"Paladin/Mesh");
+	}
+
+	{
+		Converter conv;
+		conv.ReadFile(L"Paladin/Idle.fbx");
+		conv.ExportAnimClip(0, L"Paladin/Idle");
+	}
+	{
+		Converter conv;
+		conv.ReadFile(L"Paladin/Walk.fbx");
+		conv.ExportAnimClip(0, L"Paladin/Walk");
+	}
+	{
+		Converter conv;
+		conv.ReadFile(L"Paladin/Run.fbx");
+		conv.ExportAnimClip(0, L"Paladin/Run");
+	}
+	{
+		Converter conv;
+		conv.ReadFile(L"Paladin/Taunt.fbx");
+		conv.ExportAnimClip(0, L"Paladin/Taunt");
+	}
+	{
+		Converter conv;
+		conv.ReadFile(L"Paladin/Attack.fbx");
+		conv.ExportAnimClip(0, L"Paladin/Attack");
 	}
 }

@@ -55,6 +55,24 @@ void ModelSkinnedInstancing::Render()
 	renderer->RenderInstance(instances.size());
 }
 
+void ModelSkinnedInstancing::UpdateBoneTracking()
+{
+	ID3D11Texture2D* texture = compute->CopyFromOutput();
+	D3D11_MAPPED_SUBRESOURCE subResource;
+	D3D::GetDC()->Map(texture, 0, D3D11_MAP_READ, 0, &subResource);
+	{
+		UINT size = instances.size();
+		for (UINT i = 0; i < size; i++)
+		{
+			// 2의 승수로 받기 때문에 넣을 때 크기가 다를 수 있음
+			// RowPitch : 1줄, DepthPitch : 1장
+			BYTE* start = (BYTE*)subResource.pData + (i * subResource.RowPitch);
+			instances[i]->UpdateBoneTracking((Matrix*)start);
+		}
+	}
+	D3D::GetDC()->Unmap(texture, 0);
+}
+
 
 #pragma region Instance
 
@@ -137,20 +155,6 @@ void ModelSkinnedInstancing::SetColor(UINT instance, const Color & color)
 #pragma endregion
 
 
-void ModelSkinnedInstancing::GetAttachBones(UINT instace, Matrix * matrix)
-{
-	ID3D11Texture2D* texture = compute->CopyFromOutput();
-	D3D11_MAPPED_SUBRESOURCE subResource;
-	D3D::GetDC()->Map(texture, 0, D3D11_MAP_READ, 0, &subResource);
-	{
-		// 2의 승수로 받기 때문에 넣을 때 크기가 다를 수 있음
-		// RowPitch : 1줄, DepthPitch : 1장
-		BYTE* start = (BYTE*)subResource.pData + (instace * subResource.RowPitch);
-		memcpy(matrix, start, sizeof(Matrix) * boneCount);
-	}
-	D3D::GetDC()->Unmap(texture, 0);
-}
-
 BlendDesc * ModelSkinnedInstancing::GetAnimationDesc(UINT index)
 {
 	return compute->GetDesc(index);
@@ -218,15 +222,36 @@ ModelSkinnedInstance::ModelSkinnedInstance(ModelSkinnedInstancing * perent, UINT
 		perent->GetModel(),
 		perent->GetAnimationDesc(id)
 	);
+
+	boneCount = perent->GetModel()->BoneCount();
 }
 
 ModelSkinnedInstance::~ModelSkinnedInstance()
 {
 	SafeDelete(transform);
 	SafeDelete(animation);
+
+	if (bBoneTracking)
+		SafeDeleteArray(bones);
 }
 
 void ModelSkinnedInstance::Update()
 {
 	animation->Update();
+}
+
+void ModelSkinnedInstance::UpdateBoneTracking(Matrix * tracking)
+{
+	if (bBoneTracking == false)
+	{
+		bones = new Matrix[boneCount];
+	}
+	memcpy(bones, tracking, sizeof(Matrix) * boneCount);
+}
+
+Matrix ModelSkinnedInstance::GetAttachBone(UINT instace) 
+{ 
+	assert(bBoneTracking);
+	if (instace < boneCount)
+	return bones[instace]; 
 }

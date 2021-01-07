@@ -53,11 +53,14 @@ void HPBar::Update(float hp, float hpMax)
 	hpbarG->Update();
 	hpbarR->Update();
 
-	Vector3 pPosT = pPos;
-	pPosT.x -= barXScale * 0.35f;
-	pPosT.y -= 5.0f;
-	string str = string("HP : ") + to_string((int)hp) + "/" + to_string((int)hpMax);
-	Gui::Get()->RenderText(pPosT.x, pPosT.y, 1, 1, 1, str);
+	if (pPos.z < 1.0f)
+	{
+		Vector3 pPosT = pPos;
+		pPosT.x -= barXScale * 0.35f;
+		pPosT.y -= 5.0f;
+		string str = string("HP : ") + to_string((int)hp) + "/" + to_string((int)hpMax);
+		Gui::Get()->RenderText(pPosT.x, pPosT.y, 1, 1, 1, str);
+	}
 }
 
 void HPBar::Render()

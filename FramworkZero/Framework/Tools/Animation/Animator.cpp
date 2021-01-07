@@ -107,6 +107,10 @@ void Animator::UpdateClip()
 	}
 }
 
+void Animator::SetSpeed(UINT clip, float speed)
+{
+	nodes[clip]->Speed = speed;
+}
 
 void Animator::AddNode(float duration, float speed, float frameRate)
 {

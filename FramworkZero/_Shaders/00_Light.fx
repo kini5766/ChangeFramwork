@@ -35,10 +35,12 @@ cbuffer CB_Material
 void Texture(inout float4 color, Texture2D t, float2 uv, SamplerState samp)
 {
 	float4 c = t.Sample(samp, uv);
+	color *= c;
 
 	// any : 1개라도 0이 아니면 true
-	[flatten]
-	if (any(c.rgb)) color *= c;
+	//[flatten]
+	//if (any(c.rgb)) 
+	//	color *= c;
 }
 
 void Texture(inout float4 color, Texture2D t, float2 uv)
@@ -85,7 +87,7 @@ void NormalMapping(float2 uv, inout float3 normal, float3 tangent, SamplerState 
 
 	normalPixel = mul(normalPixel, TBN);
 	normal = normalPixel;
-	//Material.diffuse *= saturate(dot(normalPixel, -GlobalLight.Direction));
+	//Material.Diffuse *= saturate(dot(normalPixel, -GlobalLight.Direction));
 }
 
 void NormalMapping(float2 uv, inout float3 normal, float3 tangent)
@@ -115,7 +117,7 @@ float4 GetSpecular(float3 L, float3 N, float3 E, float4 specular)
 	float RdotE = saturate(dot(R, E));
 
 	// 정구
-	float spow = pow(RdotE, Material.Specular.a);
+	float spow = saturate(pow(RdotE, Material.Specular.a));
 
 	return Material.Specular * spow * specular;
 }
@@ -183,11 +185,10 @@ void ComputeMaterial(out MaterialDesc output, float3 normal, float3 wPosition)
 	// Eye
 	float3 E = normalize(ViewPosition() - wPosition);
 
-	//[flatten]
 	if (NdotL > 0.0f)
 	{
 		// Diffuse
-		output.Diffuse = GetDiffuse(NdotL, 1.25f);
+		output.Diffuse = GetDiffuse(NdotL, 1.0f);
 
 		// Specular
 		[flatten]
@@ -200,7 +201,6 @@ void ComputeMaterial(out MaterialDesc output, float3 normal, float3 wPosition)
 	{
 		output.Diffuse = GetDiffuse(-NdotL, 0.125f);
 	}
-
 
 	// Emissive
 	if (Material.Emissive.a > 0.0f)

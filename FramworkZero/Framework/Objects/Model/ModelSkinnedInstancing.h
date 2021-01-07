@@ -11,6 +11,7 @@ public:
 public:
 	void Update();
 	void Render();
+	void UpdateBoneTracking();
 
 public:
 	ModelSkinnedInstance* AddInstance();
@@ -23,7 +24,7 @@ public:
 public:
 	void Pass(UINT value) { renderer->Pass(value); }
 	void SetColor(UINT instance, const Color& color);
-	void GetAttachBones(UINT instace, Matrix * matrix);
+	//void GetAttachBones(UINT instace, Matrix * matrix);
 	BlendDesc* GetAnimationDesc(UINT index);
 	const ModelData* GetModel() const { return data; }
 
@@ -81,4 +82,14 @@ private:
 	class ModelAnimation* animation;
 	Transform* transform;
 	UINT id;
+
+public:
+	void UpdateBoneTracking(Matrix* tracking);
+	Matrix* GetAttachBones() { return bones; }
+	Matrix GetAttachBone(UINT instace);
+
+private:
+	bool bBoneTracking = false;
+	UINT boneCount = 0;
+	Matrix* bones;
 };

@@ -20,6 +20,7 @@ public:
 	void UpdateClip();
 
 public:
+	void SetSpeed(UINT clip, float speed);
 	void AddNode(float duration, float speed = 1.0f, float frameRate = 1.0f);
 	void AddBlendEdge(UINT start, UINT end, float tweenTime, bool bDefault = false);
 	void SetFuncNext(function<void(UINT)> value) { funcNext = value; }

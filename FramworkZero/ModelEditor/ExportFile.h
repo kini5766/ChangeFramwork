@@ -19,4 +19,5 @@ private:
 	void Airplane();
 
 	void Atienza();
+	void Paladin();
 };

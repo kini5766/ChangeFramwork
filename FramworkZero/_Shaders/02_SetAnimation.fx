@@ -82,7 +82,7 @@ float4 Slerp(float4 r1, float4 r2, float t)
 	float rad = acos(dot(r1, r2));
 	float n_1 = 1 / sin(rad);
 	if (isfinite(n_1))
-		return (sin((1 - t) * rad) * r1 + sin(t * rad) * r2) * n_1;
+		return (r1 * sin((1 - t) * rad) + r2 * sin(t * rad)) * n_1;
 	else return lerp(r1, r2, t);
 }
 

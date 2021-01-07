@@ -23,24 +23,11 @@ void WorldDemo::Initialize()
 
 	lights = new WorldLightGroup();
 
-	float width = Screen::Width(), height = Screen::Height();
-	renderTarget = new RenderTarget(width, height);
-	depthStencil = new DepthStencil(width, height);
-	viewport = new Viewport(width, height);
-
-	postEffect = new PostEffect(L"01_PostProcessing.fxo");
-	postEffect->SRV(renderTarget->SRV());
 }
 
 void WorldDemo::Destroy()
 {
 	SafeDelete(enemy);
-
-	SafeDelete(postEffect);
-
-	SafeDelete(viewport);
-	SafeDelete(depthStencil);
-	SafeDelete(renderTarget);
 
 	SafeDelete(lights);
 	SafeDelete(player);
@@ -54,25 +41,20 @@ void WorldDemo::Update()
 	scene->Update();
 	player->Update();
 	
-	postEffect->Update();
 	enemy->Update();
 }
 
 void WorldDemo::PreRender()
 {
-	viewport->RSSetViewport();
-	renderTarget->PreRender(depthStencil);
+}
 
+void WorldDemo::Render()
+{
 	lights->Render();
 	scene->Render();
 
 	enemy->Render();
 	player->Render();
-}
-
-void WorldDemo::Render()
-{
-	postEffect->Render();
 }
 
 void WorldDemo::LoadScene()

@@ -19,6 +19,7 @@ private:
 	Transform* transform;
 	Animator* animator;
 	class UserKeyState * userInput;
+	class RotateSystem* ratate;
 	float speed = 15.0f;
 	UINT currState = 0;
 };

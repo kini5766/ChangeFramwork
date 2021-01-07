@@ -24,7 +24,6 @@ void CS(uint3 id : SV_DispatchThreadID)
 
 	float alpha = BlendingFrames[id.y].Alpha;
 
-	[flatten]
 	if (alpha != 0.0f)
 	{
 		clip = BlendingFrames[id.y].Clip[1].Clip;
@@ -32,6 +31,10 @@ void CS(uint3 id : SV_DispatchThreadID)
 		GetAnimWorld(next, id.x, clip, time);
 
 		Lerp(transform, curr, next, alpha);
+	}
+	else
+	{
+		transform = curr;
 	}
 
 	matrix world = Combine(transform);

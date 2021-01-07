@@ -133,10 +133,12 @@
   <ItemGroup>
     <ClCompile Include="Character\CharacterController.cpp" />
     <ClCompile Include="Character\Kachujin.cpp" />
+    <ClCompile Include="Character\Paladin.cpp" />
     <ClCompile Include="Character\UserKeyState.cpp" />
     <ClCompile Include="Character\WorldPlayer.cpp" />
     <ClCompile Include="Component\HPBar.cpp" />
     <ClCompile Include="Component\HPSystem.cpp" />
+    <ClCompile Include="Component\RotateSystem.cpp" />
     <ClCompile Include="Component\WorldLightGroup.cpp" />
     <ClCompile Include="EditorDemo\Objects\Component\MaterialEditor.cpp" />
     <ClCompile Include="EditorDemo\Scene\EditorDemo.cpp" />
@@ -148,6 +150,7 @@
     <ClCompile Include="EditorDemo\Main\SceneEditor.cpp" />
     <ClCompile Include="EditorDemo\Main\SceneValue.cpp" />
     <ClCompile Include="Enemy\EnemyAttackSystem.cpp" />
+    <ClCompile Include="Enemy\EnemyInstance.cpp" />
     <ClCompile Include="Enemy\EnemyInstancing.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -158,10 +161,12 @@
   <ItemGroup>
     <ClInclude Include="Character\CharacterController.h" />
     <ClInclude Include="Character\Kachujin.h" />
+    <ClInclude Include="Character\Paladin.h" />
     <ClInclude Include="Character\UserKeyState.h" />
     <ClInclude Include="Character\WorldPlayer.h" />
     <ClInclude Include="Component\HPBar.h" />
     <ClInclude Include="Component\HPSystem.h" />
+    <ClInclude Include="Component\RotateSystem.h" />
     <ClInclude Include="Component\WorldLightGroup.h" />
     <ClInclude Include="EditorDemo\Objects\Component\MaterialEditor.h" />
     <ClInclude Include="EditorDemo\Scene\EditorDemo.h" />
@@ -173,6 +178,7 @@
     <ClInclude Include="EditorDemo\Main\SceneEditor.h" />
     <ClInclude Include="EditorDemo\Main\SceneValue.h" />
     <ClInclude Include="Enemy\EnemyAttackSystem.h" />
+    <ClInclude Include="Enemy\EnemyInstance.h" />
     <ClInclude Include="Enemy\EnemyInstancing.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="stdafx.h" />

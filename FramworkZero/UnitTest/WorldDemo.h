@@ -33,13 +33,6 @@ private:
 	Shader* shader;
 
 private:
-	RenderTarget* renderTarget;
-	DepthStencil* depthStencil;
-	Viewport* viewport;
-
-	PostEffect* postEffect;
-
-private:
 	class WorldPlayer* player;
 	class SceneValue* scene;
 	class WorldLightGroup* lights;

@@ -2,7 +2,6 @@
 #include "EnemyAttackSystem.h"
 
 EnemyAttackSystem::EnemyAttackSystem(IFocus * player)
-	: player(player)
 {
 	sendbox = new SendBox(CollisionManager::Get()->CreateCollider());
 	sendbox->SetActiveSelf(false);
@@ -70,18 +69,11 @@ void EnemyAttackSystem::Update()
 
 }
 
-bool EnemyAttackSystem::IsAttackAble(const Vector3& position)
+bool EnemyAttackSystem::IsAttackAble()
 {
 	if (state != AttackState::None)
 		return false;
-
-	Vector3 focus;
-	player->Focus(&focus);
-	float a = D3DXVec3LengthSq(&(focus - position));
-
-	if (a > range * range)
-		return false;
-
+	
 	return true;
 }
 
