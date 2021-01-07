@@ -15,8 +15,12 @@ public:
 	IFocus* GetFocus();
 
 private:
-	ModelSkinnedInstancing* kachujin;
-	class KachujinInstance* character;
+	ModelSkinnedInstancing* kachujinMaker;
+	class KachujinInstance* kachujin;
 	class CharacterController* player;
 	class HPSystem* playerHp;
+	class EnemyAttackSystem* attack;
+
+	MeshInstancing* mesh;
+	Transform* weapon;
 };

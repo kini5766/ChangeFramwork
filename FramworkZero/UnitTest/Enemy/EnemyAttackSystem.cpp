@@ -1,44 +1,22 @@
 #include "stdafx.h"
 #include "EnemyAttackSystem.h"
 
-EnemyAttackSystem::EnemyAttackSystem(IFocus * player)
+#include "Component/AttackSystem.h"
+
+EnemyAttackSystem::EnemyAttackSystem()
 {
-	sendbox = new SendBox(CollisionManager::Get()->CreateCollider());
-	sendbox->SetActiveSelf(false);
-	sendbox->SetSendMessageData(&attack);
+	system = new AttackSystem();
 }
 
 EnemyAttackSystem::~EnemyAttackSystem()
 {
-	SafeDelete(sendbox);
+	SafeDelete(system);
 }
-
-Transform * EnemyAttackSystem::GetTransform()
-{
-	return sendbox->GetTransform();
-}
-
-void EnemyAttackSystem::SetTag(wstring value)
-{
-	sendbox->SetTag(value);
-}
-
-void EnemyAttackSystem::StartAttack()
-{
-	sendbox->SetActiveSelf(true);
-	sendbox->OnSendMessage();
-}
-
-void EnemyAttackSystem::EndAttack()
-{
-	sendbox->SetActiveSelf(false);
-}
-
 
 void EnemyAttackSystem::Update()
 {
-	if (sendbox->IsActiveSelf())
-		Debug::Box->RenderBox(sendbox->GetTransform(), Color(0.0f, 1.0f, 0.0f, 1.0f));
+	if (system->IsAttacking())
+		Debug::Box->RenderBox(system->GetTransform(), Color(0.0f, 1.0f, 0.0f, 1.0f));
 	
 	switch (state)
 	{
@@ -48,7 +26,7 @@ void EnemyAttackSystem::Update()
 		runningTime += Time::Delta();
 		if (runningTime >= readyTime)
 		{
-			StartAttack();
+			system->StartAttack();
 			state = AttackState::Attack;
 		}
 		break;
@@ -56,7 +34,7 @@ void EnemyAttackSystem::Update()
 		runningTime += Time::Delta();
 		if (runningTime >= endTime)
 		{
-			EndAttack();
+			system->EndAttack();
 			state = AttackState::Delay;
 		}
 		break;
@@ -81,4 +59,14 @@ void EnemyAttackSystem::OnAttack()
 {
 	state = AttackState::Ready;
 	runningTime = 0.0f;
+}
+
+Transform * EnemyAttackSystem::GetTransform()
+{
+	return system->GetTransform();
+}
+
+void EnemyAttackSystem::SetTag(wstring value)
+{
+	system->SetTag(value);
 }

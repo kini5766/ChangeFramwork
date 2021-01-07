@@ -7,12 +7,6 @@
     <ClCompile Include="Character\Kachujin.cpp">
       <Filter>Character</Filter>
     </ClCompile>
-    <ClCompile Include="Character\CharacterController.cpp">
-      <Filter>Character</Filter>
-    </ClCompile>
-    <ClCompile Include="Character\UserKeyState.cpp">
-      <Filter>Character</Filter>
-    </ClCompile>
     <ClCompile Include="EditorDemo\Objects\MeshInstancingEditor.cpp">
       <Filter>EditorDemo\Objects</Filter>
     </ClCompile>
@@ -43,9 +37,6 @@
     <ClCompile Include="Component\HPSystem.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="Character\WorldPlayer.cpp">
-      <Filter>Character</Filter>
-    </ClCompile>
     <ClCompile Include="Component\WorldLightGroup.cpp">
       <Filter>Component</Filter>
     </ClCompile>
@@ -67,18 +58,24 @@
     <ClCompile Include="Component\RotateSystem.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="Player\WorldPlayer.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\UserKeyState.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\CharacterController.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\AttackSystem.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="WorldDemo.h" />
     <ClInclude Include="Character\Kachujin.h">
-      <Filter>Character</Filter>
-    </ClInclude>
-    <ClInclude Include="Character\CharacterController.h">
-      <Filter>Character</Filter>
-    </ClInclude>
-    <ClInclude Include="Character\UserKeyState.h">
       <Filter>Character</Filter>
     </ClInclude>
     <ClInclude Include="EditorDemo\Objects\MeshInstancingEditor.h">
@@ -111,9 +108,6 @@
     <ClInclude Include="Component\HPSystem.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="Character\WorldPlayer.h">
-      <Filter>Character</Filter>
-    </ClInclude>
     <ClInclude Include="Component\WorldLightGroup.h">
       <Filter>Component</Filter>
     </ClInclude>
@@ -133,6 +127,18 @@
       <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Component\RotateSystem.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\WorldPlayer.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\UserKeyState.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\CharacterController.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\AttackSystem.h">
       <Filter>Component</Filter>
     </ClInclude>
   </ItemGroup>
@@ -160,6 +166,9 @@
     </Filter>
     <Filter Include="Enemy">
       <UniqueIdentifier>{278b0a78-90de-4cbd-a192-52cc4235721a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{03cc99b1-fe2e-419a-af29-d12933065d28}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

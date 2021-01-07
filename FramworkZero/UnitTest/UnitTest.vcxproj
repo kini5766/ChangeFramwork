@@ -131,11 +131,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Character\CharacterController.cpp" />
+    <ClCompile Include="Component\AttackSystem.cpp" />
+    <ClCompile Include="Player\CharacterController.cpp" />
     <ClCompile Include="Character\Kachujin.cpp" />
     <ClCompile Include="Character\Paladin.cpp" />
-    <ClCompile Include="Character\UserKeyState.cpp" />
-    <ClCompile Include="Character\WorldPlayer.cpp" />
+    <ClCompile Include="Player\UserKeyState.cpp" />
+    <ClCompile Include="Player\WorldPlayer.cpp" />
     <ClCompile Include="Component\HPBar.cpp" />
     <ClCompile Include="Component\HPSystem.cpp" />
     <ClCompile Include="Component\RotateSystem.cpp" />
@@ -159,11 +160,12 @@
     <ClCompile Include="WorldDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Character\CharacterController.h" />
+    <ClInclude Include="Component\AttackSystem.h" />
+    <ClInclude Include="Player\CharacterController.h" />
     <ClInclude Include="Character\Kachujin.h" />
     <ClInclude Include="Character\Paladin.h" />
-    <ClInclude Include="Character\UserKeyState.h" />
-    <ClInclude Include="Character\WorldPlayer.h" />
+    <ClInclude Include="Player\UserKeyState.h" />
+    <ClInclude Include="Player\WorldPlayer.h" />
     <ClInclude Include="Component\HPBar.h" />
     <ClInclude Include="Component\HPSystem.h" />
     <ClInclude Include="Component\RotateSystem.h" />

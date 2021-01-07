@@ -245,6 +245,7 @@ void ModelSkinnedInstance::UpdateBoneTracking(Matrix * tracking)
 	if (bBoneTracking == false)
 	{
 		bones = new Matrix[boneCount];
+		bBoneTracking = true;
 	}
 	memcpy(bones, tracking, sizeof(Matrix) * boneCount);
 }

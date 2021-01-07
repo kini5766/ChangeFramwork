@@ -64,8 +64,8 @@ void AnimationDemo::Update()
 	{
 		kachujin->Update();
 
-		kachujin->GetAttachBones(0, attachBones);
-		gizmo->LocalWorld(attachBones[bone]);
+		//kachujin->GetAttachBones(0, attachBones);
+		//gizmo->LocalWorld(attachBones[bone]);
 	}
 }
 

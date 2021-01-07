@@ -2,7 +2,7 @@
 #include "WorldDemo.h"
 
 #include "Tools/Viewer/OrbitCamera.h"
-#include "Character/WorldPlayer.h"
+#include "Player/WorldPlayer.h"
 #include "Enemy/EnemyInstancing.h"
 #include "Component/WorldLightGroup.h"
 #include "EditorDemo/Main/SceneValue.h"
@@ -22,7 +22,6 @@ void WorldDemo::Initialize()
 	Context::Get()->MainCamera(camera);
 
 	lights = new WorldLightGroup();
-
 }
 
 void WorldDemo::Destroy()

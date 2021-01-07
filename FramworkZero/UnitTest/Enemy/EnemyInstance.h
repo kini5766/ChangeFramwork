@@ -12,10 +12,15 @@ public:
 
 
 private:
-	void OnNextAnimation(UINT next);  // 애니메이션 이벤트
+	void UpdateState();
 	void NextAtteck(UINT& next, const Vector3& dest);
 	void NextRun(UINT& next, const Vector3 & dest);
 	void NextIdle(UINT& next);
+
+	// 이벤트 함수
+private:
+	void OnNextAnimation(UINT next);  // 애니메이션 이벤트
+	void OnDamage();  // hp 이벤트
 
 private:
 	Transform* transform;
@@ -38,4 +43,7 @@ private:
 	float idleRunTime = 0.0f;
 	UINT currPatrol = 0;
 	vector<Vector3> patrolPoints;
+
+	float reactTime = 1.0f;
+	float reactRunTime = 0.0f;
 };

@@ -2,7 +2,7 @@
 #include "HPSystem.h"
 
 #include "HPBar.h"
-#include "Enemy/EnemyAttackSystem.h"
+#include "Component/AttackSystem.h"
 
 HPSystem::HPSystem()
 {
@@ -34,6 +34,8 @@ void HPSystem::Update()
 
 		Debug::Log->Print("Attack : " + to_string((int)attack->Attack));
 		Debug::Log->Print("Tag : " + String::ToString(m.Tag));
+
+		funcDamage();
 	}
 
 	if (hp < 0.0f)
@@ -45,7 +47,6 @@ void HPSystem::Update()
 	if (hp == 0.0f)
 	{
 		Debug::Log->Print("hp zero");
-		hpZeroTrigger();
 	}
 }
 

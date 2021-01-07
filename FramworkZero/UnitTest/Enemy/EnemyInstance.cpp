@@ -3,6 +3,7 @@
 
 #include "Character/Paladin.h"
 #include "Component/HPSystem.h"
+#include "Tools/Viewer/IFocus.h"
 #include "Component/RotateSystem.h"
 #include "EnemyAttackSystem.h"
 
@@ -21,8 +22,10 @@ EnemyInstance::EnemyInstance(ModelSkinnedInstance* instance, class IFocus* playe
 	hp->GetHurtbox()->GetTransform()->Position(0.0f, 90.0f, 0.0f);
 	hp->GetHurtbox()->GetTransform()->Rotation(0.0f, 0.0f, 0.0f);
 	hp->GetHurtbox()->GetTransform()->Scale(75.0f, 180.0f, 75.0f);
+	hp->AddTag(L"Player");
+	hp->SetFuncDamage(bind(&EnemyInstance::OnDamage, this));
 
-	attack = new EnemyAttackSystem(player);
+	attack = new EnemyAttackSystem();
 	attack->GetTransform()->SetParent(transform);
 	attack->GetTransform()->Position(0.0f, 90.0f, -40.0f);
 	attack->GetTransform()->Rotation(0.0f, 0.0f, 0.0f);
@@ -51,6 +54,36 @@ EnemyInstance::~EnemyInstance()
 
 void EnemyInstance::Update()
 {
+	if (hp->HP() <= 0.0f)
+		return;
+
+	UpdateState();
+	character->Update();
+	hp->Update();
+	attack->Update();
+}
+
+void EnemyInstance::Render()
+{
+	if (hp->HP() <= 0.0f)
+		return;
+
+	hp->Render();
+}
+
+void EnemyInstance::UpdateState()
+{
+	if (reactRunTime > 0.0f)
+	{
+		reactRunTime -= Time::Delta();
+		if (currAction != 5)
+		{
+			character->GetAnimator()->Play(5);
+			currAction = 5;
+		}
+		return;
+	}
+
 	UINT next = currAction;
 
 	Vector3 position;
@@ -76,15 +109,6 @@ void EnemyInstance::Update()
 		character->GetAnimator()->Play(next);
 		currAction = next;
 	}
-
-	character->Update();
-	hp->Update();
-	attack->Update();
-}
-
-void EnemyInstance::Render()
-{
-	hp->Render();
 }
 
 // 애니메이션 이벤트
@@ -97,35 +121,49 @@ void EnemyInstance::OnNextAnimation(UINT next)
 		currAction = next;
 }
 
+void EnemyInstance::OnDamage()
+{
+	if (hp->HP() <= 0.0f)
+	{
+		transform->Scale(0.0f, 0.0f, 0.0f);
+	}
+	else if (reactRunTime <= 0.0f && currAction != 4)
+	{
+		reactRunTime = reactTime;
+	}
+}
+
 void EnemyInstance::NextAtteck(UINT & next, const Vector3 & dest)
 {
-	if (next == 2)
+	if (next == 4)
+		return;
+
+	float speedDelta = runSpeed * Time::Delta();
+
+	Vector3 dest2 = dest;
+	dest2.y = 0.0f;
+	D3DXVec3Normalize(&dest2, &dest2);
+
+	// 회전
+	ratate->SetTarget(dest2);
+	Quaternion q;
+	transform->Rotation(&q);
+	float rad;
+	q = ratate->GetRotation(q, -transform->Forward(), speedDelta * turnSpeed, &rad);
+
+	if (rad <= 0.007f)
+		next = 0;
+	else
 	{
-		float speedDelta = runSpeed * Time::Delta();
-
-		Vector3 dest2 = dest;
-		dest2.y = 0.0f;
-		D3DXVec3Normalize(&dest2, &dest2);
-
-		// 회전
-		ratate->SetTarget(dest2);
-		Quaternion q;
-		transform->Rotation(&q);
-		q = ratate->GetRotation(q, -transform->Forward(), speedDelta * turnSpeed);
+		next = 2;
 		transform->Rotation(q);
 	}
 
-	if (next == 4)
-		return;
 
 	if (attack->IsAttackAble())
 	{
 		attack->OnAttack();
 		next = 4;
-	}
-	else
-	{
-		next = 2;
 	}
 }
 

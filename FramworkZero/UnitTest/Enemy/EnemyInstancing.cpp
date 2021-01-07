@@ -16,6 +16,7 @@ EnemyInstancing::EnemyInstancing(Shader * shader, IFocus* player)
 				L"Paladin/Run",
 				L"Paladin/Taunt",
 				L"Paladin/Attack",
+				L"Paladin/React",
 			}
 		});
 

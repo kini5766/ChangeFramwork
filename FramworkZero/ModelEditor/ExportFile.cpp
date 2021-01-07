@@ -142,4 +142,9 @@ void ExportFile::Paladin()
 		conv.ReadFile(L"Paladin/Attack.fbx");
 		conv.ExportAnimClip(0, L"Paladin/Attack");
 	}
+	{
+		Converter conv;
+		conv.ReadFile(L"Paladin/React.fbx");
+		conv.ExportAnimClip(0, L"Paladin/React");
+	}
 }
