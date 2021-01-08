@@ -5,7 +5,6 @@ class Animator
 {
 public:
 	Animator();
-	Animator(class ModelAnimation* modelAnim);
 	~Animator();
 
 public:
@@ -25,6 +24,9 @@ public:
 	void AddBlendEdge(UINT start, UINT end, float tweenTime, bool bDefault = false);
 	void SetFuncNext(function<void(UINT)> value) { funcNext = value; }
 	void GetAnimDesc(struct BlendDesc* outDesc);
+
+public:
+	void BindAll(class ModelAnimation* modelAnim, float tweenTime = 0.1f);
 
 public:
 	// get clip

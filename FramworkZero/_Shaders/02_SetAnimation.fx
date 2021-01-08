@@ -79,8 +79,18 @@ matrix Combine(Transform transform)
 
 float4 Slerp(float4 r1, float4 r2, float t)
 {
-	float rad = acos(dot(r1, r2));
+	float qDot = dot(r1, r2);
+
+	[flatten]
+	if (qDot < 0.0f)
+	{
+		r2 = -r2;
+		qDot = -qDot;
+	}
+
+	float rad = acos(qDot);
 	float n_1 = 1 / sin(rad);
+
 	if (isfinite(n_1))
 		return (r1 * sin((1 - t) * rad) + r2 * sin(t * rad)) * n_1;
 	else return lerp(r1, r2, t);

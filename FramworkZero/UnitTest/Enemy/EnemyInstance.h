@@ -46,4 +46,6 @@ private:
 
 	float reactTime = 1.0f;
 	float reactRunTime = 0.0f;
+	bool bFall = false;
+	bool bLost = false;
 };

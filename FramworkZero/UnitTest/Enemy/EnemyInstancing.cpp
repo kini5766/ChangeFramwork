@@ -11,12 +11,13 @@ EnemyInstancing::EnemyInstancing(Shader * shader, IFocus* player)
 			/*매쉬*/ L"Paladin/Mesh",
 			/*매터리얼*/ L"Paladin/Mesh",
 			/*클립*/ {
-				L"Paladin/Idle",
-				L"Paladin/Walk",
-				L"Paladin/Run",
-				L"Paladin/Taunt",
-				L"Paladin/Attack",
-				L"Paladin/React",
+				L"Paladin/Idle",  // 0
+				L"Paladin/Walk",  // 1
+				L"Paladin/Run",  // 2
+				L"Paladin/Taunt",  // 3
+				L"Paladin/Attack",  // 4
+				L"Paladin/React",  // 5
+				L"Paladin/Fall",  // 6
 			}
 		});
 

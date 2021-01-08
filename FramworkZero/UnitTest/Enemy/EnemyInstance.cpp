@@ -54,7 +54,7 @@ EnemyInstance::~EnemyInstance()
 
 void EnemyInstance::Update()
 {
-	if (hp->HP() <= 0.0f)
+	if (bLost)
 		return;
 
 	UpdateState();
@@ -65,7 +65,7 @@ void EnemyInstance::Update()
 
 void EnemyInstance::Render()
 {
-	if (hp->HP() <= 0.0f)
+	if (bLost)
 		return;
 
 	hp->Render();
@@ -73,6 +73,16 @@ void EnemyInstance::Render()
 
 void EnemyInstance::UpdateState()
 {
+	if (hp->HP() <= 0.0f)
+	{
+		if (currAction != 6)
+		{
+			character->GetAnimator()->Play(6);
+			currAction = 6;
+		}
+		return;
+	}
+
 	if (reactRunTime > 0.0f)
 	{
 		reactRunTime -= Time::Delta();
@@ -119,13 +129,21 @@ void EnemyInstance::OnNextAnimation(UINT next)
 
 	if (currAction == 4)
 		currAction = next;
+
+	//if (next == 6)
+	//	bFall = true;
+
+	//if (next == 6 && bFall)
+	//{
+	//	bLost = true;
+	//	transform->Scale(0.0f, 0.0f, 0.0f);
+	//}
 }
 
 void EnemyInstance::OnDamage()
 {
 	if (hp->HP() <= 0.0f)
 	{
-		transform->Scale(0.0f, 0.0f, 0.0f);
 	}
 	else if (reactRunTime <= 0.0f && currAction != 4)
 	{

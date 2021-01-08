@@ -7,19 +7,6 @@ Animator::Animator()
 {
 }
 
-Animator::Animator(ModelAnimation * modelAnim)
-{
-	UINT size = modelAnim->GetClipCount();
-
-	for (UINT i = 0; i < size; i++)
-	{
-		const ModelClipData* clip = modelAnim->GetClipData(i);
-		AddNode(clip->Duration, 1.0f, clip->FrameRate);
-	}
-
-	modelAnim->SetAnimator(bind(&Animator::GetAnimDesc, this, placeholders::_1));
-}
-
 Animator::~Animator()
 {
 	for (auto node : nodes)
@@ -168,6 +155,28 @@ void Animator::GetAnimDesc(BlendDesc * outDesc)
 	{
 		outDesc->Alpha = 0.0f;
 	}
+}
+
+void Animator::BindAll(ModelAnimation * modelAnim, float tweenTime)
+{
+	UINT size = modelAnim->GetClipCount();
+
+	for (UINT i = 0; i < size; i++)
+	{
+		const ModelClipData* clip = modelAnim->GetClipData(i);
+		AddNode(clip->Duration, 1.0f, clip->FrameRate);
+	}
+
+	for (UINT i = 0; i < size; i++)
+	{
+		for (UINT j = 0; j < size; j++)
+		{
+			if (i == j) continue;
+			AddBlendEdge(i, j, tweenTime);
+		}
+	}
+
+	modelAnim->SetAnimator(bind(&Animator::GetAnimDesc, this, placeholders::_1));
 }
 
 
