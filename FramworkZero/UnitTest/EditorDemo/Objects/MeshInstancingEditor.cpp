@@ -212,6 +212,7 @@ void MeshInstancingEditor::ImGuiRender()
 
 void MeshInstancingEditor::On()
 {
+	Select(0);
 }
 
 void MeshInstancingEditor::Off()

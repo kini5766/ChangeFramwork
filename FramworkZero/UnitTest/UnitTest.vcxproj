@@ -131,7 +131,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component\AttackAnimation.cpp" />
     <ClCompile Include="Component\AttackSystem.cpp" />
+    <ClCompile Include="EditorDemo\Objects\EnemyInstancingEditor.cpp" />
     <ClCompile Include="Player\CharacterController.cpp" />
     <ClCompile Include="Character\Kachujin.cpp" />
     <ClCompile Include="Character\Paladin.cpp" />
@@ -150,7 +152,7 @@
     <ClCompile Include="EditorDemo\Objects\Component\TransformEditor.cpp" />
     <ClCompile Include="EditorDemo\Main\SceneEditor.cpp" />
     <ClCompile Include="EditorDemo\Main\SceneValue.cpp" />
-    <ClCompile Include="Enemy\EnemyAttackSystem.cpp" />
+    <ClCompile Include="Component\NormalAttack.cpp" />
     <ClCompile Include="Enemy\EnemyInstance.cpp" />
     <ClCompile Include="Enemy\EnemyInstancing.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -160,7 +162,9 @@
     <ClCompile Include="WorldDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component\AttackAnimation.h" />
     <ClInclude Include="Component\AttackSystem.h" />
+    <ClInclude Include="EditorDemo\Objects\EnemyInstancingEditor.h" />
     <ClInclude Include="Player\CharacterController.h" />
     <ClInclude Include="Character\Kachujin.h" />
     <ClInclude Include="Character\Paladin.h" />
@@ -179,7 +183,7 @@
     <ClInclude Include="EditorDemo\Objects\Component\TransformEditor.h" />
     <ClInclude Include="EditorDemo\Main\SceneEditor.h" />
     <ClInclude Include="EditorDemo\Main\SceneValue.h" />
-    <ClInclude Include="Enemy\EnemyAttackSystem.h" />
+    <ClInclude Include="Component\NormalAttack.h" />
     <ClInclude Include="Enemy\EnemyInstance.h" />
     <ClInclude Include="Enemy\EnemyInstancing.h" />
     <ClInclude Include="Main.h" />

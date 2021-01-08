@@ -2,7 +2,13 @@
 #include "EnemyInstancing.h"
 
 #include "Tools/Viewer/IFocus.h"
+#include "Objects/Model/ModelAnimation.h"
+
+#include "Character/Paladin.h"
+#include "Component/NormalAttack.h"
+#include "Component/AttackAnimation.h"
 #include "EnemyInstance.h"
+
 
 EnemyInstancing::EnemyInstancing(Shader * shader, IFocus* player)
 	: player(player)
@@ -21,6 +27,12 @@ EnemyInstancing::EnemyInstancing(Shader * shader, IFocus* player)
 			}
 		});
 
+	normalAttack = new NormalAttack();
+	normalAttack->InitTransform()->Position(0.0f, 90.0f, -40.0f);
+	normalAttack->InitTransform()->Rotation(0.0f, 0.0f, 0.0f);
+	normalAttack->InitTransform()->Scale(100.0f, 180.0f, 180.0f);
+	normalAttack->Tag(L"Enemy");
+
 
 	AddInstance();
 
@@ -31,6 +43,7 @@ EnemyInstancing::EnemyInstancing(Shader * shader, IFocus* player)
 
 EnemyInstancing::~EnemyInstancing()
 {
+	SafeDelete(normalAttack);
 	SafeDelete(instance);
 	SafeDelete(modelInstancing);
 }
@@ -40,6 +53,7 @@ void EnemyInstancing::Update()
 	instance->Update();
 	modelInstancing->Update();
 	modelInstancing->UpdateTransforms();
+	normalAttack->Update();
 }
 
 void EnemyInstancing::Render()
@@ -50,5 +64,20 @@ void EnemyInstancing::Render()
 
 void EnemyInstancing::AddInstance()
 {
-	instance = new EnemyInstance(modelInstancing->AddInstance(), player);
+	EnemyDesc desc;
+	ModelSkinnedInstance* i = modelInstancing->AddInstance();
+
+	Transform* t = i->GetTransform();
+	t->Scale(0.03f, 0.03f, 0.03f);
+	t->Position(25.0f, 0.0f, 25.0f);
+	t->RotationDegree(0.0f, -90.0f, 0.0f);
+	desc.Transform = t;
+
+	Animator* anim = new Animator();
+	Paladin::BindAnimation(anim, i->GetAnimation());
+	desc.Animator = anim;
+
+	desc.Attack = normalAttack->MakeInstance(t);
+
+	instance = new EnemyInstance(desc, player);
 }

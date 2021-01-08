@@ -2,18 +2,18 @@
 #include "EnemyInstance.h"
 
 #include "Character/Paladin.h"
-#include "Component/HPSystem.h"
 #include "Tools/Viewer/IFocus.h"
+
+#include "Component/HPSystem.h"
 #include "Component/RotateSystem.h"
-#include "EnemyAttackSystem.h"
+#include "Component/AttackAnimation.h"
 
-EnemyInstance::EnemyInstance(ModelSkinnedInstance* instance, class IFocus* player)
-	: player(player)
+EnemyInstance::EnemyInstance(const EnemyDesc& desc, class IFocus* player)
+	: transform(desc.Transform), animator(desc.Animator), player(player)
+	, runSpeed(desc.RunSpeed), walkSpeed(desc.WalkSpeed), turnSpeed(desc.TurnSpeed)
+	, detectionRange(desc.DetectionRange), attackRange(desc.AttackRange)
+	, attack(desc.Attack)
 {
-	transform = instance->GetTransform();
-
-	character = new PaladinInstance(instance);
-
 	hp = new HPSystem();
 	hp->GetHpbar()->SetParent(transform);
 	hp->GetHpbar()->Position(0, 180.0f, 0);
@@ -25,19 +25,10 @@ EnemyInstance::EnemyInstance(ModelSkinnedInstance* instance, class IFocus* playe
 	hp->AddTag(L"Player");
 	hp->SetFuncDamage(bind(&EnemyInstance::OnDamage, this));
 
-	attack = new EnemyAttackSystem();
-	attack->GetTransform()->SetParent(transform);
-	attack->GetTransform()->Position(0.0f, 90.0f, -40.0f);
-	attack->GetTransform()->Rotation(0.0f, 0.0f, 0.0f);
-	attack->GetTransform()->Scale(100.0f, 180.0f, 180.0f);
-	attack->SetTag(L"Enemy");
-
-	instance->GetTransform()->Position(25.0f, 0.0f, 25.0f);
 	patrolPoints.push_back(Vector3(25.0f, 0.0f, 25.0f));
 	patrolPoints.push_back(Vector3(0.0f, 0.0f, 25.0f));
-	instance->GetTransform()->RotationDegree(0.0f, -90.0f, 0.0f);
 
-	character->GetAnimator()->SetFuncNext(
+	animator->SetFuncNext(
 		bind(&EnemyInstance::OnNextAnimation, this, placeholders::_1)
 	);
 
@@ -47,9 +38,8 @@ EnemyInstance::EnemyInstance(ModelSkinnedInstance* instance, class IFocus* playe
 EnemyInstance::~EnemyInstance()
 {
 	SafeDelete(ratate);
-	SafeDelete(attack);
 	SafeDelete(hp);
-	SafeDelete(character);
+	SafeDelete(animator);
 }
 
 void EnemyInstance::Update()
@@ -58,9 +48,8 @@ void EnemyInstance::Update()
 		return;
 
 	UpdateState();
-	character->Update();
+	animator->Update();
 	hp->Update();
-	attack->Update();
 }
 
 void EnemyInstance::Render()
@@ -77,7 +66,7 @@ void EnemyInstance::UpdateState()
 	{
 		if (currAction != 6)
 		{
-			character->GetAnimator()->Play(6);
+			animator->Play(6);
 			currAction = 6;
 		}
 		return;
@@ -88,7 +77,7 @@ void EnemyInstance::UpdateState()
 		reactRunTime -= Time::Delta();
 		if (currAction != 5)
 		{
-			character->GetAnimator()->Play(5);
+			animator->Play(5);
 			currAction = 5;
 		}
 		return;
@@ -116,7 +105,7 @@ void EnemyInstance::UpdateState()
 
 	if (currAction != next)
 	{
-		character->GetAnimator()->Play(next);
+		animator->Play(next);
 		currAction = next;
 	}
 }
@@ -130,20 +119,23 @@ void EnemyInstance::OnNextAnimation(UINT next)
 	if (currAction == 4)
 		currAction = next;
 
-	//if (next == 6)
-	//	bFall = true;
+	if (next == 6 && bFall)
+	{
+		bLost = true;
+		transform->Scale(0.0f, 0.0f, 0.0f);
+	}
 
-	//if (next == 6 && bFall)
-	//{
-	//	bLost = true;
-	//	transform->Scale(0.0f, 0.0f, 0.0f);
-	//}
+	if (next == 6)
+	{
+		bFall = true;
+	}
 }
 
 void EnemyInstance::OnDamage()
 {
 	if (hp->HP() <= 0.0f)
 	{
+		attack->Stop();
 	}
 	else if (reactRunTime <= 0.0f && currAction != 4)
 	{
@@ -180,7 +172,7 @@ void EnemyInstance::NextAtteck(UINT & next, const Vector3 & dest)
 
 	if (attack->IsAttackAble())
 	{
-		attack->OnAttack();
+		attack->Play();
 		next = 4;
 	}
 }

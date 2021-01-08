@@ -34,6 +34,7 @@ private:
 	Shader* shader;
 	vector<MeshInstance*> meshes;
 	vector<ColliderBox*> colliders;
+	MeshInstancing* meshInstancing = nullptr;
 
 	// imgui
 private:
@@ -42,7 +43,6 @@ private:
 
 	// save load
 private:
-	MeshInstancing* meshInstancing = nullptr;
 	class TransformEditor* tImGui;
 	class ColliderEditor* cImGui;
 	class MaterialEditor* mImGui;

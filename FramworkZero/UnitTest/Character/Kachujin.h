@@ -1,5 +1,11 @@
 #pragma once
 
+class Kachujin
+{
+public:
+	static void BindAnimation(Animator* animator, class ModelAnimation* model);
+};
+
 class KachujinInstance
 {
 public:

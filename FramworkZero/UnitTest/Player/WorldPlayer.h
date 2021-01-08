@@ -16,10 +16,10 @@ public:
 
 private:
 	ModelSkinnedInstancing* kachujinMaker;
-	class KachujinInstance* kachujin;
 	class CharacterController* player;
+	class KachujinInstance* kachujin;
+	class NormalAttack* attack;
 	class HPSystem* playerHp;
-	class EnemyAttackSystem* attack;
 
 	MeshInstancing* mesh;
 	Transform* weapon;

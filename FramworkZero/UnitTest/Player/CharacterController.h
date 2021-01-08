@@ -12,7 +12,7 @@ public:
 	void Update();
 
 public:
-	void SetFuncAttack(function<void(void)> attack, function<bool(void)> isAble = []() { return true; });
+	void SetFuncAttack(class AttackAnimation* value);
 
 private:
 	// IFocus을(를) 통해 상속됨
@@ -32,6 +32,5 @@ private:
 	UINT nextState = 0;
 	bool bDelay;
 
-	function<bool(void)> funcIsAttackAble = []() { return false; };
-	function<void(void)> funcAttack;
+	class AttackAnimation* attack;
 };

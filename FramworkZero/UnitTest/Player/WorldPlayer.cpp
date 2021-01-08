@@ -4,7 +4,8 @@
 #include "Character/Kachujin.h"
 #include "CharacterController.h"
 #include "Component/HPSystem.h"
-#include "Enemy/EnemyAttackSystem.h"
+#include "Component/NormalAttack.h"
+#include "Component/AttackAnimation.h"
 
 WorldPlayer::WorldPlayer(Shader * shader)
 {
@@ -46,21 +47,18 @@ WorldPlayer::WorldPlayer(Shader * shader)
 	kachujinMaker->UpdateColors();
 	kachujinMaker->Pass(1);
 
-	attack = new EnemyAttackSystem();
-	attack->GetTransform()->SetParent(instance->GetTransform());
-	attack->GetTransform()->Position(0.0f, 100.0f, -70.0f);
-	attack->GetTransform()->Rotation(0.0f, 0.0f, 0.0f);
-	attack->GetTransform()->Scale(120.0f, 200.0f, 240.0f);
-	attack->SetTag(L"Player");
+	attack = new NormalAttack();
+	attack->InitTransform()->Position(0.0f, 100.0f, -70.0f);
+	attack->InitTransform()->Rotation(0.0f, 0.0f, 0.0f);
+	attack->InitTransform()->Scale(120.0f, 200.0f, 240.0f);
+	attack->Tag(L"Player");
 	attack->ReadyTime(0.25f);
 	attack->EndTime(0.5f);
 	attack->DelayTime(0.6f);
 
 	player->SetFuncAttack(
-		bind(&EnemyAttackSystem::OnAttack, attack),
-		bind(&EnemyAttackSystem::IsAttackAble, attack)
+		attack->MakeInstance(instance->GetTransform())
 	);
-
 
 	weapon = new Transform();
 	weapon->SetParent(instance->GetTransform());

@@ -16,8 +16,10 @@ public:
 	void EndAttack();
 	bool IsAttacking();
 
+public:
 	Transform* GetTransform();
 	void SetTag(wstring value);
+	void SetAttack(float value) { attack.Attack = value; }
 
 private:
 	AttackDesc attack;

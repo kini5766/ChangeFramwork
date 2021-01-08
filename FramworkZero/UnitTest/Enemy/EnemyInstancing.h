@@ -18,4 +18,6 @@ private:
 	ModelSkinnedInstancing* modelInstancing;
 	class EnemyInstance* instance;
 	class IFocus* player;
+
+	class NormalAttack* normalAttack;
 };

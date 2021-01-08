@@ -1,5 +1,11 @@
 #pragma once
 
+class Paladin
+{
+public:
+	static void BindAnimation(Animator* animator, class ModelAnimation* model);
+};
+
 class PaladinInstance
 {
 public:

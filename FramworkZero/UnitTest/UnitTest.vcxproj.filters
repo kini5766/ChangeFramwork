@@ -46,9 +46,6 @@
     <ClCompile Include="Enemy\EnemyInstancing.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy\EnemyAttackSystem.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Character\Paladin.cpp">
       <Filter>Character</Filter>
     </ClCompile>
@@ -68,6 +65,15 @@
       <Filter>Player</Filter>
     </ClCompile>
     <ClCompile Include="Component\AttackSystem.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\EnemyInstancingEditor.cpp">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\AttackAnimation.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\NormalAttack.cpp">
       <Filter>Component</Filter>
     </ClCompile>
   </ItemGroup>
@@ -117,9 +123,6 @@
     <ClInclude Include="Enemy\EnemyInstancing.h">
       <Filter>Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy\EnemyAttackSystem.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Character\Paladin.h">
       <Filter>Character</Filter>
     </ClInclude>
@@ -139,6 +142,15 @@
       <Filter>Player</Filter>
     </ClInclude>
     <ClInclude Include="Component\AttackSystem.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\EnemyInstancingEditor.h">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\AttackAnimation.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\NormalAttack.h">
       <Filter>Component</Filter>
     </ClInclude>
   </ItemGroup>

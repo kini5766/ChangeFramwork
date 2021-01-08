@@ -3,6 +3,7 @@
 
 #include "UserKeyState.h"
 #include "Component/RotateSystem.h"
+#include "Component/AttackAnimation.h"
 
 CharacterController::CharacterController(Transform * transform, Animator * animator)
 	: transform(transform), animator(animator)
@@ -23,13 +24,13 @@ void CharacterController::Update()
 {
 	userInput->Update();
 
-	if (funcIsAttackAble())
+	if (attack->IsAttackAble())
 	{
 		if (nextState == 3)
 			nextState = 0;
 		if (Input::Mouse()->Down(0))
 		{
-			funcAttack();
+			attack->Play();
 			nextState = (3);
 		}
 	}
@@ -81,10 +82,9 @@ void CharacterController::Update()
 
 }
 
-void CharacterController::SetFuncAttack(function<void(void)> attack, function<bool(void)> isAble)
+void CharacterController::SetFuncAttack(AttackAnimation * value)
 {
-	funcAttack = attack;
-	funcIsAttackAble = isAble;
+	attack = value;
 }
 
 void CharacterController::Focus(Vector3 * outPosition)
