@@ -6,13 +6,13 @@
 
 #include "Component/HPSystem.h"
 #include "Component/RotateSystem.h"
-#include "Component/AttackAnimation.h"
+#include "Enemy/EnemyDesc.h"
 
-EnemyInstance::EnemyInstance(const EnemyDesc& desc, class IFocus* player)
-	: transform(desc.Transform), animator(desc.Animator), player(player)
-	, runSpeed(desc.RunSpeed), walkSpeed(desc.WalkSpeed), turnSpeed(desc.TurnSpeed)
-	, detectionRange(desc.DetectionRange), attackRange(desc.AttackRange)
-	, attack(desc.Attack)
+EnemyInstance::EnemyInstance(const EnemyInstanceDesc* desc)
+	: player(desc->Player), transform(desc->Transform), animator(desc->Animator), attack(desc->Attack)
+	, runSpeed(desc->Desc->RunSpeed), walkSpeed(desc->Desc->WalkSpeed), turnSpeed(desc->Desc->TurnSpeed)
+	, detectionRange(desc->Desc->DetectionRange), attackRange(desc->Desc->AttackRange)
+	, patrolPoints(*desc->PatrolPoints)
 {
 	hp = new HPSystem();
 	hp->GetHpbar()->SetParent(transform);
@@ -29,9 +29,6 @@ EnemyInstance::EnemyInstance(const EnemyDesc& desc, class IFocus* player)
 	hp->GetHurtbox()->Tag(L"Enemy");
 	hp->AddReceiveTag(L"PlayerAttack");
 	hp->SetFuncDamage(bind(&EnemyInstance::OnDamage, this));
-
-	patrolPoints.push_back(Vector3(25.0f, 0.0f, 25.0f));
-	patrolPoints.push_back(Vector3(0.0f, 0.0f, 25.0f));
 
 	animator->SetFuncNext(
 		bind(&EnemyInstance::OnNextAnimation, this, placeholders::_1)

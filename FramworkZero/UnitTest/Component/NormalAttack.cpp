@@ -20,7 +20,7 @@ NormalAttack::~NormalAttack()
 		SafeDelete(d);
 }
 
-AttackAnimation * NormalAttack::MakeInstance(Transform* parent)
+AttackAnimation * NormalAttack::MakeAttackInstance(Transform* parent)
 {
 	Instance_N* i = new Instance_N(this, parent);
 	instances.push_back(i);
@@ -51,6 +51,7 @@ NormalAttack::Instance_N::Instance_N(NormalAttack* init, Transform* parent)
 	init->InitTransform()->LocalWorld(&w);
 	system->GetTransform()->LocalWorld(w);
 	system->SetTag(init->Tag());
+	system->SetAttack(init->attack);
 
 	anim = new AttackAnimation();
 	anim->SetFuncStop(bind(&NormalAttack::Instance_N::Stop, this));

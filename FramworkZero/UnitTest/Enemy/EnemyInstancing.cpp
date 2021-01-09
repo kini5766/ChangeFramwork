@@ -1,100 +1,56 @@
 #include "stdafx.h"
 #include "EnemyInstancing.h"
 
-#include "Tools/Viewer/IFocus.h"
-#include "Objects/Model/ModelAnimation.h"
+#include "Enemy/EnemyDesc.h"
 
-#include "Character/Paladin.h"
-#include "Component/NormalAttack.h"
 #include "Component/MagicAttack.h"
-#include "Component/AttackAnimation.h"
 #include "EnemyInstance.h"
 
 
-EnemyInstancing::EnemyInstancing(Shader * shader, IFocus* player)
-	: player(player)
+EnemyInstancing::EnemyInstancing(IFocus* player, IEnemy* enemy)
+	: player(player), enemy(enemy)
 {
-	modelInstancing = new ModelSkinnedInstancing(shader, {
-			/*매쉬*/ L"Paladin/Mesh",
-			/*매터리얼*/ L"Paladin/Mesh",
-			/*클립*/ {
-				L"Paladin/Idle",  // 0
-				L"Paladin/Walk",  // 1
-				L"Paladin/Run",  // 2
-				L"Paladin/Taunt",  // 3
-				L"Paladin/Attack",  // 4
-				L"Paladin/React",  // 5
-				L"Paladin/Fall",  // 6
-			}
-		});
-
-	normalAttack = new NormalAttack();
-	normalAttack->InitTransform()->Position(0.0f, 90.0f, -40.0f);
-	normalAttack->InitTransform()->Rotation(0.0f, 0.0f, 0.0f);
-	normalAttack->InitTransform()->Scale(100.0f, 180.0f, 180.0f);
-	normalAttack->Tag(L"EnemyAttack");
-
-	sphere = new MeshInstancing(shader, new MeshSphere(0.5f));
-	magicAttack = new MagicAttack(player, sphere);
-	magicAttack->InitTransform()->Position(0.0f, 90.0f, -40.0f);
-	normalAttack->InitTransform()->Rotation(0.0f, 0.0f, 0.0f);
-	magicAttack->Tag(L"EnemyAttack");
-
-	AddInstance();
-
-	modelInstancing->UpdateTransforms();
-	modelInstancing->UpdateColors();
-	modelInstancing->Pass(1);
 }
 
 EnemyInstancing::~EnemyInstancing()
 {
-	SafeDelete(magicAttack);
-	SafeDelete(sphere);
-	SafeDelete(normalAttack);
-	SafeDelete(instance);
-	SafeDelete(modelInstancing);
+	for (auto d : instances)
+		SafeDelete(d);
+	SafeDelete(enemy);
 }
 
 void EnemyInstancing::Update()
 {
-	instance->Update();
-	modelInstancing->Update();
-	modelInstancing->UpdateTransforms();
-	normalAttack->Update();
-	magicAttack->Update();
+	for (EnemyInstance* i : instances)
+		i->Update();
 
-	sphere->Update();
-	sphere->UpdateTransforms();
+	enemy->Update();
 }
 
 void EnemyInstancing::Render()
 {
-	modelInstancing->Render();
-	instance->Render();
+	enemy->Render();
 
-	sphere->Render();
+	for (EnemyInstance* i : instances)
+		i->Render();
 }
 
-void EnemyInstancing::AddInstance()
+void EnemyInstancing::AddInstance(const Matrix& localWorld, const vector<Vector3>* patrolPoints)
 {
-	EnemyDesc desc;
-	ModelSkinnedInstance* i = modelInstancing->AddInstance();
+	ModelSkinnedInstance* i = enemy->GetModel()->AddInstance();
 
 	Transform* t = i->GetTransform();
-	t->Scale(0.03f, 0.03f, 0.03f);
-	t->Position(25.0f, 0.0f, 25.0f);
-	t->RotationDegree(0.0f, -90.0f, 0.0f);
-	desc.Transform = t;
+	t->LocalWorld(localWorld);
 
 	Animator* anim = new Animator();
-	Paladin::BindAnimation(anim, i->GetAnimation());
+	enemy->BindAnimation(anim, i->GetAnimation());
+
+	EnemyInstanceDesc desc;
+	desc.Player = player;
+	desc.Transform = t;
 	desc.Animator = anim;
-
-	//desc.Attack = normalAttack->MakeInstance(t);
-	desc.Attack = magicAttack->MakeInstance(t);
-
-	desc.AttackRange = 25.0f;
-
-	instance = new EnemyInstance(desc, player);
+	desc.Attack = enemy->MakeAttackInstance(t);
+	desc.PatrolPoints = patrolPoints;
+	desc.Desc = enemy->GetDesc();
+	instances.push_back(new EnemyInstance(&desc));
 }

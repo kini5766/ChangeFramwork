@@ -22,7 +22,7 @@ MagicAttack::~MagicAttack()
 	SafeDelete(rotateSystem);
 }
 
-AttackAnimation * MagicAttack::MakeInstance(Transform * parent)
+AttackAnimation * MagicAttack::MakeAttackInstance(Transform * parent)
 {
 	Instance_M* i = new Instance_M(this, parent);
 	instances.push_back(i);

@@ -79,6 +79,12 @@
     <ClCompile Include="Component\MagicAttack.cpp">
       <Filter>Component\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy\MeleeEnemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\MagicianEnemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
@@ -158,6 +164,15 @@
     </ClInclude>
     <ClInclude Include="Component\MagicAttack.h">
       <Filter>Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\MeleeEnemy.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyDesc.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\MagicianEnemy.h">
+      <Filter>Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,10 +11,12 @@ public:
 	~NormalAttack();
 
 public:
-	class AttackAnimation* MakeInstance(Transform* parent);
+	class AttackAnimation* MakeAttackInstance(Transform* parent);
 	void Update();
 
 public:
+	void Attack(float value) { attack = value; }
+	float Attack() { return attack; }
 	void ReadyTime(float value) { readyTime = value; }
 	float ReadyTime() { return readyTime; }
 	void EndTime(float value) { endTime = value; }
@@ -30,6 +32,7 @@ private:
 	float endTime = 1.05f;
 	float delayTime = 2.0f;
 	float readyTime = 0.5f;
+	float attack = 8.0f;
 	Transform* initTransform;
 
 	class Instance_N;

@@ -7,10 +7,12 @@ public:
 	~MagicAttack();
 
 public:
-	class AttackAnimation* MakeInstance(Transform* parent);
+	class AttackAnimation* MakeAttackInstance(Transform* parent);
 	void Update();
 
 public:
+	void Attack(float value) { attack = value; }
+	float Attack() { return attack; }
 	void ReadyTime(float value) { readyTime = value; }
 	float ReadyTime() { return readyTime; }
 	void LifeTime(float value) { lifeTime = value; }

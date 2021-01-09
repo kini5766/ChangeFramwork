@@ -4,22 +4,22 @@
 class EnemyInstancing
 {
 public:
-	EnemyInstancing(Shader* shader, class IFocus* player);
+	EnemyInstancing(class IFocus* player, class IEnemy* desc);
 	~EnemyInstancing();
 
 public:
 	void Update();
 	void Render();
 
-private:
-	void AddInstance();
+public:
+	void AddInstance(const Matrix& localWorld, const vector<Vector3>* patrolPoints);
 
 private:
-	ModelSkinnedInstancing* modelInstancing;
-	class EnemyInstance* instance;
+	class IEnemy* enemy;
 	class IFocus* player;
+	vector<class EnemyInstance*> instances;
 
-	class NormalAttack* normalAttack;
-	class MagicAttack* magicAttack;
-	MeshInstancing* sphere;
+	//class NormalAttack* normalAttack;
+	//class MagicAttack* magicAttack;
+	//MeshInstancing* sphere;
 };

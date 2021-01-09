@@ -57,12 +57,13 @@ WorldPlayer::WorldPlayer(Shader * shader)
 	attack->InitTransform()->Rotation(0.0f, 0.0f, 0.0f);
 	attack->InitTransform()->Scale(120.0f, 200.0f, 240.0f);
 	attack->Tag(L"PlayerAttack");
+	attack->Attack(10.0f);
 	attack->ReadyTime(0.25f);
 	attack->EndTime(0.5f);
 	attack->DelayTime(0.6f);
 
 	player->SetFuncAttack(
-		attack->MakeInstance(instance->GetTransform())
+		attack->MakeAttackInstance(instance->GetTransform())
 	);
 
 	weapon = new Transform();
