@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Utilities/BinaryFile.h"
+
 class IObjectEditor
 {
 public:
@@ -10,8 +12,10 @@ public:
 	virtual void On() {}
 	virtual void Off() {}
 
-	virtual void Save(class BinaryWriter* w) = 0;
-	virtual void Load(class BinaryReader* r) = 0;
+	virtual void Save(BinaryWriter* w) = 0;
+	virtual void Load(BinaryReader* r) = 0;
+	// return : 로드 성공 여부
+	virtual bool LoadTakeOut(BinaryReader* r) { Load(r); return true; }
 };
 
 class ObjectEditor
@@ -27,8 +31,9 @@ public:
 
 	void On();
 	void Off();
-	void Save(class BinaryWriter* w);
-	void Load(class BinaryReader* r);
+	void Save(BinaryWriter* w);
+	void Load(BinaryReader* r);
+	bool LoadTakeOut(BinaryReader* r);
 
 public:
 	void Name(const char* value);

@@ -20,14 +20,25 @@ SceneEditor::~SceneEditor()
 
 SceneValue * SceneEditor::Takeout(wstring file)
 {
-	SceneValue * result;
+	SceneValue * result = new SceneValue();
 
-	OpenFile(URI::Scenes + file + L".scene");
+	BinaryReader r(URI::Scenes + file + L".scene");
 
-	result = value;
-	value = nullptr;
+	UINT size = r.UInt();
+	for (UINT i = 0; i < size; i++)
+	{
+		ObjectEditor* obj = new ObjectEditor(factory, static_cast<int>(value->Size()));
+		if (obj->LoadTakeOut(&r))
+			result->Add(obj);
+		else SafeDelete(obj);
+	}
 
 	return result;
+}
+
+void SceneEditor::AddValue(string tag, void * value)
+{
+	factory->AddValue(tag, value);
 }
 
 void SceneEditor::Update()

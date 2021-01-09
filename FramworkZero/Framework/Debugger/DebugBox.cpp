@@ -20,21 +20,21 @@ DebugBox::~DebugBox()
 
 void DebugBox::RenderBox(Transform* box, const Color& color)
 {
-	boxes.push_back({ box, color });
+	Matrix world;
+	box->LossyWorld(&world);
+	boxes.push_back({ world, color });
 }
 
 void DebugBox::Render()
 {
 	Vector3 line[8];
 
-	Matrix world;
 	for (BoxDesc& box : boxes)
 	{
 		const Color& color = box.Color;
-		box.Transform->LossyWorld(&world);
 
 		for (UINT i = 0; i < 8; i++)
-			D3DXVec3TransformCoord(&line[i], &vertex[i], &world);
+			D3DXVec3TransformCoord(&line[i], &vertex[i], &box.Transform);
 
 		Debug::Line->RenderLine(line[0], line[1], color);
 		Debug::Line->RenderLine(line[1], line[3], color);

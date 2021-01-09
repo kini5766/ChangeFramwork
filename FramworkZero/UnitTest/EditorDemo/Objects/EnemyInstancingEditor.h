@@ -5,7 +5,7 @@
 class EnemyInstancingEditor : public IObjectEditor
 {
 public:
-	EnemyInstancingEditor();
+	EnemyInstancingEditor(class IFocus* player);
 	~EnemyInstancingEditor();
 
 public:
@@ -13,27 +13,42 @@ public:
 	void ImGuiRender() override;
 	void Update() override;
 	void Render() override;
-	void Save(class BinaryWriter * w) override;
-	void Load(class BinaryReader * r) override;
+	void Save(BinaryWriter * w) override;
+	void Load(BinaryReader * r) override;
+	bool LoadTakeOut(BinaryReader * r) override;
 	void On() override;
 	void Off() override;
 
 private:
+	void CreateEnemy(int item);
 	void AddInstance();
 	void Select(int i);
 
 	// render
 private:
 	Shader* shader;
-	vector<class EnemyInstance*> meshes;
-	class EnemyInstancing* enemyInstancing = nullptr;
-
-	// imgui
-private:
-	int selected = -1;
-	int imguiItem = 0;
+	class EnemyInstancing* enemy;
+	class IFocus* player;
 
 	// save load
 private:
 	class TransformEditor* tImGui;
+
+	// imgui
+private:
+	int selected = -1;
+	int enemyType = 0;
+	Transform* modelTemp = nullptr;
+
+	const char* enemyTypes = {
+		"Melee\0"
+		"Magician\0"
+	};
+
+	struct EnemyInstanceDesc
+	{
+		Transform Transform;
+		vector<Vector3> PatrolPoints;
+	};
+	vector<EnemyInstanceDesc*> descs;
 };

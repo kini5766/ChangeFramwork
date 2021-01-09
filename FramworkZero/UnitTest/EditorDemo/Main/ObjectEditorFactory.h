@@ -18,4 +18,11 @@ private:
 	vector<pair<string, IObjectEditor*(*)(void)>> creator;
 	string* names;
 	UINT size;
+
+
+public:
+	void AddValue(string tag, void* value);
+
+private:
+	static map<string, void*> insertValues;
 };

@@ -8,6 +8,7 @@ public:
 
 public:
 	class SceneValue* Takeout(wstring file);
+	void AddValue(string tag, void* value);
 
 public:
 	void Update();

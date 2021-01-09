@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "MeshInstancingEditor.h"
 
-#include "Utilities/BinaryFile.h"
-
 #include "Component/TransformEditor.h"
 #include "Component/ColliderEditor.h"
 #include "Component/MaterialEditor.h"

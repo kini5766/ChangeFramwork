@@ -21,7 +21,7 @@ private:
 private:
 	struct BoxDesc
 	{
-		Transform* Transform;
+		Matrix Transform;
 		Color Color;
 	};
 	vector<BoxDesc> boxes;

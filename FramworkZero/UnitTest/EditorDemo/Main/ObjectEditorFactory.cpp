@@ -1,13 +1,20 @@
 #include "stdafx.h"
 #include "ObjectEditorFactory.h"
 
+#include "Tools/Viewer/IFocus.h"
+
 #include "IObjectEditor.h"
 #include "../Objects/MeshInstancingEditor.h"
+#include "../Objects/EnemyInstancingEditor.h"
+
+map<string, void*> ObjectEditorFactory::insertValues;
 
 void ObjectEditorFactory::Insert()
 {
 	creator.push_back(make_pair("MeshInstancing",
 		[]()->IObjectEditor* { return new MeshInstancingEditor(); }));
+	creator.push_back(make_pair("EnemyInstancing",
+		[]()->IObjectEditor* { return new EnemyInstancingEditor((IFocus*)insertValues["IFocusPlayer"]); }));
 }
 
 
@@ -47,4 +54,9 @@ IObjectEditor * ObjectEditorFactory::CreateEditor(string typeName)
 	}
 
 	return result;
+}
+
+void ObjectEditorFactory::AddValue(string tag, void * value)
+{
+	insertValues[tag] = value;
 }
