@@ -22,14 +22,14 @@ NormalAttack::~NormalAttack()
 
 AttackAnimation * NormalAttack::MakeInstance(Transform* parent)
 {
-	Instance* i = new Instance(this, parent);
+	Instance_N* i = new Instance_N(this, parent);
 	instances.push_back(i);
 	return i->Anim();
 }
 
 void NormalAttack::Update()
 {
-	for (Instance* i : instances)
+	for (Instance_N* i : instances)
 		i->Anim()->Update();
 }
 
@@ -40,7 +40,7 @@ void NormalAttack::Update()
 
 #include "Component/AttackSystem.h"
 
-NormalAttack::Instance::Instance(NormalAttack* init, Transform* parent)
+NormalAttack::Instance_N::Instance_N(NormalAttack* init, Transform* parent)
 	: endTime(init->endTime)
 	, readyTime(init->readyTime)
 	, delayTime(init->delayTime)
@@ -53,30 +53,30 @@ NormalAttack::Instance::Instance(NormalAttack* init, Transform* parent)
 	system->SetTag(init->Tag());
 
 	anim = new AttackAnimation();
-	anim->SetFuncStop(bind(&NormalAttack::Instance::Stop, this));
-	anim->SetFuncAttackAble(bind(&NormalAttack::Instance::IsAttackAble, this));
-	anim->AddUnit(bind(&NormalAttack::Instance::Update, this, placeholders::_1));
+	anim->SetFuncStop(bind(&NormalAttack::Instance_N::Stop, this));
+	anim->SetFuncAttackAble(bind(&NormalAttack::Instance_N::IsAttackAble, this));
+	anim->AddUnit(bind(&NormalAttack::Instance_N::Update, this, placeholders::_1));
 }
 
-NormalAttack::Instance::~Instance()
+NormalAttack::Instance_N::~Instance_N()
 {
 	SafeDelete(anim);
 	SafeDelete(system);
 }
 
-AttackAnimation * NormalAttack::Instance::Anim() 
+AttackAnimation * NormalAttack::Instance_N::Anim()
 {
 	return anim;
 }
 
-bool NormalAttack::Instance::Update(float runningTime)
+bool NormalAttack::Instance_N::Update(float runningTime)
 {
 	if (system->IsAttacking())
 		Debug::Box->RenderBox(system->GetTransform(), Color(0.0f, 1.0f, 0.0f, 1.0f));
 
 	switch (state)
 	{
-	case NormalAttack::Instance::AttackState::None:
+	case NormalAttack::Instance_N::AttackState::None:
 		if (runningTime == 0.0f)
 		{
 			// 공격 시작
@@ -88,7 +88,7 @@ bool NormalAttack::Instance::Update(float runningTime)
 		}
 		break;
 
-	case NormalAttack::Instance::AttackState::Ready:
+	case NormalAttack::Instance_N::AttackState::Ready:
 		if (runningTime >= readyTime)
 		{
 			system->StartAttack();
@@ -96,7 +96,7 @@ bool NormalAttack::Instance::Update(float runningTime)
 		}
 		break;
 
-	case NormalAttack::Instance::AttackState::Attack:
+	case NormalAttack::Instance_N::AttackState::Attack:
 		if (runningTime >= endTime)
 		{
 			system->EndAttack();
@@ -104,7 +104,7 @@ bool NormalAttack::Instance::Update(float runningTime)
 		}
 		break;
 
-	case NormalAttack::Instance::AttackState::Delay:
+	case NormalAttack::Instance_N::AttackState::Delay:
 		if (runningTime >= delayTime)
 		{
 			state = AttackState::None;
@@ -112,7 +112,7 @@ bool NormalAttack::Instance::Update(float runningTime)
 		}
 		break;
 
-	case NormalAttack::Instance::AttackState::Stop:  // 외부로 인한 종료
+	case NormalAttack::Instance_N::AttackState::Stop:  // 외부로 인한 종료
 		state = AttackState::None;
 		return true;
 		break;
@@ -120,7 +120,7 @@ bool NormalAttack::Instance::Update(float runningTime)
 	return false;
 }
 
-bool NormalAttack::Instance::IsAttackAble()
+bool NormalAttack::Instance_N::IsAttackAble()
 {
 	if (state != AttackState::None)
 		return false;
@@ -128,7 +128,7 @@ bool NormalAttack::Instance::IsAttackAble()
 	return true;
 }
 
-void NormalAttack::Instance::Stop()
+void NormalAttack::Instance_N::Stop()
 {
 	state = AttackState::Stop;
 }

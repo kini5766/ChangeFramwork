@@ -63,7 +63,7 @@ Transform * HPSystem::GetHpbar()
 	return hpBar->GetTransform();
 }
 
-void HPSystem::AddTag(wstring value)
+void HPSystem::AddReceiveTag(wstring value)
 {
 	hurtReceiver->AddReceiveTag(value);
 }

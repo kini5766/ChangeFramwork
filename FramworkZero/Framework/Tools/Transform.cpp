@@ -185,6 +185,8 @@ Vector3 Transform::Forward()
 	float yw2 = 2 * q.y * q.w;
 
 	return Vector3(xz2 + yw2, yz2 - xw2, 1.0f - xx2 - yy2);
+	//UpdateWorld();
+	//return Vector3(lossyWorld->_31, lossyWorld->_32, lossyWorld->_33);
 }
 
 Vector3 Transform::Up()
@@ -201,6 +203,8 @@ Vector3 Transform::Up()
 	float zw2 = 2 * q.z * q.w;
 
 	return Vector3(xy2 - zw2, 1.0f - xx2 - zz2, yz2 + xw2);
+	//UpdateWorld();
+	//return Vector3(lossyWorld->_21, lossyWorld->_22, lossyWorld->_23);
 }
 
 Vector3 Transform::Right()
@@ -217,6 +221,8 @@ Vector3 Transform::Right()
 	float zw2 = 2 * q.z * q.w;
 
 	return Vector3(1.0f - yy2 - zz2, xy2 + zw2, xz2 - yw2);
+	//UpdateWorld();
+	//return Vector3(lossyWorld->_11, lossyWorld->_12, lossyWorld->_13);
 }
 
 void Transform::LocalWorld(const Matrix & set)

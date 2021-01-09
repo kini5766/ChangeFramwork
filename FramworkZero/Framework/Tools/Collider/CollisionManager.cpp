@@ -120,6 +120,9 @@ void CollisionManager::CheckCollision()
 			if ((layerMask & send->GetMask()) == 0)
 				continue;
 
+			if (collider == send)
+				continue;
+
 			if (collider->GetCollider()->Intersection(send->GetCollider()) == false)
 				continue;
 

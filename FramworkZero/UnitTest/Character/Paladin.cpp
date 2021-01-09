@@ -13,18 +13,19 @@ void Paladin::BindAnimation(Animator* animator, ModelAnimation* model)
 	animator->BindAll(model);
 
 	// 0 Idle
-	//animator->AddBlendEdge(0, 2, 0.0f);
+	animator->AddBlendEdge(0, 2, 0.0f);
 	// 1 Walk
 	// 2 Run
-	//animator->AddBlendEdge(2, 0, 0.0f);
-	//animator->AddBlendEdge(2, 4, 0.0f);
+	animator->AddBlendEdge(2, 0, 0.0f);
+	animator->AddBlendEdge(2, 4, 0.0f);
 	//animator->AddBlendEdge(2, 5, 0.0f);
 
 	// 3 Taunt
-	animator->AddBlendEdge(3, 2, 0.1f, true);
+	animator->AddBlendEdge(3, 2, 0.0f, true);
 
 	// 4 Attack
 	animator->SetSpeed(4, 2.0f);
+	animator->AddBlendEdge(4, 2, 0.0f);
 	animator->AddBlendEdge(4, 0, 0.1f, true);
 
 	// 5 React

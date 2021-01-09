@@ -4,7 +4,7 @@ struct BoxMessageDesc
 {
 	int Id;  // 보내는 이
 	wstring Tag;  // 받는 이
-	Collider* Other;
+	class ColliderBox* Other;
 	void* Message;
 };
 

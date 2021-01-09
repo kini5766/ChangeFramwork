@@ -7,7 +7,8 @@ ColliderBox::ColliderBox(UINT instanceId)
 	collider = new Collider();
 	message = new BoxMessageDesc();
 	message->Id = instanceId;
-	message->Other = collider;
+	//message->Other = collider;
+	message->Other = this;
 }
 
 ColliderBox::~ColliderBox()
@@ -61,7 +62,8 @@ void ColliderBox::Recycle(int colliderId)
 	this->colliderId = colliderId;
 	message->Id = colliderId;
 
-	message->Other = collider;
+	//message->Other = collider;
+	message->Other = this;
 }
 
 

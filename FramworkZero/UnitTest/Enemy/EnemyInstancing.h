@@ -20,4 +20,6 @@ private:
 	class IFocus* player;
 
 	class NormalAttack* normalAttack;
+	class MagicAttack* magicAttack;
+	MeshInstancing* sphere;
 };

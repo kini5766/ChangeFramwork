@@ -13,7 +13,7 @@ public:
 public:
 	Transform* GetHpbar();
 	ColliderBox* GetHurtbox() { return hurtbox; }
-	void AddTag(wstring value);
+	void AddReceiveTag(wstring value);
 	void SetFuncDamage(function<void(void)> value) { funcDamage = value; }
 	float HP() { return hp; }
 

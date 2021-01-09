@@ -64,17 +64,20 @@
     <ClCompile Include="Player\CharacterController.cpp">
       <Filter>Player</Filter>
     </ClCompile>
-    <ClCompile Include="Component\AttackSystem.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="EditorDemo\Objects\EnemyInstancingEditor.cpp">
       <Filter>EditorDemo\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Component\AttackAnimation.cpp">
-      <Filter>Component</Filter>
+      <Filter>Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\AttackSystem.cpp">
+      <Filter>Component\Attack</Filter>
     </ClCompile>
     <ClCompile Include="Component\NormalAttack.cpp">
-      <Filter>Component</Filter>
+      <Filter>Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\MagicAttack.cpp">
+      <Filter>Component\Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -141,17 +144,20 @@
     <ClInclude Include="Player\CharacterController.h">
       <Filter>Player</Filter>
     </ClInclude>
-    <ClInclude Include="Component\AttackSystem.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="EditorDemo\Objects\EnemyInstancingEditor.h">
       <Filter>EditorDemo\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Component\AttackAnimation.h">
-      <Filter>Component</Filter>
+      <Filter>Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\AttackSystem.h">
+      <Filter>Component\Attack</Filter>
     </ClInclude>
     <ClInclude Include="Component\NormalAttack.h">
-      <Filter>Component</Filter>
+      <Filter>Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\MagicAttack.h">
+      <Filter>Component\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +187,9 @@
     </Filter>
     <Filter Include="Player">
       <UniqueIdentifier>{03cc99b1-fe2e-419a-af29-d12933065d28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Attack">
+      <UniqueIdentifier>{037b9337-0c9e-43d3-b2f7-e26fb5e5c9b7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

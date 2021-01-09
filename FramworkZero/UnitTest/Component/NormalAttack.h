@@ -32,16 +32,15 @@ private:
 	float readyTime = 0.5f;
 	Transform* initTransform;
 
-	class Instance;
-	vector<Instance*> instances;
-
+	class Instance_N;
+	vector<Instance_N*> instances;
 
 private:
-	class Instance
+	class Instance_N
 	{
 	public:
-		Instance(NormalAttack* init, Transform* parent);
-		~Instance();
+		Instance_N(NormalAttack* init, Transform* parent);
+		~Instance_N();
 
 	public:
 		class AttackAnimation* Anim();

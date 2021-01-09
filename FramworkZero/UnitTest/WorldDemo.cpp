@@ -60,4 +60,5 @@ void WorldDemo::LoadScene()
 {
 	SceneEditor editor;
 	scene = editor.Takeout(L"World2");
+	Debug::Gizmo->SetTransform(nullptr);
 }

@@ -36,7 +36,12 @@ WorldPlayer::WorldPlayer(Shader * shader)
 	playerHp = new HPSystem();
 	playerHp->GetHpbar()->SetParent(instance->GetTransform());
 	playerHp->GetHpbar()->Position(0, 200.0f, 0);
-	playerHp->AddTag(L"Enemy");
+	playerHp->GetHurtbox()->SetLayer(
+		COLLIDER_LAYER_PLAYER |
+		COLLIDER_LAYER_HITBOX
+	);
+	playerHp->GetHurtbox()->Tag(L"Player");
+	playerHp->AddReceiveTag(L"EnemyAttack");
 
 	playerHp->GetHurtbox()->GetTransform()->SetParent(instance->GetTransform());
 	playerHp->GetHurtbox()->GetTransform()->Position(0.0f, 100.0f, 0.0f);
@@ -51,7 +56,7 @@ WorldPlayer::WorldPlayer(Shader * shader)
 	attack->InitTransform()->Position(0.0f, 100.0f, -70.0f);
 	attack->InitTransform()->Rotation(0.0f, 0.0f, 0.0f);
 	attack->InitTransform()->Scale(120.0f, 200.0f, 240.0f);
-	attack->Tag(L"Player");
+	attack->Tag(L"PlayerAttack");
 	attack->ReadyTime(0.25f);
 	attack->EndTime(0.5f);
 	attack->DelayTime(0.6f);

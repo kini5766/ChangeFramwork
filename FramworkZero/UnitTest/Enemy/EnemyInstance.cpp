@@ -21,8 +21,13 @@ EnemyInstance::EnemyInstance(const EnemyDesc& desc, class IFocus* player)
 	hp->GetHurtbox()->GetTransform()->SetParent(transform);
 	hp->GetHurtbox()->GetTransform()->Position(0.0f, 90.0f, 0.0f);
 	hp->GetHurtbox()->GetTransform()->Rotation(0.0f, 0.0f, 0.0f);
-	hp->GetHurtbox()->GetTransform()->Scale(75.0f, 180.0f, 75.0f);
-	hp->AddTag(L"Player");
+	hp->GetHurtbox()->GetTransform()->Scale(75.0f, 180.0f, 75.0f); 
+	hp->GetHurtbox()->SetLayer(
+		COLLIDER_LAYER_ENEMY |
+		COLLIDER_LAYER_HITBOX
+	);
+	hp->GetHurtbox()->Tag(L"Enemy");
+	hp->AddReceiveTag(L"PlayerAttack");
 	hp->SetFuncDamage(bind(&EnemyInstance::OnDamage, this));
 
 	patrolPoints.push_back(Vector3(25.0f, 0.0f, 25.0f));

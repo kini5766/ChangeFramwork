@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="Component\AttackAnimation.cpp" />
     <ClCompile Include="Component\AttackSystem.cpp" />
+    <ClCompile Include="Component\MagicAttack.cpp" />
     <ClCompile Include="EditorDemo\Objects\EnemyInstancingEditor.cpp" />
     <ClCompile Include="Player\CharacterController.cpp" />
     <ClCompile Include="Character\Kachujin.cpp" />
@@ -164,6 +165,7 @@
   <ItemGroup>
     <ClInclude Include="Component\AttackAnimation.h" />
     <ClInclude Include="Component\AttackSystem.h" />
+    <ClInclude Include="Component\MagicAttack.h" />
     <ClInclude Include="EditorDemo\Objects\EnemyInstancingEditor.h" />
     <ClInclude Include="Player\CharacterController.h" />
     <ClInclude Include="Character\Kachujin.h" />
