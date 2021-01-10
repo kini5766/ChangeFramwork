@@ -174,6 +174,7 @@ void Converter::ReadSkinData()
 		bool bHasBones = true;
 		for (UINT p = 0; p < mesh->MeshParts.size(); p++, i++)
 		{
+			
 			aiMesh* aiMesh = scene->mMeshes[i];
 
 			// 메쉬는 있으나 animBone이 없는 경우 (가중치 없음)
@@ -203,14 +204,15 @@ void Converter::ReadSkinData()
 				for (UINT w = 0; w < aiMeshBone->mNumWeights; w++)
 				{
 					UINT index = aiMeshBone->mWeights[w].mVertexId;  // 정점번호
+					index += mesh->MeshParts[p]->StartVertex;
 					float weight = aiMeshBone->mWeights[w].mWeight;  // 가중치
 
 					// 가중치 순서대로 내림차순으로 저장
 					boneWeights[index].AddWeights(boneIndex, weight);
 				}
 
-			}// end aiMesh->mNumBones
-		}
+			}
+		}// end mesh->MeshParts
 
 		if (bHasBones == false)
 			continue;
