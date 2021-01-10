@@ -14,7 +14,7 @@ EnemyInstance::EnemyInstance(const EnemyInstanceDesc* desc)
 	, detectionRange(desc->Desc->DetectionRange), attackRange(desc->Desc->AttackRange)
 	, patrolPoints(*desc->PatrolPoints)
 {
-	hp = new HPSystem();
+	hp = new HPSystem(desc->Desc->HP);
 	hp->GetHpbar()->SetParent(transform);
 	hp->GetHpbar()->Position(0, 180.0f, 0);
 

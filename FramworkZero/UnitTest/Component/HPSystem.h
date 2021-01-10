@@ -3,7 +3,7 @@
 class HPSystem
 {
 public:
-	HPSystem();
+	HPSystem(float hpMax = 100.0f);
 	~HPSystem();
 
 public:
@@ -21,8 +21,8 @@ private:
 	ColliderBox* hurtbox;
 	ReceiveBox* hurtReceiver;
 
-	float hp = 100.0f;
-	float hpMax = 100.0f;
+	float hp;
+	float hpMax;
 	
 	class HPBar* hpBar;
 	function<void(void)> funcDamage = []() {};

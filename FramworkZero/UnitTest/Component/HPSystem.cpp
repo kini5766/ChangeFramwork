@@ -4,7 +4,8 @@
 #include "HPBar.h"
 #include "Component/AttackSystem.h"
 
-HPSystem::HPSystem()
+HPSystem::HPSystem(float hpMax)
+	: hpMax(hpMax), hp(hpMax)
 {
 	hurtbox = CollisionManager::Get()->CreateCollider();
 	hurtbox->SetLayer(COLLIDER_LAYER_HITBOX);

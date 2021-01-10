@@ -7,6 +7,7 @@
 
 struct EnemyDesc
 {
+	float HP = 100.0f;
 	float RunSpeed = 6.0f;  // 전투 시 이동 속도
 	float WalkSpeed = 3.0f;  // 순찰 속도
 	float TurnSpeed = 1.0f;  // 회전 속도

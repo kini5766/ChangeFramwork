@@ -36,6 +36,6 @@ private:
 	class WorldPlayer* player;
 	class SceneValue* scene;
 	class WorldLightGroup* lights;
-	//class EnemyInstancing* meleeEnemy;
-	//class EnemyInstancing* magicianEnemy;
+	class EnemyInstancing* meleeEnemy;
+	class EnemyInstancing* magicianEnemy;
 };

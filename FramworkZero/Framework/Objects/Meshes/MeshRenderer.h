@@ -28,8 +28,6 @@ private: // renderer
 
 	Shader* shader;
 	Material* defaultMaterial;
-	// 서브메쉬 수만큼 배열 할당
-	// materials[]->
 	vector<Material*> materials;
 	UINT pass = 0;
 

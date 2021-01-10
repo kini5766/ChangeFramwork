@@ -40,6 +40,9 @@ bool ReceiveBox::CheckTag(const BoxMessageDesc * value)
 void ReceiveBox::ReceiveBoxMessage(const BoxMessageDesc * value)
 {
 	auto m = (TriggerBoxMessageDesc*)value->Message;
+	if (m == nullptr)
+		return;
+
 	for (ReceiveMessageDesc& r : receiveDescs)
 	{
 		if (r.Id != value->Id) 

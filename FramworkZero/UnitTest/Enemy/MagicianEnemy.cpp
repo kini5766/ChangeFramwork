@@ -27,6 +27,7 @@ MagicianEnemy::MagicianEnemy(Shader * shader, IFocus* player)
 	magicAttack->InitTransform()->Rotation(0.0f, 0.0f, 0.0f);
 	magicAttack->Tag(L"EnemyAttack");
 
+	desc.HP = 80.0f;
 	desc.AttackRange = 25.0f;
 	desc.DetectionRange = 40.0f;
 

@@ -35,21 +35,8 @@ void MagicAttack::Update()
 	
 	while (iter != bullets.end())
 	{
-		UINT size;
-		UINT collision = 0;
-		auto cs = (*iter).HitBox->GetReceived(&size);
-		for (UINT i = 0; i < size; i++)
-		{
-			if (L"Magic" != cs[i]->Tag)
-			{
-				++collision;
-				break;
-			}
-		}
-
 		(*iter).LifeTime -= Time::Delta();
-		if ((*iter).LifeTime <= 0.0f ||
-			collision != 0)
+		if ((*iter).LifeTime <= 0.0f)
 		{
 			(*iter).System->EndAttack();
 			(*iter).System->GetTransform()->UnLink();
@@ -58,6 +45,18 @@ void MagicAttack::Update()
 			SafeRelease((*iter).Model);
 			bullets.erase(iter++);
 			continue;
+		}
+
+		// 충돌되자 마자 삭제하면 실행 순서에 따라 메시지 보내지 못할 수도 있다
+		UINT size;
+		auto cs = (*iter).HitBox->GetReceived(&size);
+		for (UINT i = 0; i < size; i++)
+		{
+			if (L"Magic" != cs[i]->Tag)
+			{
+				(*iter).LifeTime = 0.0f;
+				break;
+			}
 		}
 
 		Vector3 position;
