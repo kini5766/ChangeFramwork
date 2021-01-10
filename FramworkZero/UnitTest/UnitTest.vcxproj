@@ -131,6 +131,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Character\Friedrich.cpp" />
+    <ClCompile Include="Character\GasMask.cpp" />
     <ClCompile Include="Component\AttackAnimation.cpp" />
     <ClCompile Include="Component\AttackSystem.cpp" />
     <ClCompile Include="Component\MagicAttack.cpp" />
@@ -165,6 +167,8 @@
     <ClCompile Include="WorldDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Character\Friedrich.h" />
+    <ClInclude Include="Character\GasMask.h" />
     <ClInclude Include="Component\AttackAnimation.h" />
     <ClInclude Include="Component\AttackSystem.h" />
     <ClInclude Include="Component\MagicAttack.h" />

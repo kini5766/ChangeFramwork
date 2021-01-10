@@ -20,4 +20,6 @@ private:
 
 	void Atienza();
 	void Paladin();
+	void Friedrich();
+	void Swat();
 };

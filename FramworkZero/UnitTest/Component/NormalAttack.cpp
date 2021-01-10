@@ -114,8 +114,15 @@ bool NormalAttack::Instance_N::Update(float runningTime)
 		break;
 
 	case NormalAttack::Instance_N::AttackState::Stop:  // 외부로 인한 종료
-		state = AttackState::None;
-		return true;
+		if (runningTime == 0.0f)
+		{
+			state = AttackState::Ready;
+		}
+		else
+		{
+			state = AttackState::None;
+			return true;
+		}
 		break;
 	}
 	return false;
@@ -123,10 +130,11 @@ bool NormalAttack::Instance_N::Update(float runningTime)
 
 bool NormalAttack::Instance_N::IsAttackAble()
 {
-	if (state != AttackState::None)
-		return false;
+	if (state == AttackState::None ||
+		state == AttackState::Stop)
+		return true;
 
-	return true;
+	return false;
 }
 
 void NormalAttack::Instance_N::Stop()

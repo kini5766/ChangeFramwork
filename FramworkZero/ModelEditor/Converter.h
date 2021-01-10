@@ -50,6 +50,8 @@ private:
 
 	void ReadKeyframeData(asExClip * clip, aiNode * node, vector<struct asExClipBone*>& aniBones);
 
+	void MatchingNameBone(asExClip * clip);
+
 	// 파일로 저장
 	void WriteClipData(struct asExClip* clip, wstring savePath);
 

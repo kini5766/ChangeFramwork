@@ -82,6 +82,7 @@ bool EnemyInstancingEditor::LoadTakeOut(BinaryReader * r)
 	{
 		Transform t;
 		tImGui->Load(&t, r);
+		SetScale(&t);
 
 		Matrix w;
 		t.LocalWorld(&w);
@@ -97,12 +98,22 @@ bool EnemyInstancingEditor::LoadTakeOut(BinaryReader * r)
 
 void EnemyInstancingEditor::CreateEnemy(int item)
 {
+	enemyType = item;
 	switch (item)
 	{
 	case 0: enemy = new EnemyInstancing(player, new MeleeEnemy(shader)); break;
 	case 1: enemy = new EnemyInstancing(player, new MagicianEnemy(shader, player)); break;
 	}
 
+}
+
+void EnemyInstancingEditor::SetScale(Transform * t)
+{
+	switch (enemyType)
+	{
+	case 0: t->Scale(0.03f, 0.03f, 0.03f); break;
+	case 1: t->Scale(0.025f, 0.025f, 0.025f); break;
+	}
 }
 
 #pragma endregion
@@ -195,11 +206,7 @@ void EnemyInstancingEditor::Off()
 void EnemyInstancingEditor::AddInstance()
 {
 	EnemyInstanceDesc* desc = new EnemyInstanceDesc();
-	switch (enemyType)
-	{
-	case 0: desc->Transform.Scale(0.03f, 0.03f, 0.03f); break;
-	case 1: desc->Transform.Scale(0.03f, 0.03f, 0.03f); break;
-	}
+	SetScale(&desc->Transform);
 	desc->PatrolPoints.push_back(Vector3(0,0,0));
 	desc->PatrolPoints.push_back(Vector3(0,0,1));
 	descs.push_back(desc);

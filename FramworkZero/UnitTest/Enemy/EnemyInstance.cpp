@@ -18,10 +18,11 @@ EnemyInstance::EnemyInstance(const EnemyInstanceDesc* desc)
 	hp->GetHpbar()->SetParent(transform);
 	hp->GetHpbar()->Position(0, 180.0f, 0);
 
+	hp->GetHurtbox()->GetTransform()->Scale(2.25f, 5.40f, 2.25f);
 	hp->GetHurtbox()->GetTransform()->SetParent(transform);
+	//hp->GetHurtbox()->GetTransform()->Scale(75.0f, 180.0f, 75.0f);
 	hp->GetHurtbox()->GetTransform()->Position(0.0f, 90.0f, 0.0f);
 	hp->GetHurtbox()->GetTransform()->Rotation(0.0f, 0.0f, 0.0f);
-	hp->GetHurtbox()->GetTransform()->Scale(75.0f, 180.0f, 75.0f); 
 	hp->GetHurtbox()->SetLayer(
 		COLLIDER_LAYER_ENEMY |
 		COLLIDER_LAYER_HITBOX
@@ -85,7 +86,7 @@ void EnemyInstance::UpdateState()
 		return;
 	}
 
-	UINT next = currAction;
+	//UINT next = currAction;
 
 	Vector3 position;
 	transform->Position(&position);
@@ -99,16 +100,18 @@ void EnemyInstance::UpdateState()
 	Debug::Log->Show("attackRange : " + to_string(attackRange * attackRange));
 
 	if (lengthSq <= attackRange * attackRange)
-		NextAtteck(next, dest);
+		NextAtteck(nextAction, dest);
 	else if (lengthSq <= detectionRange * detectionRange)
-		NextRun(next, dest);
+		NextRun(nextAction, dest);
 	else
-		NextIdle(next);
+		NextIdle(nextAction);
 
-	if (currAction != next)
+	if (currAction != nextAction)
 	{
-		animator->Play(next);
-		currAction = next;
+		if (nextAction != 4)
+			attack->Stop();
+		animator->Play(nextAction);
+		currAction = nextAction;
 	}
 }
 
@@ -116,10 +119,10 @@ void EnemyInstance::UpdateState()
 void EnemyInstance::OnNextAnimation(UINT next)
 {
 	if (currAction == 3)
-		currAction = next;
+		nextAction = next;
 
 	if (currAction == 4)
-		currAction = next;
+		nextAction = next;
 
 	if (next == 6 && bFall)
 	{
@@ -147,6 +150,9 @@ void EnemyInstance::OnDamage()
 
 void EnemyInstance::NextAtteck(UINT & next, const Vector3 & dest)
 {
+	if (currAction == 4)
+		return;
+
 	if (next == 4)
 		return;
 
@@ -181,11 +187,16 @@ void EnemyInstance::NextAtteck(UINT & next, const Vector3 & dest)
 
 void EnemyInstance::NextRun(UINT & next, const Vector3 & dest)
 {
-	if (next != 3 && next != 2 && next != 4)
+	if (next == 4)
+		return;
+
+	if (next != 3 && next != 2)
 	{
 		// 전투 중일 때 바로 달리기
 		if (bWariness)
+		{
 			next = 2;
+		}
 		// 처음 전투에 진입
 		else 
 		{
@@ -196,8 +207,8 @@ void EnemyInstance::NextRun(UINT & next, const Vector3 & dest)
 
 		bWariness = true;
 	}
-
-	if ((next == 3) || (next == 2))
+	else
+	//if ((next == 3) || (next == 2))
 	{
 		float speedDelta = runSpeed * Time::Delta();
 

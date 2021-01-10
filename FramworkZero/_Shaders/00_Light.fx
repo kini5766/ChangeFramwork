@@ -127,14 +127,14 @@ float4 GetEmissive(float3 N, float3 E)
 	float NdotE = dot(N, E);
 
 	float eSthep = smoothstep(1.0f - Material.Emissive.a, 1.0f, 1.0f - NdotE);
-	//output.Emissive = Material.Emissive * emissive;
+	return Material.Emissive * eSthep;
 
-	float h = saturate(NdotE);
-	float r = saturate(1.0f - h);
-	float g = saturate(1.0f - h * 2.0f);
-	float b = saturate(1.0f - h * 2.0f) + saturate(h * 2.0f - 1.0f);
-	float4 c = float4(r, g, b, 1.0f);
-	return Material.Emissive * eSthep * c;
+	//float h = saturate(NdotE);
+	//float r = saturate(1.0f - h);
+	//float g = saturate(1.0f - h * 2.0f);
+	//float b = saturate(1.0f - h * 2.0f) + saturate(h * 2.0f - 1.0f);
+	//float4 c = float4(r, g, b, 1.0f);
+	//return Material.Emissive * eSthep * c;
 }
 
 float4 GetEmissive(float3 N, float3 E, float4 emissive)

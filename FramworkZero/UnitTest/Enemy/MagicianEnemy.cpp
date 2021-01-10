@@ -2,36 +2,37 @@
 #include "MagicianEnemy.h"
 
 #include "Tools/Viewer/IFocus.h"
-#include "Character/Paladin.h"
 #include "Component/MagicAttack.h"
+
+#include "Character/Friedrich.h"
 
 MagicianEnemy::MagicianEnemy(Shader * shader, IFocus* player)
 {
 	modelInstancing = new ModelSkinnedInstancing(shader, {
-		/*매쉬*/ L"Paladin/Mesh",
-		/*매터리얼*/ L"Paladin/Mesh",
+		/*매쉬*/ L"Friedrich/Mesh",
+		/*매터리얼*/ L"Friedrich/Mesh",
 		/*클립*/ {
-			L"Paladin/Idle",  // 0
-			L"Paladin/Walk",  // 1
-			L"Paladin/Run",  // 2
-			L"Paladin/Taunt",  // 3
-			L"Paladin/Attack",  // 4
-			L"Paladin/React",  // 5
-			L"Paladin/Fall",  // 6
+			L"Friedrich/Idle",  // 0
+			L"Friedrich/Walk",  // 1
+			L"Friedrich/Run",  // 2
+			L"Friedrich/Taunt",  // 3
+			L"Friedrich/Attack",  // 4
+			L"Friedrich/React",  // 5
+			L"Friedrich/Fall",  // 6
 		}
 		});
 
 	sphere = new MeshInstancing(shader, new MeshSphere(0.5f));
 	magicAttack = new MagicAttack(player, sphere);
-	magicAttack->InitTransform()->Position(0.0f, 90.0f, -40.0f);
-	magicAttack->InitTransform()->Rotation(0.0f, 0.0f, 0.0f);
+	magicAttack->InitTransform()->Position(-25.0f, 135.0f, -40.0f);
+	magicAttack->InitTransform()->Rotation(180.0f, 0.0f, 0.0f);
 	magicAttack->Tag(L"EnemyAttack");
 
 	desc.HP = 80.0f;
 	desc.AttackRange = 25.0f;
 	desc.DetectionRange = 40.0f;
+	//desc.TurnSpeed = 10.0f;
 
-	modelInstancing->UpdateTransforms();
 	modelInstancing->UpdateColors();
 	modelInstancing->Pass(1);
 }
@@ -66,7 +67,7 @@ ModelSkinnedInstancing * MagicianEnemy::GetModel()
 
 void MagicianEnemy::BindAnimation(Animator * animator, ModelAnimation * model)
 {
-	Paladin::BindAnimation(animator, model);
+	Friedrich::BindAnimation(animator, model);
 }
 
 AttackAnimation * MagicianEnemy::MakeAttackInstance(Transform * t)

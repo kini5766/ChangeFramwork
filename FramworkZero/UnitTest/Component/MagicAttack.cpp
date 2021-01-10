@@ -117,8 +117,6 @@ void MagicAttack::FireBullet(const Vector3& point, const Quaternion& q)
 	b.System->SetAttack(attack);
 	b.System->SetTag(tag);
 
-	Debug::Gizmo->SetTransform(b.Model->GetTransform());
-
 	b.System->StartAttack();
 	bullets.push_back(b);
 }
@@ -195,8 +193,15 @@ bool MagicAttack::Instance_M::Update(float runningTime)
 		break;
 
 	case MagicAttack::Instance_M::AttackState::Stop:  // 외부로 인한 종료
-		state = AttackState::None;
-		return true;
+		if (runningTime == 0.0f)
+		{
+			state = AttackState::Ready;
+		}
+		else
+		{
+			state = AttackState::None;
+			return true;
+		}
 		break;
 	}
 	return false;
@@ -204,10 +209,11 @@ bool MagicAttack::Instance_M::Update(float runningTime)
 
 bool MagicAttack::Instance_M::IsAttackAble()
 {
-	if (state != AttackState::None)
-		return false;
+	if (state == AttackState::None |
+		state == AttackState::Stop)
+		return true;
 
-	return true;
+	return false;
 }
 
 void MagicAttack::Instance_M::Stop()

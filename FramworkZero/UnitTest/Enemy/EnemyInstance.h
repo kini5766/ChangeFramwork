@@ -42,6 +42,7 @@ private:
 	UINT currPatrol = 0;  // 현재 순찰하고 있는 위치
 	// 0 : idle, 1 : walk, 2 : run, 3 : taunt, 4 : attack, 5 : react, 6 : fall
 	UINT currAction = 0;
+	UINT nextAction = 0;
 
 	float idleRunTime = 0.0f;  // 전투 종료, 순찰 완료 시 대기한 시간
 	float reactTime = 1.0f;  // 경직 상태 길이

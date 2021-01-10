@@ -163,45 +163,57 @@ void Converter::ReadSkinData()
 
 	//  ai 전체 메쉬 다 돌면서 스킨 정보 있는지 체크
 	// 있으면 asMesh 멤버 변수 Blend들에 저장
-	for (UINT i = 0; i < scene->mNumMeshes; i++)
+	UINT i = 0;
+	for (UINT m = 0; m < meshes.size(); m++)
 	{
-		aiMesh* aiMesh = scene->mMeshes[i];
-
-		// 메쉬는 있으나 animBone이 없는 경우 (가중치 없음)
-		if (aiMesh->HasBones() == false) continue;
-
-		asMesh* mesh = meshes[i];
+		asMesh* mesh = meshes[m];
 
 		vector<asBoneWeights> boneWeights;
 		boneWeights.assign(mesh->Vertices.size(), asBoneWeights());
 
-		// anim bone fbx이므로 메쉬 하나에 여러 본이 존재
-		for (UINT b = 0; b < aiMesh->mNumBones; b++)
+		bool bHasBones = true;
+		for (UINT p = 0; p < mesh->MeshParts.size(); p++, i++)
 		{
-			aiBone* aiMeshBone = aiMesh->mBones[b];
+			aiMesh* aiMesh = scene->mMeshes[i];
 
-			UINT boneIndex = 0;
-
-			for (asBone* bone : bones)
+			// 메쉬는 있으나 animBone이 없는 경우 (가중치 없음)
+			if (aiMesh->HasBones() == false)
 			{
-				// asBone과 ai Anim Bone 이름이 일치하는 본 찾음
-				if (bone->Name == (string)aiMeshBone->mName.C_Str())
+				bHasBones = false;
+				break;
+			}
+
+			// anim bone fbx이므로 메쉬 하나에 여러 본이 존재
+			for (UINT b = 0; b < aiMesh->mNumBones; b++)
+			{
+				aiBone* aiMeshBone = aiMesh->mBones[b];
+
+				UINT boneIndex = 0;
+
+				for (asBone* bone : bones)
 				{
-					boneIndex = bone->Index;
-					break;
+					// asBone과 ai Anim Bone 이름이 일치하는 본 찾음
+					if (bone->Name == (string)aiMeshBone->mName.C_Str())
+					{
+						boneIndex = bone->Index;
+						break;
+					}
 				}
-			}
 
-			for (UINT w = 0; w < aiMeshBone->mNumWeights; w++)
-			{
-				UINT index = aiMeshBone->mWeights[w].mVertexId;  // 정점번호
-				float weight = aiMeshBone->mWeights[w].mWeight;  // 가중치
+				for (UINT w = 0; w < aiMeshBone->mNumWeights; w++)
+				{
+					UINT index = aiMeshBone->mWeights[w].mVertexId;  // 정점번호
+					float weight = aiMeshBone->mWeights[w].mWeight;  // 가중치
 
-				// 가중치 순서대로 내림차순으로 저장
-				boneWeights[index].AddWeights(boneIndex, weight);
-			}
+					// 가중치 순서대로 내림차순으로 저장
+					boneWeights[index].AddWeights(boneIndex, weight);
+				}
 
-		}// end aiMesh->mNumBones
+			}// end aiMesh->mNumBones
+		}
+
+		if (bHasBones == false)
+			continue;
 
 		for (UINT w = 0; w < boneWeights.size(); w++)
 		{
@@ -212,8 +224,8 @@ void Converter::ReadSkinData()
 			mesh->Vertices[w].BlendIndices = blendweight.Indices;
 			mesh->Vertices[w].BlendWeight = blendweight.Weights;
 		}
-
 	}
+
 }
 
 void Converter::WriteMeshData(wstring savePath)
@@ -493,6 +505,7 @@ void Converter::ExportAnimClip(UINT index, wstring savePath)
 	savePath = URI::Models + savePath + L".clip";
 
 	asExClip* clip = ReadClipData(scene->mAnimations[index]);
+	MatchingNameBone(clip);
 	WriteClipData(clip, savePath);
 }
 
@@ -607,6 +620,39 @@ void Converter::ReadKeyframeData(asExClip * clip, aiNode * node, vector<asExClip
 	// Pre order 재귀
 	for (UINT i = 0; i < node->mNumChildren; i++)
 		ReadKeyframeData(clip, node->mChildren[i], aniBones);
+}
+
+void Converter::MatchingNameBone(asExClip * clip)
+{
+	vector<asExClipBone*> matchingbones;
+
+	for (asBone* meshBone : bones)
+	{
+		asExClipBone* dstBone = new asExClipBone();
+		dstBone->MaxFrame = 0;
+		dstBone->BoneName = meshBone->Name;
+
+		vector<asExClipBone*>::iterator iter = clip->Bones.begin();
+		while (iter != clip->Bones.end())
+		{
+			// asBone과 Anim Bone 이름이 일치하는 본 찾음
+			if (meshBone->Name == (string)(*iter)->BoneName.C_Str())
+			{
+				swap(dstBone, (*iter));
+				break;
+			}
+
+			++iter;
+		}
+
+		matchingbones.push_back(dstBone);
+	}
+
+	for (auto d : clip->Bones)
+		SafeDelete(d);
+	clip->Bones.clear();
+
+	swap(matchingbones, clip->Bones);
 }
 
 void Converter::WriteClipData(asExClip * clip, wstring savePath)

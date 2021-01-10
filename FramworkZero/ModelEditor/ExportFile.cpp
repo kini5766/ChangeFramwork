@@ -11,7 +11,10 @@ void ExportFile::Initialize()
 	//Airplane();
 
 	//Atienza();
-	Paladin();
+
+	//Paladin();
+	//Friedrich();
+	Swat();
 }
 
 void ExportFile::Tank()
@@ -151,5 +154,73 @@ void ExportFile::Paladin()
 		Converter conv;
 		conv.ReadFile(L"Paladin/Fall.fbx");
 		conv.ExportAnimClip(0, L"Paladin/Fall");
+	}
+}
+
+void ExportFile::Friedrich()
+{
+	{
+		Converter conv;
+		conv.ReadFile(L"Friedrich/Mesh.fbx");
+		conv.ExportMesh(L"Friedrich/Mesh");
+		conv.ExportMaterial(L"Friedrich/Mesh");
+	}
+
+	{
+		Converter conv;
+		conv.ReadFile(L"Friedrich/Idle.fbx");
+		conv.ExportAnimClip(0, L"Friedrich/Idle");
+	}
+	{
+		Converter conv;
+		conv.ReadFile(L"Friedrich/Walk.fbx");
+		conv.ExportAnimClip(0, L"Friedrich/Walk");
+	}
+	{
+		Converter conv;
+		conv.ReadFile(L"Friedrich/Run.fbx");
+		conv.ExportAnimClip(0, L"Friedrich/Run");
+	}
+	{
+		Converter conv;
+		conv.ReadFile(L"Friedrich/Taunt.fbx");
+		conv.ExportAnimClip(0, L"Friedrich/Taunt");
+	}
+	{
+		Converter conv;
+		conv.ReadFile(L"Friedrich/Attack.fbx");
+		conv.ExportAnimClip(0, L"Friedrich/Attack");
+	}
+	{
+		Converter conv;
+		conv.ReadFile(L"Friedrich/React.fbx");
+		conv.ExportAnimClip(0, L"Friedrich/React");
+	}
+	{
+		Converter conv;
+		conv.ReadFile(L"Friedrich/Fall.fbx");
+		conv.ExportAnimClip(0, L"Friedrich/Fall");
+	}
+}
+
+void ExportFile::Swat()
+{
+	{
+		Converter conv;
+		conv.ReadFile(L"Swat/Mesh.fbx");
+		conv.ExportMesh(L"Swat/Mesh");
+		conv.ExportMaterial(L"Swat/Mesh");
+
+		conv.ReadFile(L"Swat/Idle.fbx");
+		conv.ExportAnimClip(0, L"Swat/Idle");
+
+		conv.ReadFile(L"Swat/Walk.fbx");
+		conv.ExportAnimClip(0, L"Swat/Walk");
+
+		conv.ReadFile(L"Swat/Run.fbx");
+		conv.ExportAnimClip(0, L"Swat/Run");
+
+		conv.ReadFile(L"Swat/Slash.fbx");
+		conv.ExportAnimClip(0, L"Swat/Slash");
 	}
 }

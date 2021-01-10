@@ -85,6 +85,12 @@
     <ClCompile Include="Enemy\MagicianEnemy.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Character\Friedrich.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\GasMask.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
@@ -173,6 +179,12 @@
     </ClInclude>
     <ClInclude Include="Enemy\MagicianEnemy.h">
       <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Friedrich.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\GasMask.h">
+      <Filter>Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

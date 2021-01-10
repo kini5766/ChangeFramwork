@@ -28,7 +28,7 @@ public:
 
 private:
 	float readyTime = 0.25f;
-	float delayTime = 0.5f;
+	float delayTime = 0.75f;
 	float attack = 3.0f;
 	Transform* initTransform;
 

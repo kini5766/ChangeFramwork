@@ -23,6 +23,7 @@ private:
 	void CreateEnemy(int item);
 	void AddInstance();
 	void Select(int i);
+	void SetScale(Transform* t);
 
 	// render
 private:
@@ -37,6 +38,7 @@ private:
 	// imgui
 private:
 	int selected = -1;
+	// 0 : Melee, 1 : Magician
 	int enemyType = 0;
 	Transform* modelTemp = nullptr;
 

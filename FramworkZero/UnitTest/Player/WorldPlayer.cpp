@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "WorldPlayer.h"
 
-#include "Character/Kachujin.h"
 #include "CharacterController.h"
 #include "Component/HPSystem.h"
 #include "Component/NormalAttack.h"
 #include "Component/AttackAnimation.h"
+
+#include "Character/Kachujin.h"
 
 WorldPlayer::WorldPlayer(Shader * shader)
 {
@@ -18,7 +19,6 @@ WorldPlayer::WorldPlayer(Shader * shader)
 				L"Kachujin/Walk",
 				L"Kachujin/Run",
 				L"Kachujin/Slash",
-				L"Kachujin/Uprock",
 			}
 		});
 
@@ -70,6 +70,8 @@ WorldPlayer::WorldPlayer(Shader * shader)
 	weapon->SetParent(instance->GetTransform());
 
 	mesh = new MeshInstancing(shader, new MeshCube());
+	mesh->GetRenderer()->GetDefaultMaterial()->Diffuse(Color(0.125f, 0.125f, 0.125f, 1.0f));
+	mesh->GetRenderer()->GetDefaultMaterial()->DiffuseMap("Box.png");
 	mesh->Pass(0);
 
 	Transform* initWeapon = mesh->AddInstance()->GetTransform();
