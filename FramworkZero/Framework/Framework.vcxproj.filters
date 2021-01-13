@@ -277,6 +277,12 @@
     <ClCompile Include="Objects\PostEffect.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\CubeSky.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Billboard.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -536,6 +542,12 @@
       <Filter>Tools\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Objects\PostEffect.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\CubeSky.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Billboard.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>

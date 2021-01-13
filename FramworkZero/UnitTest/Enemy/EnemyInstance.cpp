@@ -96,9 +96,6 @@ void EnemyInstance::UpdateState()
 	Vector3 dest = focus - position;
 	float lengthSq = D3DXVec3LengthSq(&dest);
 
-	Debug::Log->Show("length : " + to_string(lengthSq));
-	Debug::Log->Show("attackRange : " + to_string(attackRange * attackRange));
-
 	if (lengthSq <= attackRange * attackRange)
 		NextAtteck(nextAction, dest);
 	else if (lengthSq <= detectionRange * detectionRange)

@@ -253,6 +253,6 @@ void ModelSkinnedInstance::UpdateBoneTracking(Matrix * tracking)
 Matrix ModelSkinnedInstance::GetAttachBone(UINT instace) 
 { 
 	assert(bBoneTracking);
-	if (instace < boneCount)
+	//if (instace < boneCount)
 	return bones[instace]; 
 }

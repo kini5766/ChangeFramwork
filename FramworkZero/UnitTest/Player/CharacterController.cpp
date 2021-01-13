@@ -22,6 +22,19 @@ CharacterController::~CharacterController()
 
 void CharacterController::Update()
 {
+	if (currState == 4 &&
+		nextState == 4)
+	{
+		return;
+	}
+
+	if (nextState == 4)
+	{
+		animator->Play(4);
+		currState = 4;
+		return;
+	}
+
 	userInput->Update();
 
 	if (attack->IsAttackAble())
@@ -82,6 +95,16 @@ void CharacterController::Update()
 
 }
 
+void CharacterController::Fall()
+{
+	nextState = 4;
+}
+
+void CharacterController::Riseup()
+{
+	nextState = 0;
+}
+
 void CharacterController::SetFuncAttack(AttackAnimation * value)
 {
 	attack = value;
@@ -95,13 +118,13 @@ void CharacterController::Focus(Vector3 * outPosition)
 
 void CharacterController::ClipEnd(UINT clip)
 {
-	//if (currState == 3 && bDelay)
-	//{
-	//	nextState = clip;
-	//	bDelay = false;
-	//}
-	//if (clip == 3)
-	//{
-	//	bDelay = true;
-	//}
+	if (currState == 4)
+	{
+		if (bDelay)
+		{
+			funcLost();
+			bDelay = false;
+		}
+		else bDelay = true;
+	}
 }

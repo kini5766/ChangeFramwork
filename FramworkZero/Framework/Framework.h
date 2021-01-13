@@ -167,6 +167,8 @@ typedef D3DXPLANE Plane;
 
 #include "Objects/Render2D.h"
 #include "Objects/PostEffect.h"
+#include "Objects/CubeSky.h"
+#include "Objects/Billboard.h"
 
 
 // Debugger

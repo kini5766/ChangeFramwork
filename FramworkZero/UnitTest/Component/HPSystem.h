@@ -16,6 +16,7 @@ public:
 	void AddReceiveTag(wstring value);
 	void SetFuncDamage(function<void(void)> value) { funcDamage = value; }
 	float HP() { return hp; }
+	void RecoveryPer(float per);
 
 private:
 	ColliderBox* hurtbox;

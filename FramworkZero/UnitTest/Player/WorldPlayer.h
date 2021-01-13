@@ -15,6 +15,15 @@ public:
 	IFocus* GetFocus();
 
 private:
+	void Player(ModelSkinnedInstance* instance);
+	void PlayerHp(Transform* transform);
+	void PlayerAttack();
+	void PlayerWeapon(Shader* shader, Transform* transform);
+
+private:
+	void OnDamage();
+
+private:
 	ModelSkinnedInstancing* kachujinMaker;
 	class CharacterController* player;
 	class KachujinInstance* kachujin;
@@ -23,4 +32,5 @@ private:
 
 	MeshInstancing* mesh;
 	Transform* weapon;
+	bool bLost = false;
 };

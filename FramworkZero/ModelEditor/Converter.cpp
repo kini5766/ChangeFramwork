@@ -8,6 +8,7 @@
 Converter::Converter()
 {
 	importer = new Assimp::Importer();
+	importer->SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
 }
 
 Converter::~Converter()

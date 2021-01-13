@@ -6,7 +6,7 @@
 void ExportFile::Initialize()
 {
 	//Tank();
-	//Kachujin();
+	Kachujin();
 	//Tower();
 	//Airplane();
 
@@ -14,7 +14,7 @@ void ExportFile::Initialize()
 
 	//Paladin();
 	//Friedrich();
-	Swat();
+	//Swat();
 }
 
 void ExportFile::Tank()
@@ -28,38 +28,25 @@ void ExportFile::Tank()
 
 void ExportFile::Kachujin()
 {
-	{
-		Converter conv;
-		conv.ReadFile(L"Kachujin/Mesh.fbx");
-		conv.ExportMesh(L"Kachujin/Mesh");
-		conv.ExportMaterial(L"Kachujin/Mesh");
-	}
+	Converter conv;
+	conv.ReadFile(L"Kachujin/Mesh.fbx");
+	conv.ExportMesh(L"Kachujin/Mesh");
+	conv.ExportMaterial(L"Kachujin/Mesh");
 
-	{
-		Converter conv;
-		conv.ReadFile(L"Kachujin/Idle.fbx");
-		conv.ExportAnimClip(0, L"Kachujin/Idle");
-	}
-	{
-		Converter conv;
-		conv.ReadFile(L"Kachujin/Walk.fbx");
-		conv.ExportAnimClip(0, L"Kachujin/Walk");
-	}
-	{
-		Converter conv;
-		conv.ReadFile(L"Kachujin/Run.fbx");
-		conv.ExportAnimClip(0, L"Kachujin/Run");
-	}
-	{
-		Converter conv;
-		conv.ReadFile(L"Kachujin/Slash.fbx");
-		conv.ExportAnimClip(0, L"Kachujin/Slash");
-	}
-	{
-		Converter conv;
-		conv.ReadFile(L"Kachujin/Uprock.fbx");
-		conv.ExportAnimClip(0, L"Kachujin/Uprock");
-	}
+	conv.ReadFile(L"Kachujin/Idle.fbx");
+	conv.ExportAnimClip(0, L"Kachujin/Idle");
+
+	conv.ReadFile(L"Kachujin/Walk.fbx");
+	conv.ExportAnimClip(0, L"Kachujin/Walk");
+
+	conv.ReadFile(L"Kachujin/Run.fbx");
+	conv.ExportAnimClip(0, L"Kachujin/Run");
+
+	conv.ReadFile(L"Kachujin/Slash.fbx");
+	conv.ExportAnimClip(0, L"Kachujin/Slash");
+
+	conv.ReadFile(L"Kachujin/Fall.fbx");
+	conv.ExportAnimClip(0, L"Kachujin/Fall");
 }
 
 void ExportFile::Tower()

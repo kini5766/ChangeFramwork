@@ -209,7 +209,7 @@ bool MagicAttack::Instance_M::Update(float runningTime)
 
 bool MagicAttack::Instance_M::IsAttackAble()
 {
-	if (state == AttackState::None |
+	if (state == AttackState::None ||
 		state == AttackState::Stop)
 		return true;
 

@@ -69,76 +69,11 @@ float3 ViewPosition()
 	return ViewInverse._41_42_43;
 }
 
-void Decompose(out float3 s, out float4 r, out float3 t, matrix w)
-{
-	t = w._41_42_43;
-
-	float3 x = float3(w._11_12_13);
-	float3 y = float3(w._21_22_23);
-	float3 z = float3(w._31_32_33);
-
-	s.x = sqrt(x.x * x.x + x.y * x.y + x.z * x.z);
-	s.y = sqrt(y.x * y.x + y.y * y.y + y.z * y.z);
-	s.z = sqrt(z.x * z.x + z.y * z.y + z.z * z.z);
-
-	x /= s.x;
-	y /= s.y;
-	z /= s.z;
-
-	r.w = sqrt(1 + x.x + y.y + z.z) / 2.0f;
-	float w4_1 = 1 / (4 * r.w);
-	r.x = (z.y - y.z) * w4_1;
-	r.y = (x.z - z.x) * w4_1;
-	r.z = (y.x - x.y) * w4_1;
-}
-
-void Combine(out matrix w, float3 s, float4 r, float3 t)
-{
-	float xy2 = 2 * r.x * r.y;
-	float xz2 = 2 * r.x * r.z;
-	float yz2 = 2 * r.y * r.z;
-	float xx2 = 2 * r.x * r.x;
-	float yy2 = 2 * r.y * r.y;
-	float zz2 = 2 * r.z * r.z;
-	float xw2 = 2 * r.x * r.w;
-	float yw2 = 2 * r.y * r.w;
-	float zw2 = 2 * r.z * r.w;
-
-	w._11 = s.x * (1 - yy2 - zz2);
-	w._22 = s.y * (1 - xx2 - zz2);
-	w._33 = s.z * (1 - xx2 - yy2);
-
-	w._13 = s.x * (xz2 + yw2);
-	w._21 = s.y * (xy2 + zw2);
-	w._32 = s.z * (yz2 + xw2);
-
-	w._12 = s.x * (xy2 - zw2);
-	w._23 = s.y * (yz2 - xw2);
-	w._31 = s.z * (xz2 - yw2);
-
-	w._41 = t.x; w._42 = t.y; w._43 = t.z;
-	w._14 = w._24 = w._34 = 0.0f; w._44 = 1.0f;
-}
-
-float4 Slerp(float4 q1, float4 q2, float t)
-{
-	float dotQ = dot(q1, q2);
-	float rad = acos(dotQ);
-	float sinRad = sin(rad);
-
-	if (sinRad < 0.00001f)
-	{
-		if (t <= 0.5f)
-			return q1;
-		return q2;
-	}
-
-	return (sin(rad * (1 - t)) * q1 + sin(rad * t) * q2) / sinRad;
-}
-
 //--
 // States
 //--
+
+// RS 단계
 
 SamplerState PointSampler
 {
@@ -172,9 +107,29 @@ RasterizerState CullMode_None
 };
 
 
+// OM 단계
+
 DepthStencilState DepthEnable_False
 {
 	DepthEnable = false;
+};
+
+// 알파소팅 : 불투명 가장 먼저 -> 투명 가장 나중에
+// AlphaToCoverage : 외각선 따고 나머지 날라감
+BlendState AlphaBlend_AlphaToCoverageEnable
+{
+	AlphaToCoverageEnable = true;
+
+	BlendEnable[0] = true;
+	SrcBlend[0] = SRC_ALPHA;
+	DestBlend[0] = INV_SRC_ALPHA;
+	BlendOp = ADD;
+
+	SrcBlendAlpha[0] = ONE;
+	DestBlendAlpha[0] = ZERO;
+	BlendOpAlpha = ADD;
+
+	RenderTargetWriteMask[0] = 0x0F;
 };
 
 

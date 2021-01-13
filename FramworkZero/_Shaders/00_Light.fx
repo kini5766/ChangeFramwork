@@ -10,6 +10,8 @@ Texture2D DiffuseMap;
 Texture2D SpecularMap;
 Texture2D NormalMap;
 
+TextureCube SkyCubeMap;
+
 // --
 // Material
 // --
@@ -68,7 +70,7 @@ void AddMaterial(inout MaterialDesc result, MaterialDesc val)
 
 void NormalMapping(float2 uv, inout float3 normal, float3 tangent, SamplerState samp)
 {
-	float3 map = NormalMap.Sample(samp, uv);
+	float4 map = NormalMap.Sample(samp, uv);
 
 	[flatten]
 	if (any(map.rgb) == false)
@@ -102,7 +104,7 @@ void NormalMapping(float2 uv, inout float3 normal, float3 tangent)
 
 float4 GetDiffuse(float NdotL, float diffuse)
 {
-	return Material.Diffuse * (NdotL * diffuse);
+	return Material.Diffuse * (NdotL * diffuse * Material.Diffuse.a);
 }
 
 float4 GetDiffuse(float NdotL, float4 diffuse)
@@ -113,7 +115,7 @@ float4 GetDiffuse(float NdotL, float4 diffuse)
 float4 GetSpecular(float3 L, float3 N, float3 E, float4 specular)
 {
 	// 반사 벡터
-	float3 R = normalize(reflect(L, N));
+	float3 R = normalize(reflect(L, -N));
 	float RdotE = saturate(dot(R, E));
 
 	// 정구
@@ -199,7 +201,7 @@ void ComputeMaterial(out MaterialDesc output, float3 normal, float3 wPosition)
 	}
 	else
 	{
-		output.Diffuse = GetDiffuse(-NdotL, 0.125f);
+		output.Diffuse = GetDiffuse(-NdotL, 0.25f);
 	}
 
 	// Emissive
@@ -418,4 +420,32 @@ void ComputeBurntLight(inout MaterialDesc directional, float3 wPosition)
 		directional.Specular = float4(0, 0, 0, 0);
 		directional.Emissive = float4(0, 0, 0, 0);
 	}
+}
+
+
+// --
+// PS All Light
+// --
+
+float4 PS_AllLight(MeshOutput input)
+{
+	NormalMapping(input.Uv, input.Normal, input.Tangent);
+	Texture(Material.Diffuse, DiffuseMap, input.Uv);
+
+	Texture(Material.Specular, SpecularMap, input.Uv);
+
+	MaterialDesc output = (MaterialDesc)0;
+	MaterialDesc result = (MaterialDesc)0;
+
+	ComputeMaterial(output, input.Normal, input.wPosition);
+	ComputeBurntLight(output, input.wPosition);
+	AddMaterial(result, output);
+
+	ComputePointLight(output, input.Normal, input.wPosition);
+	AddMaterial(result, output);
+
+	ComputeSpotLight(output, input.Normal, input.wPosition);
+	AddMaterial(result, output);
+
+	return float4(MaterialToColor(result), 1.0f) + input.Color;
 }

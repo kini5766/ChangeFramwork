@@ -26,6 +26,8 @@
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Objects\Billboard.cpp" />
+    <ClCompile Include="Objects\CubeSky.cpp" />
     <ClCompile Include="Objects\Meshes\MeshCube.cpp" />
     <ClCompile Include="Objects\Meshes\MeshCylinder.cpp" />
     <ClCompile Include="Objects\Meshes\MeshInstancing.cpp" />
@@ -103,6 +105,8 @@
     <ClInclude Include="Debugger\DebugLog.h" />
     <ClInclude Include="Debugger\Gizmo.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="Objects\Billboard.h" />
+    <ClInclude Include="Objects\CubeSky.h" />
     <ClInclude Include="Objects\Meshes\MeshCube.h" />
     <ClInclude Include="Objects\Meshes\MeshCylinder.h" />
     <ClInclude Include="Objects\Meshes\MeshData.h" />

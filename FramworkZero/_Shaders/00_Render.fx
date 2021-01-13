@@ -133,3 +133,13 @@ MeshOutput VS_Model(VertexModel input)
 
 	return output;
 }
+
+
+// --
+// SkyCube
+// --
+
+float4 PS_Sky(MeshOutput input) : SV_Target0
+{
+	return SkyCubeMap.Sample(LinearSampler, input.oPosition);
+}

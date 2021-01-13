@@ -28,9 +28,12 @@ public:
 
 private:
 	void LoadScene();
+	void Billboards();
 
 private:
 	Shader* shader;
+	CubeSky* sky;
+	Billboard* billboard;
 
 private:
 	class WorldPlayer* player;

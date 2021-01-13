@@ -68,3 +68,10 @@ void HPSystem::AddReceiveTag(wstring value)
 {
 	hurtReceiver->AddReceiveTag(value);
 }
+
+void HPSystem::RecoveryPer(float per)
+{
+	hp += hpMax * per;
+	if (hp > hpMax)
+		hp = hpMax;
+}
