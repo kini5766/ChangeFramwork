@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{93BBB7B8-02C8-4C4A-98EA-C125FBC2F96F}</ProjectGuid>
+    <RootNamespace>UnitTest</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(DH);$(SolutionDir);$(ProjectDir);</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(DL);</LibraryPath>
+    <IntDir>$(SolutionDir)$(Configuration)_$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>./;../../_Libraries/;../Framework/;../ImGui;</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>../../_Libraries/;</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Character\Friedrich.cpp" />
+    <ClCompile Include="Character\GasMask.cpp" />
+    <ClCompile Include="Component\AttackAnimation.cpp" />
+    <ClCompile Include="Component\AttackSystem.cpp" />
+    <ClCompile Include="Component\MagicAttack.cpp" />
+    <ClCompile Include="EditorDemo\Objects\EnemyInstancingEditor.cpp" />
+    <ClCompile Include="Enemy\MagicianEnemy.cpp" />
+    <ClCompile Include="Enemy\MeleeEnemy.cpp" />
+    <ClCompile Include="Player\CharacterController.cpp" />
+    <ClCompile Include="Character\Kachujin.cpp" />
+    <ClCompile Include="Character\Paladin.cpp" />
+    <ClCompile Include="Player\UserKeyState.cpp" />
+    <ClCompile Include="Player\WorldPlayer.cpp" />
+    <ClCompile Include="Component\HPBar.cpp" />
+    <ClCompile Include="Component\HPSystem.cpp" />
+    <ClCompile Include="Component\RotateSystem.cpp" />
+    <ClCompile Include="Component\WorldLightGroup.cpp" />
+    <ClCompile Include="EditorDemo\Objects\Component\MaterialEditor.cpp" />
+    <ClCompile Include="EditorDemo\Scene\EditorDemo.cpp" />
+    <ClCompile Include="EditorDemo\Main\IObjectEditor.cpp" />
+    <ClCompile Include="EditorDemo\Main\ObjectEditorFactory.cpp" />
+    <ClCompile Include="EditorDemo\Objects\Component\ColliderEditor.cpp" />
+    <ClCompile Include="EditorDemo\Objects\MeshInstancingEditor.cpp" />
+    <ClCompile Include="EditorDemo\Objects\Component\TransformEditor.cpp" />
+    <ClCompile Include="EditorDemo\Main\SceneEditor.cpp" />
+    <ClCompile Include="EditorDemo\Main\SceneValue.cpp" />
+    <ClCompile Include="Component\NormalAttack.cpp" />
+    <ClCompile Include="Enemy\EnemyInstance.cpp" />
+    <ClCompile Include="Enemy\EnemyInstancing.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="WorldDemo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Character\Friedrich.h" />
+    <ClInclude Include="Character\GasMask.h" />
+    <ClInclude Include="Component\AttackAnimation.h" />
+    <ClInclude Include="Component\AttackSystem.h" />
+    <ClInclude Include="Component\MagicAttack.h" />
+    <ClInclude Include="EditorDemo\Objects\EnemyInstancingEditor.h" />
+    <ClInclude Include="Enemy\EnemyDesc.h" />
+    <ClInclude Include="Enemy\MagicianEnemy.h" />
+    <ClInclude Include="Enemy\MeleeEnemy.h" />
+    <ClInclude Include="Player\CharacterController.h" />
+    <ClInclude Include="Character\Kachujin.h" />
+    <ClInclude Include="Character\Paladin.h" />
+    <ClInclude Include="Player\UserKeyState.h" />
+    <ClInclude Include="Player\WorldPlayer.h" />
+    <ClInclude Include="Component\HPBar.h" />
+    <ClInclude Include="Component\HPSystem.h" />
+    <ClInclude Include="Component\RotateSystem.h" />
+    <ClInclude Include="Component\WorldLightGroup.h" />
+    <ClInclude Include="EditorDemo\Objects\Component\MaterialEditor.h" />
+    <ClInclude Include="EditorDemo\Scene\EditorDemo.h" />
+    <ClInclude Include="EditorDemo\Main\IObjectEditor.h" />
+    <ClInclude Include="EditorDemo\Main\ObjectEditorFactory.h" />
+    <ClInclude Include="EditorDemo\Objects\Component\ColliderEditor.h" />
+    <ClInclude Include="EditorDemo\Objects\MeshInstancingEditor.h" />
+    <ClInclude Include="EditorDemo\Objects\Component\TransformEditor.h" />
+    <ClInclude Include="EditorDemo\Main\SceneEditor.h" />
+    <ClInclude Include="EditorDemo\Main\SceneValue.h" />
+    <ClInclude Include="Component\NormalAttack.h" />
+    <ClInclude Include="Enemy\EnemyInstance.h" />
+    <ClInclude Include="Enemy\EnemyInstancing.h" />
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="WorldDemo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\Framework.vcxproj">
+      <Project>{4bded383-93fe-4a26-990d-fe41d472eb28}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ImGuizmo\ImGuizmo.vcxproj">
+      <Project>{69a66fa3-6e6f-4c0c-ab12-74c2450bb4b0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ImGui\ImGui.vcxproj">
+      <Project>{b2bd242e-c4d3-416d-9900-7d02094a578c}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

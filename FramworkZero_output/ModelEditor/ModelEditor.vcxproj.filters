@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="ExportFile.cpp">
+      <Filter>Export</Filter>
+    </ClCompile>
+    <ClCompile Include="Converter.cpp" />
+    <ClCompile Include="AnimationDemo.cpp">
+      <Filter>UnitTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelDemo.cpp">
+      <Filter>UnitTest</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="ExportFile.h">
+      <Filter>Export</Filter>
+    </ClInclude>
+    <ClInclude Include="Converter.h" />
+    <ClInclude Include="AnimationDemo.h">
+      <Filter>UnitTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelDemo.h">
+      <Filter>UnitTest</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Export">
+      <UniqueIdentifier>{33917f0a-fd82-4ce0-b3b6-599675c327b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTest">
+      <UniqueIdentifier>{3b69fb18-99c4-4890-9f5a-e887b0666581}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

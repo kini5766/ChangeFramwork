@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="WorldDemo.cpp" />
+    <ClCompile Include="Character\Kachujin.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\MeshInstancingEditor.cpp">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Scene\EditorDemo.cpp">
+      <Filter>EditorDemo\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Main\IObjectEditor.cpp">
+      <Filter>EditorDemo\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Main\ObjectEditorFactory.cpp">
+      <Filter>EditorDemo\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Main\SceneEditor.cpp">
+      <Filter>EditorDemo\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Main\SceneValue.cpp">
+      <Filter>EditorDemo\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\Component\TransformEditor.cpp">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\Component\ColliderEditor.cpp">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\Component\MaterialEditor.cpp">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\HPSystem.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\WorldLightGroup.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\HPBar.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyInstancing.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\Paladin.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyInstance.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\RotateSystem.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\WorldPlayer.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\UserKeyState.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\CharacterController.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\EnemyInstancingEditor.cpp">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\AttackAnimation.cpp">
+      <Filter>Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\AttackSystem.cpp">
+      <Filter>Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\NormalAttack.cpp">
+      <Filter>Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\MagicAttack.cpp">
+      <Filter>Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\MeleeEnemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\MagicianEnemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\Friedrich.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\GasMask.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="WorldDemo.h" />
+    <ClInclude Include="Character\Kachujin.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\MeshInstancingEditor.h">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Scene\EditorDemo.h">
+      <Filter>EditorDemo\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Main\IObjectEditor.h">
+      <Filter>EditorDemo\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Main\ObjectEditorFactory.h">
+      <Filter>EditorDemo\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Main\SceneEditor.h">
+      <Filter>EditorDemo\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Main\SceneValue.h">
+      <Filter>EditorDemo\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\Component\TransformEditor.h">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\Component\ColliderEditor.h">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\Component\MaterialEditor.h">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\HPSystem.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\WorldLightGroup.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\HPBar.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyInstancing.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Paladin.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyInstance.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\RotateSystem.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\WorldPlayer.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\UserKeyState.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\CharacterController.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\EnemyInstancingEditor.h">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\AttackAnimation.h">
+      <Filter>Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\AttackSystem.h">
+      <Filter>Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\NormalAttack.h">
+      <Filter>Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\MagicAttack.h">
+      <Filter>Component\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\MeleeEnemy.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyDesc.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\MagicianEnemy.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Friedrich.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\GasMask.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Character">
+      <UniqueIdentifier>{5f036dd1-dfc0-4334-9e7e-6f2c3740d30d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorDemo">
+      <UniqueIdentifier>{38718355-3b79-40cc-819e-9812f434f421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorDemo\Objects">
+      <UniqueIdentifier>{1838f51f-aa90-4467-a190-537210b9c343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorDemo\Objects\Component">
+      <UniqueIdentifier>{f3bed2c3-11b9-423c-b63d-984c34bd74ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorDemo\Main">
+      <UniqueIdentifier>{aad9f2dd-1144-478a-9786-6aec3bad607a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorDemo\Scene">
+      <UniqueIdentifier>{d49bacb5-a9b9-4239-b003-2b5790d664fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{81f742fd-c104-46df-adbd-29e74570a516}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy">
+      <UniqueIdentifier>{278b0a78-90de-4cbd-a192-52cc4235721a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{03cc99b1-fe2e-419a-af29-d12933065d28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Attack">
+      <UniqueIdentifier>{037b9337-0c9e-43d3-b2f7-e26fb5e5c9b7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

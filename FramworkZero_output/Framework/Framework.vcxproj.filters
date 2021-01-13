@@ -1,0 +1,554 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{8da78d31-9c5c-44c6-9830-c2fc2e6cac8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{ed1f9b73-7cdd-48a6-860e-9b19206a71c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{6b0e5222-c724-473e-ad95-c165488af261}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{cf857d52-5a54-41ef-9502-169764b00d14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{097536c6-1926-4989-868d-277f90966af2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Viewer">
+      <UniqueIdentifier>{d550b37a-91d8-431d-a078-0447b5611375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Buffers">
+      <UniqueIdentifier>{9d9e51cf-5143-4dc1-bccf-fd45ef3267cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\CBufferVariable">
+      <UniqueIdentifier>{e6887cfd-501d-4ce4-b7da-1ed5c3f7e57f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debugger">
+      <UniqueIdentifier>{65472379-8f57-45f9-bf7c-aa78819f1064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\MainLogic">
+      <UniqueIdentifier>{7064a2d9-ed71-41ca-b2a2-aff5a722ba85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{b0273287-577c-4b58-b452-865887d8d19c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Model">
+      <UniqueIdentifier>{b2a93c62-b3fc-43d7-a617-6d476964342e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Meshes">
+      <UniqueIdentifier>{091e21f6-5bdd-4bd8-b070-cc3f75ddb160}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Lighting">
+      <UniqueIdentifier>{831dbbd4-8c93-40e3-965c-ab74c8ee1435}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Animation">
+      <UniqueIdentifier>{c10df74a-95ed-4d06-94fe-e3af44751106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Collider">
+      <UniqueIdentifier>{be6ffecb-a04b-41b8-9a11-70d77d161bf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Texture">
+      <UniqueIdentifier>{ee14abaf-d68a-4313-9310-12ee8519cd46}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="Systems\Gui.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Window.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\D3D.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\BinaryFile.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Path.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\String.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Xml.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Math.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\SphereCoord.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Transform.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\Camera.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\Freedom.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\Orthographic.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\Perspective.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\Projection.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\Viewport.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\WinDesc.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Buffers\VertexBuffer.cpp">
+      <Filter>Rendering\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Buffers\IndexBuffer.cpp">
+      <Filter>Rendering\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Buffers\ConstantBuffer.cpp">
+      <Filter>Rendering\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Buffers\CsResource.cpp">
+      <Filter>Rendering\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Buffers\RawBuffer.cpp">
+      <Filter>Rendering\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Buffers\TextureBuffer.cpp">
+      <Filter>Rendering\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Buffers\StructuredBuffer.cpp">
+      <Filter>Rendering\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\CBufferVariables\Context.cpp">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\CBufferVariables\ShaderSetter.cpp">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\CBufferVariables\Material.cpp">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\CBufferVariables\PerFrame.cpp">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClCompile>
+    <ClCompile Include="Debugger\DebugLog.cpp">
+      <Filter>Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="Debugger\DebugLine.cpp">
+      <Filter>Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\MainLogic\GameLogic.cpp">
+      <Filter>Tools\MainLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\MainLogic\Keyboard.cpp">
+      <Filter>Tools\MainLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\MainLogic\Mouse.cpp">
+      <Filter>Tools\MainLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\MainLogic\Time.cpp">
+      <Filter>Tools\MainLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Shader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\ImGuiInputText.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Model\ModelData.cpp">
+      <Filter>Objects\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Meshes\MeshCube.cpp">
+      <Filter>Objects\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Meshes\MeshCylinder.cpp">
+      <Filter>Objects\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Meshes\MeshPlane.cpp">
+      <Filter>Objects\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Meshes\MeshQuad.cpp">
+      <Filter>Objects\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Meshes\MeshSphere.cpp">
+      <Filter>Objects\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Meshes\MeshInstancing.cpp">
+      <Filter>Objects\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Meshes\MeshRenderer.cpp">
+      <Filter>Objects\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Meshes\SkinnedMeshRenderer.cpp">
+      <Filter>Objects\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Model\ModelSkinnedInstancing.cpp">
+      <Filter>Objects\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Model\ModelComputeAnimInst.cpp">
+      <Filter>Objects\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Model\ModelAnimMap.cpp">
+      <Filter>Objects\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Model\ModelBonesMap.cpp">
+      <Filter>Objects\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Debugger\Gizmo.cpp">
+      <Filter>Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Lighting\DirectionalLight.cpp">
+      <Filter>Tools\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Lighting\Lighting.cpp">
+      <Filter>Tools\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Lighting\PointLight.cpp">
+      <Filter>Tools\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Lighting\SpotLight.cpp">
+      <Filter>Tools\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Lighting\BurntLight.cpp">
+      <Filter>Tools\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Model\ModelAnimation.cpp">
+      <Filter>Objects\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Animation\SimpleAnimator.cpp">
+      <Filter>Tools\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Animation\ClipTimer.cpp">
+      <Filter>Tools\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Animation\Animator.cpp">
+      <Filter>Tools\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\OrbitCamera.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Collider\Collider.cpp">
+      <Filter>Tools\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Collider\CollisionManager.cpp">
+      <Filter>Tools\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Debugger\DebugBox.cpp">
+      <Filter>Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Collider\Ray.cpp">
+      <Filter>Tools\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Collider\ColliderBox.cpp">
+      <Filter>Tools\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Collider\SendBox.cpp">
+      <Filter>Tools\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Collider\ReceiveBox.cpp">
+      <Filter>Tools\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Render2D.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\CanvasCamera.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Texture\Texture2D.cpp">
+      <Filter>Tools\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Texture\Texture.cpp">
+      <Filter>Tools\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Texture\RenderTarget.cpp">
+      <Filter>Tools\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Texture\DepthStencil.cpp">
+      <Filter>Tools\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\PostEffect.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\CubeSky.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Billboard.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Framework.h" />
+    <ClInclude Include="Systems\Gui.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\IExecute.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Window.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\D3D.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings\WindowSettings.h">
+      <Filter>Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings\URI.h">
+      <Filter>Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings\ShaderEffectName.h">
+      <Filter>Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\BinaryFile.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Path.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\String.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Xml.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Math.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\SphereCoord.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Transform.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Camera.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Freedom.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Orthographic.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Perspective.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Projection.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Viewport.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\WinDesc.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Buffers\Buffers.h">
+      <Filter>Rendering\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Buffers\VertexBuffer.h">
+      <Filter>Rendering\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Buffers\IndexBuffer.h">
+      <Filter>Rendering\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Buffers\ConstantBuffer.h">
+      <Filter>Rendering\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Buffers\CsResource.h">
+      <Filter>Rendering\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Buffers\RawBuffer.h">
+      <Filter>Rendering\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Buffers\TextureBuffer.h">
+      <Filter>Rendering\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Buffers\StructuredBuffer.h">
+      <Filter>Rendering\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\CBufferVariables\Context.h">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\CBufferVariables\IEffectVariable.h">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\CBufferVariables\ShaderSetter.h">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\CBufferVariables\Material.h">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\CBufferVariables\PerFrame.h">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugger\DebugLog.h">
+      <Filter>Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugger\DebugLine.h">
+      <Filter>Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\MainLogic\GameLogic.h">
+      <Filter>Tools\MainLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\MainLogic\Keyboard.h">
+      <Filter>Tools\MainLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\MainLogic\Mouse.h">
+      <Filter>Tools\MainLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\MainLogic\Time.h">
+      <Filter>Tools\MainLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\ImGuiInputText.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelData.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Meshes\MeshCube.h">
+      <Filter>Objects\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Meshes\MeshCylinder.h">
+      <Filter>Objects\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Meshes\MeshData.h">
+      <Filter>Objects\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Meshes\MeshPlane.h">
+      <Filter>Objects\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Meshes\MeshQuad.h">
+      <Filter>Objects\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Meshes\MeshSphere.h">
+      <Filter>Objects\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Meshes\MeshInstancing.h">
+      <Filter>Objects\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Meshes\MeshRenderer.h">
+      <Filter>Objects\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Meshes\SkinnedMeshRenderer.h">
+      <Filter>Objects\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelSkinnedInstancing.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelDesc.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelComputeAnimInst.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelAnimMap.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelAnimationDesc.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelBonesMap.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugger\Gizmo.h">
+      <Filter>Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\DirectionalLight.h">
+      <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\Lighting.h">
+      <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\LightingDesc.h">
+      <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\PointLight.h">
+      <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\SpotLight.h">
+      <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Lighting\BurntLight.h">
+      <Filter>Tools\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Model\ModelAnimation.h">
+      <Filter>Objects\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Animation\SimpleAnimator.h">
+      <Filter>Tools\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Animation\ClipTimer.h">
+      <Filter>Tools\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Animation\Animator.h">
+      <Filter>Tools\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\OrbitCamera.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\IFocus.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Collider\CollisionManager.h">
+      <Filter>Tools\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Collider\Collider.h">
+      <Filter>Tools\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugger\DebugBox.h">
+      <Filter>Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Collider\Ray.h">
+      <Filter>Tools\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings\Layer.h">
+      <Filter>Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Collider\ColliderBox.h">
+      <Filter>Tools\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Collider\SendBox.h">
+      <Filter>Tools\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Collider\ReceiveBox.h">
+      <Filter>Tools\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Render2D.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\CanvasCamera.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Texture\Texture2D.h">
+      <Filter>Tools\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Texture\Texture.h">
+      <Filter>Tools\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Texture\RenderTarget.h">
+      <Filter>Tools\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Texture\DepthStencil.h">
+      <Filter>Tools\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\PostEffect.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\CubeSky.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Billboard.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
