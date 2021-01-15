@@ -201,7 +201,7 @@ void ComputeMaterial(out MaterialDesc output, float3 normal, float3 wPosition)
 	}
 	else
 	{
-		output.Diffuse = GetDiffuse(-NdotL, 0.25f);
+		output.Diffuse = GetDiffuse(-NdotL, 0.125f);
 	}
 
 	// Emissive

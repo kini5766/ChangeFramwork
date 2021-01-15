@@ -10,7 +10,7 @@
 void WorldDemo::Initialize()
 {
 	shader = Shader::Load(L"01_Material.fxo");
-	sky = new CubeSky(L"Environment/SnowCube1024.dds", shader);
+	sky = new CubeSky(L"Environment/GrassCube1024.dds", shader);
 	lights = new WorldLightGroup();
 
 	player = new WorldPlayer(shader);
