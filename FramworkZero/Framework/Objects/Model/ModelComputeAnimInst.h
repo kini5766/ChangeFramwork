@@ -4,7 +4,7 @@
 class ModelComputeAnimInst
 {
 public:
-	ModelComputeAnimInst(ModelData* data, Matrix* world);
+	ModelComputeAnimInst(ModelData* data);
 	~ModelComputeAnimInst();
 
 public:
@@ -18,7 +18,7 @@ public:
 
 private:
 	void CreateComputeAnim();
-	void CreateComputeBone(Matrix* world);
+	void CreateComputeBone();
 
 
 private:

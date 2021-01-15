@@ -170,8 +170,21 @@ void ModelData::ReadMesh(wstring file)
 
 		// Vertex
 		UINT vertexCount = r.UInt();
-		data->Mesh->NewVertices<VertexModel>(vertexCount);
+		VertexModel* vertices = data->Mesh->NewVertices<VertexModel>(vertexCount);
 		r.Byte(&data->Mesh->Vertices, data->Mesh->Stride * data->Mesh->VertexCount);
+
+		for (UINT j = 0; j < vertexCount; j++)
+		{
+			float w = 0.0f;
+			w += vertices[j].BlendWeight.x;
+			w += vertices[j].BlendWeight.y;
+			w += vertices[j].BlendWeight.z;
+			w += vertices[j].BlendWeight.w;
+			if (w == 0)
+			{
+				vertices[j].BlendIndices.x = (float)data->BoneIndex;
+			}
+		}
 
 		// Index
 		UINT indexCount = r.UInt();

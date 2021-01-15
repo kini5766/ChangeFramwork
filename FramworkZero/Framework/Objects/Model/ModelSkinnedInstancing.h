@@ -24,7 +24,6 @@ public:
 public:
 	void Pass(UINT value) { renderer->Pass(value); }
 	void SetColor(UINT instance, const Color& color);
-	//void GetAttachBones(UINT instace, Matrix * matrix);
 	BlendDesc* GetAnimationDesc(UINT index);
 	const ModelData* GetModel() const { return data; }
 
@@ -33,6 +32,8 @@ private:
 
 private: // compute 관련
 	class ModelComputeAnimInst* compute;
+	// 스키닝 없는 모델
+	TextureBuffer* computeOutputSrvBuffer;
 
 private: // instance 관련
 	vector<ModelSkinnedInstance*> instances;
@@ -47,16 +48,13 @@ private: // instance 관련
 private: // render 관련
 	ModelData* data;
 	SkinnedMeshRenderer* renderer;
-	Transform* transform;
 	PerFrame* perframe;
-	Matrix world;
-	UINT boneCount;
 	Texture2D* invBindPose;
 };
 
 
 // --
-// MeshInstance
+// ModelInstance
 // --
 
 class ModelSkinnedInstance
@@ -75,7 +73,7 @@ public:
 
 public:
 	Transform* GetTransform() { return transform; }
-	class ModelAnimation* GetAnimation() { return animation; }
+	class ModelAnimation* GetAnimation();
 
 private:
 	ModelSkinnedInstancing* perent;
@@ -86,7 +84,7 @@ private:
 public:
 	void UpdateBoneTracking(Matrix* tracking);
 	Matrix* GetAttachBones() { return bones; }
-	Matrix GetAttachBone(UINT instace);
+	Matrix GetAttachBone(UINT boneIndex);
 
 private:
 	bool bBoneTracking = false;

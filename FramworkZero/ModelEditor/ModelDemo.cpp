@@ -54,10 +54,11 @@ void ModelDemo::Tank()
 		Transform* transform = tank->AddInstance()->GetTransform();
 		transform->Position(Vector3(x, 0.0f, 5.0f));
 		transform->RotationDegree(0, Math::Random(-179.9f, 179.9f), 0);
-		transform->Scale(0.003f, 0.003f, 0.003f);
+		transform->Scale(0.3f, 0.3f, 0.3f);
 	}
 
 	tank->UpdateTransforms();
+	tank->Pass(1);
 }
 
 void ModelDemo::Tower()
@@ -76,6 +77,7 @@ void ModelDemo::Tower()
 	}
 
 	tower->UpdateTransforms();
+	tower->Pass(1);
 }
 
 void ModelDemo::Airplane()
@@ -94,5 +96,6 @@ void ModelDemo::Airplane()
 	}
 
 	airplane->UpdateTransforms();
+	airplane->Pass(1);
 }
 

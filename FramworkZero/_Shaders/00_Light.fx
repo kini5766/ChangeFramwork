@@ -37,12 +37,12 @@ cbuffer CB_Material
 void Texture(inout float4 color, Texture2D t, float2 uv, SamplerState samp)
 {
 	float4 c = t.Sample(samp, uv);
-	color *= c;
 
 	// any : 1개라도 0이 아니면 true
-	//[flatten]
-	//if (any(c.rgb)) 
-	//	color *= c;
+	// pixlr으로 000색을 조정->레벨->최소1로 바꿔야함 ㅠㅠ
+	[flatten]
+	if (any(c.rgb)) 
+		color *= c;
 }
 
 void Texture(inout float4 color, Texture2D t, float2 uv)

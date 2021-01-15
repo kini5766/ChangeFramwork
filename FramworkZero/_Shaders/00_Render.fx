@@ -74,7 +74,7 @@ struct VertexModel
 Texture2D InvBindPose;
 Texture2DArray<float4> BonesMap;
 
-void SetModelWorld(inout matrix world, in VertexModel input)
+void SetSkinnedModelWorld(inout matrix world, in VertexModel input)
 {
 	int indices[4] = {
 		input.BlendIndices.x,
@@ -107,10 +107,10 @@ void SetModelWorld(inout matrix world, in VertexModel input)
 		c3 = BonesMap[int3(indices[i] * 4 + 3, instance, 0)];
 		curr = matrix(c0, c1, c2, c3);
 
-		n0 = InvBindPose.Load(int3(indices[i] * 4 + 0, 0, 0));
-		n1 = InvBindPose.Load(int3(indices[i] * 4 + 1, 0, 0));
-		n2 = InvBindPose.Load(int3(indices[i] * 4 + 2, 0, 0));
-		n3 = InvBindPose.Load(int3(indices[i] * 4 + 3, 0, 0));
+		n0 = InvBindPose.Load(int3(indices[i] * 2 * 4 + 0, 0, 0));
+		n1 = InvBindPose.Load(int3(indices[i] * 2 * 4 + 1, 0, 0));
+		n2 = InvBindPose.Load(int3(indices[i] * 2 * 4 + 2, 0, 0));
+		n3 = InvBindPose.Load(int3(indices[i] * 2 * 4 + 3, 0, 0));
 		inv = matrix(n0, n1, n2, n3);
 
 		curr = mul(inv, curr);
@@ -121,13 +121,28 @@ void SetModelWorld(inout matrix world, in VertexModel input)
 	world = mul(transform, world);
 }
 
+void SetModelWorld(inout matrix world, in VertexModel input)
+{
+	float4 n0, n1, n2, n3;
+	int index = input.BlendIndices.x;
+	n0 = InvBindPose.Load(int3((index * 2 + 1) * 4 + 0, 0, 0));
+	n1 = InvBindPose.Load(int3((index * 2 + 1) * 4 + 1, 0, 0));
+	n2 = InvBindPose.Load(int3((index * 2 + 1) * 4 + 2, 0, 0));
+	n3 = InvBindPose.Load(int3((index * 2 + 1) * 4 + 3, 0, 0));
+	matrix transform = matrix(n0, n1, n2, n3);
+	world = mul(transform, world);
+}
+
 MeshOutput VS_Model(VertexModel input)
 {
 	MeshOutput output;
 
 	World = input.Transform;
 
-	SetModelWorld(World, input);
+	if (any(input.BlendWeights))
+		SetSkinnedModelWorld(World, input);
+	else 
+		SetModelWorld(World, input);
 
 	VS_GENERATE// input -> output
 

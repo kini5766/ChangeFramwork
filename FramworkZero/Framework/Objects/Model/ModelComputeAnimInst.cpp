@@ -6,7 +6,7 @@
 
 using namespace ShaderEffectName;
 
-ModelComputeAnimInst::ModelComputeAnimInst(ModelData * data, Matrix* world)
+ModelComputeAnimInst::ModelComputeAnimInst(ModelData * data)
 {
 	clipCount = data->ClipCount();
 	boneCount = data->BoneCount();
@@ -15,7 +15,7 @@ ModelComputeAnimInst::ModelComputeAnimInst(ModelData * data, Matrix* world)
 	modelBonesMap = new ModelBonesMap(data);
 
 	CreateComputeAnim();
-	CreateComputeBone(world);
+	CreateComputeBone();
 }
 
 ModelComputeAnimInst::~ModelComputeAnimInst()
@@ -93,12 +93,9 @@ void ModelComputeAnimInst::CreateComputeAnim()
 	SafeRelease(texture);  // 텍스쳐 복사되서 유지할 필요 없음
 }
 
-void ModelComputeAnimInst::CreateComputeBone(Matrix* world)
+void ModelComputeAnimInst::CreateComputeBone()
 {
 	computeShaderBone = new ShaderSetter(L"02_GetBonesInstance.fxo");
-
-	// In : 모델World
-	computeShaderBone->SetMatrixPointer(CB_WORLD, world);
 
 	// In : (애니메이션out) 로컬 본*인스턴스 texture
 	computeShaderBone->SetSRV(INPUT_LOCAL_BONES, GetOutputAnimSrv());

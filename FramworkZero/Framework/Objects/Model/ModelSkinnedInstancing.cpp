@@ -30,14 +30,16 @@ ModelSkinnedInstancing::~ModelSkinnedInstancing()
 	SafeDelete(data);
 
 	SafeDelete(perframe);
-	SafeDelete(transform);
 	SafeDelete(invBindPose);
 }
 
 void ModelSkinnedInstancing::Update()
 {
-	for (ModelSkinnedInstance* instance : instances)
-		instance->Update();
+	if (data->ClipCount() != 0)
+	{
+		for (ModelSkinnedInstance* instance : instances)
+			instance->Update();
+	}
 
 	perframe->Update();
 	if (compute != nullptr)
@@ -166,10 +168,9 @@ void ModelSkinnedInstancing::ApplyModel(Shader* shader)
 	for (Material* mat : data->Materials())
 		mat->SetShader(shader);
 
-	boneCount = data->BoneCount();
 
 	if (data->ClipCount() != 0)
-		compute = new ModelComputeAnimInst(data, &world);
+		compute = new ModelComputeAnimInst(data);
 	renderer = new SkinnedMeshRenderer();
 
 	// Set BonesMap
@@ -188,12 +189,16 @@ void ModelSkinnedInstancing::ApplyModel(Shader* shader)
 
 	// Set InvBindPose
 	{
-		Matrix* boneDesc = new Matrix[boneCount];
+		UINT boneCount = data->BoneCount();
+		Matrix* boneDesc = new Matrix[boneCount * 2];
 
 		for (UINT i = 0; i < boneCount; i++)
-			D3DXMatrixInverse(&boneDesc[i], nullptr, &data->BoneByIndex(i)->Transform);
+		{
+			D3DXMatrixInverse(&boneDesc[i * 2 + 0], nullptr, &data->BoneByIndex(i)->Transform);
+			memcpy(&boneDesc[i * 2 + 1], &data->BoneByIndex(i)->Transform, sizeof(Matrix));
+		}
 
-		invBindPose = new Texture2D(boneCount * 4, 1);
+		invBindPose = new Texture2D(boneCount * 2 * 4, 1);
 		invBindPose->SetColors(boneDesc);
 		invBindPose->CreateTexture();
 		invBindPose->CreateSRV();
@@ -240,6 +245,11 @@ void ModelSkinnedInstance::Update()
 	animation->Update();
 }
 
+ModelAnimation * ModelSkinnedInstance::GetAnimation()
+{
+	return animation;
+}
+
 void ModelSkinnedInstance::UpdateBoneTracking(Matrix * tracking)
 {
 	if (bBoneTracking == false)
@@ -253,6 +263,5 @@ void ModelSkinnedInstance::UpdateBoneTracking(Matrix * tracking)
 Matrix ModelSkinnedInstance::GetAttachBone(UINT instace) 
 { 
 	assert(bBoneTracking);
-	//if (instace < boneCount)
 	return bones[instace]; 
 }

@@ -22,6 +22,8 @@ CharacterController::~CharacterController()
 
 void CharacterController::Update()
 {
+	Debug::Gizmo->SetTransform(transform);
+
 	if (currState == 4 &&
 		nextState == 4)
 	{
