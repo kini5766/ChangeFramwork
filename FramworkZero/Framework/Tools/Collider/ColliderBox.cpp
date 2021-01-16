@@ -38,7 +38,7 @@ UINT ColliderBox::Junk()
 
 	Matrix m;
 	ZeroMemory(m, sizeof(Matrix));
-	t->LossyWorld(m);
+	t->GlobalWorld(m);
 
 	receiveds.clear();
 
@@ -54,7 +54,7 @@ void ColliderBox::Recycle(int colliderId)
 {
 	Matrix m;
 	D3DXMatrixIdentity(&m);
-	collider->GetTransform()->LossyWorld(m);
+	collider->GetTransform()->GlobalWorld(m);
 
 	layer = COLLIDER_LAYER_DEFAULT;
 	bActive = true;

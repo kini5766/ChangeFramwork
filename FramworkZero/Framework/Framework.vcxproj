@@ -66,6 +66,10 @@
     <ClCompile Include="Tools\Collider\CollisionManager.cpp" />
     <ClCompile Include="Tools\Collider\Ray.cpp" />
     <ClCompile Include="Tools\Collider\ColliderBox.cpp" />
+    <ClCompile Include="Tools\Coord\EulerAngle.cpp" />
+    <ClCompile Include="Tools\Coord\SphereCoord.cpp" />
+    <ClCompile Include="Tools\Coord\Transform.cpp" />
+    <ClCompile Include="Tools\Coord\WorldMatrix.cpp" />
     <ClCompile Include="Tools\Lighting\BurntLight.cpp" />
     <ClCompile Include="Tools\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="Tools\Lighting\Lighting.cpp" />
@@ -82,9 +86,7 @@
     <ClCompile Include="Tools\Texture\DepthStencil.cpp" />
     <ClCompile Include="Tools\Texture\RenderTarget.cpp" />
     <ClCompile Include="Tools\Texture\Texture.cpp" />
-    <ClCompile Include="Tools\SphereCoord.cpp" />
     <ClCompile Include="Tools\Texture\Texture2D.cpp" />
-    <ClCompile Include="Tools\Transform.cpp" />
     <ClCompile Include="Tools\Viewer\Camera.cpp" />
     <ClCompile Include="Tools\Viewer\CanvasCamera.cpp" />
     <ClCompile Include="Tools\Viewer\Freedom.cpp" />
@@ -154,6 +156,10 @@
     <ClInclude Include="Tools\Collider\CollisionManager.h" />
     <ClInclude Include="Tools\Collider\Ray.h" />
     <ClInclude Include="Tools\Collider\ColliderBox.h" />
+    <ClInclude Include="Tools\Coord\EulerAngle.h" />
+    <ClInclude Include="Tools\Coord\SphereCoord.h" />
+    <ClInclude Include="Tools\Coord\Transform.h" />
+    <ClInclude Include="Tools\Coord\WorldMatrix.h" />
     <ClInclude Include="Tools\Lighting\BurntLight.h" />
     <ClInclude Include="Tools\Lighting\DirectionalLight.h" />
     <ClInclude Include="Tools\Lighting\Lighting.h" />
@@ -171,9 +177,7 @@
     <ClInclude Include="Tools\Texture\DepthStencil.h" />
     <ClInclude Include="Tools\Texture\RenderTarget.h" />
     <ClInclude Include="Tools\Texture\Texture.h" />
-    <ClInclude Include="Tools\SphereCoord.h" />
     <ClInclude Include="Tools\Texture\Texture2D.h" />
-    <ClInclude Include="Tools\Transform.h" />
     <ClInclude Include="Tools\Viewer\Camera.h" />
     <ClInclude Include="Tools\Viewer\CanvasCamera.h" />
     <ClInclude Include="Tools\Viewer\Freedom.h" />

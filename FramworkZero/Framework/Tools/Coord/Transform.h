@@ -15,8 +15,6 @@ public:
 #pragma region Transform
 
 public:
-	void Set(Transform* value);  // 복사
-
 	void Position(float x, float y, float z);
 	void Position(const Vector3& value);
 	void Position(Vector3* out);
@@ -25,24 +23,9 @@ public:
 	void Scale(const Vector3& value);
 	void Scale(Vector3* out);
 
-	void RotationDegree(float x, float y, float z);
-	void RotationDegree(const Vector3& value);
-	void RotationDegree(Vector3* out);  // 쿼터니온에서 변환한 거라 오류 있으니 출력 용도로만 사용
-
-	void Rotation(float x, float y, float z);
-	void Rotation(const Vector3& value);
-
+	void Rotation(const EulerAngle& value);
 	void Rotation(const Quaternion& value);
 	void Rotation(Quaternion* out);
-
-	void RotateYawDegree(float deg);
-	void RotateYaw(float rad);
-
-	void RotatePitchDegree(float deg);
-	void RotatePitch(float rad);
-
-	void RotateRollDegree(float deg);
-	void RotateRoll(float rad);
 
 	Vector3 Forward();
 	Vector3 Up();
@@ -62,8 +45,10 @@ private:
 #pragma region World Matrix
 
 public:
-	void LossyWorld(const Matrix& set);
-	void LossyWorld(Matrix* out);
+	void GlobalWorld(const Matrix& set);
+	void GlobalWorld(Matrix* out);
+
+public:
 	void UpdateWorld();
 	void ReplaceMatrixGetter(Matrix* pMatrixGetter);
 
@@ -71,7 +56,7 @@ private:
 	void ChangedWorld();
 
 private:
-	Matrix* lossyWorld;
+	Matrix* globalWorld;
 	bool changed = false;
 	bool bMyWorld;
 

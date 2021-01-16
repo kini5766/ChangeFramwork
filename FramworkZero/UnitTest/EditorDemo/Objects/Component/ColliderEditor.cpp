@@ -33,30 +33,30 @@ void ColliderEditor::RenderImGui(ColliderBox * c)
 		if (ImGui::Button("All"))
 			c->SetLayer(COLLIDER_LAYER_ALL);
 
-		Vector3 pos;
-		Vector3 rota1, rota2;
-		Vector3 scale;
 		Transform* t = c->GetTransform();
-		t->Position(&pos);
-		t->RotationDegree(&rota1);
-		t->Scale(&scale);
-		rota2 = rota1;
+		{
+			Vector3 pos, scale;
+			Quaternion rotation;
+			t->Position(&pos);
+			t->Rotation(&rotation);
+			t->Scale(&scale);
 
-		ImGui::DragFloat3("Position", pos, 0.1f);
-		ImGui::DragFloat3("Rotation", rota2, 0.1f);
-		ImGui::DragFloat3("Scale", scale, 0.1f);
+			EulerAngle euler;
+			euler.SetQuaternion(rotation);
+			Vector3 rota1, rota2;
+			rota2 = rota1 = euler.EulerDegree();
 
-		t->Position(pos);
-		t->Scale(scale);
+			ImGui::DragFloat3("Position", pos, 0.1f);
+			ImGui::DragFloat3("Rotation", rota2, 0.1f);
+			ImGui::DragFloat3("Scale", scale, 0.1f);
 
-		rota2 -= rota1;
-		if (rota2.y != 0.0f)
-			t->RotateYaw(rota2.y);
-		if (rota2.x != 0.0f)
-			t->RotatePitch(rota2.x);
-		if (rota2.z != 0.0f)
-			t->RotateRoll(rota2.z);
+			euler.SetDegree(rota2 - rota1);
+			euler.RotateQuaternion(&rotation);
 
+			t->Position(pos);
+			t->Rotation(rotation);
+			t->Scale(scale);
+		}
 
 		ImGui::PopID();
 	}

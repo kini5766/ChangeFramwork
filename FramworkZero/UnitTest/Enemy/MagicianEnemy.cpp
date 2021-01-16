@@ -25,7 +25,7 @@ MagicianEnemy::MagicianEnemy(Shader * shader, IFocus* player)
 	sphere = new MeshInstancing(shader, new MeshSphere(0.5f));
 	magicAttack = new MagicAttack(player, sphere);
 	magicAttack->InitTransform()->Position(-25.0f, 135.0f, -40.0f);
-	magicAttack->InitTransform()->Rotation(180.0f, 0.0f, 0.0f);
+	magicAttack->InitTransform()->Rotation(EulerAngle(180.0f, 0.0f, 0.0f));
 	magicAttack->Tag(L"EnemyAttack");
 
 	desc.HP = 80.0f;

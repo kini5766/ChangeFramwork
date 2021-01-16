@@ -16,7 +16,7 @@ void Collider::UpdateBounding()
 	Bounding& a = bounding;
 
 	Matrix wa;
-	initTransform->LossyWorld(&wa);
+	initTransform->GlobalWorld(&wa);
 
 	a.AxisX = Vector3(wa._11, wa._12, wa._13);
 	a.AxisY = Vector3(wa._21, wa._22, wa._23);
@@ -41,7 +41,7 @@ bool Collider::Intersection(const Ray& ray, float * outDistance) const
 	Matrix w;
 	Vector3 ori, dir;
 	{
-		initTransform->LossyWorld(&w);
+		initTransform->GlobalWorld(&w);
 
 		Matrix invW;
 		D3DXMatrixInverse(&invW, nullptr, &w);

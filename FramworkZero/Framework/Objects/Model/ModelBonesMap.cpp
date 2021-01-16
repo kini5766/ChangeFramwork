@@ -16,7 +16,7 @@ ModelBonesMap::ModelBonesMap(ModelData * data)
 		// 로컬 월드 구하기 -> (DefaultBone)
 		if (bone->ParentIndex != -1)
 			transform[i].SetParent(transform + bone->ParentIndex);
-		transform[i].LossyWorld(bone->Transform);
+		transform[i].GlobalWorld(bone->Transform);
 		transform[i].LocalWorld(&boneDesc[i].DefaultBone);
 	}
 	computeBoneDescBuffer = new StructuredBuffer(boneDesc, sizeof(BoneDesc), boneCount);

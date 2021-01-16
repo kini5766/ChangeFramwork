@@ -62,7 +62,7 @@ MeshInstance * MeshInstancing::AddInstance()
 
 		Matrix m;
 		D3DXMatrixIdentity(&m);
-		instance->GetTransform()->LossyWorld(m);
+		instance->GetTransform()->GlobalWorld(m);
 
 		colors[index] = Color(0, 0, 0, 1);
 
@@ -81,7 +81,7 @@ void MeshInstancing::RemoveInstance(MeshInstance * value)
 
 	Matrix m;
 	ZeroMemory(m, sizeof(Matrix));
-	t->LossyWorld(m);
+	t->GlobalWorld(m);
 
 	junkInstances.push_back(value->Id());
 }

@@ -36,7 +36,7 @@ void HPBar::Update(float hp, float hpMax)
 	float hpPer = hp / hpMax;
 
 	Matrix W, V, P;
-	hpbarPos->LossyWorld(&W);
+	hpbarPos->GlobalWorld(&W);
 	V = Context::Get()->View();
 	P = Context::Get()->Projection();
 	Vector3 pPos = Context::Get()->GetViewport()->

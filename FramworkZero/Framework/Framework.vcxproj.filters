@@ -52,6 +52,9 @@
     <Filter Include="Tools\Texture">
       <UniqueIdentifier>{ee14abaf-d68a-4313-9310-12ee8519cd46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tools\Coord">
+      <UniqueIdentifier>{a930b112-5fb5-4159-bc5a-921bfd5d26cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -77,12 +80,6 @@
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Tools\Math.cpp">
-      <Filter>Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\SphereCoord.cpp">
-      <Filter>Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\Transform.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
     <ClCompile Include="Tools\Viewer\Camera.cpp">
@@ -283,6 +280,18 @@
     <ClCompile Include="Objects\Billboard.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Tools\Coord\Transform.cpp">
+      <Filter>Tools\Coord</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Coord\SphereCoord.cpp">
+      <Filter>Tools\Coord</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Coord\EulerAngle.cpp">
+      <Filter>Tools\Coord</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Coord\WorldMatrix.cpp">
+      <Filter>Tools\Coord</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -320,12 +329,6 @@
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Tools\Math.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\SphereCoord.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\Transform.h">
       <Filter>Tools</Filter>
     </ClInclude>
     <ClInclude Include="Tools\Viewer\Camera.h">
@@ -549,6 +552,18 @@
     </ClInclude>
     <ClInclude Include="Objects\Billboard.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Coord\Transform.h">
+      <Filter>Tools\Coord</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Coord\SphereCoord.h">
+      <Filter>Tools\Coord</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Coord\EulerAngle.h">
+      <Filter>Tools\Coord</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Coord\WorldMatrix.h">
+      <Filter>Tools\Coord</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

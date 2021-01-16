@@ -17,28 +17,27 @@ void TransformEditor::RenderImGui(Transform * t)
 	{
 		ImGui::PushID("Transform");
 
-		Vector3 pos;
-		Vector3 rota1, rota2;
-		Vector3 scale;
+		Vector3 pos, scale;
+		Quaternion rotation;
 		t->Position(&pos);
-		t->RotationDegree(&rota1);
+		t->Rotation(&rotation);
 		t->Scale(&scale);
-		rota2 = rota1;
+
+		EulerAngle euler;
+		euler.SetQuaternion(rotation);
+		Vector3 rota1, rota2;
+		rota2 = rota1 = euler.EulerDegree();
 
 		ImGui::DragFloat3("Position", pos, 0.1f);
 		ImGui::DragFloat3("Rotation", rota2, 0.1f);
 		ImGui::DragFloat3("Scale", scale, 0.1f);
 
-		t->Position(pos);
-		t->Scale(scale);
+		euler.SetDegree(rota2 - rota1);
+		euler.RotateQuaternion(&rotation);
 
-		rota2 -= rota1;
-		if (rota2.y != 0.0f)
-			t->RotateYaw(rota2.y);
-		if (rota2.x != 0.0f)
-			t->RotatePitch(rota2.x);
-		if (rota2.z != 0.0f)
-			t->RotateRoll(rota2.z);
+		t->Position(pos);
+		t->Rotation(rotation);
+		t->Scale(scale);
 
 		ImGui::PopID();
 	}

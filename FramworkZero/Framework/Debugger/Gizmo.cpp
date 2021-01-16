@@ -43,10 +43,10 @@ void Gizmo::Render()
 	Context::Get()->GetPerspective()->GetMatrix(&P);
 
 	Matrix W;
-	transform->LossyWorld(&W);
+	transform->GlobalWorld(&W);
 	ImGuizmo::Manipulate(V, P, operation, mode, W);
 
-	transform->LossyWorld(W);
+	transform->GlobalWorld(W);
 
 	Debug::Log->Show("");
 	Debug::Log->Show("__Gizmo__");
@@ -56,7 +56,9 @@ void Gizmo::Render()
 	transform->Position(&v3);
 	str = "Position : " + to_string((int)v3.x) + ", " + to_string((int)v3.y) + ", " + to_string((int)v3.z);
 	Debug::Log->Show(str);
-	transform->RotationDegree(&v3);
+	Quaternion q;
+	transform->Rotation(&q);
+	v3 = EulerAngle(q).EulerDegree();
 	str = "Rotation : " + to_string((int)v3.x) + ", " + to_string((int)v3.y) + ", " + to_string((int)v3.z);
 	Debug::Log->Show(str);
 	transform->Scale(&v3);

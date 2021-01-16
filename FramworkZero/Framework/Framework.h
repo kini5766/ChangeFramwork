@@ -97,7 +97,10 @@ typedef D3DXPLANE Plane;
 
 #include "Tools/Math.h"
 #include "Tools/WinDesc.h"
-#include "Tools/Transform.h"
+
+#include "Tools/Coord/EulerAngle.h"
+#include "Tools/Coord/Transform.h"
+#include "Tools/Coord/WorldMatrix.h"
 
 #include "Tools/Texture/Texture.h"
 #include "Tools/Texture/Texture2D.h"

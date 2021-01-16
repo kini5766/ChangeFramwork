@@ -22,7 +22,7 @@ EnemyInstance::EnemyInstance(const EnemyInstanceDesc* desc)
 	hp->GetHurtbox()->GetTransform()->SetParent(transform);
 	//hp->GetHurtbox()->GetTransform()->Scale(75.0f, 180.0f, 75.0f);
 	hp->GetHurtbox()->GetTransform()->Position(0.0f, 90.0f, 0.0f);
-	hp->GetHurtbox()->GetTransform()->Rotation(0.0f, 0.0f, 0.0f);
+	hp->GetHurtbox()->GetTransform()->Rotation(EulerAngle(0.0f, 0.0f, 0.0f));
 	hp->GetHurtbox()->SetLayer(
 		COLLIDER_LAYER_ENEMY |
 		COLLIDER_LAYER_HITBOX

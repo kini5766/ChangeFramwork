@@ -175,7 +175,7 @@ bool MagicAttack::Instance_M::Update(float runningTime)
 		if (runningTime >= readyTime)
 		{
 			Matrix w;
-			transform->LossyWorld(&w);
+			transform->GlobalWorld(&w);
 			//init->FireBullet(Vector3(w._41, w._42, w._43));
 			Vector3 s, t;
 			Quaternion r;

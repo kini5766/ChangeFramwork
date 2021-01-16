@@ -22,7 +22,7 @@ MeleeEnemy::MeleeEnemy(Shader* shader)
 
 	normalAttack = new NormalAttack();
 	normalAttack->InitTransform()->Position(0.0f, 90.0f, -40.0f);
-	normalAttack->InitTransform()->Rotation(0.0f, 0.0f, 0.0f);
+	normalAttack->InitTransform()->Rotation(EulerAngle(0.0f, 0.0f, 0.0f));
 	normalAttack->InitTransform()->Scale(100.0f, 180.0f, 180.0f);
 	normalAttack->Tag(L"EnemyAttack");
 

@@ -1,7 +1,7 @@
 #include "Framework.h"
 #include "SpotLight.h"
 
-#include "Tools/SphereCoord.h"
+#include "Tools/Coord/SphereCoord.h"
 
 SpotLight::SpotLight(SpotLightDesc* desc)
 	: desc(desc)
@@ -21,8 +21,7 @@ void SpotLight::ApplyLight()
 
 	SphereCoord scoord;
 	scoord.SetRectCoord_Y(transform->Forward());
-	Vector3 rotation = scoord.YawPitch_Z();
-	transform->Rotation(rotation);
+	transform->Rotation(scoord.YawPitch_Z());
 
 	Vector3 s;
 	transform->Scale(&s);

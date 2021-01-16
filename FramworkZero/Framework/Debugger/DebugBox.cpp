@@ -21,7 +21,7 @@ DebugBox::~DebugBox()
 void DebugBox::RenderBox(Transform* box, const Color& color)
 {
 	Matrix world;
-	box->LossyWorld(&world);
+	box->GlobalWorld(&world);
 	boxes.push_back({ world, color });
 }
 

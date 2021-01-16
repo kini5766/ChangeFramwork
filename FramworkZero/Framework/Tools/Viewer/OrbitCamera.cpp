@@ -2,7 +2,7 @@
 #include "OrbitCamera.h"
 
 #include "IFocus.h"
-#include "Tools/SphereCoord.h"
+#include "Tools/Coord/SphereCoord.h"
 
 OrbitCamera::OrbitCamera()
 {

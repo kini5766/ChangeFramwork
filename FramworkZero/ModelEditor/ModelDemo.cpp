@@ -53,7 +53,7 @@ void ModelDemo::Tank()
 	{
 		Transform* transform = tank->AddInstance()->GetTransform();
 		transform->Position(Vector3(x, 0.0f, 5.0f));
-		transform->RotationDegree(0, Math::Random(-179.9f, 179.9f), 0);
+		transform->Rotation(EulerAngle(0, Math::Random(-179.9f, 179.9f), 0));
 		transform->Scale(0.3f, 0.3f, 0.3f);
 	}
 
@@ -72,7 +72,7 @@ void ModelDemo::Tower()
 	{
 		Transform* transform = tower->AddInstance()->GetTransform();
 		transform->Position(Vector3(x, 0.0f, 7.0f));
-		transform->RotationDegree(0, Math::Random(-179.9f, 179.9f), 0);
+		transform->Rotation(EulerAngle(0, Math::Random(-179.9f, 179.9f), 0));
 		transform->Scale(0.003f, 0.003f, 0.003f);
 	}
 
@@ -91,7 +91,7 @@ void ModelDemo::Airplane()
 	{
 		Transform* transform = airplane->AddInstance()->GetTransform();
 		transform->Position(Vector3(x, 0.0f, 2.5f));
-		transform->RotationDegree(0, Math::Random(-179.9f, 179.9f), 0);
+		transform->Rotation(EulerAngle(0, Math::Random(-179.9f, 179.9f), 0));
 		transform->Scale(0.0003f, 0.0003f, 0.0003f);
 	}
 

@@ -1,7 +1,7 @@
 #include "Framework.h"
 #include "DirectionalLight.h"
 
-#include "Tools/SphereCoord.h"
+#include "Tools/Coord/SphereCoord.h"
 
 DirectionalLight::DirectionalLight(DirectionalLightDesc* desc)
 	: desc(desc)
@@ -19,8 +19,8 @@ void DirectionalLight::ApplyLight()
 {
 	SphereCoord scoord;
 	scoord.SetRectCoord_Y(desc->Direction);
-	Vector3 rotation = scoord.YawPitch_Z();
-	transform->Rotation(rotation);
+
+	transform->Rotation(scoord.YawPitch_Z());
 }
 
 void DirectionalLight::ApplyTransform()
