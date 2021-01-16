@@ -5,7 +5,9 @@
 
 float4 PS(MeshOutput input) : SV_Target0
 {
-	return PS_AllLight(input);
+	float4 c = PS_AllLight(input);
+	float4 cmin = PS_MinLight(input);
+	return max(c, cmin);
 }
 
 

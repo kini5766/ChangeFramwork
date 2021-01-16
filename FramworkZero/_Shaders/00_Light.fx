@@ -112,11 +112,11 @@ float4 GetDiffuse(float NdotL, float4 diffuse)
 	return Material.Diffuse * NdotL * diffuse;
 }
 
-float4 GetSpecular(float3 L, float3 N, float3 E, float4 specular)
+float4 GetSpecular(float3 L, float3 N, float3 viewDir, float4 specular)
 {
 	// 반사 벡터
 	float3 R = normalize(reflect(L, -N));
-	float RdotE = saturate(dot(R, E));
+	float RdotE = saturate(dot(R, viewDir));
 
 	// 정구
 	float spow = saturate(pow(RdotE, Material.Specular.a));
@@ -124,24 +124,12 @@ float4 GetSpecular(float3 L, float3 N, float3 E, float4 specular)
 	return Material.Specular * spow * specular;
 }
 
-float4 GetEmissive(float3 N, float3 E)
+float4 GetRim(float3 N, float3 viewDir, float NdotL, float4 emissive)
 {
-	float NdotE = dot(N, E);
-
-	float eSthep = smoothstep(1.0f - Material.Emissive.a, 1.0f, 1.0f - NdotE);
-	return Material.Emissive * eSthep;
-
-	//float h = saturate(NdotE);
-	//float r = saturate(1.0f - h);
-	//float g = saturate(1.0f - h * 2.0f);
-	//float b = saturate(1.0f - h * 2.0f) + saturate(h * 2.0f - 1.0f);
-	//float4 c = float4(r, g, b, 1.0f);
-	//return Material.Emissive * eSthep * c;
-}
-
-float4 GetEmissive(float3 N, float3 E, float4 emissive)
-{
-	return GetEmissive(N, E) * emissive;
+	float rimDot = 1.0f - saturate(dot(N, viewDir));
+	float rimIntensity = rimDot * NdotL;
+	rimIntensity = smoothstep(1.0f - emissive.a, 1.0f, rimIntensity);
+	return emissive * rimIntensity;
 }
 
 // --
@@ -178,14 +166,11 @@ void ComputeMaterial(out MaterialDesc output, float3 normal, float3 wPosition)
 	// Light Direction
 	float3 L = normalize(GlobalLight.Direction);
 
-	// Normal
-	float3 N = normalize(normal);
-
 	// Light Direction dot Normal
-	float NdotL = dot(N, -L);
+	float NdotL = dot(normal, -L);
 
-	// Eye
-	float3 E = normalize(ViewPosition() - wPosition);
+	// viewDir
+	float3 viewDir = normalize(ViewPosition() - wPosition);
 
 	if (NdotL > 0.0f)
 	{
@@ -195,20 +180,12 @@ void ComputeMaterial(out MaterialDesc output, float3 normal, float3 wPosition)
 		// Specular
 		[flatten]
 		if (Material.Specular.a > 0.0f)
-		{
-			output.Specular = GetSpecular(L, N, E, GlobalLight.Specular);
-		}
-	}
-	else
-	{
-		output.Diffuse = GetDiffuse(-NdotL, 0.125f);
+			output.Specular = GetSpecular(L, normal, viewDir, GlobalLight.Specular);
 	}
 
 	// Emissive
 	if (Material.Emissive.a > 0.0f)
-	{
-		output.Emissive = GetEmissive(N, E);
-	}
+		output.Emissive = GetRim(normal, viewDir, NdotL, Material.Emissive);
 }
 
 
@@ -257,9 +234,8 @@ void ComputePointLight(out MaterialDesc output, float3 normal, float3 wPosition)
 
 		L /= dist;
 
-		float3 E = normalize(ViewPosition() - wPosition);
-		float3 N = normalize(normal);
-		float NdotL = dot(N, -L);
+		float3 viewDir = normalize(ViewPosition() - wPosition);
+		float NdotL = dot(normal, -L);
 
 		// Ambient
 		result.Ambient = PointLights[i].Ambient * Material.Ambient;
@@ -273,17 +249,13 @@ void ComputePointLight(out MaterialDesc output, float3 normal, float3 wPosition)
 			// Specular
 			[flatten]
 			if (Material.Specular.a > 0.0f)
-			{
-				result.Specular = GetSpecular(L, N, E, PointLights[i].Specular);
-			}
+				result.Specular = GetSpecular(L, normal, viewDir, PointLights[i].Specular);
 		}
 
 		// Emissive
 		[flatten]
 		if (Material.Emissive.a > 0.0f)
-		{
-			result.Emissive = GetEmissive(N, E, PointLights[i].Emissive);
-		}
+			result.Emissive = GetRim(normal, viewDir, NdotL, PointLights[i].Emissive);
 
 		float temp = PointLights[i].Range / dist;
 		float att = temp * temp * PointLights[i].Intensity;
@@ -344,9 +316,8 @@ void ComputeSpotLight(out MaterialDesc output, float3 normal, float3 wPosition)
 
 		L /= dist;
 
-		float3 E = normalize(ViewPosition() - wPosition);
-		float3 N = normalize(normal);
-		float NdotL = dot(N, -L);
+		float3 viewDir = normalize(ViewPosition() - wPosition);
+		float NdotL = dot(normal, -L);
 
 		// Ambient
 		result.Ambient = SpotLights[i].Ambient * Material.Ambient;
@@ -360,17 +331,13 @@ void ComputeSpotLight(out MaterialDesc output, float3 normal, float3 wPosition)
 			// Specular
 			[flatten]
 			if (Material.Specular.a > 0.0f)
-			{
-				result.Specular = GetSpecular(L, N, E, SpotLights[i].Specular);
-			}
+				result.Specular = GetSpecular(L, normal, viewDir, SpotLights[i].Specular);
 		}
 
 		// Emissive
 		[flatten]
 		if (Material.Emissive.a > 0.0f)
-		{
-			result.Emissive = GetEmissive(N, E, SpotLights[i].Emissive);
-		}
+			result.Emissive = GetRim(normal, viewDir, NdotL, SpotLights[i].Emissive);
 
 		float temp = pow(saturate(dot(L, SpotLights[i].Direction)), max(0.1e-6f, 90.0f - SpotLights[i].Angle));
 		float att = temp * (1.0f / max((1.0f - SpotLights[i].Intensity), 0.1e-6f));
@@ -429,7 +396,10 @@ void ComputeBurntLight(inout MaterialDesc directional, float3 wPosition)
 
 float4 PS_AllLight(MeshOutput input)
 {
-	NormalMapping(input.Uv, input.Normal, input.Tangent);
+	// Normal
+	float3 normal = normalize(input.Normal);
+
+	NormalMapping(input.Uv, normal, input.Tangent);
 	Texture(Material.Diffuse, DiffuseMap, input.Uv);
 
 	Texture(Material.Specular, SpecularMap, input.Uv);
@@ -437,15 +407,28 @@ float4 PS_AllLight(MeshOutput input)
 	MaterialDesc output = (MaterialDesc)0;
 	MaterialDesc result = (MaterialDesc)0;
 
-	ComputeMaterial(output, input.Normal, input.wPosition);
+	ComputeMaterial(output, normal, input.wPosition);
 	ComputeBurntLight(output, input.wPosition);
 	AddMaterial(result, output);
 
-	ComputePointLight(output, input.Normal, input.wPosition);
+	ComputePointLight(output, normal, input.wPosition);
 	AddMaterial(result, output);
 
-	ComputeSpotLight(output, input.Normal, input.wPosition);
+	ComputeSpotLight(output, normal, input.wPosition);
 	AddMaterial(result, output);
 
 	return float4(MaterialToColor(result), 1.0f) + input.Color;
+}
+
+float4 PS_MinLight(MeshOutput input)
+{
+	float3 normal = normalize(input.Normal);
+
+	// Light Direction
+	float3 L = normalize(GlobalLight.Direction);
+
+	// Light Direction dot Normal
+	float NdotL = dot(normal, -L);
+
+	return GetDiffuse(abs(NdotL), 0.125f);
 }

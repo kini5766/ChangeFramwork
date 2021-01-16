@@ -15,7 +15,7 @@ output.Position = ViewProjection(output.Position); \
 output.Normal = WorldNormal(input.Normal); \
 output.Tangent = WorldTangent(input.Tangent); \
 output.Uv = input.Uv; \
-output.Color = input.Color;
+output.Color = input.Color; \
 
 
 // --
