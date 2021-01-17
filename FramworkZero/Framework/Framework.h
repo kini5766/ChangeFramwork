@@ -142,6 +142,7 @@ typedef D3DXPLANE Plane;
 #include "Rendering/CBufferVariables/ShaderSetter.h"
 #include "Rendering/CBufferVariables/Material.h"
 #include "Rendering/CBufferVariables/PerFrame.h"
+#include "Rendering/CBufferVariables/PerTransform.h"
 
 
 // Utilities
@@ -163,10 +164,14 @@ typedef D3DXPLANE Plane;
 #include "Objects/Meshes/MeshRenderer.h"
 #include "Objects/Meshes/MeshInstancing.h"
 #include "Objects/Meshes/SkinnedMeshRenderer.h"
+#include "Objects/Meshes/Mesh.h"
 
 #include "Objects/Model/ModelData.h"
 #include "Objects/Model/ModelAnimationDesc.h"
 #include "Objects/Model/ModelSkinnedInstancing.h"
+
+#include "Objects/Particle/ParticleData.h"
+#include "Objects/Particle/Particle.h"
 
 #include "Objects/Render2D.h"
 #include "Objects/PostEffect.h"

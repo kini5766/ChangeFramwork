@@ -10,7 +10,6 @@ ModelSkinnedInstancing::ModelSkinnedInstancing(Shader* shader, const ModelDesc& 
 	data = new ModelData();
 
 	instanceBuffer = new VertexBuffer(worlds, MODEL_INSTANCE_MAX_COUNT, sizeof(Matrix), 1, true);
-	instanceColorBuffer = new VertexBuffer(colors, MODEL_INSTANCE_MAX_COUNT, sizeof(Color), 2, true);
 
 	data->ReadMaterial(desc.MaterialFile);
 	data->ReadMesh(desc.MeshFile);
@@ -22,7 +21,6 @@ ModelSkinnedInstancing::ModelSkinnedInstancing(Shader* shader, const ModelDesc& 
 
 ModelSkinnedInstancing::~ModelSkinnedInstancing()
 {
-	SafeDelete(instanceColorBuffer);
 	SafeDelete(instanceBuffer);
 
 	SafeDelete(renderer);
@@ -51,7 +49,6 @@ void ModelSkinnedInstancing::Update()
 void ModelSkinnedInstancing::Render()
 {
 	instanceBuffer->Render();
-	instanceColorBuffer->Render();
 
 	perframe->Render();
 	renderer->RenderInstance(instances.size());
@@ -90,7 +87,6 @@ ModelSkinnedInstance * ModelSkinnedInstancing::AddInstance()
 		instances.push_back(instance);
 
 		instance->GetTransform()->ReplaceMatrixGetter(worlds + index);
-		colors[index] = Color(0, 0, 0, 1);
 	}
 	else
 	{
@@ -101,8 +97,6 @@ ModelSkinnedInstance * ModelSkinnedInstancing::AddInstance()
 		Matrix m;
 		D3DXMatrixIdentity(&m);
 		instance->GetTransform()->GlobalWorld(m);
-
-		colors[index] = Color(0, 0, 0, 1);
 
 		junkInstances.pop_back();
 	}
@@ -136,22 +130,6 @@ void ModelSkinnedInstancing::UpdateTransforms()
 		memcpy(subResource.pData, worlds, sizeof(Matrix) * MODEL_INSTANCE_MAX_COUNT);
 	}
 	D3D::GetDC()->Unmap(instanceBuffer->Buffer(), 0);
-}
-
-void ModelSkinnedInstancing::UpdateColors()
-{
-	D3D11_MAPPED_SUBRESOURCE subResource;
-
-	D3D::GetDC()->Map(instanceColorBuffer->Buffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &subResource);
-	{
-		memcpy(subResource.pData, colors, sizeof(Color) * MODEL_INSTANCE_MAX_COUNT);
-	}
-	D3D::GetDC()->Unmap(instanceColorBuffer->Buffer(), 0);
-}
-
-void ModelSkinnedInstancing::SetColor(UINT instance, const Color & color)
-{
-	colors[instance] = color;
 }
 
 #pragma endregion

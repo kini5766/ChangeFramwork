@@ -16,11 +16,9 @@ MeshRenderer::MeshRenderer(Shader * shader, MeshData* data)
 
 MeshRenderer::~MeshRenderer()
 {
+	SafeDelete(indexBuffer);
+	SafeDelete(vertexBuffer);
 	SafeDelete(defaultMaterial);
-}
-
-void MeshRenderer::Update()
-{
 }
 
 void MeshRenderer::Render()

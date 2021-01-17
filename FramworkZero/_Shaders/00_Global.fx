@@ -21,23 +21,6 @@ cbuffer CB_World
 };
 
 
-// --
-// Mesh
-// --
-
-// output
-struct MeshOutput
-{
-	float4 Position : SV_Position0;
-	float3 oPosition : Position1;
-	float3 wPosition : Position2;
-
-	float3 Normal : Normal0;
-	float3 Tangent : Tangent0;
-	float2 Uv : Uv0;
-	float4 Color : Color0;
-};
-
 //--
 // Functions
 //--
@@ -74,7 +57,6 @@ float3 ViewPosition()
 //--
 
 // RS 단계
-
 SamplerState PointSampler
 {
 	Filter = MIN_MAG_MIP_POINT;
@@ -88,6 +70,8 @@ SamplerState LinearSampler
 	AddressU = WRAP;
 	AddressV = WRAP;
 };
+
+SamplerComparisonState ShadowSampler;
 
 
 RasterizerState FillMode_WireFrame
@@ -108,10 +92,33 @@ RasterizerState CullMode_None
 
 
 // OM 단계
-
 DepthStencilState DepthEnable_False
 {
 	DepthEnable = false;
+};
+
+DepthStencilState PixleDepthEnable_False
+{
+	DepthEnable = true;
+	DepthFunc = LESS_EQUAL;
+	DepthWriteMask = ZERO;
+};
+
+// src : 물체, desc : 배경
+// Src.rgb * SrcBlend (Op) Desc.rgb * DestBlend
+BlendState AlphaBlend
+{
+	BlendEnable[0] = true;
+	SrcBlend[0] = SRC_ALPHA;  // (Src.a)
+	DestBlend[0] = INV_SRC_ALPHA;  // (1 - Src.a)
+	BlendOp = ADD;
+	//BlendOp[0] = ADD;
+
+	SrcBlendAlpha[0] = ONE;
+	DestBlendAlpha[0] = ZERO;
+	BlendOpAlpha = ADD;
+
+	RenderTargetWriteMask[0] = 0x0F;  // 15(거의고정) -> ARGB & 0x0F
 };
 
 // 알파소팅 : 불투명 가장 먼저 -> 투명 가장 나중에
@@ -123,6 +130,38 @@ BlendState AlphaBlend_AlphaToCoverageEnable
 	BlendEnable[0] = true;
 	SrcBlend[0] = SRC_ALPHA;
 	DestBlend[0] = INV_SRC_ALPHA;
+	BlendOp = ADD;
+
+	SrcBlendAlpha[0] = ONE;
+	DestBlendAlpha[0] = ZERO;
+	BlendOpAlpha = ADD;
+
+	RenderTargetWriteMask[0] = 0x0F;
+};
+
+
+// Src.rgb * Src.a + Desc.rgb * 1
+BlendState AdditiveBlend
+{
+	BlendEnable[0] = true;
+	SrcBlend[0] = SRC_ALPHA;
+	DestBlend[0] = ONE;
+	BlendOp = ADD;
+
+	SrcBlendAlpha[0] = ONE;
+	DestBlendAlpha[0] = ZERO;
+	BlendOpAlpha = ADD;
+
+	RenderTargetWriteMask[0] = 0x0F;
+};
+
+BlendState AdditiveBlend_AlphaToCoverageEnable
+{
+	AlphaToCoverageEnable = true;
+
+	BlendEnable[0] = true;
+	SrcBlend[0] = SRC_ALPHA;
+	DestBlend[0] = ONE;
 	BlendOp = ADD;
 
 	SrcBlendAlpha[0] = ONE;

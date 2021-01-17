@@ -5,7 +5,7 @@
 class WorldPlayer
 {
 public:
-	WorldPlayer(Shader* shader);
+	WorldPlayer();
 	~WorldPlayer();
 
 public:
@@ -18,10 +18,14 @@ private:
 	void Player(ModelSkinnedInstance* instance);
 	void PlayerHp(Transform* transform);
 	void PlayerAttack();
-	void PlayerWeapon(Shader* shader, Transform* transform);
+	void PlayerWeapon(Transform* transform);
 
 private:
 	void OnDamage();
+
+private:
+	Shader* shaderModel;
+	Shader* shaderMesh;
 
 private:
 	ModelSkinnedInstancing* kachujinMaker;

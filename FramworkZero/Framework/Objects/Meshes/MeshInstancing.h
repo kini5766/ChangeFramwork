@@ -17,7 +17,6 @@ public:
 	void Render();
 
 public:
-	void SetColor(UINT instance, const Color& color);
 	void Pass(UINT value) { renderer->Pass(value); }
 	MeshRenderer* GetRenderer() const { return renderer; }
 
@@ -27,7 +26,6 @@ public:
 	void RemoveInstance(MeshInstance* value);
 
 	void UpdateTransforms();
-	void UpdateColors();
 
 
 private: // render 관련
@@ -41,9 +39,6 @@ private: // instance 관련
 
 	Matrix worlds[MESH_INSTANCE_MAX_COUNT];
 	VertexBuffer* instanceBuffer;
-
-	Color colors[MESH_INSTANCE_MAX_COUNT];
-	VertexBuffer* instanceColorBuffer;
 };
 
 

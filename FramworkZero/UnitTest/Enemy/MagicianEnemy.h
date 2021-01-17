@@ -5,7 +5,7 @@
 class MagicianEnemy : public IEnemy
 {
 public:
-	MagicianEnemy(Shader* shader, class IFocus* player);
+	MagicianEnemy(class IFocus* player);
 	~MagicianEnemy();
 
 private:
@@ -17,6 +17,10 @@ private:
 	void BindAnimation(Animator *, ModelAnimation *) override;
 	AttackAnimation * MakeAttackInstance(Transform *) override;
 	const EnemyDesc * GetDesc() override;
+
+private:
+	Shader* shaderModel;
+	Shader* shaderMesh;
 
 private:
 	ModelSkinnedInstancing* modelInstancing;

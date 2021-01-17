@@ -101,8 +101,7 @@ void AnimationDemo::Kachujin()
 	}
 
 	kachujin->UpdateTransforms();
-	kachujin->UpdateColors();
-	kachujin->Pass(1);
+	kachujin->Pass(0);
 
 	attachBones = new Matrix[kachujin->GetModel()->BoneCount()];
 	gizmo = new Transform();

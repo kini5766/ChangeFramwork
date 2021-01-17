@@ -6,9 +6,12 @@
 
 #include "Character/Friedrich.h"
 
-MagicianEnemy::MagicianEnemy(Shader * shader, IFocus* player)
+MagicianEnemy::MagicianEnemy(IFocus* player)
 {
-	modelInstancing = new ModelSkinnedInstancing(shader, {
+	shaderModel = Shader::Load(URI::Shaders + L"01_Model.fxo");
+	shaderMesh = Shader::Load(URI::Shaders + L"01_Mesh.fxo");
+
+	modelInstancing = new ModelSkinnedInstancing(shaderModel, {
 		/*매쉬*/ L"Friedrich/Mesh",
 		/*매터리얼*/ L"Friedrich/Mesh",
 		/*클립*/ {
@@ -21,8 +24,11 @@ MagicianEnemy::MagicianEnemy(Shader * shader, IFocus* player)
 			L"Friedrich/Fall",  // 6
 		}
 		});
+	modelInstancing->Pass(0);
 
-	sphere = new MeshInstancing(shader, new MeshSphere(0.5f));
+	sphere = new MeshInstancing(shaderMesh, new MeshSphere(0.5f));
+	sphere->Pass(1);
+	sphere->GetRenderer()->GetDefaultMaterial()->Diffuse(0.0f, 0.0f, 0.0f);
 	magicAttack = new MagicAttack(player, sphere);
 	magicAttack->InitTransform()->Position(-25.0f, 135.0f, -40.0f);
 	magicAttack->InitTransform()->Rotation(EulerAngle(180.0f, 0.0f, 0.0f));
@@ -33,8 +39,6 @@ MagicianEnemy::MagicianEnemy(Shader * shader, IFocus* player)
 	desc.DetectionRange = 40.0f;
 	//desc.TurnSpeed = 10.0f;
 
-	modelInstancing->UpdateColors();
-	modelInstancing->Pass(1);
 }
 
 MagicianEnemy::~MagicianEnemy()
@@ -42,6 +46,9 @@ MagicianEnemy::~MagicianEnemy()
 	SafeDelete(magicAttack);
 	SafeDelete(sphere);
 	SafeDelete(modelInstancing);
+
+	SafeRelease(shaderModel);
+	SafeRelease(shaderMesh);
 }
 
 void MagicianEnemy::Update()

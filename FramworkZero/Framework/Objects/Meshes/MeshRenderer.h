@@ -10,7 +10,6 @@ public:
 	~MeshRenderer();
 
 public:
-	void Update();
 	void Render();
 	void RenderInstance(UINT drawCount);
 

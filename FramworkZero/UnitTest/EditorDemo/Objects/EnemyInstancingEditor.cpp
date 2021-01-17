@@ -10,7 +10,6 @@
 EnemyInstancingEditor::EnemyInstancingEditor(IFocus* player)
 	: player(player)
 {
-	shader = Shader::Load(L"01_Material.fxo");
 	tImGui = new TransformEditor();
 }
 
@@ -101,8 +100,8 @@ void EnemyInstancingEditor::CreateEnemy(int item)
 	enemyType = item;
 	switch (item)
 	{
-	case 0: enemy = new EnemyInstancing(player, new MeleeEnemy(shader)); break;
-	case 1: enemy = new EnemyInstancing(player, new MagicianEnemy(shader, player)); break;
+	case 0: enemy = new EnemyInstancing(player, new MeleeEnemy()); break;
+	case 1: enemy = new EnemyInstancing(player, new MagicianEnemy(player)); break;
 	}
 
 }

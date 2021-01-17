@@ -5,7 +5,7 @@ constexpr auto BILLBOARD_MAX_COUNT = 10000;
 class Billboard
 {
 public:
-	Billboard(Shader* shader);
+	Billboard();
 	~Billboard();
 
 public:

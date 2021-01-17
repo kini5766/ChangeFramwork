@@ -58,7 +58,7 @@ void ModelDemo::Tank()
 	}
 
 	tank->UpdateTransforms();
-	tank->Pass(1);
+	tank->Pass(0);
 }
 
 void ModelDemo::Tower()
@@ -77,7 +77,7 @@ void ModelDemo::Tower()
 	}
 
 	tower->UpdateTransforms();
-	tower->Pass(1);
+	tower->Pass(0);
 }
 
 void ModelDemo::Airplane()
@@ -96,6 +96,6 @@ void ModelDemo::Airplane()
 	}
 
 	airplane->UpdateTransforms();
-	airplane->Pass(1);
+	airplane->Pass(0);
 }
 

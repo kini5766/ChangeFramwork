@@ -7,7 +7,7 @@
 
 MeshInstancingEditor::MeshInstancingEditor()
 {
-	shader = Shader::Load(L"01_Material.fxo");
+	shader = Shader::Load(L"01_Mesh.fxo");
 	tImGui = new TransformEditor();
 	cImGui = new ColliderEditor();
 	mImGui = new MaterialEditor();
@@ -350,6 +350,7 @@ void MeshInstancingEditor::LoadInstancing(UINT item)
 void MeshInstancingEditor::SetInstancing(MeshInstancing * value)
 {
 	meshInstancing = value;
+	meshInstancing->Pass(1);
 	mImGui->Apply(value->GetRenderer()->GetDefaultMaterial());
 	meshType = imguiItem;
 }

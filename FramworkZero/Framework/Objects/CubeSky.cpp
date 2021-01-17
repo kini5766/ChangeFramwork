@@ -1,13 +1,14 @@
 #include "Framework.h"
 #include "CubeSky.h"
 
-CubeSky::CubeSky(wstring file_cubeMap, Shader* _shader)
+CubeSky::CubeSky(wstring file_cubeMap)
 {
-	shader = new ShaderSetter(_shader);
+	Shader* shader = Shader::Load(URI::Shaders + L"01_SkyCube.fxo");
 
-	sphere = new MeshInstancing(this->shader->GetShader(), new MeshSphere(0.5f));
-	transform = sphere->AddInstance()->GetTransform();
-	transform->Scale(500, 500, 500);
+	sphere = new Mesh(shader, MeshSphere(0.5f));
+	sphere->Pass(0);
+	transform = sphere->GetTransform();
+	//transform->Scale(500, 500, 500);
 
 	wstring file = URI::Textures + file_cubeMap;
 	Check(D3DX11CreateShaderResourceViewFromFile
@@ -15,17 +16,16 @@ CubeSky::CubeSky(wstring file_cubeMap, Shader* _shader)
 		D3D::GetDevice(), file.c_str(), NULL, NULL, &srv, NULL
 	));
 
-	shader->SetSRV("SkyCubeMap", srv);
-
-	sphere->Pass(3);
+	material = sphere->GetMaterial();
+	material->SetSRV("SkyCubeMap", srv);
 }
 
 CubeSky::~CubeSky()
 {
 	SafeRelease(srv);
 
+	material->GetShader()->Release();
 	SafeDelete(sphere);
-	SafeDelete(shader);
 }
 
 void CubeSky::Update()
@@ -34,12 +34,10 @@ void CubeSky::Update()
 	Context::Get()->MainCamera()->Position(&position);
 
 	transform->Position(position);
-	sphere->UpdateTransforms();
 	sphere->Update();
 }
 
 void CubeSky::Render()
 {
-	shader->Render();
 	sphere->Render();
 }

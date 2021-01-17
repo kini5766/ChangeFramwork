@@ -4,9 +4,11 @@
 #include "Character/Paladin.h"
 #include "Component/NormalAttack.h"
 
-MeleeEnemy::MeleeEnemy(Shader* shader)
+MeleeEnemy::MeleeEnemy()
 {
-	modelInstancing = new ModelSkinnedInstancing(shader, {
+	shaderModel = Shader::Load(L"01_Model.fxo");
+
+	modelInstancing = new ModelSkinnedInstancing(shaderModel, {
 			/*매쉬*/ L"Paladin/Mesh",
 			/*매터리얼*/ L"Paladin/Mesh",
 			/*클립*/ {
@@ -19,6 +21,7 @@ MeleeEnemy::MeleeEnemy(Shader* shader)
 				L"Paladin/Fall",  // 6
 			}
 		});
+	modelInstancing->Pass(1);
 
 	normalAttack = new NormalAttack();
 	normalAttack->InitTransform()->Position(0.0f, 90.0f, -40.0f);
@@ -27,14 +30,13 @@ MeleeEnemy::MeleeEnemy(Shader* shader)
 	normalAttack->Tag(L"EnemyAttack");
 
 	modelInstancing->UpdateTransforms();
-	modelInstancing->UpdateColors();
-	modelInstancing->Pass(1);
 }
 
 MeleeEnemy::~MeleeEnemy()
 {
 	SafeDelete(normalAttack);
 	SafeDelete(modelInstancing);
+	SafeRelease(shaderModel);
 }
 
 void MeleeEnemy::Update()

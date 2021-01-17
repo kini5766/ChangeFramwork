@@ -21,8 +21,6 @@ SkinnedMeshRenderer::~SkinnedMeshRenderer()
 
 void SkinnedMeshRenderer::Update()
 {
-	for (MeshRenderer* renderer : renderers)
-		renderer->Update();
 }
 
 void SkinnedMeshRenderer::Render()

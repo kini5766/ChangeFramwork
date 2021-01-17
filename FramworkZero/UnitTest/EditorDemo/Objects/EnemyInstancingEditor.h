@@ -27,7 +27,6 @@ private:
 
 	// render
 private:
-	Shader* shader;
 	class EnemyInstancing* enemy;
 	class IFocus* player;
 

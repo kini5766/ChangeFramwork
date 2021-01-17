@@ -11,20 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTe
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{D58AE524-C7F3-4094-8848-9CA9DD5E3555}"
-	ProjectSection(SolutionItems) = preProject
-		_Shaders\00_Global.fx = _Shaders\00_Global.fx
-		_Shaders\00_Light.fx = _Shaders\00_Light.fx
-		_Shaders\00_Render.fx = _Shaders\00_Render.fx
-		_Shaders\01_Billboard.fx = _Shaders\01_Billboard.fx
-		_Shaders\01_DebugLine.fx = _Shaders\01_DebugLine.fx
-		_Shaders\01_Material.fx = _Shaders\01_Material.fx
-		_Shaders\01_PostProcessing.fx = _Shaders\01_PostProcessing.fx
-		_Shaders\01_Render2D.fx = _Shaders\01_Render2D.fx
-		_Shaders\02_AnimationInstance.fx = _Shaders\02_AnimationInstance.fx
-		_Shaders\02_GetBonesInstance.fx = _Shaders\02_GetBonesInstance.fx
-		_Shaders\02_SetAnimation.fx = _Shaders\02_SetAnimation.fx
-		_Shaders\02_SetBones.fx = _Shaders\02_SetBones.fx
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelEditor", "ModelEditor\ModelEditor.vcxproj", "{6EF9226B-71F0-4A4D-B086-C01A4DBEE97D}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -36,6 +22,40 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "ImGui\ImGui.vcxproj", "{B2BD242E-C4D3-416D-9900-7D02094A578C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGuizmo", "ImGuizmo\ImGuizmo.vcxproj", "{69A66FA3-6E6F-4C0C-AB12-74C2450BB4B0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParticleEditor", "ParticleEditor\ParticleEditor.vcxproj", "{75560536-1AED-47A5-9632-2238357AF22C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Global", "00_Global", "{1F876E5C-6F63-4995-948C-6D1B471BF5FF}"
+	ProjectSection(SolutionItems) = preProject
+		_Shaders\00_Global.fx = _Shaders\00_Global.fx
+		_Shaders\00_Light.fx = _Shaders\00_Light.fx
+		_Shaders\00_Material.fx = _Shaders\00_Material.fx
+		_Shaders\00_VertexInput.fx = _Shaders\00_VertexInput.fx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Compute", "02_Compute", "{84238D42-F657-4385-88C6-C35EF8C0A02D}"
+	ProjectSection(SolutionItems) = preProject
+		_Shaders\02_AnimationInstance.fx = _Shaders\02_AnimationInstance.fx
+		_Shaders\02_GetBonesInstance.fx = _Shaders\02_GetBonesInstance.fx
+		_Shaders\02_SetAnimation.fx = _Shaders\02_SetAnimation.fx
+		_Shaders\02_SetBones.fx = _Shaders\02_SetBones.fx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Object", "01_Object", "{10EA74BC-9000-4DA9-A9BB-D6BCD41BC757}"
+	ProjectSection(SolutionItems) = preProject
+		_Shaders\01_Billboard.fx = _Shaders\01_Billboard.fx
+		_Shaders\01_DebugLine.fx = _Shaders\01_DebugLine.fx
+		_Shaders\01_Mesh.fx = _Shaders\01_Mesh.fx
+		_Shaders\01_Model.fx = _Shaders\01_Model.fx
+		_Shaders\01_Particle.fx = _Shaders\01_Particle.fx
+		_Shaders\01_Render2D.fx = _Shaders\01_Render2D.fx
+		_Shaders\01_SkyCube.fx = _Shaders\01_SkyCube.fx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_PostProcessing", "03_PostProcessing", "{6678EECB-B628-4628-B633-5EB505E77C30}"
+	ProjectSection(SolutionItems) = preProject
+		_Shaders\03_PostProcessing.fx = _Shaders\03_PostProcessing.fx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +105,14 @@ Global
 		{69A66FA3-6E6F-4C0C-AB12-74C2450BB4B0}.Release|x64.Build.0 = Release|x64
 		{69A66FA3-6E6F-4C0C-AB12-74C2450BB4B0}.Release|x86.ActiveCfg = Release|Win32
 		{69A66FA3-6E6F-4C0C-AB12-74C2450BB4B0}.Release|x86.Build.0 = Release|Win32
+		{75560536-1AED-47A5-9632-2238357AF22C}.Debug|x64.ActiveCfg = Debug|x64
+		{75560536-1AED-47A5-9632-2238357AF22C}.Debug|x64.Build.0 = Debug|x64
+		{75560536-1AED-47A5-9632-2238357AF22C}.Debug|x86.ActiveCfg = Debug|Win32
+		{75560536-1AED-47A5-9632-2238357AF22C}.Debug|x86.Build.0 = Debug|Win32
+		{75560536-1AED-47A5-9632-2238357AF22C}.Release|x64.ActiveCfg = Release|x64
+		{75560536-1AED-47A5-9632-2238357AF22C}.Release|x64.Build.0 = Release|x64
+		{75560536-1AED-47A5-9632-2238357AF22C}.Release|x86.ActiveCfg = Release|Win32
+		{75560536-1AED-47A5-9632-2238357AF22C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +120,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B2BD242E-C4D3-416D-9900-7D02094A578C} = {C135A77F-0724-426A-8D53-DFCEACB4C684}
 		{69A66FA3-6E6F-4C0C-AB12-74C2450BB4B0} = {C135A77F-0724-426A-8D53-DFCEACB4C684}
+		{1F876E5C-6F63-4995-948C-6D1B471BF5FF} = {D58AE524-C7F3-4094-8848-9CA9DD5E3555}
+		{84238D42-F657-4385-88C6-C35EF8C0A02D} = {D58AE524-C7F3-4094-8848-9CA9DD5E3555}
+		{10EA74BC-9000-4DA9-A9BB-D6BCD41BC757} = {D58AE524-C7F3-4094-8848-9CA9DD5E3555}
+		{6678EECB-B628-4628-B633-5EB505E77C30} = {D58AE524-C7F3-4094-8848-9CA9DD5E3555}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C1129D84-89A3-47E9-80FD-3DED17E4A0B4}

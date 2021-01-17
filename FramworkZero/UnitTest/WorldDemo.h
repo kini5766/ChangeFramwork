@@ -28,7 +28,6 @@ private:
 	void Billboards();
 
 private:
-	Shader* shader;
 	CubeSky* sky;
 	Billboard* billboard;
 

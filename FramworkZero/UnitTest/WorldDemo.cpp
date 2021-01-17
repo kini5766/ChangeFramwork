@@ -9,11 +9,10 @@
 
 void WorldDemo::Initialize()
 {
-	shader = Shader::Load(L"01_Material.fxo");
-	sky = new CubeSky(L"Environment/GrassCube1024.dds", shader);
+	sky = new CubeSky(L"Environment/GrassCube1024.dds");
 	lights = new WorldLightGroup();
 
-	player = new WorldPlayer(shader);
+	player = new WorldPlayer();
 	LoadScene();
 	Billboards();
 
@@ -29,8 +28,6 @@ void WorldDemo::Destroy()
 	SafeDelete(billboard);
 	SafeDelete(player);
 	SafeDelete(scene);
-
-	SafeRelease(shader);
 }
 
 void WorldDemo::Update()
@@ -65,7 +62,7 @@ void WorldDemo::LoadScene()
 
 void WorldDemo::Billboards()
 {
-	billboard = new Billboard(shader);
+	billboard = new Billboard();
 	billboard->SetTextures({
 		L"Terrain/grass_14.tga",
 		L"Terrain/grass_07.tga",

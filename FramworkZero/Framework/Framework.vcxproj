@@ -28,6 +28,7 @@
     </ClCompile>
     <ClCompile Include="Objects\Billboard.cpp" />
     <ClCompile Include="Objects\CubeSky.cpp" />
+    <ClCompile Include="Objects\Meshes\Mesh.cpp" />
     <ClCompile Include="Objects\Meshes\MeshCube.cpp" />
     <ClCompile Include="Objects\Meshes\MeshCylinder.cpp" />
     <ClCompile Include="Objects\Meshes\MeshInstancing.cpp" />
@@ -42,6 +43,7 @@
     <ClCompile Include="Objects\Model\ModelComputeAnimInst.cpp" />
     <ClCompile Include="Objects\Model\ModelData.cpp" />
     <ClCompile Include="Objects\Model\ModelSkinnedInstancing.cpp" />
+    <ClCompile Include="Objects\Particle\Particle.cpp" />
     <ClCompile Include="Objects\PostEffect.cpp" />
     <ClCompile Include="Objects\Render2D.cpp" />
     <ClCompile Include="Rendering\Buffers\ConstantBuffer.cpp" />
@@ -54,6 +56,7 @@
     <ClCompile Include="Rendering\CBufferVariables\Context.cpp" />
     <ClCompile Include="Rendering\CBufferVariables\Material.cpp" />
     <ClCompile Include="Rendering\CBufferVariables\PerFrame.cpp" />
+    <ClCompile Include="Rendering\CBufferVariables\PerTransform.cpp" />
     <ClCompile Include="Rendering\CBufferVariables\ShaderSetter.cpp" />
     <ClCompile Include="Systems\D3D.cpp" />
     <ClCompile Include="Systems\Gui.cpp" />
@@ -109,6 +112,7 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Objects\Billboard.h" />
     <ClInclude Include="Objects\CubeSky.h" />
+    <ClInclude Include="Objects\Meshes\Mesh.h" />
     <ClInclude Include="Objects\Meshes\MeshCube.h" />
     <ClInclude Include="Objects\Meshes\MeshCylinder.h" />
     <ClInclude Include="Objects\Meshes\MeshData.h" />
@@ -126,6 +130,8 @@
     <ClInclude Include="Objects\Model\ModelData.h" />
     <ClInclude Include="Objects\Model\ModelDesc.h" />
     <ClInclude Include="Objects\Model\ModelSkinnedInstancing.h" />
+    <ClInclude Include="Objects\Particle\Particle.h" />
+    <ClInclude Include="Objects\Particle\ParticleData.h" />
     <ClInclude Include="Objects\PostEffect.h" />
     <ClInclude Include="Objects\Render2D.h" />
     <ClInclude Include="Rendering\Buffers\Buffers.h" />
@@ -140,6 +146,7 @@
     <ClInclude Include="Rendering\CBufferVariables\IEffectVariable.h" />
     <ClInclude Include="Rendering\CBufferVariables\Material.h" />
     <ClInclude Include="Rendering\CBufferVariables\PerFrame.h" />
+    <ClInclude Include="Rendering\CBufferVariables\PerTransform.h" />
     <ClInclude Include="Rendering\CBufferVariables\ShaderSetter.h" />
     <ClInclude Include="Settings\ShaderEffectName.h" />
     <ClInclude Include="Settings\WindowSettings.h" />

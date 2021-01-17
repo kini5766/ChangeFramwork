@@ -19,11 +19,9 @@ public:
 	void RemoveInstance(ModelSkinnedInstance* value);
 
 	void UpdateTransforms();
-	void UpdateColors();
 
 public:
 	void Pass(UINT value) { renderer->Pass(value); }
-	void SetColor(UINT instance, const Color& color);
 	BlendDesc* GetAnimationDesc(UINT index);
 	const ModelData* GetModel() const { return data; }
 
@@ -41,9 +39,6 @@ private: // instance 관련
 
 	Matrix worlds[MODEL_INSTANCE_MAX_COUNT];
 	VertexBuffer* instanceBuffer;
-
-	Color colors[MODEL_INSTANCE_MAX_COUNT];
-	VertexBuffer* instanceColorBuffer;
 
 private: // render 관련
 	ModelData* data;

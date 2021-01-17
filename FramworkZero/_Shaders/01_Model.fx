@@ -1,80 +1,16 @@
-
-// --
-// VS_GENERATE
-// --
-
-// input -> output
-#define VS_GENERATE \
-output.oPosition = input.Position.xyz; \
-\
-output.Position = WorldPosition(input.Position); \
-output.wPosition = output.Position.xyz; \
-\
-output.Position = ViewProjection(output.Position); \
-\
-output.Normal = WorldNormal(input.Normal); \
-output.Tangent = WorldTangent(input.Tangent); \
-output.Uv = input.Uv; \
-output.Color = input.Color; \
-
-
-// --
-// Mesh
-// --
-
-// Input
-struct VertexMesh
-{
-	float4 Position : Position0;
-	float2 Uv : Uv0;
-	float3 Normal : Normal0;
-	float3 Tangent : Tangent0;
-
-	matrix Transform : Inst1_Transform0;
-	float4 Color : Inst2_Color0;
-};
-
-// function
-void SetMeshWorld(inout matrix world, VertexMesh input)
-{
-	world = input.Transform;
-}
-
-// VS
-MeshOutput VS_Mesh(VertexMesh input)
-{
-	MeshOutput output;
-
-	SetMeshWorld(World, input);
-	VS_GENERATE// input -> output
-
-	return output;
-}
-
-// --
-// Model
-// --
-
-// Input
-struct VertexModel
-{
-	float4 Position : Position0;
-	float2 Uv : Uv0;
-	float3 Normal : Normal0;
-	float3 Tangent : Tangent0;
-	float4 BlendIndices : BlendIndices0;
-	float4 BlendWeights : BlendWeights0;
-
-	matrix Transform : Inst1_Transform0;
-	float4 Color : Inst2_Color0;
-
-	uint InstanceID : SV_InstanceID0;
-};
+#include "00_Global.fx"
+#include "00_Light.fx"
+#include "00_VertexInput.fx"
 
 Texture2D InvBindPose;
 Texture2DArray<float4> BonesMap;
 
-void SetSkinnedModelWorld(inout matrix world, in VertexModel input)
+
+// --
+// Function
+// --
+
+void SetSkinnedModelWorld_Inst(inout matrix world, in VertexModel_Inst input)
 {
 	int indices[4] = {
 		input.BlendIndices.x,
@@ -121,7 +57,7 @@ void SetSkinnedModelWorld(inout matrix world, in VertexModel input)
 	world = mul(transform, world);
 }
 
-void SetModelWorld(inout matrix world, in VertexModel input)
+void SetModelWorld(inout matrix world, in VertexModel_Inst input)
 {
 	float4 n0, n1, n2, n3;
 	int index = input.BlendIndices.x;
@@ -133,28 +69,40 @@ void SetModelWorld(inout matrix world, in VertexModel input)
 	world = mul(transform, world);
 }
 
-MeshOutput VS_Model(VertexModel input)
+
+// --
+// VS
+// --
+
+MeshOutput VS_Model_Inst(VertexModel_Inst input)
 {
 	MeshOutput output;
 
 	World = input.Transform;
 
 	if (any(input.BlendWeights))
-		SetSkinnedModelWorld(World, input);
-	else 
+		SetSkinnedModelWorld_Inst(World, input);
+	else
 		SetModelWorld(World, input);
 
-	VS_GENERATE// input -> output
+	// input -> output
+	VS_GENERATE
 
 	return output;
 }
 
 
 // --
-// SkyCube
+// PS
 // --
 
-float4 PS_Sky(MeshOutput input) : SV_Target0
+float4 PS(MeshOutput input) : SV_Target0
 {
-	return SkyCubeMap.Sample(LinearSampler, input.oPosition);
+	return Lighting_MeshOutput(input);
+}
+
+
+technique11 T0
+{
+	P_VP(P0, VS_Model_Inst, PS)
 }

@@ -1,4 +1,4 @@
-
+#include "00_Global.fx"
 
 // --
 // Geometry Billboard
@@ -23,7 +23,6 @@ struct VertexOutout_Billboard
 VertexOutout_Billboard VS_Billboard(VertexInput_Billboard input)
 {
 	VertexOutout_Billboard output;
-	//output.Position = WorldPosition(input.Position);
 	output.Position = input.Position;
 	output.Scale = input.Scale;
 	output.MapIndex = input.MapIndex;
@@ -84,4 +83,9 @@ Texture2DArray BillboardMaps;
 float4 PS_Billboard(GeometryOutput_Billboard input) : SV_TARGET0
 {
 	return BillboardMaps.Sample(PointSampler, float3(input.Uv, input.MapIndex));
+}
+
+technique11 T0
+{
+	P_RS_BS_VGP(P0, CullMode_None, AlphaBlend_AlphaToCoverageEnable, VS_Billboard, GS_Billboard, PS_Billboard)
 }

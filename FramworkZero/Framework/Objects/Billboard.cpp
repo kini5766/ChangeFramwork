@@ -1,10 +1,10 @@
 #include "Framework.h"
 #include "Billboard.h"
 
-Billboard::Billboard(Shader* _shader)
+Billboard::Billboard()
 {
-	shader = new ShaderSetter(_shader);
-	perFrame = new PerFrame(_shader);
+	shader = new ShaderSetter(Shader::Load(URI::Shaders + L"01_Billboard.fxo"));
+	perFrame = new PerFrame(shader->GetShader());
 }
 
 Billboard::~Billboard()
@@ -46,5 +46,5 @@ void Billboard::Render()
 	perFrame->Render();
 	vertexBuffer->Render();
 	shader->Render();
-	shader->GetShader()->Draw(0, 2, vertexCount);
+	shader->GetShader()->Draw(0, 0, vertexCount);
 }

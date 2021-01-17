@@ -55,6 +55,9 @@
     <Filter Include="Tools\Coord">
       <UniqueIdentifier>{a930b112-5fb5-4159-bc5a-921bfd5d26cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Particle">
+      <UniqueIdentifier>{9a88b337-270c-437e-8ddb-53fa5e2df9b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework.cpp" />
@@ -291,6 +294,15 @@
     </ClCompile>
     <ClCompile Include="Tools\Coord\WorldMatrix.cpp">
       <Filter>Tools\Coord</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Particle\Particle.cpp">
+      <Filter>Objects\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\CBufferVariables\PerTransform.cpp">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Meshes\Mesh.cpp">
+      <Filter>Objects\Meshes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -564,6 +576,18 @@
     </ClInclude>
     <ClInclude Include="Tools\Coord\WorldMatrix.h">
       <Filter>Tools\Coord</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Particle\Particle.h">
+      <Filter>Objects\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Particle\ParticleData.h">
+      <Filter>Objects\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\CBufferVariables\PerTransform.h">
+      <Filter>Rendering\CBufferVariable</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Meshes\Mesh.h">
+      <Filter>Objects\Meshes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

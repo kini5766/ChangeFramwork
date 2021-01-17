@@ -3,7 +3,7 @@
 class CubeSky
 {
 public:
-	CubeSky(wstring file_cubeMap, Shader* shader = nullptr);
+	CubeSky(wstring file_cubeMap);
 	~CubeSky();
 
 public:
@@ -11,12 +11,12 @@ public:
 	void Render();
 
 public:
-	ShaderSetter* GetMaterial() { return shader; }
+	Material* GetMaterial() { return material; }
 	void Pass(UINT value) { pass = value; }
 
 private:
-	ShaderSetter* shader;
-	MeshInstancing* sphere;
+	Material* material;
+	Mesh* sphere;
 	Transform* transform;
 
 	ID3D11ShaderResourceView* srv = nullptr;  // 流立 积己窃

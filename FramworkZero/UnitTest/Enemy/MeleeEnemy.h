@@ -5,7 +5,7 @@
 class MeleeEnemy : public IEnemy
 {
 public:
-	MeleeEnemy(Shader* shader);
+	MeleeEnemy();
 	~MeleeEnemy();
 
 private:
@@ -17,6 +17,9 @@ private:
 	void BindAnimation(Animator *, ModelAnimation *) override;
 	AttackAnimation * MakeAttackInstance(Transform *) override;
 	const EnemyDesc * GetDesc() override;
+
+private:
+	Shader* shaderModel;
 
 private:
 	ModelSkinnedInstancing* modelInstancing;

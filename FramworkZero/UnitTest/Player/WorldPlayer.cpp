@@ -8,9 +8,12 @@
 
 #include "Character/Kachujin.h"
 
-WorldPlayer::WorldPlayer(Shader * shader)
+WorldPlayer::WorldPlayer()
 {
-	kachujinMaker = new ModelSkinnedInstancing(shader,
+	shaderModel = Shader::Load(URI::Shaders + L"01_Model.fxo");
+	shaderMesh = Shader::Load(URI::Shaders + L"01_Mesh.fxo");
+
+	kachujinMaker = new ModelSkinnedInstancing(shaderModel,
 		{
 			/*매쉬*/ L"Kachujin/Mesh",
 			/*매터리얼*/ L"Kachujin/Mesh",
@@ -23,12 +26,13 @@ WorldPlayer::WorldPlayer(Shader * shader)
 			}
 		}
 	);
+	kachujinMaker->Pass(0);
 
 	ModelSkinnedInstance* instance = kachujinMaker->AddInstance();
 	PlayerAttack();
 	Player(instance);
 	PlayerHp(instance->GetTransform());
-	PlayerWeapon(shader, instance->GetTransform());
+	PlayerWeapon(instance->GetTransform());
 }
 
 WorldPlayer::~WorldPlayer()
@@ -41,6 +45,9 @@ WorldPlayer::~WorldPlayer()
 	SafeDelete(player);
 	SafeDelete(kachujin);
 	SafeDelete(kachujinMaker);
+
+	SafeRelease(shaderMesh);
+	SafeRelease(shaderModel);
 }
 
 void WorldPlayer::Update()
@@ -104,8 +111,6 @@ void WorldPlayer::Player(ModelSkinnedInstance* instance)
 	player->SetFuncLost([&]() { bLost = true; });
 
 	kachujinMaker->UpdateTransforms();
-	kachujinMaker->UpdateColors();
-	kachujinMaker->Pass(1);
 }
 
 void WorldPlayer::PlayerHp(Transform* transform)
@@ -141,15 +146,15 @@ void WorldPlayer::PlayerAttack()
 	attack->DelayTime(0.6f);
 }
 
-void WorldPlayer::PlayerWeapon(Shader* shader, Transform* transform)
+void WorldPlayer::PlayerWeapon(Transform* transform)
 {
 	weapon = new Transform();
 	weapon->SetParent(transform);
 
-	mesh = new MeshInstancing(shader, new MeshCube());
+	mesh = new MeshInstancing(shaderMesh, new MeshCube());
+	mesh->Pass(1);
 	mesh->GetRenderer()->GetDefaultMaterial()->Diffuse(Color(0.125f, 0.125f, 0.125f, 1.0f));
 	mesh->GetRenderer()->GetDefaultMaterial()->DiffuseMap("Box.png");
-	mesh->Pass(0);
 
 	Transform* initWeapon = mesh->AddInstance()->GetTransform();
 	initWeapon->SetParent(weapon);
