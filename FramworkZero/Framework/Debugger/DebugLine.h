@@ -5,7 +5,7 @@ constexpr auto MAX_DEBUG_LINE = 150000;
 class DebugLine
 {
 public:
-	friend class Window;  // 扩档快父 教臂沛 积己
+	friend class Window;
 
 private:
 	struct VertexColor;
@@ -23,8 +23,12 @@ public:
 	void RenderLine(const Vector3& start, const Vector3& end, float r, float g, float b);
 	void RenderLine(const Vector3& start, const Vector3& end, const Color& color);
 
-private:  // Window
+	void OnRendering() { bDrawing = true; }
+	void OffRendering() { bDrawing = false; }
+
+private:
 	void Update();
+public:
 	void Render();
 
 
@@ -38,6 +42,7 @@ private:
 
 	VertexBuffer* vertexBuffer;
 	PerFrame* perFrame;
+	bool bDrawing = true;
 
 private:
 	struct VertexColor

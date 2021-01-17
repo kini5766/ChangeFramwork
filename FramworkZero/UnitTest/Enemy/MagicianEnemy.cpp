@@ -26,7 +26,7 @@ MagicianEnemy::MagicianEnemy(IFocus* player)
 		});
 	modelInstancing->Pass(0);
 
-	sphere = new MeshInstancing(shaderMesh, new MeshSphere(0.5f));
+	sphere = new MeshInstancing(shaderMesh, unique_ptr<MeshData>(new MeshSphere(0.5f)));
 	sphere->Pass(1);
 	sphere->GetRenderer()->GetDefaultMaterial()->Diffuse(0.0f, 0.0f, 0.0f);
 	magicAttack = new MagicAttack(player, sphere);

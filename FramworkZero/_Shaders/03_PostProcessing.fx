@@ -1,99 +1,69 @@
-#include "00_Global.fx"
-#include "00_Light.fx"
-#include "00_Render.fx"
-
-struct VertexOutput
-{
-	float4 Position : SV_POSITION0;
-	float2 Uv : Uv0;
-};
-
-VertexOutput VS(float4 position : POSITION0)
-{
-	VertexOutput output;
-
-	output.Position = position;
-	output.Uv.x = (position.x + 1) * 0.5f;
-	output.Uv.y = (1 - position.y) * 0.5f;
-
-	return output;
-}
 
 // --
-// Diffuse
+// Saturation (Ã¤µµ)
 // --
 
-float4 PS_Diffuse(VertexOutput input) : SV_TARGET0
-{
-	return DiffuseMap.Sample(PointSampler, input.Uv);
-}
+float Saturation = 3.0f;
 
-// --
-// Inverse
-// --
-
-float4 PS_Inverse(VertexOutput input) : SV_TARGET0
-{
-	return 1 - DiffuseMap.Sample(PointSampler, input.Uv);
-}
-
-// --
-// GrayScale
-// --
-
-float4 PS_GrayScale(VertexOutput input) : SV_TARGET0
-{
-	float4 c = DiffuseMap.Sample(PointSampler, input.Uv);
-	float average = (c.r + c.g + c.b) * 0.333f;
-	return float4(average, average, average, 1);
-}
-
-// --
-// GrayScale2
-// --
-
-float4 PS_GrayScale2(VertexOutput input) : SV_TARGET0
+float4 PS_Saturation(VertexOutput input) : SV_TARGET0
 {
 	float4 c = DiffuseMap.Sample(PointSampler, input.Uv);
 	float3 w = float3(0.2126f, 0.7152f, 0.0722f);
 	float y = dot(c.rgb, w);
-	return float4(y, y, y, 1);
+	c.rgb = lerp(y, c.rgb, Saturation);
+	return c;
 }
 
-// --
-// Sepia
-// --
-
-
-// --
-// Saturation
-// --
-
-// --
-// Sharpness
-// --
 
 // --
 // Wiggle
 // --
 
+float2 WiggleOffset = float2(10, 10);
+float2 WiggleAmount = float2(0.01f, 0.01f);
+float4 PS_Wiggle(VertexOutput input) : SV_TARGET0
+{
+	float2 uv = input.Uv;
+	uv.x += sin(Time + uv.x * WiggleOffset.x) * WiggleAmount.x;
+	uv.y += cos(Time + uv.y * WiggleOffset.y) * WiggleAmount.y;
+
+	return DiffuseMap.Sample(PointSampler, uv);
+}
+
+
 // --
 // Vignette
 // --
+float VignettePower = 2.0f;
+float2 VignetteScale = float2(2.0f, 2.0f);
+float4 PS_Vignette(VertexOutput input) : SV_TARGET0
+{
+	float4 c = DiffuseMap.Sample(PointSampler, input.Uv);
+	float radius = length((input.Uv - 0.5f) * 2.0f / VignetteScale);
+	float vignette = pow(radius + 1e-6, VignettePower);
 
-// --
-// Interace
-// --
+	return saturate(1 - vignette) * c;
+}
 
 // --
 // LensDistortion
 // --
+float LensPower = 1.0f;
+float3 DistortionWeight = -0.02f;
 
-technique11 T0
+float4 PS_LensDistortion(VertexOutput input) : SV_TARGET0
 {
-	P_DSS_VP(P0, DepthEnable_False, VS, PS_Diffuse)
-	//P_VP(P0, VS, PS_Diffuse)
-	P_VP(P1, VS, PS_Inverse)
-	P_VP(P2, VS, PS_GrayScale)
-	P_VP(P3, VS, PS_GrayScale2)
+	float2 uv = input.Uv * 2 - 1;
+	float radius = uv.x * uv.x + uv.y * uv.y;
+	float squaredRadius = sqrt(radius);
+	float3 rho = DistortionWeight * pow(squaredRadius + 1e-6f, LensPower) + 1;
+	float2 uvR = (rho.r * uv + 1) * 0.5f;
+	float2 uvG = (rho.g * uv + 1) * 0.5f;
+	float2 uvB = (rho.b * uv + 1) * 0.5f;
+
+	float4 c = 0;
+	c.r = DiffuseMap.Sample(PointSampler, uvR).r;
+	c.g = DiffuseMap.Sample(PointSampler, uvG).g;
+	c.b = DiffuseMap.Sample(PointSampler, uvB).b;
+	return c;
 }

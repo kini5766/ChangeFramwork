@@ -281,7 +281,7 @@ void MeshInstancingEditor::MakingInstancing()
 	{
 		if (ImGui::Button("Create Cube"))
 		{
-			SetInstancing(new MeshInstancing(shader, new MeshCube()));
+			LoadInstancing(imguiItem);
 			AddInstance();
 		}
 	}break;
@@ -294,7 +294,7 @@ void MeshInstancingEditor::MakingInstancing()
 		ImGui::InputInt("SliceCount", (int*)&_u2);
 		if (ImGui::Button("Create Cylinder"))
 		{
-			SetInstancing(new MeshInstancing(shader, new MeshCylinder(_f1, _f2, _u1, _u2)));
+			LoadInstancing(imguiItem);
 			AddInstance();
 		}
 	}break;
@@ -305,7 +305,7 @@ void MeshInstancingEditor::MakingInstancing()
 		ImGui::InputFloat("OffsetV", &_f2);
 		if (ImGui::Button("Create Plane"))
 		{
-			SetInstancing(new MeshInstancing(shader, new MeshPlane(_f1, _f2)));
+			LoadInstancing(imguiItem);
 			AddInstance();
 		}
 	}break;
@@ -314,7 +314,7 @@ void MeshInstancingEditor::MakingInstancing()
 	{
 		if (ImGui::Button("Create Quad"))
 		{
-			SetInstancing(new MeshInstancing(shader, new MeshQuad()));
+			LoadInstancing(imguiItem);
 			AddInstance();
 		}
 	}break;
@@ -326,7 +326,7 @@ void MeshInstancingEditor::MakingInstancing()
 		ImGui::InputInt("SliceCount", (int*)&_u2);
 		if (ImGui::Button("Create Sphere"))
 		{
-			SetInstancing(new MeshInstancing(shader, new MeshSphere(_f1, _u1, _u2)));
+			LoadInstancing(imguiItem);
 			AddInstance();
 		}
 	}break;
@@ -339,11 +339,11 @@ void MeshInstancingEditor::LoadInstancing(UINT item)
 {
 	switch (item)
 	{
-	case 0: SetInstancing(new MeshInstancing(shader, new MeshCube())); break;
-	case 1: SetInstancing(new MeshInstancing(shader, new MeshCylinder(_f1, _f2, _u1, _u2))); break;
-	case 2: SetInstancing(new MeshInstancing(shader, new MeshPlane(_f1, _f2))); break;
-	case 3: SetInstancing(new MeshInstancing(shader, new MeshQuad())); break;
-	case 4: SetInstancing(new MeshInstancing(shader, new MeshSphere(_f1, _u1, _u2))); break;
+	case 0: SetInstancing(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshCube()))); break;
+	case 1: SetInstancing(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshCylinder(_f1, _f2, _u1, _u2)))); break;
+	case 2: SetInstancing(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshPlane(_f1, _f2)))); break;
+	case 3: SetInstancing(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshQuad()))); break;
+	case 4: SetInstancing(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshSphere(_f1, _u1, _u2)))); break;
 	}
 }
 

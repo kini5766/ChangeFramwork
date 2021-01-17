@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "WorldDemo.h"
 
+#include "Objects/PostProcessing/PostEffectTest.h"
+
 #include "EditorDemo/Main/SceneValue.h"
 #include "EditorDemo/Main/SceneEditor.h"
 #include "Tools/Viewer/OrbitCamera.h"
@@ -19,10 +21,14 @@ void WorldDemo::Initialize()
 	OrbitCamera* camera = new OrbitCamera();
 	camera->SetTarget(player->GetFocus());
 	Context::Get()->MainCamera(camera);
+
+	postEffect = new PostEffectTest();
+	Debug::Line->OffRendering();
 }
 
 void WorldDemo::Destroy()
 {
+	SafeDelete(postEffect);
 	SafeDelete(sky);
 	SafeDelete(lights);
 	SafeDelete(billboard);
@@ -36,20 +42,28 @@ void WorldDemo::Update()
 	player->Update();
 	scene->Update();
 	sky->Update();
+
+	postEffect->Update();
+	postEffect->ImGuiRender();
 }
 
 void WorldDemo::PreRender()
 {
+	postEffect->BeginPreRender();
+	{
+		sky->Render();
+		lights->Render();
+		billboard->Render();
+		scene->Render();
+
+		player->Render();
+	}
+	postEffect->EndPreRender();
 }
 
 void WorldDemo::Render()
 {
-	sky->Render();
-	lights->Render();
-	billboard->Render();
-	scene->Render();
-
-	player->Render();
+	postEffect->Render();
 }
 
 void WorldDemo::LoadScene()

@@ -54,6 +54,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Object", "01_Object", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_PostProcessing", "03_PostProcessing", "{6678EECB-B628-4628-B633-5EB505E77C30}"
 	ProjectSection(SolutionItems) = preProject
+		_Shaders\03_ColorConverter.fx = _Shaders\03_ColorConverter.fx
+		_Shaders\03_GaussianBlur.fx = _Shaders\03_GaussianBlur.fx
+		_Shaders\03_Panel.fx = _Shaders\03_Panel.fx
 		_Shaders\03_PostProcessing.fx = _Shaders\03_PostProcessing.fx
 	EndProjectSection
 EndProject

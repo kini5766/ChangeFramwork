@@ -48,6 +48,9 @@ void DebugLine::RenderLine(const Vector3 & start, const Vector3 & end, float r, 
 
 void DebugLine::RenderLine(const Vector3 & start, const Vector3 & end, const Color & color)
 {
+	if (bDrawing == false)
+		return;
+
 	vertices[drawCount].Position = start;
 	vertices[drawCount++].Color = color;  // 맨 밑에 증가 연산자 drowCount++
 

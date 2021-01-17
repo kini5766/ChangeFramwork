@@ -4,7 +4,7 @@
 class EnemyInstancing
 {
 public:
-	EnemyInstancing(class IFocus* player, class IEnemy* desc);
+	EnemyInstancing(class IFocus* player, unique_ptr<class IEnemy> desc);
 	~EnemyInstancing();
 
 public:
@@ -15,8 +15,8 @@ public:
 	void AddInstance(const Matrix& localWorld, const vector<Vector3>* patrolPoints);
 
 private:
-	class IEnemy* enemy;
 	class IFocus* player;
+	unique_ptr<class IEnemy> enemy;
 	vector<class EnemyInstance*> instances;
 
 	//class NormalAttack* normalAttack;

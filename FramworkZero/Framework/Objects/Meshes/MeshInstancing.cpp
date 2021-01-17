@@ -1,10 +1,10 @@
 #include "Framework.h"
 #include "MeshInstancing.h"
 
-MeshInstancing::MeshInstancing(Shader * shader, MeshData * data)
-	: meshData(data)
+MeshInstancing::MeshInstancing(Shader * shader, unique_ptr<MeshData> data)
+	: meshData(move(data))
 {
-	renderer = new MeshRenderer(shader, data);
+	renderer = new MeshRenderer(shader, meshData.get());
 	perframe = new PerFrame(shader);
 
 	instanceBuffer = new VertexBuffer(worlds, MESH_INSTANCE_MAX_COUNT, sizeof(Matrix), 1, true);
@@ -21,7 +21,8 @@ MeshInstancing::~MeshInstancing()
 	SafeDelete(renderer);
 
 	meshData->SafeDeleteData();
-	SafeDelete(meshData);
+	meshData.reset();
+	//SafeDelete(meshData);
 }
 
 void MeshInstancing::Update()

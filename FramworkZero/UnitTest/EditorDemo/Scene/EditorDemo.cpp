@@ -18,6 +18,10 @@ void EditorDemo::Update()
 	editor->Update();
 }
 
+void EditorDemo::PreRender()
+{
+}
+
 void EditorDemo::Render()
 {
 	if (ImGui::Button("Direction Light"))

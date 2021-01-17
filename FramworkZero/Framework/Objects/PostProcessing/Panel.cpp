@@ -1,9 +1,10 @@
 #include "Framework.h"
-#include "PostEffect.h"
+#include "Panel.h"
 
-PostEffect::PostEffect(wstring shaderFile)
+Panel::Panel(Shader* shader)
 {
-	shader = new ShaderSetter(shaderFile);
+	material = new ShaderSetter(shader);
+	perFrame = new PerFrame(shader);
 
 	Vertex verteces[6];
 	verteces[0].Position = Vector3(-1.0f, -1.0f, 0.0f);
@@ -14,28 +15,31 @@ PostEffect::PostEffect(wstring shaderFile)
 	verteces[5].Position = Vector3(+1.0f, +1.0f, 0.0f);
 
 	vertexBuffer = new  VertexBuffer(verteces, 6, sizeof(Vertex));
-	shader->SetSRV("DiffuseMap", nullptr);
 }
 
-PostEffect::~PostEffect()
+Panel::~Panel()
 {
-	SafeDelete(shader);
+	SafeDelete(perFrame);
+	SafeDelete(material);
 	SafeDelete(vertexBuffer);
 }
 
-void PostEffect::Update()
+void Panel::Update()
 {
+	perFrame->Update();
 }
 
-void PostEffect::Render()
+void Panel::Render()
 {
+	perFrame->Render();
+
 	vertexBuffer->Render();
-	shader->Render();
 
-	shader->GetShader()->Draw(0, pass, 6);
+	material->Render();
+	material->GetShader()->Draw(0, pass, 6);
 }
 
-void PostEffect::SRV(ID3D11ShaderResourceView * srv)
+void Panel::SRV(ID3D11ShaderResourceView * srv)
 {
-	shader->SetSRV("DiffuseMap", srv);
+	material->SetSRV("DiffuseMap", srv);
 }

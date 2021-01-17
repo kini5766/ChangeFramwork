@@ -1,22 +1,26 @@
 #pragma once
 
-class PostEffect
+class Panel
 {
 public:
-	PostEffect(wstring shaderFile);
-	~PostEffect();
+	Panel(Shader* shader);
+	~Panel();
 
 public:
 	void Update();
 	void Render();
 
+public:
+	void Pass(UINT value) { pass = value; }
+	UINT Pass() { return pass; }
 	void SRV(ID3D11ShaderResourceView* srv);
 
 private:
 	UINT pass = 0;
-	ShaderSetter* shader;
+	ShaderSetter* material;
 	VertexBuffer* vertexBuffer;
-
+	PerFrame* perFrame;
+	
 private:
 	struct Vertex
 	{

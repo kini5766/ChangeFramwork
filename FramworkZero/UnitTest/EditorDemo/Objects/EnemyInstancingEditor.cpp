@@ -100,8 +100,8 @@ void EnemyInstancingEditor::CreateEnemy(int item)
 	enemyType = item;
 	switch (item)
 	{
-	case 0: enemy = new EnemyInstancing(player, new MeleeEnemy()); break;
-	case 1: enemy = new EnemyInstancing(player, new MagicianEnemy(player)); break;
+	case 0: enemy = new EnemyInstancing(player, unique_ptr<IEnemy>(new MeleeEnemy())); break;
+	case 1: enemy = new EnemyInstancing(player, unique_ptr<IEnemy>(new MagicianEnemy(player))); break;
 	}
 
 }

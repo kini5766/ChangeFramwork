@@ -151,7 +151,7 @@ void WorldPlayer::PlayerWeapon(Transform* transform)
 	weapon = new Transform();
 	weapon->SetParent(transform);
 
-	mesh = new MeshInstancing(shaderMesh, new MeshCube());
+	mesh = new MeshInstancing(shaderMesh, unique_ptr<MeshData>(new MeshCube()));
 	mesh->Pass(1);
 	mesh->GetRenderer()->GetDefaultMaterial()->Diffuse(Color(0.125f, 0.125f, 0.125f, 1.0f));
 	mesh->GetRenderer()->GetDefaultMaterial()->DiffuseMap("Box.png");

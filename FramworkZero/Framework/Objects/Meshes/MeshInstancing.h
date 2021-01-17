@@ -8,8 +8,7 @@ class MeshInstance;
 class MeshInstancing
 {
 public:
-	// MeshData* : 그대로 사용 delete는 이 클레스에서
-	MeshInstancing(Shader* shader, MeshData* data);
+	MeshInstancing(Shader* shader, unique_ptr<MeshData> data);
 	~MeshInstancing();
 
 public:
@@ -30,7 +29,7 @@ public:
 
 private: // render 관련
 	MeshRenderer* renderer;
-	MeshData* meshData;
+	unique_ptr<MeshData> meshData;
 	PerFrame* perframe = nullptr;
 
 private: // instance 관련

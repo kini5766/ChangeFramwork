@@ -32,6 +32,9 @@ private:
 	Billboard* billboard;
 
 private:
+	class PostEffectTest* postEffect;
+
+private:
 	class WorldPlayer* player;
 	class SceneValue* scene;
 	class WorldLightGroup* lights;

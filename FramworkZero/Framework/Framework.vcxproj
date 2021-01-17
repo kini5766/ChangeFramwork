@@ -26,8 +26,9 @@
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Objects\Billboard.cpp" />
-    <ClCompile Include="Objects\CubeSky.cpp" />
+    <ClCompile Include="Objects\Canvas\Render2D.cpp" />
+    <ClCompile Include="Objects\Environment\Billboard.cpp" />
+    <ClCompile Include="Objects\Environment\CubeSky.cpp" />
     <ClCompile Include="Objects\Meshes\Mesh.cpp" />
     <ClCompile Include="Objects\Meshes\MeshCube.cpp" />
     <ClCompile Include="Objects\Meshes\MeshCylinder.cpp" />
@@ -44,8 +45,15 @@
     <ClCompile Include="Objects\Model\ModelData.cpp" />
     <ClCompile Include="Objects\Model\ModelSkinnedInstancing.cpp" />
     <ClCompile Include="Objects\Particle\Particle.cpp" />
-    <ClCompile Include="Objects\PostEffect.cpp" />
-    <ClCompile Include="Objects\Render2D.cpp" />
+    <ClCompile Include="Objects\PostProcessing\CompositeTest.cpp" />
+    <ClCompile Include="Objects\PostProcessing\LensDistortion.cpp" />
+    <ClCompile Include="Objects\PostProcessing\Panel.cpp" />
+    <ClCompile Include="Objects\PostProcessing\PostEffect.cpp" />
+    <ClCompile Include="Objects\PostProcessing\PostEffectTest.cpp" />
+    <ClCompile Include="Objects\PostProcessing\RaialBlur.cpp" />
+    <ClCompile Include="Objects\PostProcessing\Saturation.cpp" />
+    <ClCompile Include="Objects\PostProcessing\Vignette.cpp" />
+    <ClCompile Include="Objects\PostProcessing\Wiggle.cpp" />
     <ClCompile Include="Rendering\Buffers\ConstantBuffer.cpp" />
     <ClCompile Include="Rendering\Buffers\CsResource.cpp" />
     <ClCompile Include="Rendering\Buffers\IndexBuffer.cpp" />
@@ -110,8 +118,9 @@
     <ClInclude Include="Debugger\DebugLog.h" />
     <ClInclude Include="Debugger\Gizmo.h" />
     <ClInclude Include="Framework.h" />
-    <ClInclude Include="Objects\Billboard.h" />
-    <ClInclude Include="Objects\CubeSky.h" />
+    <ClInclude Include="Objects\Canvas\Render2D.h" />
+    <ClInclude Include="Objects\Environment\Billboard.h" />
+    <ClInclude Include="Objects\Environment\CubeSky.h" />
     <ClInclude Include="Objects\Meshes\Mesh.h" />
     <ClInclude Include="Objects\Meshes\MeshCube.h" />
     <ClInclude Include="Objects\Meshes\MeshCylinder.h" />
@@ -132,8 +141,15 @@
     <ClInclude Include="Objects\Model\ModelSkinnedInstancing.h" />
     <ClInclude Include="Objects\Particle\Particle.h" />
     <ClInclude Include="Objects\Particle\ParticleData.h" />
-    <ClInclude Include="Objects\PostEffect.h" />
-    <ClInclude Include="Objects\Render2D.h" />
+    <ClInclude Include="Objects\PostProcessing\CompositeTest.h" />
+    <ClInclude Include="Objects\PostProcessing\LensDistortion.h" />
+    <ClInclude Include="Objects\PostProcessing\Panel.h" />
+    <ClInclude Include="Objects\PostProcessing\PostEffect.h" />
+    <ClInclude Include="Objects\PostProcessing\PostEffectTest.h" />
+    <ClInclude Include="Objects\PostProcessing\RaialBlur.h" />
+    <ClInclude Include="Objects\PostProcessing\Saturation.h" />
+    <ClInclude Include="Objects\PostProcessing\Vignette.h" />
+    <ClInclude Include="Objects\PostProcessing\Wiggle.h" />
     <ClInclude Include="Rendering\Buffers\Buffers.h" />
     <ClInclude Include="Rendering\Buffers\ConstantBuffer.h" />
     <ClInclude Include="Rendering\Buffers\CsResource.h" />

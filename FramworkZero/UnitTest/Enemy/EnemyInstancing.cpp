@@ -7,8 +7,8 @@
 #include "EnemyInstance.h"
 
 
-EnemyInstancing::EnemyInstancing(IFocus* player, IEnemy* enemy)
-	: player(player), enemy(enemy)
+EnemyInstancing::EnemyInstancing(IFocus* player, unique_ptr<IEnemy> enemy)
+	: player(player), enemy(move(enemy))
 {
 }
 
@@ -16,7 +16,8 @@ EnemyInstancing::~EnemyInstancing()
 {
 	for (auto d : instances)
 		SafeDelete(d);
-	SafeDelete(enemy);
+	enemy.reset();
+	//SafeDelete(enemy);
 }
 
 void EnemyInstancing::Update()

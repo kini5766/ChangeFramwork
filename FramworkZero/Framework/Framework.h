@@ -173,11 +173,13 @@ typedef D3DXPLANE Plane;
 #include "Objects/Particle/ParticleData.h"
 #include "Objects/Particle/Particle.h"
 
-#include "Objects/Render2D.h"
-#include "Objects/PostEffect.h"
-#include "Objects/CubeSky.h"
-#include "Objects/Billboard.h"
+#include "Objects/Environment/CubeSky.h"
+#include "Objects/Environment/Billboard.h"
 
+#include "Objects/Canvas/Render2D.h"
+
+#include "Objects/PostProcessing/Panel.h"
+#include "Objects/PostProcessing/PostEffect.h"
 
 // Debugger
 // 디버그용 클래스들

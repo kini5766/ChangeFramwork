@@ -76,12 +76,9 @@ void EulerAngle::SetQuaternion(const Quaternion& q)
 void EulerAngle::RotateQuaternion(Quaternion * inout)
 {
 	Quaternion q;
-	D3DXQuaternionRotationYawPitchRoll(&q, 0.0f, euler.y, 0.0f);
-	(*inout) = q * (*inout);
-
-	D3DXQuaternionRotationYawPitchRoll(&q, euler.x, 0.0f, 0.0f);
-	(*inout) = q * (*inout);
+	D3DXQuaternionRotationYawPitchRoll(&q, euler.y, euler.x, 0.0f);
+	(*inout) = (*inout) * q;
 
 	D3DXQuaternionRotationYawPitchRoll(&q, 0.0f, 0.0f, euler.z);
-	(*inout) = (*inout) * q;
+	(*inout) = q * (*inout);
 }
