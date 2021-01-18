@@ -131,3 +131,63 @@ float4 Lighting_MeshOutput(MeshOutput input)
 	float4 cmin = Lighting_Min(normal);
 	return max(c, cmin);
 }
+
+
+// --
+// Lighting_MeshOutput_Shadow
+// --
+
+// output (최대 요소 개수 32개)
+struct MeshOutput_Shadow
+{
+	float4 Position : SV_Position0;  // 레스터 라이징 위치
+	float3 oPosition : Position1;  // NDC
+	float3 wPosition : Position2;  // World
+	//float4 wvpPosition : Position3;  // 그림자
+	float4 wvpPosition_Sub[PROJECTION_TEXTURE_MAX_COUNT] : Position4;  // 프로젝션텍스쳐
+	float4 sPosition : PositionS;  // 빛 기준 위치
+
+	float3 Normal : Normal0;
+	float3 Tangent : Tangent0;
+	float2 Uv : Uv0;
+	float4 Color : Color0;
+
+	//uint TargetIndex : SV_RenderTargetArrayIndex;  // EnvCube
+};
+
+float4 Lighting_MeshOutput_Shadow(MeshOutput_Shadow input)
+{
+	float3 normal = input.Normal;
+	float3 tangent = normalize(input.Tangent);
+
+	NormalMapping(input.Uv, normal, tangent);
+	Texture(Material.Diffuse, DiffuseMap, input.Uv);
+	Texture(Material.Specular, SpecularMap, input.Uv);
+
+	normal = normalize(normal);
+
+	float4 c = Lighting_All(normal, input.wPosition);
+	PSSet_ProjectionTexture(input.wvpPosition_Sub, c);
+	PSSet_Shadow(input.sPosition, c);
+
+	float4 cmin = Lighting_Min(normal);
+	return max(c, cmin);
+}
+
+float4 Lighting_MeshOutput_ProjectionTexture(MeshOutput_Shadow input)
+{
+	float3 normal = input.Normal;
+	float3 tangent = normalize(input.Tangent);
+
+	NormalMapping(input.Uv, normal, tangent);
+	Texture(Material.Diffuse, DiffuseMap, input.Uv);
+	Texture(Material.Specular, SpecularMap, input.Uv);
+
+	normal = normalize(normal);
+
+	float4 c = Lighting_All(normal, input.wPosition);
+	PSSet_ProjectionTexture(input.wvpPosition_Sub, c);
+
+	float4 cmin = Lighting_Min(normal);
+	return max(c, cmin);
+}

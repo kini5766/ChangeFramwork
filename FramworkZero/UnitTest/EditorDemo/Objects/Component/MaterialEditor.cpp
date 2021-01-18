@@ -29,9 +29,12 @@ void MaterialEditor::RenderImGui()
 			normalMapImGui->Text(String::ToString(normalMap).c_str());
 		}
 
-		ImGui::ColorEdit4("Ambient", ambient);
-		ImGui::ColorEdit4("Emissive", emissive);
-		ImGui::ColorEdit4("Diffuse", diffuse);
+		ImGui::ColorEdit3("Ambient", ambient);
+		ImGui::InputFloat("A_A", &ambient.a);
+		ImGui::ColorEdit3("Emissive", emissive);
+		ImGui::InputFloat("E_A", &emissive.a);
+		ImGui::ColorEdit3("Diffuse", diffuse);
+		ImGui::InputFloat("D_A", &diffuse.a);
 
 		diffuseImGui->Render("Diffuse Map");
 		if (ImGui::Button("Select Diffuse File"))
@@ -46,7 +49,8 @@ void MaterialEditor::RenderImGui()
 				);
 		}
 
-		ImGui::ColorEdit4("Specular", specular);
+		ImGui::ColorEdit3("Specular", specular);
+		ImGui::InputFloat("S_A", &specular.a);
 
 		specularImGui->Render("Specular Map");
 		if (ImGui::Button("Select Specular File"))

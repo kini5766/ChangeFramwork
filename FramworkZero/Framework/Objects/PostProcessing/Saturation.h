@@ -10,6 +10,7 @@ public:
 	void ImGuiRender();
 
 public:
+	void On(PostEffect* target);
 	RenderTarget* PreRender(RenderTarget* before, DepthStencil* depthStencil, Panel* panel);
 
 private:

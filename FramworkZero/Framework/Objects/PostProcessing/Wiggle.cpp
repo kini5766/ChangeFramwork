@@ -30,6 +30,14 @@ void Wiggle::ImGuiRender()
 	material->SetVector("WiggleAmount", Vector2(wiggleAmountX, wiggleAmountY));
 }
 
+void Wiggle::On(PostEffect * target)
+{
+	target->AddEffect(
+		bind(&Wiggle::PreRender, this, placeholders::_1, placeholders::_2, placeholders::_3)
+	);
+
+}
+
 RenderTarget * Wiggle::PreRender(RenderTarget * before, DepthStencil * depthStencil, Panel * panel)
 {
 	renderTarget->PreRender(depthStencil);

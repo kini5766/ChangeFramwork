@@ -29,6 +29,7 @@
     <ClCompile Include="Objects\Canvas\Render2D.cpp" />
     <ClCompile Include="Objects\Environment\Billboard.cpp" />
     <ClCompile Include="Objects\Environment\CubeSky.cpp" />
+    <ClCompile Include="Objects\Environment\ProjectionTexture.cpp" />
     <ClCompile Include="Objects\Meshes\Mesh.cpp" />
     <ClCompile Include="Objects\Meshes\MeshCube.cpp" />
     <ClCompile Include="Objects\Meshes\MeshCylinder.cpp" />
@@ -100,11 +101,13 @@
     <ClCompile Include="Tools\Texture\Texture2D.cpp" />
     <ClCompile Include="Tools\Viewer\Camera.cpp" />
     <ClCompile Include="Tools\Viewer\CanvasCamera.cpp" />
+    <ClCompile Include="Tools\Viewer\Fixity.cpp" />
     <ClCompile Include="Tools\Viewer\Freedom.cpp" />
     <ClCompile Include="Tools\Viewer\OrbitCamera.cpp" />
     <ClCompile Include="Tools\Viewer\Orthographic.cpp" />
     <ClCompile Include="Tools\Viewer\Perspective.cpp" />
     <ClCompile Include="Tools\Viewer\Projection.cpp" />
+    <ClCompile Include="Tools\Viewer\UIProjection.cpp" />
     <ClCompile Include="Tools\Viewer\Viewport.cpp" />
     <ClCompile Include="Tools\WinDesc.cpp" />
     <ClCompile Include="Utilities\BinaryFile.cpp" />
@@ -121,6 +124,7 @@
     <ClInclude Include="Objects\Canvas\Render2D.h" />
     <ClInclude Include="Objects\Environment\Billboard.h" />
     <ClInclude Include="Objects\Environment\CubeSky.h" />
+    <ClInclude Include="Objects\Environment\ProjectionTexture.h" />
     <ClInclude Include="Objects\Meshes\Mesh.h" />
     <ClInclude Include="Objects\Meshes\MeshCube.h" />
     <ClInclude Include="Objects\Meshes\MeshCylinder.h" />
@@ -203,12 +207,14 @@
     <ClInclude Include="Tools\Texture\Texture2D.h" />
     <ClInclude Include="Tools\Viewer\Camera.h" />
     <ClInclude Include="Tools\Viewer\CanvasCamera.h" />
+    <ClInclude Include="Tools\Viewer\Fixity.h" />
     <ClInclude Include="Tools\Viewer\Freedom.h" />
     <ClInclude Include="Tools\Viewer\IFocus.h" />
     <ClInclude Include="Tools\Viewer\OrbitCamera.h" />
     <ClInclude Include="Tools\Viewer\Orthographic.h" />
     <ClInclude Include="Tools\Viewer\Perspective.h" />
     <ClInclude Include="Tools\Viewer\Projection.h" />
+    <ClInclude Include="Tools\Viewer\UIProjection.h" />
     <ClInclude Include="Tools\Viewer\Viewport.h" />
     <ClInclude Include="Tools\WinDesc.h" />
     <ClInclude Include="Utilities\BinaryFile.h" />

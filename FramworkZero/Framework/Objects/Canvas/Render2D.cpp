@@ -41,8 +41,8 @@ Render2D::~Render2D()
 
 void Render2D::Update()
 {
-	desc.View = Context::Get()->Canvas()->View();
-	desc.Projection = Context::Get()->Canvas()->Projection();
+	Context::Get()->Canvas()->GetMatrix(&desc.View);
+	Context::Get()->Canvas()->GetProjection()->GetMatrix(&desc.Projection);
 	transform->UpdateWorld();
 }
 

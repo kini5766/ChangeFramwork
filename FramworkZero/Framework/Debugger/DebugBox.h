@@ -12,17 +12,6 @@ private:
 public:
 	void RenderBox(Transform* box, const Color& color = Color(0.0f, 1.0f, 0.0f, 1.0f));
 
-private:  // Window
-	void Render();
-
 private:
 	Vector3 vertex[8];
-
-private:
-	struct BoxDesc
-	{
-		Matrix Transform;
-		Color Color;
-	};
-	vector<BoxDesc> boxes;
 };

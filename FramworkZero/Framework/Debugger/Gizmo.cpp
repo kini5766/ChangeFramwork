@@ -40,7 +40,7 @@ void Gizmo::Render()
 
 	Matrix V, P;
 	Context::Get()->MainCamera()->GetMatrix(&V);
-	Context::Get()->GetPerspective()->GetMatrix(&P);
+	P = Context::Get()->Projection();
 
 	Matrix W;
 	transform->GlobalWorld(&W);

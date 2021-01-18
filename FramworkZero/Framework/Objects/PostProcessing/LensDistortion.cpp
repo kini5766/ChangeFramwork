@@ -35,6 +35,13 @@ void LensDistortion::ImGuiRender()
 	material->SetVector("DistortionWeight", weight);
 }
 
+void LensDistortion::On(PostEffect * target)
+{
+	target->AddEffect(
+		bind(&LensDistortion::PreRender, this, placeholders::_1, placeholders::_2, placeholders::_3)
+	);
+}
+
 RenderTarget * LensDistortion::PreRender(RenderTarget * before, DepthStencil * depthStencil, Panel * panel)
 {
 	renderTarget->PreRender(depthStencil);

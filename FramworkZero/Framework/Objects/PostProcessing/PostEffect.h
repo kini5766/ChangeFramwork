@@ -15,7 +15,8 @@ public:
 	void Render();
 
 public:
-	vector<PostEffectEvent>& EffectEvents() { return eventEffects; }
+	void ClearEffects() { eventEffects.clear(); }
+	void AddEffect(const PostEffectEvent& value) { eventEffects.push_back(value); }
 
 	// render values
 private:

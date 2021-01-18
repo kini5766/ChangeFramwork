@@ -101,42 +101,32 @@ void PostEffectTest::ImGuiRender()
 
 void PostEffectTest::None()
 {
-	postEffect->EffectEvents().clear();
+	postEffect->ClearEffects();
 }
 
 void PostEffectTest::OnSaturation()
 {
-	postEffect->EffectEvents().push_back(
-		bind(&Saturation::PreRender, saturation, placeholders::_1, placeholders::_2, placeholders::_3)
-	);
+	saturation->On(postEffect);
 }
 
 void PostEffectTest::OnVignette()
 {
-	postEffect->EffectEvents().push_back(
-		bind(&Vignette::PreRender, vigentte, placeholders::_1, placeholders::_2, placeholders::_3)
-	);
+	vigentte->On(postEffect);
 }
 
 void PostEffectTest::OnWiggle()
 {
-	postEffect->EffectEvents().push_back(
-		bind(&Wiggle::PreRender, wiggle, placeholders::_1, placeholders::_2, placeholders::_3)
-	);
+	wiggle->On(postEffect);
 }
 
 void PostEffectTest::OnLensDistortion()
 {
-	postEffect->EffectEvents().push_back(
-		bind(&LensDistortion::PreRender, lens, placeholders::_1, placeholders::_2, placeholders::_3)
-	);
+	lens->On(postEffect);
 }
 
 void PostEffectTest::OnRaialBlur()
 {
-	postEffect->EffectEvents().push_back(
-		bind(&RaialBlur::PreRender, raialBlur, placeholders::_1, placeholders::_2, placeholders::_3)
-	);
+	raialBlur->On(postEffect);
 }
 
 #pragma endregion

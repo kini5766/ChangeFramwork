@@ -20,7 +20,7 @@ void WorldDemo::Initialize()
 
 	OrbitCamera* camera = new OrbitCamera();
 	camera->SetTarget(player->GetFocus());
-	Context::Get()->MainCamera(camera);
+	Context::Get()->MainCamera(unique_ptr<Camera>(camera));
 
 	postEffect = new PostEffectTest();
 	Debug::Line->OffRendering();

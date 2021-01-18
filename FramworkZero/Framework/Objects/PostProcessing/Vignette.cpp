@@ -28,6 +28,13 @@ void Vignette::ImGuiRender()
 	material->SetVector("VignetteScale", Vector2(vignetteScaleX, vignetteScaleY));
 }
 
+void Vignette::On(PostEffect * target)
+{
+	target->AddEffect(
+		bind(&Vignette::PreRender, this, placeholders::_1, placeholders::_2, placeholders::_3)
+	);
+}
+
 RenderTarget * Vignette::PreRender(RenderTarget * before, DepthStencil * depthStencil, Panel * panel)
 {
 	renderTarget->PreRender(depthStencil);

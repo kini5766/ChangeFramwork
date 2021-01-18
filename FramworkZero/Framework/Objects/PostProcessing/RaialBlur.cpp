@@ -34,6 +34,13 @@ void RaialBlur::ImGuiRender()
 	material->SetVector("RaialCenter", center);
 }
 
+void RaialBlur::On(PostEffect * target)
+{
+	target->AddEffect(
+		bind(&RaialBlur::PreRender, this, placeholders::_1, placeholders::_2, placeholders::_3)
+	);
+}
+
 RenderTarget * RaialBlur::PreRender(RenderTarget * before, DepthStencil * depthStencil, Panel * panel)
 {
 	renderTarget->PreRender(depthStencil);

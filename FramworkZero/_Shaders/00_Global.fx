@@ -71,8 +71,6 @@ SamplerState LinearSampler
 	AddressV = WRAP;
 };
 
-SamplerComparisonState ShadowSampler;
-
 
 RasterizerState FillMode_WireFrame
 {

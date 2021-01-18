@@ -16,16 +16,15 @@ private:
 	~Context();
 
 public:
-	Camera* MainCamera() { return camera; }
-	void MainCamera(Camera* value);
+	Camera* MainCamera() { return mainCamera.get(); }
+	void MainCamera(unique_ptr<Camera> value);
 	class CanvasCamera* Canvas();
 
 public:
 	D3DXMATRIX View();
 	D3DXMATRIX Projection();
 
-	Perspective* GetPerspective() { return camera->GetPerspective(); }
-	Viewport* GetViewport() { return camera->GetViewport(); }
+	Viewport* GetViewport() { return mainCamera->GetViewport(); }
 
 public:
 	void ResizeScreen();
@@ -34,6 +33,6 @@ public:
 	void Render();
 
 private:
-	Camera* camera;
-	class CanvasCamera* canvas;
+	unique_ptr<Camera> mainCamera;
+	class CanvasCamera* canvasCamera;
 };

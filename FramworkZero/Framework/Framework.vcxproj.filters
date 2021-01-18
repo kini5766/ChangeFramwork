@@ -334,7 +334,18 @@
     <ClCompile Include="Objects\PostProcessing\CompositeTest.cpp">
       <Filter>Objects\PostProcessing</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\PostProcessing\RaialBlur.cpp" />
+    <ClCompile Include="Objects\PostProcessing\RaialBlur.cpp">
+      <Filter>Objects\PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\Fixity.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Environment\ProjectionTexture.cpp">
+      <Filter>Objects\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\UIProjection.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -643,6 +654,15 @@
     </ClInclude>
     <ClInclude Include="Objects\PostProcessing\RaialBlur.h">
       <Filter>Objects\PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\Fixity.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Environment\ProjectionTexture.h">
+      <Filter>Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\UIProjection.h">
+      <Filter>Tools\Viewer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

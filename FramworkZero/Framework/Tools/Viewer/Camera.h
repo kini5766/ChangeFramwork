@@ -10,7 +10,6 @@ public:
 	virtual void ResizeScreen(float width, float height) = 0;
 
 public:
-	Perspective* GetPerspective() { return (Perspective*)projection; }
 	Projection* GetProjection() { return projection; }
 	Viewport* GetViewport() { return viewport; }
 

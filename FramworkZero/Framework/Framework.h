@@ -113,6 +113,7 @@ typedef D3DXPLANE Plane;
 #include "Tools/Viewer/Orthographic.h"
 #include "Tools/Viewer/Camera.h"
 #include "Tools/Viewer/Freedom.h"
+#include "Tools/Viewer/Fixity.h"
 
 #include "Tools/Lighting/LightingDesc.h"
 #include "Tools/Lighting/DirectionalLight.h"

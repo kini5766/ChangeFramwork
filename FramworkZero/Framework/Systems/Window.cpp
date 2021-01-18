@@ -268,7 +268,6 @@ void Window::WinValue::UpdateGame()
 
 		mainExecute->PostRender();
 		Debug::Gizmo->Render();
-		Debug::Box->Render();
 		Debug::Line->Render();  // 디버그 라인
 		Debug::Log->Render();
 		Gui::Get()->Render();  // 글자

@@ -1,4 +1,8 @@
 #include "00_Global.fx"
+
+#include "00_ProjectionTexture.fx"
+#include "00_Shadow.fx"
+
 #include "00_Light.fx"
 #include "00_VertexInput.fx"
 
@@ -57,10 +61,9 @@ void SetSkinnedModelWorld_Inst(inout matrix world, in VertexModel_Inst input)
 	world = mul(transform, world);
 }
 
-void SetModelWorld(inout matrix world, in VertexModel_Inst input)
+void SetModelWorld(inout matrix world, int index)
 {
 	float4 n0, n1, n2, n3;
-	int index = input.BlendIndices.x;
 	n0 = InvBindPose.Load(int3((index * 2 + 1) * 4 + 0, 0, 0));
 	n1 = InvBindPose.Load(int3((index * 2 + 1) * 4 + 1, 0, 0));
 	n2 = InvBindPose.Load(int3((index * 2 + 1) * 4 + 2, 0, 0));
@@ -69,6 +72,18 @@ void SetModelWorld(inout matrix world, in VertexModel_Inst input)
 	world = mul(transform, world);
 }
 
+void SetModelWorld_All_Inst(inout matrix world, in VertexModel_Inst input)
+{
+	world = input.Transform;
+
+	if (any(input.BlendWeights))
+		SetSkinnedModelWorld_Inst(world, input);
+	else
+		SetModelWorld(world, input.BlendIndices.x);
+}
+
+
+// >-- None --< //
 
 // --
 // VS
@@ -78,19 +93,13 @@ MeshOutput VS_Model_Inst(VertexModel_Inst input)
 {
 	MeshOutput output;
 
-	World = input.Transform;
-
-	if (any(input.BlendWeights))
-		SetSkinnedModelWorld_Inst(World, input);
-	else
-		SetModelWorld(World, input);
+	SetModelWorld_All_Inst(World, input);
 
 	// input -> output
 	VS_GENERATE
 
 	return output;
 }
-
 
 // --
 // PS
@@ -102,7 +111,88 @@ float4 PS(MeshOutput input) : SV_Target0
 }
 
 
+// >-- ProjectionTexture --< //
+
+// --
+// VS_ProjectionTexture
+// --
+
+MeshOutput_Shadow VS_Model_Inst_ProjectionTexture(VertexModel_Inst input)
+{
+	MeshOutput_Shadow output = (MeshOutput_Shadow) 0;
+
+	SetModelWorld_All_Inst(World, input);
+
+	// input -> output
+	VS_GENERATE
+
+	VSSet_ProjectionTexture(output.wvpPosition_Sub, output.wPosition);
+
+	return output;
+}
+
+// --
+// PS_ProjectionTexture
+// --
+
+float4 PS_ProjectionTexture(MeshOutput_Shadow input) : SV_Target0
+{
+	return Lighting_MeshOutput_ProjectionTexture(input);
+}
+
+
+// >-- Shadow + ProjectionTexture --< //
+
+// --
+// VS_Shadow
+// --
+// 1pass Depth
+MeshDepthOutput VS_Model_Inst_Depth(VertexModel_Inst input)
+{
+	MeshDepthOutput output = (MeshDepthOutput)0;
+
+	SetModelWorld_All_Inst(World, input);
+
+	// input -> output
+	VS_DEPTH_GENERATE
+
+	return output;
+}
+// 2pass Shadow
+MeshOutput_Shadow VS_Model_Inst_Shadow(VertexModel_Inst input)
+{
+	MeshOutput_Shadow output = (MeshOutput_Shadow) 0;
+
+	SetModelWorld_All_Inst(World, input);
+
+	// input -> output
+	VS_GENERATE
+
+	VSSet_ProjectionTexture(output.wvpPosition_Sub, output.wPosition);
+	VSSet_Shadow(output.sPosition, output.wPosition);
+
+	return output;
+}
+
+// --
+// PS_Shadow
+// --
+// 2pass Shadow
+float4 PS_Shadow(MeshOutput_Shadow input) : SV_Target0
+{
+	return Lighting_MeshOutput_Shadow(input);
+}
+
+
 technique11 T0
 {
+	// None
 	P_VP(P0, VS_Model_Inst, PS)
+
+	// ProjectionTexture
+	P_VP(P1, VS_Model_Inst_ProjectionTexture, PS_ProjectionTexture)
+
+	// Shadow + ProjectionTexture
+	P_VP(P2, VS_Model_Inst_Depth, PS_Shadow_Depth)
+	P_VP(P3, VS_Model_Inst_Shadow, PS_Shadow)
 }

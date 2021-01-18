@@ -22,6 +22,13 @@ void Saturation::ImGuiRender()
 	material->SetFloat("Saturation", saturation);
 }
 
+void Saturation::On(PostEffect * target)
+{
+	target->AddEffect(
+		bind(&Saturation::PreRender, this, placeholders::_1, placeholders::_2, placeholders::_3)
+	);
+}
+
 RenderTarget * Saturation::PreRender(RenderTarget * before, DepthStencil * depthStencil, Panel * panel)
 {
 	renderTarget->PreRender(depthStencil);

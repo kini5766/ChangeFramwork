@@ -24,31 +24,31 @@ void Context::Delete()
 
 Context::Context()
 {
-	camera = new Freedom();
-	canvas = new CanvasCamera();
+	mainCamera = unique_ptr<Camera>(new Freedom());
+	canvasCamera = new CanvasCamera();
 }
 
 Context::~Context()
 {
-	SafeDelete(canvas);
-	SafeDelete(camera);
+	SafeDelete(canvasCamera);
+	mainCamera.reset();
 }
 
-void Context::MainCamera(Camera * value)
+void Context::MainCamera(unique_ptr<Camera> value)
 {
-	SafeDelete(camera);
-	camera = value;
+	mainCamera.reset();
+	mainCamera = move(value);
 }
 
 CanvasCamera * Context::Canvas()
 {
-	return canvas;
+	return canvasCamera;
 }
 
 D3DXMATRIX Context::View()
 {
 	Matrix view;
-	camera->GetMatrix(&view);
+	mainCamera->GetMatrix(&view);
 
 	return view;
 }
@@ -56,20 +56,20 @@ D3DXMATRIX Context::View()
 D3DXMATRIX Context::Projection()
 {
 	D3DXMATRIX projection;
-	camera->GetProjection()->GetMatrix(&projection);
+	mainCamera->GetProjection()->GetMatrix(&projection);
 
 	return projection;
 }
 
 void Context::ResizeScreen()
 {
-	camera->ResizeScreen(Screen::Width(), Screen::Height());
-	canvas->ResizeScreen(Screen::Width(), Screen::Height());
+	mainCamera->ResizeScreen(Screen::Width(), Screen::Height());
+	canvasCamera->ResizeScreen(Screen::Width(), Screen::Height());
 }
 
 void Context::Update()
 {
-	camera->Update();
+	mainCamera->Update();
 
 	string str = string("FPS : ") + to_string(ImGui::GetIO().Framerate);
 	//Debug::Log->Show(str);
@@ -81,11 +81,11 @@ void Context::Update()
 	//Debug::Log->Show(str);
 
 	Vector3 P;
-	camera->Position(&P);
+	mainCamera->Position(&P);
 
 	Vector3 R;
 	Quaternion q;
-	camera->Rotation(&q);
+	mainCamera->Rotation(&q);
 	{
 		float xy2 = 2 * q.x * q.y;
 		float xz2 = 2 * q.x * q.z;
@@ -116,6 +116,6 @@ void Context::Update()
 
 void Context::Render()
 {
-	camera->GetViewport()->RSSetViewport();
+	mainCamera->GetViewport()->RSSetViewport();
 }
 
