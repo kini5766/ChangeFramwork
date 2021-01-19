@@ -67,3 +67,62 @@ float4 PS_LensDistortion(VertexOutput input) : SV_TARGET0
 	c.b = DiffuseMap.Sample(PointSampler, uvB).b;
 	return c;
 }
+
+
+
+// >-- 패스 등록 안 함 --< //
+
+
+// --
+// Inverse
+// --
+
+float4 PS_Inverse(VertexOutput input) : SV_TARGET0
+{
+	return 1 - DiffuseMap.Sample(PointSampler, input.Uv);
+}
+
+
+// --
+// GrayScale
+// --
+
+float4 PS_GrayScale(VertexOutput input) : SV_TARGET0
+{
+	float4 c = DiffuseMap.Sample(PointSampler, input.Uv);
+	float average = (c.r + c.g + c.b) * 0.333f;
+	return float4(average, average, average, 1);
+}
+
+
+// --
+// GrayScale2
+// --
+
+float4 PS_GrayScale2(VertexOutput input) : SV_TARGET0
+{
+	float4 c = DiffuseMap.Sample(PointSampler, input.Uv);
+	float3 w = float3(0.2126f, 0.7152f, 0.0722f);
+	float y = dot(c.rgb, w);
+	return float4(y, y, y, 1);
+}
+
+
+// --
+// Sepia
+// --
+
+float3x3 ColorToHerculesMatrix = float3x3
+(
+	0.393f, 0.769f, 0.189f,  // R
+	0.349f, 0.686f, 0.168f,  // G
+	0.272f, 0.534f, 0.131f  // B
+	);
+
+float4 PS_Sepia(VertexOutput input) : SV_TARGET0
+{
+	float4 c = DiffuseMap.Sample(PointSampler, input.Uv);
+	float3 result = mul(ColorToHerculesMatrix, c.rgb);  // 곱하기 순서 바뀌면 전치
+
+	return float4(result, 1.0f);
+}

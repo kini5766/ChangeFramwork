@@ -346,6 +346,9 @@
     <ClCompile Include="Tools\Viewer\UIProjection.cpp">
       <Filter>Tools\Viewer</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Environment\Terrain.cpp">
+      <Filter>Objects\Environment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -663,6 +666,9 @@
     </ClInclude>
     <ClInclude Include="Tools\Viewer\UIProjection.h">
       <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Environment\Terrain.h">
+      <Filter>Objects\Environment</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

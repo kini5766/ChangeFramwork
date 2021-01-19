@@ -1,4 +1,4 @@
-#define PROJECTION_TEXTURE_MAX_COUNT 16
+#define PROJECTION_TEXTURE_MAX_COUNT 1
 
 
 // --
@@ -64,12 +64,3 @@ void PSSet_ProjectionTexture(in float4 wvp[PROJECTION_TEXTURE_MAX_COUNT], inout 
 		}
 	}
 }
-
-
-//technique11 T0
-//{
-//	// MainRender
-//	P_VP(P1, VS_Mesh_ProjectionTexture, PS)
-//	P_VP(P2, VS_Model_ProjectionTexture, PS)
-//	P_VP(P3, VS_Animation_ProjectionTexture, PS)
-//}

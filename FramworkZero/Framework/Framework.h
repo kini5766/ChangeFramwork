@@ -176,6 +176,7 @@ typedef D3DXPLANE Plane;
 
 #include "Objects/Environment/CubeSky.h"
 #include "Objects/Environment/Billboard.h"
+#include "Objects/Environment/Terrain.h"
 
 #include "Objects/Canvas/Render2D.h"
 

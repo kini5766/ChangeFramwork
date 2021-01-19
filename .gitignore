@@ -44,6 +44,7 @@ _ShaderCompiler/*
 *Debug_ModelEditor
 *Debug_Homework
 *Debug_ParticleEditor
+*Debug_TerrainEditor
 
 # 파일 크기 때문에 새로 받아야할 듯 
 assimp-vc140-mt.pdb

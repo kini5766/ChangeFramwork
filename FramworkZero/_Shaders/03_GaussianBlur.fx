@@ -95,6 +95,31 @@ float4 PS_RaialBlur(VertexOutput input) : SV_TARGET0
 
 
 
+// >-- 패스 등록 안 함 --< //
+
+// --
+// Interace
+// --
+
+float Stength = 1.0f;
+int InteraceInterval = 2;
+float4 PS_Interace(VertexOutput input) : SV_TARGET0
+{
+	float4 c = DiffuseMap.Sample(PointSampler, input.Uv);
+
+	float height = 1.0f / PixelSize.y;
+	int value = (int)(floor(input.Uv.y * height + Time * 100.0f) % InteraceInterval / (InteraceInterval / 2));
+
+	[flatten]
+	if (value)
+	{
+		float3 w = float3(0.2126f, 0.7152f, 0.0722f);
+		float y = dot(c.rgb, w);
+		c.rgb = lerp(c.rgb, c.rgb * y, Stength);
+	}
+
+	return c;
+}
 
 
 // > -- CompositeTest -- < //
@@ -186,4 +211,61 @@ float4 PS_CompositeTest(VertexOutput input) : SV_TARGET0
 	luminosity *= blur;
 	float4 bluredColor = lerp(blur, diffuse, BlurRatio);
 	return float4((luminosity + bluredColor).rgb, 1.0f);
+}
+
+
+// --
+// Grading
+// --
+
+#include "03_ColorConverter.fx"
+
+float Grading = 0.5f;
+float Correlation = 0.5f;
+float Concentration = 2.0f;
+
+float3 PostComplement(float3 input)
+{
+	float3 guide = float3(1.0f, 0.5f, 0.0f);
+
+	float3 input_hsv = RGBtoHSV(input);
+	float3 hue_pole1 = RGBtoHSV(guide);
+	float3 hue_pole2 = HSVComplement(hue_pole1);
+
+	float dist1 = abs(input_hsv.x - hue_pole1.x);
+	if (dist1 > 0.5)
+		dist1 = 1.0 - dist1;
+	float dist2 = abs(input_hsv.x - hue_pole2.x);
+	if (dist2 > 0.5)
+		dist2 = 1.0 - dist2;
+
+	float descent = smoothstep(0, Correlation, input_hsv.y);
+
+
+	float3 output_hsv = input_hsv;
+	if (dist1 < dist2)
+	{
+		float c = descent * Grading * (1.0 - pow((dist1 * 2.0), 1.0 / Concentration));
+
+		output_hsv.x = HueLerp(input_hsv.x, hue_pole1.x, c);
+		output_hsv.y = lerp(input_hsv.y, hue_pole1.y, c);
+	}
+	else
+	{
+		float c = descent * Grading * (1.0 - pow((dist2 * 2.0), 1.0 / Concentration));
+
+		output_hsv.x = HueLerp(input_hsv.x, hue_pole2.x, c);
+		output_hsv.y = lerp(input_hsv.y, hue_pole2.y, c);
+	}
+
+	return HSVtoRGB(output_hsv);
+}
+
+
+float4 PS_Grading(VertexOutput input) : SV_Target
+{
+	float4 extract = DiffuseMap.Sample(LinearSampler, input.Uv);
+	float3 color = PostComplement(float3(extract.r, extract.g, extract.b));
+
+	return float4(color, 1.0f);
 }

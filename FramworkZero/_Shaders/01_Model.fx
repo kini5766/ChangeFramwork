@@ -1,12 +1,10 @@
 #include "00_Global.fx"
-
-#include "00_ProjectionTexture.fx"
-#include "00_Shadow.fx"
-
-#include "00_Light.fx"
+#include "00_PixelOutput.fx"
 #include "00_VertexInput.fx"
 
+
 Texture2D InvBindPose;
+// Skinned 컴퓨트 쉐이더 처리 된 결과
 Texture2DArray<float4> BonesMap;
 
 
@@ -101,45 +99,6 @@ MeshOutput VS_Model_Inst(VertexModel_Inst input)
 	return output;
 }
 
-// --
-// PS
-// --
-
-float4 PS(MeshOutput input) : SV_Target0
-{
-	return Lighting_MeshOutput(input);
-}
-
-
-// >-- ProjectionTexture --< //
-
-// --
-// VS_ProjectionTexture
-// --
-
-MeshOutput_Shadow VS_Model_Inst_ProjectionTexture(VertexModel_Inst input)
-{
-	MeshOutput_Shadow output = (MeshOutput_Shadow) 0;
-
-	SetModelWorld_All_Inst(World, input);
-
-	// input -> output
-	VS_GENERATE
-
-	VSSet_ProjectionTexture(output.wvpPosition_Sub, output.wPosition);
-
-	return output;
-}
-
-// --
-// PS_ProjectionTexture
-// --
-
-float4 PS_ProjectionTexture(MeshOutput_Shadow input) : SV_Target0
-{
-	return Lighting_MeshOutput_ProjectionTexture(input);
-}
-
 
 // >-- Shadow + ProjectionTexture --< //
 
@@ -168,31 +127,21 @@ MeshOutput_Shadow VS_Model_Inst_Shadow(VertexModel_Inst input)
 	// input -> output
 	VS_GENERATE
 
-	VSSet_ProjectionTexture(output.wvpPosition_Sub, output.wPosition);
 	VSSet_Shadow(output.sPosition, output.wPosition);
 
 	return output;
-}
-
-// --
-// PS_Shadow
-// --
-// 2pass Shadow
-float4 PS_Shadow(MeshOutput_Shadow input) : SV_Target0
-{
-	return Lighting_MeshOutput_Shadow(input);
 }
 
 
 technique11 T0
 {
 	// None
-	P_VP(P0, VS_Model_Inst, PS)
+	P_VP(P0, VS_Model_Inst, PS_MeshOutput)
 
 	// ProjectionTexture
-	P_VP(P1, VS_Model_Inst_ProjectionTexture, PS_ProjectionTexture)
+	P_VP(P1, VS_Model_Inst, PS_MeshOutput_ProjT)
 
 	// Shadow + ProjectionTexture
 	P_VP(P2, VS_Model_Inst_Depth, PS_Shadow_Depth)
-	P_VP(P3, VS_Model_Inst_Shadow, PS_Shadow)
+	P_VP(P3, VS_Model_Inst_Shadow, PS_MeshOutput_Shadow)
 }
