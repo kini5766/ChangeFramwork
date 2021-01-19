@@ -106,9 +106,9 @@ MeshOutput VS_Model_Inst(VertexModel_Inst input)
 // VS_Shadow
 // --
 // 1pass Depth
-MeshDepthOutput VS_Model_Inst_Depth(VertexModel_Inst input)
+DepthOutput VS_Model_Inst_Depth(VertexModel_Inst input)
 {
-	MeshDepthOutput output = (MeshDepthOutput)0;
+	DepthOutput output = (DepthOutput)0;
 
 	SetModelWorld_All_Inst(World, input);
 
@@ -142,6 +142,6 @@ technique11 T0
 	P_VP(P1, VS_Model_Inst, PS_MeshOutput_ProjT)
 
 	// Shadow + ProjectionTexture
-	P_VP(P2, VS_Model_Inst_Depth, PS_Shadow_Depth)
+	P_RS_VP(P2, FrontCounterClockwise_True, VS_Model_Inst_Depth, PS_Shadow_Depth)
 	P_VP(P3, VS_Model_Inst_Shadow, PS_MeshOutput_Shadow)
 }

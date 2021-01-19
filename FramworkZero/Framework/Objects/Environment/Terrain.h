@@ -11,6 +11,7 @@ public:
 
 public:
 	void Update();
+	void PreRender_Depth();
 	void Render();
 	void RenderVisibleNormal();
 
@@ -59,7 +60,8 @@ private:
 	IndexBuffer* indexBuffer;
 	VertexBuffer* vertexBuffer;
 	PerTransform* perTransform;
-	UINT pass = 0;
+	UINT pass = 3;
+	ShadowTest* shadow;
 
 public:
 	struct VertexTerrain

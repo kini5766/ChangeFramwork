@@ -37,6 +37,7 @@ void Brush::Update()
 
 void Brush::Render()
 {
+
 	if (brushDesc.Type > 0)
 	{
 		string str = "";

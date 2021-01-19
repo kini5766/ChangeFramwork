@@ -39,9 +39,9 @@ MeshOutput VS_Mesh(VertexMesh input)
 // VS_Shadow (1pass Depth)
 // --
 
-MeshDepthOutput VS_Mesh_Inst_Depth(VertexMesh_Inst input)
+DepthOutput VS_Mesh_Inst_Depth(VertexMesh_Inst input)
 {
-	MeshDepthOutput output = (MeshDepthOutput)0;
+	DepthOutput output = (DepthOutput)0;
 
 	World = input.Transform;
 
@@ -50,9 +50,9 @@ MeshDepthOutput VS_Mesh_Inst_Depth(VertexMesh_Inst input)
 
 	return output;
 }
-MeshDepthOutput VS_Mesh_Depth(VertexMesh input)
+DepthOutput VS_Mesh_Depth(VertexMesh input)
 {
-	MeshDepthOutput output = (MeshDepthOutput)0;
+	DepthOutput output = (DepthOutput)0;
 
 	// input -> output
 	VS_DEPTH_GENERATE
@@ -108,8 +108,8 @@ technique11 T0
 	P_VP(P3, VS_Mesh_Inst, PS_MeshOutput_ProjT)
 
 	// Shadow
-	P_VP(P4, VS_Mesh_Inst_Depth, PS_Shadow_Depth)
+	P_RS_VP(P4, FrontCounterClockwise_True, VS_Mesh_Inst_Depth, PS_Shadow_Depth)
 	P_VP(P5, VS_Mesh_Inst_Shadow, PS_MeshOutput_Shadow)
-	P_VP(P6, VS_Mesh_Depth, PS_Shadow_Depth)
+	P_RS_VP(P6, FrontCounterClockwise_True, VS_Mesh_Depth, PS_Shadow_Depth)
 	P_VP(P7, VS_Mesh_Shadow, PS_MeshOutput_Shadow)
 }

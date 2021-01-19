@@ -145,6 +145,7 @@ typedef D3DXPLANE Plane;
 #include "Rendering/CBufferVariables/PerFrame.h"
 #include "Rendering/CBufferVariables/PerTransform.h"
 
+#include "Rendering/Shadow.h"
 
 // Utilities
 // À¯¿ëÇÑ
@@ -177,6 +178,7 @@ typedef D3DXPLANE Plane;
 #include "Objects/Environment/CubeSky.h"
 #include "Objects/Environment/Billboard.h"
 #include "Objects/Environment/Terrain.h"
+#include "Objects/Environment/ProjectionTexture.h"
 
 #include "Objects/Canvas/Render2D.h"
 

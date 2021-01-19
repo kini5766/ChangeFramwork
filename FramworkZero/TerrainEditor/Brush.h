@@ -14,10 +14,15 @@ private:
 	void RaiseHeight(float intensity);
 
 private:
+	ShaderSetter* shader;
+	Terrain* terrain;
+	ConstantBuffer* brushBuffer;
+
+private:
 	struct BrushDesc
 	{
 		Color Color = D3DXCOLOR(0, 1, 0, 1);
-		
+
 		Vector3 Location;
 		UINT Type = 0;
 
@@ -25,9 +30,4 @@ private:
 
 		float Padding[3];
 	}brushDesc;
-
-private:
-	ShaderSetter* shader;
-	Terrain* terrain;
-	ConstantBuffer* brushBuffer;
 };

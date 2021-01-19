@@ -18,20 +18,42 @@ void Editor::Initialize()
 
 	funcOpen = bind(&Editor::OpenComplete, this, placeholders::_1);
 	UpdateDataMapFileList();
+
+	peojTexure = new ProjectionTexture(Shader::Load(URI::Shaders + L"01_Terrain.fxo"), L"Environment/MagicCircle.png", 217.0f, 220.0f);
+
+
+	shadow = new Shadow(Vector3(0, 0, 0), 65.0f);
+	Shadow::SetGlobal(shadow);
 }
 
 void Editor::Destroy()
 {
+	Shadow::SetGlobal(nullptr);
+	SafeDelete(shadow);
+
+	SafeDelete(peojTexure);
+
 	SafeDelete(brush);
 	SafeDelete(terrain);
 
 	SafeDelete(sky);
-	//SafeDelete(shadow);
 	SafeRelease(shader);
 }
 
 void Editor::Update()
 {
+	ImGui::Begin("ImGui Test");
+
+	ImGui::SliderFloat3("Directional Light", Lighting::Get()->DirectionalDesc()->Direction, -1.0f, 1.0f);
+
+	//if (ImGui::Button("Direction Light"))
+	//	Debug::Gizmo->SetTransform(Lighting::Get()->GetDirectional()->GetTransform());
+
+	peojTexure->Update();
+	//shadow->ImGuiRender();
+
+	ImGui::End();
+
 	// 다이얼로그
 	{
 		if (ImGui::Button("Open HeightMap"))
@@ -78,8 +100,7 @@ void Editor::Update()
 		}
 	}
 
-
-	sky->Update();
+	//sky->Update();
 	if (terrain != nullptr)
 	{
 		terrain->RenderVisibleNormal();
@@ -87,10 +108,18 @@ void Editor::Update()
 	}
 }
 
+void Editor::PreRender()
+{
+	//shadow->PreRender();
+	if (terrain != nullptr)
+		terrain->PreRender_Depth();
+}
+
 void Editor::Render()
 {
-	//sky->Pass(3);
 	//sky->Render();
+
+	peojTexure->Render();
 
 	if (terrain != nullptr)
 		terrain->Render();

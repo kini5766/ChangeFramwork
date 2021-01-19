@@ -349,6 +349,9 @@
     <ClCompile Include="Objects\Environment\Terrain.cpp">
       <Filter>Objects\Environment</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\Shadow.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -669,6 +672,9 @@
     </ClInclude>
     <ClInclude Include="Objects\Environment\Terrain.h">
       <Filter>Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shadow.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

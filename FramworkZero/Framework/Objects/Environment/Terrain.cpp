@@ -19,10 +19,17 @@ Terrain::Terrain(wstring imageFile)
 	material->Specular(1, 1, 1, 20);
 
 	material->SetTexture("BaseMap", baseMap);
+
+	shadow = new ShadowTest(shader, Vector3(128.0f, 64.0f, 128.0f), 128.0f);
+	//shadow = new ShadowCaster(shader);
+	//shadow->SetShadow_Global();
+	//shadow->SetFuncPreRender(bind(&Terrain::PreRender_Depth, this));
 }
 
 Terrain::~Terrain()
 {
+	SafeDelete(shadow);
+
 	SafeDelete(baseMap);
 
 	SafeDeleteArray(heights);
@@ -41,6 +48,21 @@ Terrain::~Terrain()
 void Terrain::Update()
 {
 	perTransform->Update();
+}
+
+void Terrain::PreRender_Depth()
+{
+	shadow->PreRender();
+
+	perTransform->Render();
+
+	vertexBuffer->Render();
+	indexBuffer->Render();
+
+	D3D::GetDC()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//material->Render();
+	shader->DrawIndexed(0, 2, meshData->IndexCount);
 }
 
 void Terrain::Render()

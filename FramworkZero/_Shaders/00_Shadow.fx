@@ -41,17 +41,18 @@ cbuffer CB_Shadow
 // --
 // PS_Shadow_Depth
 // --
-struct MeshDepthOutput
+struct DepthOutput
 {
 	float4 Position : SV_POSITION0;
 	float4 sPosition : POSITION1;  // 조명 기준
 };
-float4 PS_Shadow_Depth(MeshDepthOutput input) : SV_Target
+float4 PS_Shadow_Depth(DepthOutput input) : SV_Target
 {
 	// 디버깅용
 	float depth = input.sPosition.z / input.sPosition.w;
 
-	return float4(depth, depth, depth, 1);
+	//return float4(depth, depth, depth, 1);
+	return float4(1, 1, 1, 1);
 }
 
 
@@ -86,6 +87,7 @@ float4 PSSet_Shadow(float4 sPosition, float4 color)
 		sPos.y < -1.0f || sPos.y > 1.0f &&
 		sPos.z < 0.0f || sPos.z > 1.0f)
 	{
+		//return float4(1, 1, 1, 1);
 		return color;
 	}
 
@@ -128,5 +130,6 @@ float4 PSSet_Shadow(float4 sPosition, float4 color)
 	}
 
 	factor = saturate(factor + depth);
+	//return float4(factor, factor, factor, 1);
 	return float4(color.rgb * factor, 1);
 }

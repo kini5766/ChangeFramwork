@@ -68,6 +68,7 @@
     <ClCompile Include="Rendering\CBufferVariables\PerFrame.cpp" />
     <ClCompile Include="Rendering\CBufferVariables\PerTransform.cpp" />
     <ClCompile Include="Rendering\CBufferVariables\ShaderSetter.cpp" />
+    <ClCompile Include="Rendering\Shadow.cpp" />
     <ClCompile Include="Systems\D3D.cpp" />
     <ClCompile Include="Systems\Gui.cpp" />
     <ClCompile Include="Tools\Collider\ReceiveBox.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Rendering\CBufferVariables\PerFrame.h" />
     <ClInclude Include="Rendering\CBufferVariables\PerTransform.h" />
     <ClInclude Include="Rendering\CBufferVariables\ShaderSetter.h" />
+    <ClInclude Include="Rendering\Shadow.h" />
     <ClInclude Include="Settings\ShaderEffectName.h" />
     <ClInclude Include="Settings\WindowSettings.h" />
     <ClInclude Include="Systems\D3D.h" />

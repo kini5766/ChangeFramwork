@@ -20,6 +20,6 @@ void Fixity::Update()
 
 void Fixity::ResizeScreen(float width, float height)
 {
-	viewport->Set(width, height);
+	//viewport->Set(width, height);
 	orthographic->Set(width, height);
 }
