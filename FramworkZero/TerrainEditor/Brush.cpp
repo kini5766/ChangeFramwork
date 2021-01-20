@@ -1,27 +1,44 @@
 #include "stdafx.h"
 #include "Brush.h"
 
-Brush::Brush(Terrain * terrain)
-	: shader(new ShaderSetter())
-	, terrain(terrain)
+Brush::Brush()
 {
+	shader = new ShaderSetter();
+
 	brushBuffer = new ConstantBuffer(&brushDesc, sizeof(BrushDesc));
 	this->shader->SetConstantBuffer("CB_TerrainBrush", brushBuffer->Buffer());
 
-	shader->SetShader(terrain->GetShader());
+	lineBuffer = new ConstantBuffer(&lineDesc, sizeof(LineDesc));
+	this->shader->SetConstantBuffer("CB_TerrainLine", lineBuffer->Buffer());
+
 }
 
 Brush::~Brush()
 {
+	SafeDelete(shader);
+	SafeDelete(lineBuffer);
 	SafeDelete(brushBuffer);
 }
 
 void Brush::Update()
 {
+	static bool bVisible = true;
+	ImGui::Checkbox("Line Visible", &bVisible);
+	lineDesc.Visible = bVisible ? 1 : 0;
+
+	ImGui::ColorEdit3("Line Color", lineDesc.Color);
+	ImGui::InputFloat("Thickness", &lineDesc.Thickness, 0.01f);
+	ImGui::InputFloat("LineSize", &lineDesc.Size, 1.0f);
+
+	ImGui::Separator();
+
 	ImGui::ColorEdit3("BrushColor", brushDesc.Color);
 	ImGui::SliderInt("BrushType", (int*)&brushDesc.Type, 0, 3);
 	ImGui::InputInt("BrushRange", (int*)&brushDesc.Range, 1, 10);
 	brushDesc.Range = Math::Clamp<UINT>(brushDesc.Range, 1, 10);
+
+	if (terrain == nullptr)
+		return;
 
 	if (brushDesc.Type > 0)
 	{
@@ -37,7 +54,6 @@ void Brush::Update()
 
 void Brush::Render()
 {
-
 	if (brushDesc.Type > 0)
 	{
 		string str = "";
@@ -49,8 +65,18 @@ void Brush::Render()
 		Gui::Get()->RenderText(10, 50, 1, 0, 0, str);
 	}
 
+	if (terrain == nullptr)
+		return;
+
 	brushBuffer->Render();
+	lineBuffer->Render();
 	shader->Render();
+}
+
+void Brush::SetTerrain(Terrain * value)
+{
+	terrain = value;
+	shader->SetShader(terrain->GetShader());
 }
 
 void Brush::RaiseHeight(float intensity)

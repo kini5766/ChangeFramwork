@@ -12,17 +12,16 @@ void Editor::Initialize()
 	heightMapFileDirectory = L"Terrain/";
 	heightMapFileName = L"Gray256.png";
 	shader = Shader::Load(L"01_Mesh.fxo");
-	//shadow = new Shadow(shader, Vector3(128, 0, 128), 65);
 
 	sky = new CubeSky(L"Environment/Mountain1024.dds");
+	brush = new Brush();
 
 	funcOpen = bind(&Editor::OpenComplete, this, placeholders::_1);
 	UpdateDataMapFileList();
 
 	peojTexure = new ProjectionTexture(Shader::Load(URI::Shaders + L"01_Terrain.fxo"), L"Environment/MagicCircle.png", 217.0f, 220.0f);
 
-
-	shadow = new Shadow(Vector3(0, 0, 0), 65.0f);
+	shadow = new Shadow(Vector3(128, 0, 128), 65.0f);
 	Shadow::SetGlobal(shadow);
 }
 
@@ -88,12 +87,12 @@ void Editor::Update()
 				if (ImGui::Button(String::ToString(dataMapFileList[i]).c_str(), ImVec2(200, 0)))
 				{
 					SafeDelete(terrain);
-					SafeDelete(brush);
 
 					wstring path = heightMapFileDirectory + dataMapFileList[i] + L".dds";
 					terrain = new Terrain(path);
 					terrain->BaseMap(L"Terrain/Dirt3.png");
-					brush = new Brush(terrain);
+
+					brush->SetTerrain(terrain);
 				}
 			}
 
@@ -103,7 +102,8 @@ void Editor::Update()
 	sky->Update();
 	if (terrain != nullptr)
 	{
-		terrain->RenderVisibleNormal();
+		brush->Update();
+		//terrain->RenderVisibleNormal();
 		terrain->Update();
 	}
 }
@@ -122,7 +122,10 @@ void Editor::Render()
 	peojTexure->Render();
 
 	if (terrain != nullptr)
+	{
+		brush->Render();
 		terrain->Render();
+	}
 }
 
 void Editor::OpenComplete(wstring fileName)

@@ -195,7 +195,7 @@ ID3D11Texture2D * Texture2DDesc::CopyResourceTexture(ID3D11Texture2D * value)
 	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
 
 	texture = CreateBlankTexture();
-	D3D::GetDC()->CopyResource(value, texture);
+	D3D::GetDC()->CopyResource(texture, value);
 
 	return texture;
 }

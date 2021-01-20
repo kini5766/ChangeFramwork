@@ -3,12 +3,15 @@
 #include "00_ProjectionTexture.fx"
 #include "00_Shadow.fx"
 
+#include "00_TerrainBrush.fx"
 
 // --
 // Terrain Values
 // --
 
 Texture2D BaseMap;
+Texture2D Layer1AlphaMap;
+Texture2D Layer1ColorMap;
 
 
 // --
@@ -20,6 +23,9 @@ struct TerrainInput
 	float4 Position : Position0;
 	float3 Normal : Normal0;
 	float2 Uv : Uv0;
+
+	float4 Color : Color;
+	float3 Tangent : Tangent;
 };
 
 
@@ -121,6 +127,9 @@ float4 PS_Terrain(TerrainOutput input) : SV_Target0
 	float4 cmin = Lighting_Min(normal);
 	return max(c, cmin);
 
+	// Brush Color
+	c += GetBrushColor(input.wPosition);
+
 	return c;
 }
 
@@ -141,6 +150,9 @@ float4 PS_Terrain_ProjT(TerrainOutput input) : SV_Target0
 	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
 	float4 cmin = Lighting_Min(normal);
 	c = max(c, cmin);
+
+	// Brush Color
+	c += GetBrushColor(input.wPosition);
 
 	return c;
 }
@@ -165,6 +177,9 @@ float4 PS_Terrain_Shadow_ProjT(TerrainOutput_Shadow input) : SV_Target0
 	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
 	float4 cmin = Lighting_Min(normal);
 	c = max(c, cmin);
+
+	// Brush Color
+	c += GetBrushColor(input.wPosition);
 
 	return c;
 }

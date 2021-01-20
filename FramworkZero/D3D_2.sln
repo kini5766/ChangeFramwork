@@ -33,6 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Global", "00_Global", "{
 		_Shaders\00_PixelOutput.fx = _Shaders\00_PixelOutput.fx
 		_Shaders\00_ProjectionTexture.fx = _Shaders\00_ProjectionTexture.fx
 		_Shaders\00_Shadow.fx = _Shaders\00_Shadow.fx
+		_Shaders\00_TerrainBrush.fx = _Shaders\00_TerrainBrush.fx
 		_Shaders\00_VertexInput.fx = _Shaders\00_VertexInput.fx
 	EndProjectSection
 EndProject
