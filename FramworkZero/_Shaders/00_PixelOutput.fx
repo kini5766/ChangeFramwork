@@ -32,6 +32,7 @@ float4 PS_MeshOutput(MeshOutput input) : SV_Target0
 	// Material Lighting
 	float4 c = Lighting_All(normal, input.wPosition);
 
+	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
 	float4 cmin = Lighting_Min(normal);
 	return max(c, cmin);
 }
@@ -56,6 +57,7 @@ float4 PS_MeshOutput_ProjT(MeshOutput input) : SV_Target0
 	VSSet_ProjectionTexture(wvpPosition_Sub, input.wPosition);
 	PSSet_ProjectionTexture(wvpPosition_Sub, c);
 
+	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
 	float4 cmin = Lighting_Min(normal);
 	return max(c, cmin);
 }
@@ -101,7 +103,7 @@ float4 PS_MeshOutput_Shadow(MeshOutput_Shadow input) : SV_Target0
 	// Shadow
 	c = PSSet_Shadow(input.sPosition, c);
 
-	// Min Color
+	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
 	float4 cmin = Lighting_Min(normal);
 	return max(c, cmin);
 }
@@ -129,7 +131,7 @@ float4 PS_MeshOutput_Shadow_ProjT(MeshOutput_Shadow input) : SV_Target0
 	VSSet_ProjectionTexture(wvpPosition_Sub, input.wPosition);
 	PSSet_ProjectionTexture(wvpPosition_Sub, c);
 
-	// Min Color
+	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
 	float4 cmin = Lighting_Min(normal);
 	return max(c, cmin);
 }

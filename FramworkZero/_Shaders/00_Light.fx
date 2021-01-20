@@ -250,7 +250,7 @@ float4 Lighting_All(float3 normal, float3 wPosition)
 
 
 // --
-// Lighting_Min
+// Lighting_Min 최소 밝기 (지면 반사광)
 // --
 
 float4 Lighting_Min(float3 normal)

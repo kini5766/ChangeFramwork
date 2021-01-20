@@ -100,7 +100,7 @@ void Editor::Update()
 		}
 	}
 
-	//sky->Update();
+	sky->Update();
 	if (terrain != nullptr)
 	{
 		terrain->RenderVisibleNormal();
@@ -110,14 +110,14 @@ void Editor::Update()
 
 void Editor::PreRender()
 {
-	//shadow->PreRender();
+	shadow->PreRender();
 	if (terrain != nullptr)
 		terrain->PreRender_Depth();
 }
 
 void Editor::Render()
 {
-	//sky->Render();
+	sky->Render();
 
 	peojTexure->Render();
 

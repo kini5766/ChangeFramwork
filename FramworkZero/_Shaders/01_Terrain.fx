@@ -117,7 +117,7 @@ float4 PS_Terrain(TerrainOutput input) : SV_Target0
 	// Material Lighting
 	float4 c = Lighting_All(normal, input.wPosition);
 
-	// Min Light
+	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
 	float4 cmin = Lighting_Min(normal);
 	return max(c, cmin);
 
@@ -138,7 +138,7 @@ float4 PS_Terrain_ProjT(TerrainOutput input) : SV_Target0
 	VSSet_ProjectionTexture(wvpPosition_Sub, input.wPosition);
 	PSSet_ProjectionTexture(wvpPosition_Sub, c);
 
-	// Min Light
+	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
 	float4 cmin = Lighting_Min(normal);
 	c = max(c, cmin);
 
@@ -162,7 +162,7 @@ float4 PS_Terrain_Shadow_ProjT(TerrainOutput_Shadow input) : SV_Target0
 	VSSet_ProjectionTexture(wvpPosition_Sub, input.wPosition);
 	PSSet_ProjectionTexture(wvpPosition_Sub, c);
 
-	// Min Light
+	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
 	float4 cmin = Lighting_Min(normal);
 	c = max(c, cmin);
 

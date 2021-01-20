@@ -96,16 +96,21 @@ void VSSet_ProjectionTextures(inout float4 wvp[PROJECTION_TEXTURES_MAX_COUNT], f
 // PS_ProjectionTextures
 // --
 
-void PSSet_ProjectionTextures(in float4 wvp[PROJECTION_TEXTURES_MAX_COUNT], inout float4 color)
+void PSSet_ProjectionTextures(float3 wPosition, inout float4 color)
 {
 	// ndc -> uv
 	float3 uvw = 0;
+	float4 wvp = 0;
 
 	for (uint i = 0; i < ProjectionTextureCount; i++)
 	{
-		uvw.x = wvp[i].x / wvp[i].w * 0.5f + 0.5f;
-		uvw.y = wvp[i].y / wvp[i].w * -0.5f + 0.5f;
-		uvw.z = wvp[i].z / wvp[i].w;
+		wvp = float4(wPosition, 1.0f);
+		wvp = mul(wvp, ProjectionTexture.View);
+		wvp = mul(wvp, ProjectionTexture.Projection);
+
+		uvw.x = wvp.x / wvp.w * 0.5f + 0.5f;
+		uvw.y = wvp.y / wvp.w * -0.5f + 0.5f;
+		uvw.z = wvp.z / wvp.w;
 
 		[flatten]
 		if (saturate(uvw.x) == uvw.x &&
