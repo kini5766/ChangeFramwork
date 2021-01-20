@@ -7,9 +7,12 @@ struct BrushDesc
 {
 	float4 Color;
 	float3 Location;
-	uint Type;
+	uint Shape;
 	uint Range;
-	//float Padding[3];
+
+	float Rad;
+	float DragLength;
+	//float Padding;
 };
 
 cbuffer CB_TerrainBrush
@@ -20,27 +23,75 @@ cbuffer CB_TerrainBrush
 float4 GetBrushColor(float3 wPosition)
 {
 	[flatten]
-	if (TerrainBrush.Type == 1)
+	if (TerrainBrush.Shape == 1)
 	{
-		if ((wPosition.x >= (TerrainBrush.Location.x - TerrainBrush.Range)) &&
-			(wPosition.x <= (TerrainBrush.Location.x + TerrainBrush.Range)) &&
-			(wPosition.z >= (TerrainBrush.Location.z - TerrainBrush.Range)) &&
-			(wPosition.z <= (TerrainBrush.Location.z + TerrainBrush.Range))
-			)
+		float rad = TerrainBrush.Rad;  // 사각형의 회전량 (라디안)
+		float radCos = cos(rad);
+		float radSin = sin(rad);
+
+		// 점과 사각형 중점과의 사이 벡터
+		float2 destance;
+		destance.x = wPosition.x - TerrainBrush.Location.x;
+		destance.y = wPosition.z - TerrainBrush.Location.z;
+
+		// 벡터 회전 
+		// cos(A-B) = cosA * cosB + sinA * sinB
+		float dx = destance.x * radCos + destance.y * radSin;
+		// sin(A-B) = sinA * cosB - cosA * sinB
+		float dy = destance.y * radCos - destance.x * radSin;
+
+		[flatten]
+		if ((dx >= TerrainBrush.Range * -1.0f) &&
+			(dx <= TerrainBrush.Range) &&
+			(dy >= TerrainBrush.Range * -1.0f) &&
+			(dy <= TerrainBrush.Range))
+		{
+			// 사각형 반경 안에 들어감
+			return TerrainBrush.Color;
+		}
+	}
+
+	[flatten]
+	if (TerrainBrush.Shape == 2)
+	{
+		// 원
+		float dx = wPosition.x - TerrainBrush.Location.x;
+		float dz = wPosition.z - TerrainBrush.Location.z;
+		float dist = dx * dx + dz * dz;
+
+		[flatten]
+		if (dist <= float(TerrainBrush.Range * TerrainBrush.Range))
 		{
 			return TerrainBrush.Color;
 		}
 	}
 
 	[flatten]
-	if (TerrainBrush.Type == 2)
+	if (TerrainBrush.Shape == 3)
 	{
-		float dx = wPosition.x - TerrainBrush.Location.x;
-		float dz = wPosition.z - TerrainBrush.Location.z;
-		float dist = sqrt(dx * dx + dz * dz);
+		float length = TerrainBrush.DragLength;
+		float range = TerrainBrush.Range;
+		float rad = TerrainBrush.Rad;
+		float radCos = cos(rad);
+		float radSin = sin(rad);
 
-		if (dist <= (float)TerrainBrush.Range)
+		// 점과 사각형 중점과의 사이 벡터
+		float2 destance;
+		destance.x = wPosition.x - TerrainBrush.Location.x;
+		destance.y = wPosition.z - TerrainBrush.Location.z;
+
+		// 벡터 회전 
+		// cos(A-B) = cosA * cosB + sinA * sinB
+		float dx = destance.x * radCos + destance.y * radSin;
+		// sin(A-B) = sinA * cosB - cosA * sinB
+		float dy = destance.y * radCos - destance.x * radSin;
+
+		if ((dx >= length * -1.0f) &&
+			(dx <= 0.0f) &&
+			(dy >= range * -1.0f) &&
+			(dy <= range))
 		{
+			// 사각형 반경 안에 들어감
 			return TerrainBrush.Color;
 		}
 	}
