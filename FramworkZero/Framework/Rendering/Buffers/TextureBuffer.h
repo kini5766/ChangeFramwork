@@ -14,9 +14,9 @@ private:
 	void CreateUAV() override;
 
 public:
-	UINT Width() { return width; }
-	UINT Height() { return height; }
-	UINT ArraySize() { return arraySize; }
+	UINT Width() { return srcDesc->Desc().Width; }
+	UINT Height() { return srcDesc->Desc().Height; }
+	UINT ArraySize() { return srcDesc->Desc().ArraySize; }
 
 	ID3D11ShaderResourceView* OutputSRV() { return outputSRV; }
 	ID3D11Texture2D* Result() { return result; }
@@ -25,9 +25,12 @@ public:
 	ID3D11Texture2D* CopyFromOutput();
 
 private:
-	UINT width, height, arraySize = 1;
-	DXGI_FORMAT format;
+	Texture2DDesc* srcDesc;
+	//UINT width, height, arraySize = 1;
+	//DXGI_FORMAT format;
 
 	ID3D11ShaderResourceView* outputSRV;
 	ID3D11Texture2D* result;
+
+private:
 };

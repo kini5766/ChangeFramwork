@@ -44,7 +44,8 @@ private: // render ฐüทร
 	ModelData* data;
 	SkinnedMeshRenderer* renderer;
 	PerFrame* perframe;
-	Texture2D* invBindPose;
+	ID3D11Texture2D* invBindPose;
+	ID3D11ShaderResourceView* srvInvBindPose;
 };
 
 

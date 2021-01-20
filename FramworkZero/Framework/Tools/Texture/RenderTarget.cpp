@@ -8,8 +8,8 @@ RenderTarget::RenderTarget(float width, float height, DXGI_FORMAT format)
 	this->height = (height < 1) ? Screen::Height() : height;
 
 	// texture
-	D3D11_TEXTURE2D_DESC textureDesc;
-	ZeroMemory(&textureDesc, sizeof(D3D11_TEXTURE2D_DESC));
+	Texture2DDesc tex2DDesc;
+	D3D11_TEXTURE2D_DESC& textureDesc = tex2DDesc.Desc();
 	textureDesc.Width = (UINT)this->width;
 	textureDesc.Height = (UINT)this->height;
 	textureDesc.ArraySize = 1;
@@ -19,23 +19,13 @@ RenderTarget::RenderTarget(float width, float height, DXGI_FORMAT format)
 	textureDesc.BindFlags =  // 2개를 연결 했으니 2개다 쓸 수 있음
 		D3D11_BIND_RENDER_TARGET |
 		D3D11_BIND_SHADER_RESOURCE;
-	Check(D3D::GetDevice()->CreateTexture2D(&textureDesc, nullptr, &texture));
+	texture = tex2DDesc.CreateBlankTexture();
 
 	// Render target
-	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc;
-	ZeroMemory(&rtvDesc, sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
-	rtvDesc.Format = format;
-	rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-	Check(D3D::GetDevice()->CreateRenderTargetView(texture, &rtvDesc, &rtv));
+	rtv = tex2DDesc.CreateRTV();
 
 	// SRV
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-	ZeroMemory(&srvDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
-	srvDesc.Format = format;
-	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = 1;
-	Check(D3D::GetDevice()->CreateShaderResourceView(texture, &srvDesc, &srv));
-
+	srv = tex2DDesc.CreateSRV();
 }
 
 RenderTarget::~RenderTarget()

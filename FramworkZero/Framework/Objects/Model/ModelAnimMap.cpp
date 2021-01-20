@@ -11,8 +11,6 @@ ModelAnimMap::ModelAnimMap(ModelData * data)
 
 	clipBoneMap = new ModelClipTexture(data);
 
-	frameCountsTexture = new Texture2D(boneCount, clipCount);
-
 	KeyframeCount* keyframeCounts = new KeyframeCount[clipCount * boneCount];
 	for (UINT c = 0; c < clipCount; c++)
 	{
@@ -28,10 +26,21 @@ ModelAnimMap::ModelAnimMap(ModelData * data)
 		}
 	}
 
-	frameCountsTexture->Format(4u * 4u, DXGI_FORMAT_R32G32B32A32_UINT);
-	frameCountsTexture->SetColors(keyframeCounts);
-	frameCountsTexture->CreateTexture();
-	computeCountBuffer = new TextureBuffer(frameCountsTexture->GetTexture());
+	Texture2DDesc tex2DDesc;
+	D3D11_TEXTURE2D_DESC& desc = tex2DDesc.Desc();
+	desc.Width = boneCount;
+	desc.Height = clipCount;
+	desc.ArraySize = 1;
+	desc.Format = DXGI_FORMAT_R32G32B32A32_UINT;
+	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;  // 쉐이더에 사용할 텍스쳐
+	desc.MipLevels = 1;
+	desc.SampleDesc.Count = 1;
+	desc.Usage = D3D11_USAGE_IMMUTABLE;
+
+	tex2DDesc.SetColors(keyframeCounts);
+
+	frameCountsTexture = tex2DDesc.CreateTexture(4u * 4u);
+	computeCountBuffer = new TextureBuffer(frameCountsTexture);
 	SafeDeleteArray(keyframeCounts);
 
 }
@@ -39,13 +48,14 @@ ModelAnimMap::ModelAnimMap(ModelData * data)
 ModelAnimMap::~ModelAnimMap()
 {
 	SafeDelete(computeCountBuffer);
-	SafeDelete(frameCountsTexture);
 	SafeDelete(clipBoneMap);
+
+	SafeRelease(frameCountsTexture);
 }
 
 ID3D11ShaderResourceView * ModelAnimMap::ClipBoneMapSrv()
-{ 
-	return clipBoneMap->GetSRV(); 
+{
+	return clipBoneMap->GetSRV();
 }
 
 #pragma endregion
@@ -74,13 +84,25 @@ ModelClipTexture::ModelClipTexture(ModelData * data)
 		clipTramsforms[c].SetData(data->Clips()[c]->Bones.data(), bonesSize);
 	}
 
-	texture = new Texture2D(boneCount * 4, maxFrame, false, false, clipCount);
+
+	Texture2DDesc tex2DDesc(clipCount);
+	D3D11_TEXTURE2D_DESC& desc = tex2DDesc.Desc();
+	desc.Width = boneCount * 4;
+	desc.Height = maxFrame;
+	desc.ArraySize = clipCount;
+	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;  // 쉐이더에 사용할 텍스쳐
+	desc.MipLevels = 1;
+	desc.SampleDesc.Count = 1;
+	desc.Usage = D3D11_USAGE_IMMUTABLE;
+
 
 	// 클립맵 만들기
-	UINT pageSize = texture->PageSize();
-	UINT arraySize = texture->ArraySize();
-	UINT widthSize = texture->WidthSize();
-	UINT height = texture->Height();
+	UINT stride = 4u * 4u;
+	UINT arraySize = desc.ArraySize;
+	UINT widthSize = desc.Width * stride;
+	UINT height = desc.Height;
+	UINT pageSize = widthSize * height;
 
 	// 주소가 아닌 값을 넘겨야하기 때문에 1차원 포인터에 값 복사
 
@@ -104,20 +126,15 @@ ModelClipTexture::ModelClipTexture(ModelData * data)
 			VirtualAlloc(temp, widthSize, MEM_COMMIT, PAGE_READWRITE);
 			memcpy(temp, clipTramsforms[c].GetData(k), widthSize);
 		}
+
+		void* temp = (BYTE*)p + start;
+		tex2DDesc.SetColorsArray(c, temp);
 	}
 
-	const void** datas = new const void*[arraySize];
-	for (UINT c = 0; c < arraySize; c++)
-	{
-		datas[c] = (BYTE*)p + c * pageSize;  // 페이지에 대한 시작주소
-	}
-	texture->SetColorsArray(datas);
-
-	texture->CreateTextureArray();
-	texture->CreateSRVArray();
+	texture = tex2DDesc.CreateTextureArray(stride);
+	srv = tex2DDesc.CreateSRVArray();
 
 	// 임시 변수 할당해제
-	SafeDeleteArray(datas);
 	SafeDeleteArray(clipTramsforms);
 	// 0: 전체 할당해제
 	VirtualFree(p, 0, MEM_RELEASE);
@@ -125,7 +142,8 @@ ModelClipTexture::ModelClipTexture(ModelData * data)
 
 ModelClipTexture::~ModelClipTexture()
 {
-	SafeDelete(texture);
+	SafeRelease(srv);
+	SafeRelease(texture);
 }
 
 #pragma endregion

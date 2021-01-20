@@ -135,35 +135,16 @@ void Editor::ToDataMapFile()
 	if (heightMapFile == nullptr)
 		return;
 
-	ID3D11Texture2D* srcTexture = heightMapFile->GetTexture();
-	D3D11_TEXTURE2D_DESC srcDesc;
-	srcTexture->GetDesc(&srcDesc);
+	Texture2DDesc dstDesc;
+	ID3D11Texture2D* readTexture = dstDesc.CopyResourceTexture(heightMapFile->GetTexture());
 
-	ID3D11Texture2D* readTexture;
-	D3D11_TEXTURE2D_DESC readDesc;
-	ZeroMemory(&readDesc, sizeof(D3D11_TEXTURE2D_DESC));
-	readDesc.Width = srcDesc.Width;
-	readDesc.Height = srcDesc.Height;
-	readDesc.ArraySize = 1;
-	readDesc.Format = srcDesc.Format;
-	readDesc.MipLevels = 1;
-	readDesc.SampleDesc = srcDesc.SampleDesc;
-	readDesc.Usage = D3D11_USAGE_STAGING;
-	readDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
-	Check(D3D::GetDevice()->CreateTexture2D(&readDesc, nullptr, &readTexture));
-	D3D::GetDC()->CopyResource(readTexture, srcTexture);
+	UINT pixelCount = dstDesc.Desc().Width * dstDesc.Desc().Height;
+	UINT* pixels = new UINT[pixelCount];
 
-	UINT* pixels = new UINT[readDesc.Width * readDesc.Height];
-	D3D11_MAPPED_SUBRESOURCE subResource;
-	D3D::GetDC()->Map(readTexture, 0, D3D11_MAP_READ, 0, &subResource);
-	{
-		// UINT 16진수로 들어옴 (0xAABBGGRR) ARGB순서 꼭 확인
-		memcpy(pixels, subResource.pData, sizeof(UINT) * readDesc.Width * readDesc.Height);
-	}
-	D3D::GetDC()->Unmap(readTexture, 0);
+	dstDesc.MapCopyFromOutput(pixels, sizeof(UINT) * pixelCount);
 
-	UINT* heights = new UINT[readDesc.Width * readDesc.Height];
-	for (UINT i = 0; i < readDesc.Width * readDesc.Height; i++)
+	UINT* heights = new UINT[pixelCount];
+	for (UINT i = 0; i < pixelCount; i++)
 	{
 		// 0xAABBGGRR -> 0xAAXXXXXX
 		UINT pixel = pixels[i];
@@ -182,30 +163,26 @@ void Editor::ToDataMapFile()
 		heights[i] = result << 24;
 	}
 
-	ID3D11Texture2D* saveTexture;
-	D3D11_TEXTURE2D_DESC saveDesc;
-	ZeroMemory(&saveDesc, sizeof(D3D11_TEXTURE2D_DESC));
-	saveDesc.Width = readDesc.Width;
-	saveDesc.Height = readDesc.Height;
-	saveDesc.ArraySize = 1;
-	saveDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	saveDesc.MipLevels = 1;
-	saveDesc.SampleDesc = readDesc.SampleDesc;
-	saveDesc.Usage = D3D11_USAGE_STAGING;
-	saveDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	Texture2DDesc saveDesc;
+	D3D11_TEXTURE2D_DESC& desc = saveDesc.Desc();
+	desc.Width = dstDesc.Desc().Width;
+	desc.Height = dstDesc.Desc().Height;
+	desc.ArraySize = 1;
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.MipLevels = 1;
+	desc.SampleDesc = dstDesc.Desc().SampleDesc;
+	desc.Usage = D3D11_USAGE_STAGING;
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-	D3D11_SUBRESOURCE_DATA saveSubResource;
-	saveSubResource.pSysMem = heights;
-	saveSubResource.SysMemPitch = sizeof(UINT) * readDesc.Width;
-	saveSubResource.SysMemSlicePitch = sizeof(UINT) * readDesc.Width * readDesc.Height;
+	saveDesc.SetColors(heights);
 
-	Check(D3D::GetDevice()->CreateTexture2D(&saveDesc, &saveSubResource, &saveTexture));
+	ID3D11Texture2D* saveTexture = saveDesc.CreateTexture(sizeof(UINT));
 
 	wstring fileName = Path::GetFileNameWithoutExtension(heightMapFile->GetFile());
 	fileName = URI::Textures + heightMapFileDirectory + fileName + L".dds";
 	D3DX11SaveTextureToFile(D3D::GetDC(), saveTexture, D3DX11_IFF_DDS, fileName.c_str());
 
-	SafeRelease(srcTexture);
+	//SafeRelease(srcTexture);
 	SafeRelease(readTexture);
 	SafeRelease(saveTexture);
 

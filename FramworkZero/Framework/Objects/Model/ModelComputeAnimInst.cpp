@@ -76,16 +76,16 @@ void ModelComputeAnimInst::CreateComputeAnim()
 	// in : 키프레임 별 최대치 * (본 개수 * 클립 개수)
 	computeShaderAnim->SetSRV(INPUT_KEYFRAME_COUNTS, animMap->FrameCountsSrv());
 
-	ID3D11Texture2D* texture;
-	D3D11_TEXTURE2D_DESC desc;
-	ZeroMemory(&desc, sizeof(D3D11_TEXTURE2D_DESC));
+	Texture2DDesc tex2DDesc;
+	D3D11_TEXTURE2D_DESC& desc = tex2DDesc.Desc();
 	desc.Width = boneCount * 4u;
 	desc.Height = MODEL_INSTANCE_MAX_COUNT;
 	desc.ArraySize = 1;
 	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	desc.MipLevels = 1;
 	desc.SampleDesc.Count = 1;
-	Check(D3D::GetDevice()->CreateTexture2D(&desc, nullptr, &texture));
+
+	ID3D11Texture2D* texture = tex2DDesc.CreateBlankTexture();
 
 	// out : 로컬 본*인스턴스 texture
 	computeOutputAnimBuffer = new TextureBuffer(texture);
@@ -104,18 +104,20 @@ void ModelComputeAnimInst::CreateComputeBone()
 	computeShaderBone->SetSRV(INPUT_BONE_DESC, modelBonesMap->SRV());
 
 
-	ID3D11Texture2D* texture;
-	D3D11_TEXTURE2D_DESC desc;
-	ZeroMemory(&desc, sizeof(D3D11_TEXTURE2D_DESC));
+	Texture2DDesc tex2DDesc;
+	D3D11_TEXTURE2D_DESC& desc = tex2DDesc.Desc();
 	desc.Width = boneCount * 4u;
 	desc.Height = MODEL_INSTANCE_MAX_COUNT;
 	desc.ArraySize = 1;
 	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	desc.MipLevels = 1;
 	desc.SampleDesc.Count = 1;
-	Check(D3D::GetDevice()->CreateTexture2D(&desc, nullptr, &texture));
+
+	ID3D11Texture2D* texture = tex2DDesc.CreateBlankTexture();
 
 	// Out : Skinned적용시킬 본*인스턴트 texture
 	computeOutputSrvBuffer = new TextureBuffer(texture);
 	computeShaderBone->SetUAV(OUTPUT_SKINNED, computeOutputSrvBuffer->UAV());
+
+	SafeRelease(texture);  // 텍스쳐 복사되서 유지할 필요 없음
 }

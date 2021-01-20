@@ -100,7 +100,7 @@
     <ClCompile Include="Tools\Texture\DepthStencil.cpp" />
     <ClCompile Include="Tools\Texture\RenderTarget.cpp" />
     <ClCompile Include="Tools\Texture\Texture.cpp" />
-    <ClCompile Include="Tools\Texture\Texture2D.cpp" />
+    <ClCompile Include="Tools\Texture\Texture2DDesc.cpp" />
     <ClCompile Include="Tools\Viewer\Camera.cpp" />
     <ClCompile Include="Tools\Viewer\CanvasCamera.cpp" />
     <ClCompile Include="Tools\Viewer\Fixity.cpp" />
@@ -208,7 +208,7 @@
     <ClInclude Include="Tools\Texture\DepthStencil.h" />
     <ClInclude Include="Tools\Texture\RenderTarget.h" />
     <ClInclude Include="Tools\Texture\Texture.h" />
-    <ClInclude Include="Tools\Texture\Texture2D.h" />
+    <ClInclude Include="Tools\Texture\Texture2DDesc.h" />
     <ClInclude Include="Tools\Viewer\Camera.h" />
     <ClInclude Include="Tools\Viewer\CanvasCamera.h" />
     <ClInclude Include="Tools\Viewer\Fixity.h" />

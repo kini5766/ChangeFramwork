@@ -7,8 +7,8 @@ DepthStencil::DepthStencil(float width, float height, bool bUseStencil)
 	this->height = (height < 1) ? Screen::Height() : height;
 
 	// texture
-	D3D11_TEXTURE2D_DESC textureDesc;
-	ZeroMemory(&textureDesc, sizeof(D3D11_TEXTURE2D_DESC));
+	Texture2DDesc tex2DDesc;
+	D3D11_TEXTURE2D_DESC& textureDesc = tex2DDesc.Desc();
 	textureDesc.Width = (UINT)this->width;
 	textureDesc.Height = (UINT)this->height;
 	textureDesc.ArraySize = 1;
@@ -20,7 +20,7 @@ DepthStencil::DepthStencil(float width, float height, bool bUseStencil)
 	textureDesc.BindFlags =
 		D3D11_BIND_DEPTH_STENCIL |
 		D3D11_BIND_SHADER_RESOURCE;
-	Check(D3D::GetDevice()->CreateTexture2D(&textureDesc, nullptr, &texture));
+	texture = tex2DDesc.CreateBlankTexture();
 
 	// DSV
 	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;

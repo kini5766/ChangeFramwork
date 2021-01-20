@@ -332,44 +332,25 @@ void Terrain::ReadHeightData()
 	if (ext == L"DDS")
 	{
 		Texture* texture = new Texture(imageFile);
-		ID3D11Texture2D* srcTexture = texture->GetTexture();
 
-		D3D11_TEXTURE2D_DESC srcDesc;
-		srcTexture->GetDesc(&srcDesc);
+		Texture2DDesc dstDesc;
+		ID3D11Texture2D* readTexture = dstDesc.CopyResourceTexture(texture->GetTexture());
+		width = dstDesc.Desc().Width;
+		height = dstDesc.Desc().Height;
 
-		ID3D11Texture2D* readTexture;
-		D3D11_TEXTURE2D_DESC readDesc;
-		ZeroMemory(&readDesc, sizeof(D3D11_TEXTURE2D_DESC));
-		readDesc.Width = srcDesc.Width;
-		readDesc.Height = srcDesc.Height;
-		readDesc.ArraySize = 1;
-		readDesc.Format = srcDesc.Format;
-		readDesc.MipLevels = 1;
-		readDesc.SampleDesc = srcDesc.SampleDesc;
-		readDesc.Usage = D3D11_USAGE_STAGING;
-		readDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
-		Check(D3D::GetDevice()->CreateTexture2D(&readDesc, nullptr, &readTexture));
-		D3D::GetDC()->CopyResource(readTexture, srcTexture);
+		UINT pixelCount = width * height;
+		UINT* pixels = new UINT[pixelCount];
 
-		UINT* pixels = new UINT[readDesc.Width * readDesc.Height];
+		dstDesc.MapCopyFromOutput(pixels, sizeof(UINT) * pixelCount);
 
-		D3D11_MAPPED_SUBRESOURCE subResource;
-		D3D::GetDC()->Map(readTexture, 0, D3D11_MAP_READ, 0, &subResource);
-		{
-			memcpy(pixels, subResource.pData, sizeof(UINT) * readDesc.Width * readDesc.Height);
-		}
-		D3D::GetDC()->Unmap(readTexture, 0);
-
-		width = texture->GetWidth();
-		height = texture->GetHeight();
-
-		heights = new float[width * height];
-		for (UINT i = 0; i < width * height; i++)
+		heights = new float[pixelCount];
+		for (UINT i = 0; i < pixelCount; i++)
 		{
 			UINT temp = (pixels[i] & 0xFF000000) >> 24;
 			heights[i] = (float)temp / 255.0f;
 		}
 
+		SafeRelease(readTexture);
 		return;
 	} // End DDS
 
@@ -381,8 +362,9 @@ void Terrain::ReadHeightData()
 	width = heightMap->GetWidth();
 	height = heightMap->GetHeight();
 
-	heights = new float[width * height];
-	for (UINT i = 0; i < width * height; i++)
+	UINT pixelCount = width * height;
+	heights = new float[pixelCount];
+	for (UINT i = 0; i < pixelCount; i++)
 		heights[i] = pixels[i].r;
 
 	SafeDelete(heightMap);
@@ -392,7 +374,7 @@ void Terrain::CreateVertexData()
 {
 	vertices = meshData->NewVertices<VertexTerrain>(width * height);
 
-	UINT wh = width * height;
+	UINT wh = meshData->VertexCount;
 	for (UINT z = 0; z < height; z++)
 	{
 		UINT lineStart = width * z;

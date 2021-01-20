@@ -268,9 +268,6 @@
     <ClCompile Include="Tools\Viewer\CanvasCamera.cpp">
       <Filter>Tools\Viewer</Filter>
     </ClCompile>
-    <ClCompile Include="Tools\Texture\Texture2D.cpp">
-      <Filter>Tools\Texture</Filter>
-    </ClCompile>
     <ClCompile Include="Tools\Texture\Texture.cpp">
       <Filter>Tools\Texture</Filter>
     </ClCompile>
@@ -351,6 +348,9 @@
     </ClCompile>
     <ClCompile Include="Rendering\Shadow.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Texture\Texture2DDesc.cpp">
+      <Filter>Tools\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -589,9 +589,6 @@
     <ClInclude Include="Tools\Viewer\CanvasCamera.h">
       <Filter>Tools\Viewer</Filter>
     </ClInclude>
-    <ClInclude Include="Tools\Texture\Texture2D.h">
-      <Filter>Tools\Texture</Filter>
-    </ClInclude>
     <ClInclude Include="Tools\Texture\Texture.h">
       <Filter>Tools\Texture</Filter>
     </ClInclude>
@@ -675,6 +672,9 @@
     </ClInclude>
     <ClInclude Include="Rendering\Shadow.h">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Texture\Texture2DDesc.h">
+      <Filter>Tools\Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

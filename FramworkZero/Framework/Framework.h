@@ -103,7 +103,7 @@ typedef D3DXPLANE Plane;
 #include "Tools/Coord/WorldMatrix.h"
 
 #include "Tools/Texture/Texture.h"
-#include "Tools/Texture/Texture2D.h"
+#include "Tools/Texture/Texture2DDesc.h"
 #include "Tools/Texture/DepthStencil.h"
 #include "Tools/Texture/RenderTarget.h"
 

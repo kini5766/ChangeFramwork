@@ -276,7 +276,7 @@ void ShadowTest::PreRender()
 	ImGui::DragFloat3("At", at, 0.1f);
 	shader->SetSRV("ShadowMap", depthStencil->SRV());
 
-	ImGui::Begin("Render2D2");
+	ImGui::Begin("Shadow Depth");
 	{
 		ImVec2 vMin = ImGui::GetWindowContentRegionMin();
 		ImVec2 vMax = ImGui::GetWindowContentRegionMax();

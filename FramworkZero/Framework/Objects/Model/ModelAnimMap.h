@@ -26,7 +26,7 @@ public:
 private:
 	// 클립트랜스폼
 	class ModelClipTexture* clipBoneMap;
-	Texture2D* frameCountsTexture;
+	ID3D11Texture2D* frameCountsTexture;
 	TextureBuffer* computeCountBuffer;
 	// keyframeCount[clipIndex * boneCount + boneIndex]
 	//KeyframeCount* keyframeCounts;
@@ -52,10 +52,11 @@ public:
 	~ModelClipTexture();
 
 public:
-	ID3D11ShaderResourceView* GetSRV() { return texture->GetSRV(); }
+	ID3D11ShaderResourceView* GetSRV() { return srv; }
 
 private:
-	Texture2D* texture;
+	ID3D11Texture2D* texture;
+	ID3D11ShaderResourceView* srv;
 };
 
 #pragma endregion
