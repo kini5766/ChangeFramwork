@@ -127,8 +127,10 @@ float4 PS_Terrain(TerrainOutput input) : SV_Target0
 	float4 cmin = Lighting_Min(normal);
 	return max(c, cmin);
 
+
 	// Brush Color
 	c += GetBrushColor(input.wPosition);
+	c += GetLineColor(input.wPosition);
 
 	return c;
 }
@@ -142,17 +144,19 @@ float4 PS_Terrain_ProjT(TerrainOutput input) : SV_Target0
 	// Material Lighting
 	float4 c = Lighting_All(normal, input.wPosition);
 
+	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
+	float4 cmin = Lighting_Min(normal);
+	c = max(c, cmin);
+
+
 	// ProjectionTexture
 	float4 wvpPosition_Sub;
 	VSSet_ProjectionTexture(wvpPosition_Sub, input.wPosition);
 	PSSet_ProjectionTexture(wvpPosition_Sub, c);
 
-	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
-	float4 cmin = Lighting_Min(normal);
-	c = max(c, cmin);
-
 	// Brush Color
 	c += GetBrushColor(input.wPosition);
+	c += GetLineColor(input.wPosition);
 
 	return c;
 }
@@ -169,17 +173,19 @@ float4 PS_Terrain_Shadow_ProjT(TerrainOutput_Shadow input) : SV_Target0
 	// Shadow
 	c = PSSet_Shadow(input.sPosition, c);
 
+	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
+	float4 cmin = Lighting_Min(normal);
+	c = max(c, cmin);
+
+
 	// ProjectionTexture
 	float4 wvpPosition_Sub;
 	VSSet_ProjectionTexture(wvpPosition_Sub, input.wPosition);
 	PSSet_ProjectionTexture(wvpPosition_Sub, c);
 
-	// ÃÖ¼Ò ¹à±â (Áö¸é ¹Ý»ç±¤)
-	float4 cmin = Lighting_Min(normal);
-	c = max(c, cmin);
-
 	// Brush Color
 	c += GetBrushColor(input.wPosition);
+	c += GetLineColor(input.wPosition);
 
 	return c;
 }

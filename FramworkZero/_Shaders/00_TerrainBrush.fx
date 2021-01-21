@@ -123,17 +123,16 @@ float4 GetLineColor(float3 wPosition)
 	if (TerrainLine.Visible < 1)
 		return float4(0, 0, 0, 0);
 
-	float2 grid = wPosition.xz;
-	float thick = TerrainLine.Thickness;
+	float n1_size = 1.0f / TerrainLine.Size;
 
-	// hlsl toos
-	grid = frac(grid + thick * 0.5f); // 소수만 남기는 함수
+	float2 grid = wPosition.xz * n1_size;
+	float2 range = abs(frac(grid + 0.5f) - 0.5f);
+	float2 speed = fwidth(grid) * TerrainLine.Thickness;
+	float2 pixel = range / speed;
+	pixel = 1 - pixel;
 
-	[flatten]
-	if (grid.x < thick ||
-		grid.y < thick)
-		return TerrainLine.Color;
-
-	return float4(0, 0, 0, 0);
+	float thick = saturate(max(pixel.x, pixel.y));
+	float3 c = TerrainLine.Color.rgb * thick;
+	return float4(c, 1);
 }
 

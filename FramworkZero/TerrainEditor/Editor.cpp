@@ -19,7 +19,7 @@ void Editor::Initialize()
 	funcOpen = bind(&Editor::OpenComplete, this, placeholders::_1);
 	UpdateDataMapFileList();
 
-	peojTexure = new ProjectionTexture(Shader::Load(URI::Shaders + L"01_Terrain.fxo"), L"Environment/MagicCircle.png", 217.0f, 220.0f);
+	peojTexure = new ProjectionTexture(Shader::Load(URI::Shaders + L"01_Terrain.fxo"), L"Environment/MagicCircle.png", 21.7f, 22.0f);
 
 	shadow = new Shadow(Vector3(128, 0, 128), 65.0f);
 	Shadow::SetGlobal(shadow);
@@ -42,16 +42,16 @@ void Editor::Destroy()
 void Editor::Update()
 {
 	ImGui::Begin("ImGui Test");
+	{
+		ImGui::SliderFloat3("Directional Light", Lighting::Get()->DirectionalDesc()->Direction, -1.0f, 1.0f);
 
-	ImGui::SliderFloat3("Directional Light", Lighting::Get()->DirectionalDesc()->Direction, -1.0f, 1.0f);
-
-	//if (ImGui::Button("Direction Light"))
-	//	Debug::Gizmo->SetTransform(Lighting::Get()->GetDirectional()->GetTransform());
-
-	peojTexure->Update();
-	//shadow->ImGuiRender();
-
+		peojTexure->Update();
+		//shadow->ImGuiRender();
+	}
 	ImGui::End();
+
+
+
 
 	// 다이얼로그
 	{

@@ -129,7 +129,7 @@ float4 PSSet_Shadow(float4 sPosition, float4 color)
 		factor = sum / 9.0f;
 	}
 
-	factor = saturate(factor + depth);
+	//factor = saturate(factor + depth);
 	//return float4(factor, factor, factor, 1);
 	return float4(color.rgb * factor, 1);
 }

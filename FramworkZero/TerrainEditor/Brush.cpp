@@ -1,9 +1,16 @@
 #include "stdafx.h"
 #include "Brush.h"
 
+#include "BrushEditor/BrushEditor.h"
+#include "BrushEditor/BrushInput.h"
+#include "BrushEditor/DragPlane.h"
+#include "BrushEditor/TerrainPicker.h"
+
+
 Brush::Brush()
 {
 	shader = new ShaderSetter();
+	brush = new BrushEditor{ brushDesc };
 
 	brushBuffer = new ConstantBuffer(&brushDesc, sizeof(BrushDesc));
 	this->shader->SetConstantBuffer("CB_TerrainBrush", brushBuffer->Buffer());
@@ -11,13 +18,28 @@ Brush::Brush()
 	lineBuffer = new ConstantBuffer(&lineDesc, sizeof(LineDesc));
 	this->shader->SetConstantBuffer("CB_TerrainLine", lineBuffer->Buffer());
 
+	input = new BrushInput();
+	picker = new TerrainPicker();
 }
 
 Brush::~Brush()
 {
-	SafeDelete(shader);
+	SafeDelete(picker);
+	SafeDelete(input);
+
 	SafeDelete(lineBuffer);
 	SafeDelete(brushBuffer);
+	SafeDelete(brush);
+	SafeDelete(shader);
+}
+
+void Brush::SetTerrain(Terrain * value)
+{
+	terrain = value;
+	shader->SetShader(terrain->GetShader());
+
+	brush->Width = terrain->Width();
+	brush->Height = terrain->Height();
 }
 
 void Brush::Update()
@@ -25,63 +47,7 @@ void Brush::Update()
 	if (terrain == nullptr)
 		return;
 
-	Vector3 mouse = Input::Mouse()->GetPosition();
-
-	if (
-		ImGui::GetIO().WantCaptureMouse
-		&& ImGui::IsAnyItemHovered()
-		//&& ImGui::IsAnyWindowHovered()
-		)
-	{
-		brushDesc.Location = terrain->GetRaycastPosition();
-		return;
-	}
-
-	if (brushDesc.Shape == 0)
-		return;
-
-
-	if (Input::Mouse()->Down(0))
-	{
-		Vector3 curr = terrain->GetRaycastPosition();
-		if (curr == Vector3(-1, -1, -1))
-			return;
-
-		// world
-		prevMousePos = mouse;
-		startDragPoint = curr;
-		brushDesc.Location = curr;
-
-		UINT flatIndex
-			= terrain->Width() * (UINT)brushDesc.Location.z 
-			+ (UINT)brushDesc.Location.x;
-		flatHeight = terrain->Vertices()[flatIndex].Position.y;
-	}
-	else if (Input::Mouse()->Press(0))
-	{
-		if (mouse != prevMousePos)
-		{
-			prevMousePos = mouse;
-			brushDesc.Location = terrain->GetRaycastPosition();
-		}
-
-		origin = result = terrain->Vertices();
-
-		UpdateBrush();
-
-		terrain->RecalculateNormals();
-		terrain->ApplyVertex();
-	}
-	else if (Input::Mouse()->Up(0))
-	{
-		SafeDelete(planeSlope);
-		brushDesc.DragLength = 0.0f;
-	}
-	else
-	{
-		brushDesc.Location = terrain->GetRaycastPosition();
-	}
-
+	UpdateBrush();
 }
 
 void Brush::Render()
@@ -91,14 +57,16 @@ void Brush::Render()
 
 	brushBuffer->Render();
 	lineBuffer->Render();
+
 	shader->Render();
+
 	RenderImGui();
 }
 
 void Brush::RenderImGui()
 {
 	ImGui::Begin("TerrainBrush");
-	if (ImGui::CollapsingHeader("Terrain Guideline"))
+	if (ImGui::CollapsingHeader("Guideline"))
 	{
 		static bool bVisible = true;
 		ImGui::Checkbox("Line Visible", &bVisible);
@@ -111,165 +79,109 @@ void Brush::RenderImGui()
 		ImGui::Separator();
 	}
 
-	ImGui::ColorEdit3("BrushColor", brushDesc.Color);
-	switch (brushDesc.Shape)
+	if (ImGui::CollapsingHeader("Edit"))
 	{
-	case 0: ImGui::LabelText("##Shape2", "None"); break;
-	case 1: ImGui::LabelText("##Shape2", "Rect"); break;
-	case 2: ImGui::LabelText("##Shape2", "Circle"); break;
-	case 3: ImGui::LabelText("##Shape2", "Drag"); break;
-	default:ImGui::LabelText("##Shape2", "None"); break;
+		brush->RenderImGui();
 	}
-	ImGui::SliderInt("Shape", (int*)&brushDesc.Shape, 0, 3);
-	switch (type)
-	{
-	case 0: ImGui::LabelText("##Type2", "Up"); break;
-	case 1: ImGui::LabelText("##Type2", "Down"); break;
-	case 2: ImGui::LabelText("##Type2", "Noise"); break;
-	case 3: ImGui::LabelText("##Type2", "Gaussian"); break;
-	case 4: ImGui::LabelText("##Type2", "Flat"); break;
-	case 5: ImGui::LabelText("##Type2", "Slope"); break;
-	default:ImGui::LabelText("##Type2", "None"); break;
-	}
-	ImGui::SliderInt("BrushType", (int*)&type, 0, 5);
-	ImGui::SliderInt("BrushRange", (int*)&brushDesc.Range, 1, 30);
 
-	float floatValue;
-	floatValue = brushDesc.Rad * Math::Rad2Deg;
-	ImGui::DragFloat("Rad", &floatValue, 1.0f);
-	brushDesc.Rad = floatValue * Math::Deg2Rad;
+	if (ImGui::CollapsingHeader("Picker"))
+	{
+		picker->RenderImGui();
+	}
 
 	ImGui::End();
-
-
-	if (brushDesc.Shape > 0)
-	{
-		string str = "";
-		str += to_string(brushDesc.Location.x);
-		str += ", ";
-		str += to_string(brushDesc.Location.y);
-		str += ", ";
-		str += to_string(brushDesc.Location.z);
-		Gui::Get()->RenderText(10, 50, 1, 0, 0, str);
-	}
-}
-
-void Brush::SetTerrain(Terrain * value)
-{
-	terrain = value;
-	shader->SetShader(terrain->GetShader());
 }
 
 void Brush::UpdateBrush()
 {
-	if (brushDesc.Shape != 3)
+	input->Update();
+
+	if (picker->IsPickMode())
+	{
+		UpdatePickMode();
+		return;
+	}
+
+	if (brushDesc.Shape == 0)
 		return;
 
-	Vector3 position = brushDesc.Location;
-
-	// RaiseDrag
-	if (startDragPoint == position) return;
-
-
-	Vector2 v2Rad;
-	v2Rad.x = position.x - startDragPoint.x;
-	v2Rad.y = position.z - startDragPoint.z;
-	
-	Debug::Log->Show(to_string(v2Rad.x));
-	Debug::Log->Show(to_string(v2Rad.y));
-
-	float length = D3DXVec2Length(&v2Rad);
-
-	brushDesc.Rad = atan2(v2Rad.y, v2Rad.x);
-	brushDesc.DragLength = length;
-}
-
-
-#pragma region BrushType
-
-void Brush::RaiseUp(UINT x, UINT z, float intensity)
-{
-	UINT index = terrain->Width() * z + x;
-	result[index].Position.y += intensity;
-}
-
-void Brush::RaiseDown(UINT x, UINT z, float intensity)
-{
-	UINT index = terrain->Width() * z + x;
-	result[index].Position.y -= intensity;
-}
-
-void Brush::RaiseNoise(UINT x, UINT z, float intensity)
-{
-	UINT index = terrain->Width() * z + x;
-	result[index].Position.y += Math::Random(-5.0f, 5.0f) * intensity;
-}
-
-void Brush::RaiseSmoothing(UINT x, UINT z, float intensity)
-{
-	UINT index = terrain->Width() * z + x;
-
-	// intensity = 0.01f이 적당
-	float intensit2 = intensity * 2.0f;
-	float intensit1 = 1.0f - intensity * 12.0f;
-
-	// gaussianFilter
-	float filter[9] =
+	switch (input->GetState())
 	{
-		intensity, intensit2, intensity,
-		intensit2, intensit1, intensit2,
-		intensity, intensit2, intensity
-	};
-
-	int width = (int)terrain->Width();
-	int height = (int)terrain->Height();
-	float count = 0.0f;
-	float total = 0.0f;
-
-	for (int z2 = -1; z2 <= +1; z2++)
+	case BrushInput::MouseState::NONE:
 	{
-		int z3 = z2 + (int)z;
-		if (z3 < 0) continue;
-		if (z3 >= height) continue;
+		brushDesc.Location = terrain->GetRaycastPosition();
+	}break;
+	case BrushInput::MouseState::DOWN:
+	{
+		Vector3 curr = terrain->GetRaycastPosition();
+		if (curr == Vector3(-1, -1, -1))
+			return;
 
-		for (int x2 = -1; x2 <= +1; x2++)
+		// world
+		brush->DragStartPoint = curr;
+		brushDesc.Location = curr;
+	}break;
+	case BrushInput::MouseState::PRESS:
+	{
+		if (input->IsMouseMove())
 		{
-			int x3 = x2 + (int)x;
-			if (x3 < 0) continue;
-			if (x3 >= width) continue;
+			brushDesc.Location = terrain->GetRaycastPosition();
 
-			UINT index = width * (z3 + 0) + x3 + 0;
-			int index2 = 3 * (z2 + 1) + x2 + 1;
+			if (brushDesc.Shape == 3)
+			{
+				((DragPlane)*brush).Set();
+			}
+		}
+		brush->Origin = brush->Result = terrain->Vertices();
+		brush->Set();
+		terrain->RecalculateNormals();
+		terrain->ApplyVertex();
+	}break;
+	case BrushInput::MouseState::UP:
+	{
+		brushDesc.DragLength = 0.0f;
+	}break;
+	case BrushInput::MouseState::PICK:
+	{
+		UINT flatIndex
+			= terrain->Width() * (UINT)brushDesc.Location.z
+			+ (UINT)brushDesc.Location.x;
+		brush->FlatHeight = terrain->Vertices()[flatIndex].Position.y;
+	}break;
+	}
 
-			count += filter[index2];
-			total += origin[index].Position.y * filter[index2];
+}
+
+void Brush::UpdatePickMode()
+{
+	if (picker->Pick1() != nullptr)
+	{
+		picker->Pick1()->Position(&brushDesc.Location);
+		brush->FlatHeight = brushDesc.Location.y;
+
+		if (picker->Pick2() != nullptr)
+		{
+			brush->DragStartPoint = brushDesc.Location;  // 이 전 위치
+			picker->Pick2()->Position(&brushDesc.Location);
+
+			brush->FlatHeight = brushDesc.Location.y;
+			((DragPlane)*brush).Set();
+		}
+
+		if (Input::Keyboard()->Press(VK_SPACE))
+		{
+			brush->Origin = brush->Result = terrain->Vertices();
+			brush->Set();
+			terrain->RecalculateNormals();
+			terrain->ApplyVertex();
 		}
 	}
 
-	if (count == 0.0f)
-		return;
-	total = total / count;
-
-	result[index].Position.y = total;
-}
-
-void Brush::RaiseFlat(UINT x, UINT z, float intensity)
-{
-	UINT index = terrain->Width() * z + x;
-	result[index].Position.y = flatHeight;
-}
-
-void Brush::RaiseSlope(UINT x, UINT z, float intensity)
-{
-	if (planeSlope == nullptr)
+	if (input->GetState() != BrushInput::MouseState::PICK)
 		return;
 
-	const Plane& plane = *planeSlope;
-
-	UINT index = terrain->Width() * z + x;
-
-	// y = (ax + cz + d) / -b
-	result[index].Position.y = (plane.a * x + plane.c * z + plane.d) / -plane.b;
+	Vector3 curr = terrain->GetRaycastPosition();
+	brushDesc.Location = curr;
+	picker->AddPicker(curr);
 }
 
-#pragma endregion

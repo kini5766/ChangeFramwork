@@ -5,11 +5,38 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="Brush.cpp" />
+    <ClCompile Include="BrushEditor\BrushInput.cpp">
+      <Filter>BrushEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="BrushEditor\DragPlane.cpp">
+      <Filter>BrushEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="BrushEditor\BrushEditor.cpp">
+      <Filter>BrushEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="BrushEditor\TerrainPicker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="Brush.h" />
+    <ClInclude Include="BrushEditor\BrushEditor.h">
+      <Filter>BrushEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="BrushEditor\BrushInput.h">
+      <Filter>BrushEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="BrushEditor\DragPlane.h">
+      <Filter>BrushEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="BrushEditor\TerrainPicker.h">
+      <Filter>BrushEditor</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="BrushEditor">
+      <UniqueIdentifier>{4527a239-e915-43e1-8bf0-5abc9ad13906}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

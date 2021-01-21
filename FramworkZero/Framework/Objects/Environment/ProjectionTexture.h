@@ -22,7 +22,7 @@ private:
 private:
 	struct Desc
 	{
-		Color Color = D3DXCOLOR(1, 1, 1, 1);
+		Color Color = D3DXCOLOR(0.125f, 0.3125f, 0.765625f, 1);
 		Matrix View;
 		Matrix Projection;
 	} desc;
