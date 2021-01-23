@@ -109,12 +109,14 @@ void Brush::UpdateBrush()
 	{
 	case BrushInput::MouseState::NONE:
 	{
-		brushDesc.Location = terrain->GetRaycastPosition();
+		Vector3 curr;
+		terrain->GetMouseRaycast(&curr);
+		brushDesc.Location = curr;
 	}break;
 	case BrushInput::MouseState::DOWN:
 	{
-		Vector3 curr = terrain->GetRaycastPosition();
-		if (curr == Vector3(-1, -1, -1))
+		Vector3 curr;
+		if (terrain->GetMouseRaycast(&curr) == false)
 			return;
 
 		// world
@@ -125,7 +127,9 @@ void Brush::UpdateBrush()
 	{
 		if (input->IsMouseMove())
 		{
-			brushDesc.Location = terrain->GetRaycastPosition();
+			Vector3 curr;
+			terrain->GetMouseRaycast(&curr);
+			brushDesc.Location = curr;
 
 			if (brushDesc.Shape == 3)
 			{
@@ -146,7 +150,7 @@ void Brush::UpdateBrush()
 		UINT flatIndex
 			= terrain->Width() * (UINT)brushDesc.Location.z
 			+ (UINT)brushDesc.Location.x;
-		brush->FlatHeight = terrain->Vertices()[flatIndex].Position.y;
+		//brush->FlatHeight = terrain->Vertices()[flatIndex].Position.y;
 	}break;
 	}
 

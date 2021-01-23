@@ -14,7 +14,9 @@
     <ClCompile Include="BrushEditor\BrushEditor.cpp">
       <Filter>BrushEditor</Filter>
     </ClCompile>
-    <ClCompile Include="BrushEditor\TerrainPicker.cpp" />
+    <ClCompile Include="BrushEditor\TerrainPicker.cpp">
+      <Filter>BrushEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />

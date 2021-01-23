@@ -8,15 +8,14 @@ public:
 
 public:
 	struct BrushDesc& Desc;
-	UINT Width;
-	UINT Height;
-
-	// terrain
-	const Terrain::VertexTerrain* Origin;
-	Terrain::VertexTerrain* Result;
-
 	float Intensity = 5.0f;
 	UINT Type = 0;
+
+	// terrain
+	UINT Width;
+	UINT Height;
+	const Terrain::VertexTerrain* Origin;
+	Terrain::VertexTerrain* Result;
 
 	// flat
 	float FlatHeight = 0.0f;

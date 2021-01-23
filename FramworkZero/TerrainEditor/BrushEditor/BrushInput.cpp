@@ -24,9 +24,9 @@ void BrushInput::Update()
 
 	// state
 	if (
-		ImGui::GetIO().WantCaptureMouse
-		&& ImGui::IsAnyItemHovered()
-		//&& ImGui::IsAnyWindowHovered()
+		ImGui::GetIO().WantCaptureMouse &&
+		ImGui::IsAnyItemHovered()// &&
+		// ImGui::IsAnyWindowHovered()
 		)
 	{
 		return;

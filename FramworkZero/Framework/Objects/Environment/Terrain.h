@@ -37,7 +37,7 @@ public:
 	Vector3 GetNormal(float x, float z);
 	float GetVerticalRaycast(const Vector3& position);
 	Vector3 GetRaycastPosition(Vector3* start = nullptr);
-
+	bool GetMouseRaycast(Vector3* outPoint);
 
 private:
 	void ReadHeightData();
@@ -69,5 +69,6 @@ public:
 		Vector3 Position = Vector3(0, 0, 0);
 		Vector3 Normal = Vector3(0, 0, 0);
 		Vector2 Uv = Vector2(0, 0);
+		Color _Color = Color(0, 0, 0, 0);
 	};
 };

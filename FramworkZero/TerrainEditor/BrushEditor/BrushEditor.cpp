@@ -58,8 +58,6 @@ void BrushEditor::RenderImGui()
 
 void BrushEditor::RaiseShape()
 {
-	//UpdateDragPlane();
-
 	switch (Desc.Shape)
 	{
 	case 1: RaiseRect(); break;

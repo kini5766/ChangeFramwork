@@ -54,6 +54,7 @@ struct TerrainOutput_Shadow
 	float2 Uv : Uv0;
 
 	float4 sPosition : Position3;
+	float4 Color : Color;
 };
 
 
@@ -105,6 +106,7 @@ TerrainOutput_Shadow VS_Terrain_Shadow(TerrainInput input)
 	output.Uv = input.Uv;
 
 	VSSet_Shadow(output.sPosition, output.wPosition);
+	output.Color = input.Color;
 
 	return output;
 }
@@ -186,6 +188,7 @@ float4 PS_Terrain_Shadow_ProjT(TerrainOutput_Shadow input) : SV_Target0
 	// Brush Color
 	c += GetBrushColor(input.wPosition);
 	c += GetLineColor(input.wPosition);
+	c += input.Color;
 
 	return c;
 }

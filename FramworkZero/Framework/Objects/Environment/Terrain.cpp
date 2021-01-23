@@ -319,6 +319,169 @@ Vector3 Terrain::GetRaycastPosition(Vector3* start)
 	return Vector3(-1, -1, -1);
 }
 
+bool Terrain::GetMouseRaycast(Vector3* outPoint)
+{
+	Matrix W;
+	GetTransform()->GlobalWorld(&W);
+	Matrix V = Context::Get()->View();
+	Matrix P = Context::Get()->Projection();
+	Viewport* vp = Context::Get()->GetViewport();
+	Vector3 mouse = Input::Mouse()->GetPosition();
+
+	//mouse = Vector3(Screen::Width() * 0.5f, Screen::Height() * 0.5f, 0); // test
+	//for (UINT i = 0; i < meshData->VertexCount; i++)
+	//	vertices[i]._Color = Color(0, 0, 0, 0); // test
+
+	// 마우스 시작 지점
+	mouse.z = 0.0f;
+	Vector3 n = vp->Unproject(mouse, W, V, P);
+
+	// 마우스 끝 지점
+	mouse.z = 1.0f;
+	Vector3 f = vp->Unproject(mouse, W, V, P);
+	
+	// 방향
+	Vector3 dist = f - n;
+
+	int sx, sz, ex, ez, z1, z2;
+	int xdir, zdir;
+	float slope = dist.z / dist.x;
+
+	sx = (int)n.x;
+	sz = (int)n.z;
+	ex = (int)f.x;
+	ez = (int)f.z;
+	z1 = sz;
+
+	int xMax = (int)width - 2;
+	int zMax = (int)height - 2;
+
+	if (dist.x == 0) return false;
+	else if (dist.x > 0) {
+		xdir = 1;
+		if (n.x > xMax) return false;
+		if (n.x < 0) {
+			sz = (int)(slope * (0 - n.x) + n.z);
+			sx = 0;
+		}
+	} else {
+		xdir = -1;
+		if (n.x < 0) return false;
+		if (n.x > xMax) {
+			sz = (int)(slope * (xMax - n.x) + n.z);
+			sx = xMax;
+		}
+	}
+
+	if (dist.z == 0) return false;
+	else if (dist.z > 0) {
+		zdir = 1;
+		if (n.z > zMax) return false;
+		if (n.z < 0 &&
+			(sx != 0 || sz < 0) &&
+			(sx != xMax || sz < 0))
+		{
+			sx = (int)(1.0f / slope * (0 - n.z) + n.x);
+			sz = 0;
+		}
+	} else {
+		zdir = -1;
+		if (n.z < 0) return false;
+		if (n.z > zMax &&
+			(sx != 0 || sz > zMax) &&
+			(sx != xMax || sz > zMax)) {
+			sx = (int)(1.0f / slope * (zMax - n.z) + n.x);
+			sz = zMax;
+		}
+	}
+
+	int nRight = (int)width - (xdir + 1) / 2;
+	int nTop = (int)height - (zdir + 1) / 2;
+	int nLeft = 0 - (xdir - 1) / 2;
+	int nBottom = 0 - (zdir - 1) / 2;
+
+	for (int x = sx; x < nRight; x += xdir)
+	{
+		if (x * xdir > ex * xdir || 
+			x < nLeft)
+			return false;
+
+		z2 = (int)(slope * (x + xdir - sx)) + sz + zdir;
+
+		// z 최대 최소 체크
+		if (zdir == -1) swap(z1, z2);
+		{
+			if (z1 * zdir > ez * zdir ||
+				z2 < nBottom ||
+				z1 >= nTop)
+				return false;
+
+			if (z1 < nBottom) z1 = nBottom;
+			if (z2 >= nTop) z2 = nTop - 1;
+		}
+		if (zdir == -1) swap(z1, z2);
+
+		for (int z = z1; z * zdir <= z2 * zdir; z += zdir)
+		{
+			UINT index[4];
+			index[0] = width * (z) + (x);  // 왼아
+			index[1] = width * (z + zdir) + (x);  // 왼위
+			index[2] = width * (z) + (x + xdir);  // 오아
+			index[3] = width * (z + zdir) + (x + xdir);  // 오위
+
+			Vector3 p[4];
+			for (UINT i = 0; i < 4; i++)
+			{
+				//if (index[i] >= meshData->VertexCount)
+				//	return Vector3();
+
+				p[i] = vertices[index[i]].Position;
+				//vertices[index[i]]._Color = Color(0, 0, 1, 0); // test
+			}
+
+			float u, v, distance;
+			if (D3DXIntersectTri(p + 0, p + 1, p + 2, &n, &dist, &u, &v, &distance))
+			{
+				(*outPoint) = p[0] + (p[1] - p[0]) * u + (p[2] - p[0]) * v;
+				return true;
+			}
+			else if (D3DXIntersectTri(p + 3, p + 1, p + 2, &n, &dist, &u, &v, &distance))
+			{
+				(*outPoint) = p[3] + (p[1] - p[3]) * u + (p[2] - p[3]) * v;
+				return true;
+			}
+
+			for (UINT i = 0; i < 4; i++)
+				index[i] += (int)width * (-zdir + 1) / 2 + 1;  // 왼아
+
+			for (UINT i = 0; i < 4; i++)
+			{
+				if (index[i] >= meshData->VertexCount)
+					break;
+
+				p[i] = vertices[index[i]].Position;
+				//vertices[index[i]]._Color = Color(0, 0, 1, 0); // test
+			}
+			if (D3DXIntersectTri(p + 0, p + 1, p + 2, &n, &dist, &u, &v, &distance))
+			{
+				(*outPoint) = p[0] + (p[1] - p[0]) * u + (p[2] - p[0]) * v;
+				return true;
+			}
+			else if (D3DXIntersectTri(p + 3, p + 1, p + 2, &n, &dist, &u, &v, &distance))
+			{
+				(*outPoint) = p[3] + (p[1] - p[3]) * u + (p[2] - p[3]) * v;
+				return true;
+			}
+				
+		}
+
+		z1 = z2 - zdir;
+	}
+
+	return false;
+
+}
+
 #pragma endregion
 
 
