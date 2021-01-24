@@ -31,6 +31,7 @@
     <ClCompile Include="Objects\Environment\CubeSky.cpp" />
     <ClCompile Include="Objects\Environment\ProjectionTexture.cpp" />
     <ClCompile Include="Objects\Environment\Terrain.cpp" />
+    <ClCompile Include="Objects\Environment\TerrainCollider.cpp" />
     <ClCompile Include="Objects\Meshes\Mesh.cpp" />
     <ClCompile Include="Objects\Meshes\MeshCube.cpp" />
     <ClCompile Include="Objects\Meshes\MeshCylinder.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Objects\Environment\CubeSky.h" />
     <ClInclude Include="Objects\Environment\ProjectionTexture.h" />
     <ClInclude Include="Objects\Environment\Terrain.h" />
+    <ClInclude Include="Objects\Environment\TerrainCollider.h" />
     <ClInclude Include="Objects\Meshes\Mesh.h" />
     <ClInclude Include="Objects\Meshes\MeshCube.h" />
     <ClInclude Include="Objects\Meshes\MeshCylinder.h" />

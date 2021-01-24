@@ -232,18 +232,24 @@ void BrushEditor::RaiseUp(UINT x, UINT z, float intensity)
 {
 	UINT index = Width * z + x;
 	Result[index].Position.y += intensity;
+
+	TerrainClamp(&Result[index].Position.y);
 }
 
 void BrushEditor::RaiseDown(UINT x, UINT z, float intensity)
 {
 	UINT index = Width * z + x;
 	Result[index].Position.y -= intensity;
+
+	TerrainClamp(&Result[index].Position.y);
 }
 
 void BrushEditor::RaiseNoise(UINT x, UINT z, float intensity)
 {
 	UINT index = Width * z + x;
 	Result[index].Position.y += Math::Random(-5.0f, 5.0f) * intensity;
+
+	TerrainClamp(&Result[index].Position.y);
 }
 
 void BrushEditor::RaiseSmoothing(UINT x, UINT z, float intensity)
@@ -251,7 +257,7 @@ void BrushEditor::RaiseSmoothing(UINT x, UINT z, float intensity)
 	UINT index = Width * z + x;
 
 	// intensity = 0.01f¿Ã ¿˚¥Á
-	intensity *= 0.1f;
+	intensity *= 0.01f;
 	float intensit2 = intensity * 2.0f;
 	float intensit1 = 1.0f - intensity * 12.0f;
 
@@ -293,12 +299,16 @@ void BrushEditor::RaiseSmoothing(UINT x, UINT z, float intensity)
 	total = total / count;
 
 	Result[index].Position.y = total;
+
+	TerrainClamp(&Result[index].Position.y);
 }
 
 void BrushEditor::RaiseFlat(UINT x, UINT z, float intensity)
 {
 	UINT index = Width * z + x;
 	Result[index].Position.y = FlatHeight;
+
+	TerrainClamp(&Result[index].Position.y);
 }
 
 void BrushEditor::RaiseSlope(UINT x, UINT z, float intensity)
@@ -312,6 +322,16 @@ void BrushEditor::RaiseSlope(UINT x, UINT z, float intensity)
 
 	// y = (ax + cz + d) / -b
 	Result[index].Position.y = (p.a * x + p.c * z + p.d) / -p.b;
+
+	TerrainClamp(&Result[index].Position.y);
+}
+
+void BrushEditor::TerrainClamp(float* height)
+{
+	if ((*height) < 0)
+		(*height) = 0.0f;
+	else if((*height) > TERRAIN_TEXTURE_HEIGHT)
+		(*height) = TERRAIN_TEXTURE_HEIGHT;
 }
 
 #pragma endregion

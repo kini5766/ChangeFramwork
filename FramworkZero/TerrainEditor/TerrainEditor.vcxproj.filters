@@ -17,6 +17,12 @@
     <ClCompile Include="BrushEditor\TerrainPicker.cpp">
       <Filter>BrushEditor</Filter>
     </ClCompile>
+    <ClCompile Include="File\TerrainFile.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="File\TerrainConverter.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
@@ -35,10 +41,19 @@
     <ClInclude Include="BrushEditor\TerrainPicker.h">
       <Filter>BrushEditor</Filter>
     </ClInclude>
+    <ClInclude Include="File\TerrainFile.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="File\TerrainConverter.h">
+      <Filter>File</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BrushEditor">
       <UniqueIdentifier>{4527a239-e915-43e1-8bf0-5abc9ad13906}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{09201fd8-ed6f-4f81-bc76-64b4cbc57125}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

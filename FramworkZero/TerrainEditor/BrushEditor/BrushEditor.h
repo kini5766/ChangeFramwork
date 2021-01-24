@@ -47,4 +47,9 @@ private:
 	void RaiseSmoothing(UINT x, UINT z, float intensity);
 	void RaiseFlat(UINT x, UINT z, float intensity);
 	void RaiseSlope(UINT x, UINT z, float intensity);
+
+private:
+	void TerrainClamp(float* height);
 };
+
+#include "DragPlane.h"

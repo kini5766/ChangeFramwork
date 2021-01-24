@@ -14,13 +14,7 @@ public:
 
 
 private:
-	function<void(wstring)> funcOpen;
-	void OpenComplete(wstring fileName);
-
-
-private:
-	void ToDataMapFile();
-	void UpdateDataMapFileList();
+	void OpenTerrain(wstring file);
 
 private:
 	Shader* shader;
@@ -30,16 +24,7 @@ private:
 	CubeSky* sky;
 
 private:
-	wstring heightMapFileDirectory;
-	wstring heightMapFileName;
-	Texture* heightMapFile = nullptr;
-
-private:
-	enum class Channel { Red = 0, Green, Blue, Alpha, Max };
-	int selectedChannel = 0;
-	vector<wstring> dataMapFileList;
-
-private:
 	Terrain* terrain = nullptr;
 	class Brush* brush = nullptr;
+	class TerrainFile* menuFile = nullptr;
 };

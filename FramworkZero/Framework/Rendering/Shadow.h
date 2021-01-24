@@ -107,6 +107,7 @@ public:
 	~ShadowTest();
 
 	void PreRender();
+	void RenderImGui();
 	ID3D11ShaderResourceView* SRV() { return renderTarget->SRV(); }
 
 	void Quality(UINT value) { desc.Quality = value; }

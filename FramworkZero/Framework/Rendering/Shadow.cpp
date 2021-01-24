@@ -273,9 +273,14 @@ void ShadowTest::PreRender()
 	shader->Render();
 	sShadowSampler->SetSampler(0, shadowSampler);
 
-	ImGui::DragFloat3("At", at, 0.1f);
 	shader->SetSRV("ShadowMap", depthStencil->SRV());
 
+	desc.MapSize = Vector2(width, height);
+}
+
+void ShadowTest::RenderImGui()
+{
+	ImGui::DragFloat3("At", at, 0.1f);
 	ImGui::Begin("Shadow Depth");
 	{
 		ImVec2 vMin = ImGui::GetWindowContentRegionMin();
@@ -287,6 +292,4 @@ void ShadowTest::PreRender()
 		ImGui::Image((void*)depthStencil->SRV(), v);
 	}
 	ImGui::End();
-
-	desc.MapSize = Vector2(width, height);
 }

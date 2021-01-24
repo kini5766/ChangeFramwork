@@ -352,6 +352,9 @@
     <ClCompile Include="Tools\Texture\Texture2DDesc.cpp">
       <Filter>Tools\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Environment\TerrainCollider.cpp">
+      <Filter>Objects\Environment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -675,6 +678,9 @@
     </ClInclude>
     <ClInclude Include="Tools\Texture\Texture2DDesc.h">
       <Filter>Tools\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Environment\TerrainCollider.h">
+      <Filter>Objects\Environment</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

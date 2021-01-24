@@ -3,7 +3,6 @@
 
 #include "BrushEditor/BrushEditor.h"
 #include "BrushEditor/BrushInput.h"
-#include "BrushEditor/DragPlane.h"
 #include "BrushEditor/TerrainPicker.h"
 
 
@@ -20,6 +19,8 @@ Brush::Brush()
 
 	input = new BrushInput();
 	picker = new TerrainPicker();
+
+	funcRaycast = [&](Vector3* value) { return ((TerrainCollider)*terrain).GetMouseRaycast(value, false); };
 }
 
 Brush::~Brush()
@@ -75,18 +76,34 @@ void Brush::RenderImGui()
 		ImGui::ColorEdit3("Line Color", lineDesc.Color);
 		ImGui::InputFloat("Thickness", &lineDesc.Thickness, 0.01f);
 		ImGui::InputFloat("LineSize", &lineDesc.Size, 1.0f);
-
-		ImGui::Separator();
 	}
+
+	ImGui::Separator();
 
 	if (ImGui::CollapsingHeader("Edit"))
 	{
 		brush->RenderImGui();
 	}
 
+	ImGui::Separator();
+
 	if (ImGui::CollapsingHeader("Picker"))
 	{
 		picker->RenderImGui();
+	}
+
+	ImGui::Separator();
+
+	static int rayType = 0;
+	ImGui::InputInt("Raycast Type", &rayType);
+	switch (rayType)
+	{
+	case 0: funcRaycast = [&](Vector3* value) { return ((TerrainCollider)*terrain).GetMouseRaycast(value, false); }; break;
+	case 1: funcRaycast = [&](Vector3* value) { return ((TerrainCollider)*terrain).GetRaycastPosition_Old(value, false); }; break;
+	case 2: funcRaycast = [&](Vector3* value) { return ((TerrainCollider)*terrain).GetMouseRaycast(value, true); }; break;
+	case 3: funcRaycast = [&](Vector3* value) { return ((TerrainCollider)*terrain).GetRaycastPosition_Old(value, true); }; break;
+	case 4: funcRaycast = [&](Vector3* value) { return ((TerrainCollider)*terrain).GetMouseRaycast2(value); }; break;
+	default: rayType = 0; break;
 	}
 
 	ImGui::End();
@@ -110,13 +127,15 @@ void Brush::UpdateBrush()
 	case BrushInput::MouseState::NONE:
 	{
 		Vector3 curr;
-		terrain->GetMouseRaycast(&curr);
+		funcRaycast(&curr);
+		//((TerrainCollider)*terrain).GetMouseRaycast(&curr);
 		brushDesc.Location = curr;
 	}break;
 	case BrushInput::MouseState::DOWN:
 	{
 		Vector3 curr;
-		if (terrain->GetMouseRaycast(&curr) == false)
+		//if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
+		if (funcRaycast(&curr) == false)
 			return;
 
 		// world
@@ -128,7 +147,8 @@ void Brush::UpdateBrush()
 		if (input->IsMouseMove())
 		{
 			Vector3 curr;
-			terrain->GetMouseRaycast(&curr);
+			//((TerrainCollider)*terrain).GetMouseRaycast(&curr);
+			funcRaycast(&curr);
 			brushDesc.Location = curr;
 
 			if (brushDesc.Shape == 3)
@@ -184,8 +204,11 @@ void Brush::UpdatePickMode()
 	if (input->GetState() != BrushInput::MouseState::PICK)
 		return;
 
-	Vector3 curr = terrain->GetRaycastPosition();
+	Vector3 curr;
+	//if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
+	if (funcRaycast(&curr) == false)
+		return;
+
 	brushDesc.Location = curr;
 	picker->AddPicker(curr);
 }
-

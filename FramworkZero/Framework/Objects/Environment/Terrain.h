@@ -1,5 +1,7 @@
 #pragma once
 
+constexpr auto TERRAIN_TEXTURE_HEIGHT = 32.0f;
+
 class Terrain
 {
 public:
@@ -25,19 +27,13 @@ public:
 	UINT Width() const { return width; }
 	UINT Height() const { return height; }
 	VertexTerrain* Vertices() { return vertices; }
+	const MeshData* GetMeshData() const { return meshData; }
 
 	Shader* GetShader() { return shader; }
 	void Pass(UINT value) { pass = value; }
 	Transform* GetTransform() { return perTransform->GetTransform(); }
 
-
-	// Picker
-public:
-	float GetHeight(const Vector3& position);  // 지면 1칸의 크기가 1일때만 사용가능
-	Vector3 GetNormal(float x, float z);
-	float GetVerticalRaycast(const Vector3& position);
-	Vector3 GetRaycastPosition(Vector3* start = nullptr);
-	bool GetMouseRaycast(Vector3* outPoint);
+	void GetHeights(UINT ** heights);
 
 private:
 	void ReadHeightData();
@@ -71,4 +67,8 @@ public:
 		Vector2 Uv = Vector2(0, 0);
 		Color _Color = Color(0, 0, 0, 0);
 	};
+
+	//operator TerrainCollider();
 };
+
+#include "TerrainCollider.h"

@@ -23,12 +23,12 @@ public:
 
 public:
 	void SetTerrain(Terrain* value);
+	Terrain* GetTerrain() { return terrain; }
 
 public:
 	void Update();
 	void Render();
 	void RenderImGui();
-
 
 private:
 	void UpdateBrush();
@@ -45,6 +45,9 @@ private:
 	struct BrushEditor* brush;
 	class BrushInput* input;
 	class TerrainPicker* picker;
+
+private:
+	function<bool(Vector3*)> funcRaycast;
 
 private:
 	struct LineDesc
