@@ -96,13 +96,90 @@ void TerrainFile::SaveBrushComplete(wstring fileName)
 
 	TerrainConverter c;
 
-	UINT width = brush->GetTerrain()->Width();
-	UINT height = brush->GetTerrain()->Height();
-	UINT* heights = new UINT[width * height];
-	brush->GetTerrain()->GetHeights(&heights);
-	c.SetHeights(heights, width, height);
+	Terrain* terrain = brush->GetTerrain();
+
+	UINT width = terrain->Width();
+	UINT height = terrain->Height();
+	UINT pixelCount = width * height;
+
+	{
+		UINT* heights = new UINT[pixelCount];
+		Terrain::VertexTerrain* vertices = terrain->Vertices();
+		for (UINT z = 0; z < height; z++)
+		{
+			for (UINT x = 0; x < width; x++)
+			{
+				UINT index = (width)* z + x;  // 버택스인덱스
+
+				UINT pexel = width * (height - z - 1) + x;  // uv 좌표 체계 뒤집기
+
+				float heightPexel = vertices[index].Position.y / TERRAIN_TEXTURE_HEIGHT;
+
+				// 높이 수정해서 허용치 밖일 때 조정
+				if (heightPexel < 0.0f)
+					heightPexel = 0.0f;
+				else if (heightPexel > 1.0f)
+					heightPexel = 1.0f;
+
+				heights[pexel] = (UINT)(heightPexel * 255.0f);
+			}
+		}
+		c.SetHeights(heights, width, height);
+		SafeDelete(heights);
+	}
+
+	// Layer1
+	{
+		UINT* alphas = new UINT[pixelCount];
+		float* value = terrain->Layer1Data();
+		for (UINT z = 0; z < height; z++)
+		{
+			for (UINT x = 0; x < width; x++)
+			{
+				UINT index = width * z + x;
+				alphas[index] = (UINT)(value[index] * 255.0f);
+			}
+		}
+
+		c.SetAlphaLayer1(alphas);
+		SafeDelete(alphas);
+	}
+
+	// Layer2
+	{
+		UINT* alphas = new UINT[pixelCount];
+		float* value = terrain->Layer2Data();
+		for (UINT z = 0; z < height; z++)
+		{
+			for (UINT x = 0; x < width; x++)
+			{
+				UINT index = width * z + x;
+				alphas[index] = (UINT)(value[index] * 255.0f);
+			}
+		}
+
+		c.SetAlphaLayer2(alphas);
+		SafeDelete(alphas);
+	}
+
+	// Layer3
+	{
+		UINT* alphas = new UINT[pixelCount];
+		float* value = terrain->Layer3Data();
+		for (UINT z = 0; z < height; z++)
+		{
+			for (UINT x = 0; x < width; x++)
+			{
+				UINT index = width * z + x;
+				alphas[index] = (UINT)(value[index] * 255.0f);
+			}
+		}
+
+		c.SetAlphaLayer3(alphas);
+		SafeDelete(alphas);
+	}
+
 	c.ExportFile(fileName);
-	SafeDelete(heights);
 
 	UpdateDataMapFileList();
 }

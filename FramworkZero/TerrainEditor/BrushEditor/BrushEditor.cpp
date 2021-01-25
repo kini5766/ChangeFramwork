@@ -230,32 +230,55 @@ void BrushEditor::RaiseDrag()
 
 void BrushEditor::RaiseUp(UINT x, UINT z, float intensity)
 {
-	UINT index = Width * z + x;
-	Result[index].Position.y += intensity;
-
-	TerrainClamp(&Result[index].Position.y);
+	if (Target == 0)
+	{
+		UINT index = Width * z + x;
+		Result[index].Position.y += intensity;
+		TerrainClamp(&Result[index].Position.y);
+	}
+	else
+	{
+		UINT index = Width * (Height - 1 - z) + x;
+		ResultAlpha[index] += intensity;
+		TerrainAlphaClamp(&ResultAlpha[index]);
+	}
 }
 
 void BrushEditor::RaiseDown(UINT x, UINT z, float intensity)
 {
-	UINT index = Width * z + x;
-	Result[index].Position.y -= intensity;
 
-	TerrainClamp(&Result[index].Position.y);
+	if (Target == 0)
+	{
+		UINT index = Width * z + x;
+		Result[index].Position.y -= intensity;
+		TerrainClamp(&Result[index].Position.y);
+	}
+	else
+	{
+		UINT index = Width * (Height - 1 - z) + x;
+		ResultAlpha[index] -= intensity;
+		TerrainAlphaClamp(&ResultAlpha[index]);
+	}
 }
 
 void BrushEditor::RaiseNoise(UINT x, UINT z, float intensity)
 {
-	UINT index = Width * z + x;
-	Result[index].Position.y += Math::Random(-5.0f, 5.0f) * intensity;
-
-	TerrainClamp(&Result[index].Position.y);
+	if (Target == 0)
+	{
+		UINT index = Width * z + x;
+		Result[index].Position.y += Math::Random(-5.0f, 5.0f) * intensity;
+		TerrainClamp(&Result[index].Position.y);
+	}
+	else
+	{
+		UINT index = Width * (Height - 1 - z) + x;
+		ResultAlpha[index] += Math::Random(-5.0f, 5.0f) * intensity;
+		TerrainAlphaClamp(&ResultAlpha[index]);
+	}
 }
 
 void BrushEditor::RaiseSmoothing(UINT x, UINT z, float intensity)
 {
-	UINT index = Width * z + x;
-
 	// intensity = 0.01f이 적당
 	intensity *= 0.01f;
 	float intensit2 = intensity * 2.0f;
@@ -286,11 +309,19 @@ void BrushEditor::RaiseSmoothing(UINT x, UINT z, float intensity)
 			if (x3 < 0) continue;
 			if (x3 >= width) continue;
 
-			UINT index = width * (z3 + 0) + x3 + 0;
 			int index2 = 3 * (z2 + 1) + x2 + 1;
 
 			count += filter[index2];
-			total += Origin[index].Position.y * filter[index2];
+			if (Target == 0)
+			{
+				UINT index = width * (z3 + 0) + x3 + 0;
+				total += Origin[index].Position.y * filter[index2];
+			}
+			else
+			{
+				UINT index = width * (Height - 1 - z3 + 0) + x3 + 0;
+				total += OriginAlpha[index] * filter[index2];
+			}
 		}
 	}
 
@@ -298,17 +329,35 @@ void BrushEditor::RaiseSmoothing(UINT x, UINT z, float intensity)
 		return;
 	total = total / count;
 
-	Result[index].Position.y = total;
-
-	TerrainClamp(&Result[index].Position.y);
+	if (Target == 0)
+	{
+		UINT index = Width * z + x;
+		Result[index].Position.y = total;
+		TerrainClamp(&Result[index].Position.y);
+	}
+	else
+	{
+		UINT index = Width * (Height - 1 - z) + x;
+		ResultAlpha[index] = total;
+		TerrainAlphaClamp(&ResultAlpha[index]);
+	}
 }
 
 void BrushEditor::RaiseFlat(UINT x, UINT z, float intensity)
 {
 	UINT index = Width * z + x;
-	Result[index].Position.y = FlatHeight;
-
-	TerrainClamp(&Result[index].Position.y);
+	if (Target == 0)
+	{
+		UINT index = Width * z + x;
+		Result[index].Position.y = FlatHeight;
+		TerrainClamp(&Result[index].Position.y);
+	}
+	else
+	{
+		UINT index = Width * (Height - 1 - z) + x;
+		ResultAlpha[index] = FlatHeight;
+		TerrainAlphaClamp(&ResultAlpha[index]);
+	}
 }
 
 void BrushEditor::RaiseSlope(UINT x, UINT z, float intensity)
@@ -318,12 +367,20 @@ void BrushEditor::RaiseSlope(UINT x, UINT z, float intensity)
 
 	Plane& p = PlaneSlope;
 
-	UINT index = Width * z + x;
-
-	// y = (ax + cz + d) / -b
-	Result[index].Position.y = (p.a * x + p.c * z + p.d) / -p.b;
-
-	TerrainClamp(&Result[index].Position.y);
+	if (Target == 0)
+	{
+		// 평면 방정식
+		// y = (ax + cz + d) / -b
+		UINT index = Width * z + x;
+		Result[index].Position.y = (p.a * x + p.c * z + p.d) / -p.b;
+		TerrainClamp(&Result[index].Position.y);
+	}
+	else
+	{
+		UINT index = Width * (Height - 1 - z) + x;
+		ResultAlpha[index] = (p.a * x + p.c * z + p.d) / -p.b;
+		TerrainAlphaClamp(&ResultAlpha[index]);
+	}
 }
 
 void BrushEditor::TerrainClamp(float* height)
@@ -332,6 +389,14 @@ void BrushEditor::TerrainClamp(float* height)
 		(*height) = 0.0f;
 	else if((*height) > TERRAIN_TEXTURE_HEIGHT)
 		(*height) = TERRAIN_TEXTURE_HEIGHT;
+}
+
+void BrushEditor::TerrainAlphaClamp(float * height)
+{
+	if ((*height) < 0)
+		(*height) = 0.0f;
+	else if ((*height) > 1.0f)
+		(*height) = 1.0f;
 }
 
 #pragma endregion

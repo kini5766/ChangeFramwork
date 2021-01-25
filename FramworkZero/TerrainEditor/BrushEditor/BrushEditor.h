@@ -10,12 +10,16 @@ public:
 	struct BrushDesc& Desc;
 	float Intensity = 5.0f;
 	UINT Type = 0;
+	UINT Target = 0;
 
 	// terrain
 	UINT Width;
 	UINT Height;
 	const Terrain::VertexTerrain* Origin;
 	Terrain::VertexTerrain* Result;
+
+	const float* OriginAlpha;
+	float* ResultAlpha;
 
 	// flat
 	float FlatHeight = 0.0f;
@@ -50,6 +54,7 @@ private:
 
 private:
 	void TerrainClamp(float* height);
+	void TerrainAlphaClamp(float* height);
 };
 
 #include "DragPlane.h"

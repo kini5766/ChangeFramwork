@@ -50,11 +50,32 @@ void TerrainConverter::SetHeights(const UINT * heights, UINT width, UINT height)
 	this->width = width;
 	this->height = height;
 
-	UINT pixelCount = width * height;
+	pixelCount = width * height;
 
 	SafeDeleteArray(this->heights);
 	this->heights = new UINT[pixelCount];
 	memcpy(this->heights, heights, pixelCount * sizeof(UINT));
+}
+
+void TerrainConverter::SetAlphaLayer1(const UINT * value)
+{
+	SafeDeleteArray(alphaLayer1);
+	alphaLayer1 = new UINT[pixelCount];
+	memcpy(alphaLayer1, value, pixelCount * sizeof(UINT));
+}
+
+void TerrainConverter::SetAlphaLayer2(const UINT * value)
+{
+	SafeDeleteArray(alphaLayer2);
+	alphaLayer2 = new UINT[pixelCount];
+	memcpy(alphaLayer2, value, pixelCount * sizeof(UINT));
+}
+
+void TerrainConverter::SetAlphaLayer3(const UINT * value)
+{
+	SafeDeleteArray(alphaLayer3);
+	alphaLayer3 = new UINT[pixelCount];
+	memcpy(alphaLayer3, value, pixelCount * sizeof(UINT));
 }
 
 void TerrainConverter::ExportFile(wstring file)
@@ -80,9 +101,9 @@ void TerrainConverter::ExportFile(wstring file)
 	for (UINT i = 0; i < pixelCount; i++)
 	{
 		// Set heights
-		colors[i] = 0u;
-		colors[i] |= 0u << 8;
-		colors[i] |= 0u << 16;
+		colors[i] = alphaLayer1[i];
+		colors[i] |= alphaLayer2[i] << 8;
+		colors[i] |= alphaLayer3[i] << 16;
 		colors[i] |= heights[i] << 24;
 	}
 

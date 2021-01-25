@@ -24,6 +24,13 @@ Terrain::Terrain(wstring imageFile)
 	//shadow = new ShadowCaster(shader);
 	//shadow->SetShadow_Global();
 	//shadow->SetFuncPreRender(bind(&Terrain::PreRender_Depth, this));
+
+	layer1.sSRV = shader->AsSRV("Layer1AlphaMap");
+	layer1.sMap = shader->AsSRV("Layer1ColorMap");
+	layer2.sSRV = shader->AsSRV("Layer2AlphaMap");
+	layer2.sMap = shader->AsSRV("Layer2ColorMap");
+	layer3.sSRV = shader->AsSRV("Layer3AlphaMap");
+	layer3.sMap = shader->AsSRV("Layer3ColorMap");
 }
 
 Terrain::~Terrain()
@@ -73,6 +80,22 @@ void Terrain::Render()
 	indexBuffer->Render();
 
 	D3D::GetDC()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	
+	if (layer1.Map != nullptr)
+	{
+		layer1.sSRV->SetResource(layer1.SRV);
+		layer1.sMap->SetResource(layer1.Map->SRV());
+	}
+	if (layer2.Map != nullptr)
+	{
+		layer2.sSRV->SetResource(layer2.SRV);
+		layer2.sMap->SetResource(layer2.Map->SRV());
+	}
+	if (layer3.Map != nullptr)
+	{
+		layer3.sSRV->SetResource(layer3.SRV);
+		layer3.sMap->SetResource(layer3.Map->SRV());
+	}
 
 	material->Render();
 	shader->DrawIndexed(0, pass, meshData->IndexCount);
@@ -129,6 +152,7 @@ void Terrain::RecalculateNormals()
 		D3DXVec3Normalize(&vertices[i].Normal, &vertices[i].Normal);
 }
 
+
 void Terrain::ApplyVertex()
 {
 	D3D11_MAPPED_SUBRESOURCE subResource;
@@ -139,6 +163,37 @@ void Terrain::ApplyVertex()
 	D3D::GetDC()->Unmap(vertexBuffer->Buffer(), 0);
 }
 
+void Terrain::ApplyAlphasLayer1()
+{
+	D3D11_MAPPED_SUBRESOURCE subResource;
+	D3D::GetDC()->Map(layer1.Texture2D, 0, D3D11_MAP_WRITE_DISCARD, 0, &subResource);
+	{
+		memcpy(subResource.pData, layer1.Data, sizeof(float) * meshData->VertexCount);
+	}
+	D3D::GetDC()->Unmap(layer1.Texture2D, 0);
+}
+
+void Terrain::ApplyAlphasLayer2()
+{
+	D3D11_MAPPED_SUBRESOURCE subResource;
+	D3D::GetDC()->Map(layer2.Texture2D, 0, D3D11_MAP_WRITE_DISCARD, 0, &subResource);
+	{
+		memcpy(subResource.pData, layer2.Data, sizeof(float) * meshData->VertexCount);
+	}
+	D3D::GetDC()->Unmap(layer2.Texture2D, 0);
+}
+
+void Terrain::ApplyAlphasLayer3()
+{
+	D3D11_MAPPED_SUBRESOURCE subResource;
+	D3D::GetDC()->Map(layer3.Texture2D, 0, D3D11_MAP_WRITE_DISCARD, 0, &subResource);
+	{
+		memcpy(subResource.pData, layer3.Data, sizeof(float) * meshData->VertexCount);
+	}
+	D3D::GetDC()->Unmap(layer3.Texture2D, 0);
+}
+
+
 void Terrain::BaseMap(wstring file)
 {
 	SafeDelete(baseMap);
@@ -147,28 +202,25 @@ void Terrain::BaseMap(wstring file)
 	material->SetTexture("BaseMap", baseMap);
 }
 
-void Terrain::GetHeights(UINT ** heights)
+void Terrain::Layer1(wstring file)
 {
-	for (UINT z = 0; z < height; z++)
-	{
-		for (UINT x = 0; x < width; x++)
-		{
-			UINT index = (width)* z + x;  // 버택스인덱스
+	SafeDelete(layer1.Map);
 
-			// 해야되는지 확인
-			UINT pexel = width * (height - z - 1) + x;  // uv 좌표 체계 뒤집기
+	layer1.Map = new Texture(file);
+}
 
-			float heightPexel = vertices[index].Position.y / TERRAIN_TEXTURE_HEIGHT;
+void Terrain::Layer2(wstring file)
+{
+	SafeDelete(layer2.Map);
 
-			// 높이 수정해서 허용치 밖일 때 조정
-			if (heightPexel < 0.0f)
-				heightPexel = 0.0f;
-			else if (heightPexel > 1.0f)
-				heightPexel = 1.0f;
+	layer2.Map = new Texture(file);
+}
 
-			(*heights)[pexel] = (UINT)(heightPexel * 255.0f);
-		}
-	}
+void Terrain::Layer3(wstring file)
+{
+	SafeDelete(layer3.Map);
+
+	layer3.Map = new Texture(file);
 }
 
 
@@ -193,14 +245,48 @@ void Terrain::ReadHeightData()
 
 		dstDesc.MapCopyFromOutput(pixels, sizeof(UINT) * pixelCount);
 
+		float charToPer = 1 / 255.0f;
+
 		heights = new float[pixelCount];
+		layer1.Data = new float[pixelCount];
+		layer2.Data = new float[pixelCount];
+		layer3.Data = new float[pixelCount];
 		for (UINT i = 0; i < pixelCount; i++)
 		{
 			UINT temp = (pixels[i] & 0xFF000000) >> 24;
-			heights[i] = (float)temp / 255.0f;
+			heights[i] = (float)temp * charToPer;
+
+			temp = (pixels[i] & 0x000000FF) >> 0;
+			layer1.Data[i] = (float)temp * charToPer;
+
+			temp = (pixels[i] & 0x0000FF00) >> 8;
+			layer2.Data[i] = (float)temp * charToPer;
+
+			temp = (pixels[i] & 0x00FF0000) >> 16;
+			layer3.Data[i] = (float)temp * charToPer;
 		}
 
 		SafeRelease(readTexture);
+
+		Texture2DDesc layerDesc(dstDesc);
+		D3D11_TEXTURE2D_DESC& desc = layerDesc.Desc();
+		desc.Format = DXGI_FORMAT_R32_FLOAT;
+		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+
+		layerDesc.SetColors(layer1.Data);
+		layer1.Texture2D = layerDesc.CreateTexture(4u);
+		layer1.SRV = layerDesc.CreateSRV();
+
+		layerDesc.SetColors(layer2.Data);
+		layer2.Texture2D = layerDesc.CreateTexture(4u);
+		layer2.SRV = layerDesc.CreateSRV();
+
+		layerDesc.SetColors(layer3.Data);
+		layer3.Texture2D = layerDesc.CreateTexture(4u);
+		layer3.SRV = layerDesc.CreateSRV();
+
 		return;
 	} // End DDS
 

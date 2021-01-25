@@ -4,14 +4,8 @@
 #include "00_Shadow.fx"
 
 #include "00_TerrainBrush.fx"
+#include "00_TerrainLayer.fx"
 
-// --
-// Terrain Values
-// --
-
-Texture2D BaseMap;
-Texture2D Layer1AlphaMap;
-Texture2D Layer1ColorMap;
 
 
 // --
@@ -120,7 +114,7 @@ float4 PS_Terrain(TerrainOutput input) : SV_Target0
 {
 	// Set Material
 	float3 normal = normalize(input.Normal);
-	Material.Diffuse = BaseMap.Sample(PointSampler, input.Uv);
+	Material.Diffuse = GetLayerColor(input.Uv);
 
 	// Material Lighting
 	float4 c = Lighting_All(normal, input.wPosition);
@@ -141,7 +135,7 @@ float4 PS_Terrain_ProjT(TerrainOutput input) : SV_Target0
 {
 	// Set Material
 	float3 normal = normalize(input.Normal);
-	Material.Diffuse = BaseMap.Sample(PointSampler, input.Uv);
+	Material.Diffuse = GetLayerColor(input.Uv);
 
 	// Material Lighting
 	float4 c = Lighting_All(normal, input.wPosition);
@@ -167,7 +161,7 @@ float4 PS_Terrain_Shadow_ProjT(TerrainOutput_Shadow input) : SV_Target0
 {
 	// Set Material
 	float3 normal = normalize(input.Normal);
-	Material.Diffuse = BaseMap.Sample(PointSampler, input.Uv);
+	Material.Diffuse = GetLayerColor(input.Uv);
 
 	// Material Lighting
 	float4 c = Lighting_All(normal, input.wPosition);

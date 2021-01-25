@@ -46,16 +46,9 @@ void BrushInput::Update()
 	}
 	else
 	{
-		if (Input::Mouse()->Down(1))
+		if (Input::Keyboard()->Down('Z'))
 		{
-			pickMousePos = mouse;
-		}
-		else if (Input::Mouse()->Up(1))
-		{
-			if (pickMousePos == mouse)
-			{
-				state = MouseState::PICK;
-			}
+			state = MouseState::PICK;
 		}
 	}
 

@@ -49,11 +49,19 @@ __기능 수정__
 
 -Transform
 부모 자식 관계 추가 (트리구조)
-버퍼 제거 (TransformBuffer클래스 만들 예정)
+ : 버퍼 제거
+, 트랜스폼에서 오일러 관련 코드 Euler클래스를 통해 줄임
 
--모델애니메이션(미완)
-매트릭스가 아닌 쿼터니온 slerp로 보간
-모델컨버터 클립 부분 수정됨
+-모델애니메이션
+ :매트릭스가 아닌 쿼터니온 slerp로 보간
+, 모델컨버터 클립 부분 수정됨
+
+-스마트 포인터 사용
+class MeshInstancing
+ Meshdata* -> unqiup_ptr<Meshdata>
+
+class Context
+ Camera* -> unique_ptr<Camera>
 
 
 __기능 추가__ 
@@ -78,3 +86,58 @@ class Animator
 
 class CollisionManager
 { 콜라이더 충돌 관리 }
+
+-Tools/Coord/Euler
+ : 트랜스폼에 사용된 오일러 관련 코드 이동
+, (Degree <-> Radius 변환 등)
+
+-Tools/WorldMatrix
+ : 트랜스폼의 부모와 곱해진 Matrix를 좌표 변환 하기 위해 만들어짐
+
+-Object/PostProcessing/Panel
+ : 기존 PostEffect와 비슷한 기능을 함 (후처리 출력용도)
+
+-Object/PostProcessing/PostEffect
+ : 받은 함수 포인터로 후처리 효과들을 섞어주는 클래스
+
+__쉐이더 수정__
+-이미시브 (프레넬효과 -> 림라이트) 
+
+-필터 구조
+00_Global : Include 해서 사용할 것 (패스 없음)
+01_Object : 메쉬 모델 등 렌더링할 개체들
+02_Compute : 컴퓨트용 쉐이더
+03_PostProcessing : 후 처리용 쉐이더
+
+​
+-쉐이더 코드 이동
+ 00_Global
+수정 사항 없음
+
+ 00_Render
+삭제
+
+​ 00_VertexInput
+00_Render의 모델, 메쉬 vs인풋 구조체들
+VS함수들은 각 오브젝트 쉐이더 파일로 이동
+
+ 00_Light
+00_Material를 인클루드 (너무 길어서 나눔)
+글로벌 라이트, 포인트 라이트, 스팟라이드를 모아놓음
+맨 밑에 모든 라이트 적용하는 함수 존재
+
+ 00_Material
+00_Light가 너무 길어서 class Material 관련 코드들을 이 쉐이더 파일에 옮김
+디퓨즈 스펙큘러 림라이트 적용하는 코드가 존재
+
+ 00_PixelOutput
+MeshOutput 구조체와 함께
+메쉬, 모델의 PS함수가 있는 곳
+
+ 00_Shadow, 00_ProjectionTexture
+패스 모두 제거
+셰도우, 프로젝션 텍스쳐 관련 기능, 변수들을 모아둠
+각 오브젝트 쉐이더에서 #include 해서 사용
+
+ 01_Model
+모델의 애니메이션 처리 방식을 수정해서 많이 다름

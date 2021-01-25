@@ -83,7 +83,10 @@ void Editor::OpenTerrain(wstring file)
 	SafeDelete(terrain);
 
 	terrain = new Terrain(file);
-	terrain->BaseMap(L"Terrain/Dirt3.png");
+	terrain->BaseMap(L"Terrain/Sand (Beach Wet2).jpg");
+	terrain->Layer1(L"Terrain/Cliff (Layered Rock).jpg");
+	terrain->Layer2(L"Terrain/Grass (Meadows).jpg");
+	terrain->Layer3(L"Terrain/Snow.jpg");
 
 	brush->SetTerrain(terrain);
 }

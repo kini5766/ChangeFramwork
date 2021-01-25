@@ -94,17 +94,7 @@ void Brush::RenderImGui()
 
 	ImGui::Separator();
 
-	static int rayType = 0;
-	ImGui::InputInt("Raycast Type", &rayType);
-	switch (rayType)
-	{
-	case 0: funcRaycast = [&](Vector3* value) { return ((TerrainCollider)*terrain).GetMouseRaycast(value, false); }; break;
-	case 1: funcRaycast = [&](Vector3* value) { return ((TerrainCollider)*terrain).GetRaycastPosition_Old(value, false); }; break;
-	case 2: funcRaycast = [&](Vector3* value) { return ((TerrainCollider)*terrain).GetMouseRaycast(value, true); }; break;
-	case 3: funcRaycast = [&](Vector3* value) { return ((TerrainCollider)*terrain).GetRaycastPosition_Old(value, true); }; break;
-	case 4: funcRaycast = [&](Vector3* value) { return ((TerrainCollider)*terrain).GetMouseRaycast2(value); }; break;
-	default: rayType = 0; break;
-	}
+	ImGui::SliderInt("Select Layer", &targetLayer, -1, 2);
 
 	ImGui::End();
 }
@@ -127,15 +117,13 @@ void Brush::UpdateBrush()
 	case BrushInput::MouseState::NONE:
 	{
 		Vector3 curr;
-		funcRaycast(&curr);
-		//((TerrainCollider)*terrain).GetMouseRaycast(&curr);
+		((TerrainCollider)*terrain).GetMouseRaycast(&curr);
 		brushDesc.Location = curr;
 	}break;
 	case BrushInput::MouseState::DOWN:
 	{
 		Vector3 curr;
-		//if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
-		if (funcRaycast(&curr) == false)
+		if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
 			return;
 
 		// world
@@ -147,8 +135,7 @@ void Brush::UpdateBrush()
 		if (input->IsMouseMove())
 		{
 			Vector3 curr;
-			//((TerrainCollider)*terrain).GetMouseRaycast(&curr);
-			funcRaycast(&curr);
+			((TerrainCollider)*terrain).GetMouseRaycast(&curr);
 			brushDesc.Location = curr;
 
 			if (brushDesc.Shape == 3)
@@ -156,10 +143,8 @@ void Brush::UpdateBrush()
 				((DragPlane)*brush).Set();
 			}
 		}
-		brush->Origin = brush->Result = terrain->Vertices();
-		brush->Set();
-		terrain->RecalculateNormals();
-		terrain->ApplyVertex();
+		ApplyBrush();
+
 	}break;
 	case BrushInput::MouseState::UP:
 	{
@@ -170,7 +155,7 @@ void Brush::UpdateBrush()
 		UINT flatIndex
 			= terrain->Width() * (UINT)brushDesc.Location.z
 			+ (UINT)brushDesc.Location.x;
-		//brush->FlatHeight = terrain->Vertices()[flatIndex].Position.y;
+		brush->FlatHeight = terrain->Vertices()[flatIndex].Position.y;
 	}break;
 	}
 
@@ -194,10 +179,7 @@ void Brush::UpdatePickMode()
 
 		if (Input::Keyboard()->Press(VK_SPACE))
 		{
-			brush->Origin = brush->Result = terrain->Vertices();
-			brush->Set();
-			terrain->RecalculateNormals();
-			terrain->ApplyVertex();
+			ApplyBrush();
 		}
 	}
 
@@ -205,10 +187,43 @@ void Brush::UpdatePickMode()
 		return;
 
 	Vector3 curr;
-	//if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
-	if (funcRaycast(&curr) == false)
+	if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
 		return;
 
 	brushDesc.Location = curr;
 	picker->AddPicker(curr);
+}
+
+void Brush::ApplyBrush()
+{
+	if (targetLayer == -1)
+	{
+		brush->Target = 0;
+		brush->Origin = brush->Result = terrain->Vertices();
+		brush->Set();
+		terrain->RecalculateNormals();
+		terrain->ApplyVertex();
+	}
+	else if (targetLayer == 0)
+	{
+		brush->Target = 1;
+		brush->OriginAlpha = brush->ResultAlpha = terrain->Layer1Data();
+		brush->Set();
+		terrain->ApplyAlphasLayer1();
+	}
+	else if (targetLayer == 1)
+	{
+		brush->Target = 1;
+		brush->OriginAlpha = brush->ResultAlpha = terrain->Layer2Data();
+		brush->Set();
+		terrain->ApplyAlphasLayer2();
+	}
+	else if (targetLayer == 2)
+	{
+		brush->Target = 1;
+		brush->OriginAlpha = brush->ResultAlpha = terrain->Layer3Data();
+		brush->Set();
+		terrain->ApplyAlphasLayer3();
+	}
+
 }

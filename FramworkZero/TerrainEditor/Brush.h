@@ -35,6 +35,9 @@ private:
 	void UpdatePickMode();
 
 private:
+	void ApplyBrush();
+
+private:
 	Terrain* terrain;
 	ShaderSetter* shader;
 	ConstantBuffer* brushBuffer;
@@ -58,4 +61,7 @@ private:
 		float Size = 15.0f;
 		float Padding;
 	}lineDesc;
+
+private:
+	int targetLayer = -1;
 };
