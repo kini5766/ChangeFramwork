@@ -5,9 +5,10 @@ struct DragPlane
 public:
 	void Set();
 
-public:
-	const Vector3& StartPoint;
-	const Vector3& EndPoint;
+private:
+	Vector3 StartPoint;
+	Vector3 EndPoint;
+
 	Plane* PlaneSlope;
 	Vector2* Vec2Rad;
 

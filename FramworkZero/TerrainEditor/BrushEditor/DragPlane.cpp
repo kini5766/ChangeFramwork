@@ -34,11 +34,16 @@ void DragPlane::Set()
 }
 
 DragPlane::DragPlane(BrushEditor & value)
-	: StartPoint(value.DragStartPoint)
-	, EndPoint(value.Desc.Location)
-	, PlaneSlope(&value.PlaneSlope)
+	: PlaneSlope(&value.PlaneSlope)
 	, Vec2Rad(&value.Vec2Rad)
 	, Rad(&value.Desc.Rad)
 	, Length(&value.Desc.DragLength)
 {
+	StartPoint = value.DragStartPoint;
+	EndPoint = value.Desc.Location;
+	if (value.Target != 0)
+	{
+		StartPoint.y = 1;
+		EndPoint.y = 0;
+	}
 }

@@ -117,7 +117,10 @@ void Brush::UpdateBrush()
 	case BrushInput::MouseState::NONE:
 	{
 		Vector3 curr;
-		((TerrainCollider)*terrain).GetMouseRaycast(&curr);
+
+		if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
+			return;
+
 		brushDesc.Location = curr;
 	}break;
 	case BrushInput::MouseState::DOWN:
@@ -135,15 +138,26 @@ void Brush::UpdateBrush()
 		if (input->IsMouseMove())
 		{
 			Vector3 curr;
-			((TerrainCollider)*terrain).GetMouseRaycast(&curr);
+			if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
+				return;
+
 			brushDesc.Location = curr;
 
 			if (brushDesc.Shape == 3)
 			{
 				((DragPlane)*brush).Set();
 			}
+
+			ApplyBrush();
 		}
-		ApplyBrush();
+		else
+		{
+			Vector3 curr;
+			if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
+				return;
+
+			ApplyBrush();
+		}
 
 	}break;
 	case BrushInput::MouseState::UP:
@@ -196,34 +210,42 @@ void Brush::UpdatePickMode()
 
 void Brush::ApplyBrush()
 {
-	if (targetLayer == -1)
+	switch (targetLayer)
+	{
+	case -1:
 	{
 		brush->Target = 0;
 		brush->Origin = brush->Result = terrain->Vertices();
 		brush->Set();
 		terrain->RecalculateNormals();
 		terrain->ApplyVertex();
-	}
-	else if (targetLayer == 0)
+	}break;
+
+	case 0:
 	{
 		brush->Target = 1;
 		brush->OriginAlpha = brush->ResultAlpha = terrain->Layer1Data();
 		brush->Set();
 		terrain->ApplyAlphasLayer1();
-	}
-	else if (targetLayer == 1)
+	}break;
+
+	case 1:
 	{
 		brush->Target = 1;
 		brush->OriginAlpha = brush->ResultAlpha = terrain->Layer2Data();
 		brush->Set();
 		terrain->ApplyAlphasLayer2();
-	}
-	else if (targetLayer == 2)
+	}break;
+
+	case 2:
 	{
 		brush->Target = 1;
 		brush->OriginAlpha = brush->ResultAlpha = terrain->Layer3Data();
 		brush->Set();
 		terrain->ApplyAlphasLayer3();
+	}break;
+
+	default: break;
 	}
 
 }
