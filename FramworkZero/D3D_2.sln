@@ -56,6 +56,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Object", "01_Object", "{
 		_Shaders\01_Render2D.fx = _Shaders\01_Render2D.fx
 		_Shaders\01_SkyCube.fx = _Shaders\01_SkyCube.fx
 		_Shaders\01_Terrain.fx = _Shaders\01_Terrain.fx
+		_Shaders\01_TerrainLOD.fx = _Shaders\01_TerrainLOD.fx
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_PostProcessing", "03_PostProcessing", "{6678EECB-B628-4628-B633-5EB505E77C30}"

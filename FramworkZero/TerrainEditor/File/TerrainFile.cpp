@@ -96,36 +96,26 @@ void TerrainFile::SaveBrushComplete(wstring fileName)
 
 	TerrainConverter c;
 
-	Terrain* terrain = brush->GetTerrain();
+	TerrainLOD* terrain = brush->GetTerrain();
 
-	UINT width = terrain->Width();
-	UINT height = terrain->Height();
+	UINT width = terrain->MapWidth();
+	UINT height = terrain->MapHeight();
 	UINT pixelCount = width * height;
 
+	// Height Map
 	{
-		UINT* heights = new UINT[pixelCount];
-		Terrain::VertexTerrain* vertices = terrain->Vertices();
+		UINT* alphas = new UINT[pixelCount];
+		float* value = terrain->HeightMapData();
 		for (UINT z = 0; z < height; z++)
 		{
 			for (UINT x = 0; x < width; x++)
 			{
-				UINT index = (width)* z + x;  // 버택스인덱스
-
-				UINT pexel = width * (height - z - 1) + x;  // uv 좌표 체계 뒤집기
-
-				float heightPexel = vertices[index].Position.y / TERRAIN_TEXTURE_HEIGHT;
-
-				// 높이 수정해서 허용치 밖일 때 조정
-				if (heightPexel < 0.0f)
-					heightPexel = 0.0f;
-				else if (heightPexel > 1.0f)
-					heightPexel = 1.0f;
-
-				heights[pexel] = (UINT)(heightPexel * 255.0f);
+				UINT index = width * z + x;
+				alphas[index] = (UINT)(value[index] * 255.0f);
 			}
 		}
-		c.SetHeights(heights, width, height);
-		SafeDelete(heights);
+		c.SetHeights(alphas, width, height);
+		SafeDelete(alphas);
 	}
 
 	// Layer1

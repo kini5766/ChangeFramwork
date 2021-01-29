@@ -1,5 +1,26 @@
 #pragma once
 
+class TerrainLodCollider 
+{ 
+public:
+	bool GetRaycastPosition_Old(Vector3* outPoint);
+
+public:
+	float* Heights;
+	float HeightScale;
+	Transform* Transform;
+
+	UINT MapWidth;
+	UINT MapHeight;
+	float Width;
+	float Height;
+
+public:
+	TerrainLodCollider();
+	TerrainLodCollider(TerrainLOD& value);
+};
+
+
 class TerrainCollider
 {
 public:
@@ -14,8 +35,7 @@ public:
 	float GetHeight(const Vector3& position);  // 지면 1칸의 크기가 1일때만 사용가능
 	Vector3 GetNormal(float x, float z);
 	float GetVerticalRaycast(const Vector3& position);
-	bool GetRaycastPosition_Old(Vector3* outPoint, bool bTest = false);
-	bool GetMouseRaycast(Vector3* outPoint, bool bTest = false);
+	bool GetMouseRaycast(Vector3* outPoint);
 	bool GetMouseRaycast2(Vector3* outPoint);
 
 public:

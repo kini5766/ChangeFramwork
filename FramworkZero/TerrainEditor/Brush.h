@@ -22,8 +22,8 @@ public:
 	~Brush();
 
 public:
-	void SetTerrain(Terrain* value);
-	Terrain* GetTerrain() { return terrain; }
+	void SetTerrain(TerrainLOD* value);
+	TerrainLOD* GetTerrain() { return terrain; }
 
 public:
 	void Update();
@@ -38,7 +38,7 @@ private:
 	void ApplyBrush();
 
 private:
-	Terrain* terrain;
+	TerrainLOD* terrain;
 	ShaderSetter* shader;
 	ConstantBuffer* brushBuffer;
 	ConstantBuffer* lineBuffer;

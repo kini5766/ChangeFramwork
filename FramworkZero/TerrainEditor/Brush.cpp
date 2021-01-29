@@ -19,8 +19,6 @@ Brush::Brush()
 
 	input = new BrushInput();
 	picker = new TerrainPicker();
-
-	funcRaycast = [&](Vector3* value) { return ((TerrainCollider)*terrain).GetMouseRaycast(value, false); };
 }
 
 Brush::~Brush()
@@ -34,13 +32,15 @@ Brush::~Brush()
 	SafeDelete(shader);
 }
 
-void Brush::SetTerrain(Terrain * value)
+void Brush::SetTerrain(TerrainLOD * value)
 {
 	terrain = value;
-	shader->SetShader(terrain->GetShader());
+	shader->SetShader(terrain->GetMaterial()->GetShader());
 
-	brush->Width = terrain->Width();
-	brush->Height = terrain->Height();
+	brush->MapWidth = terrain->MapWidth();
+	brush->MapHeight = terrain->MapHeight();
+	brush->Width = terrain->GetWidth();
+	brush->Height = terrain->GetHeight();
 }
 
 void Brush::Update()
@@ -118,7 +118,7 @@ void Brush::UpdateBrush()
 	{
 		Vector3 curr;
 
-		if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
+		if (((TerrainLodCollider)*terrain).GetRaycastPosition_Old(&curr) == false)
 			return;
 
 		brushDesc.Location = curr;
@@ -126,7 +126,7 @@ void Brush::UpdateBrush()
 	case BrushInput::MouseState::DOWN:
 	{
 		Vector3 curr;
-		if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
+		if (((TerrainLodCollider)*terrain).GetRaycastPosition_Old(&curr) == false)
 			return;
 
 		// world
@@ -138,7 +138,7 @@ void Brush::UpdateBrush()
 		if (input->IsMouseMove())
 		{
 			Vector3 curr;
-			if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
+			if (((TerrainLodCollider)*terrain).GetRaycastPosition_Old(&curr) == false)
 				return;
 
 			brushDesc.Location = curr;
@@ -153,7 +153,7 @@ void Brush::UpdateBrush()
 		else
 		{
 			Vector3 curr;
-			if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
+			if (((TerrainLodCollider)*terrain).GetRaycastPosition_Old(&curr) == false)
 				return;
 
 			ApplyBrush();
@@ -166,10 +166,10 @@ void Brush::UpdateBrush()
 	}break;
 	case BrushInput::MouseState::PICK:
 	{
-		UINT flatIndex
-			= terrain->Width() * (UINT)brushDesc.Location.z
-			+ (UINT)brushDesc.Location.x;
-		brush->FlatHeight = terrain->Vertices()[flatIndex].Position.y;
+		//UINT flatIndex
+		//	= terrain->MapWidth() * (UINT)brushDesc.Location.z
+		//	+ (UINT)brushDesc.Location.x;
+		//brush->FlatHeight = terrain->Vertices()[flatIndex].Position.y;
 	}break;
 	}
 
@@ -201,8 +201,8 @@ void Brush::UpdatePickMode()
 		return;
 
 	Vector3 curr;
-	if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
-		return;
+	//if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
+	//	return;
 
 	brushDesc.Location = curr;
 	picker->AddPicker(curr);
@@ -214,16 +214,13 @@ void Brush::ApplyBrush()
 	{
 	case -1:
 	{
-		brush->Target = 0;
-		brush->Origin = brush->Result = terrain->Vertices();
+		brush->OriginAlpha = brush->ResultAlpha = terrain->HeightMapData();
 		brush->Set();
-		terrain->RecalculateNormals();
-		terrain->ApplyVertex();
+		terrain->ApplyHeightMap();
 	}break;
 
 	case 0:
 	{
-		brush->Target = 1;
 		brush->OriginAlpha = brush->ResultAlpha = terrain->Layer1Data();
 		brush->Set();
 		terrain->ApplyAlphasLayer1();
@@ -231,7 +228,6 @@ void Brush::ApplyBrush()
 
 	case 1:
 	{
-		brush->Target = 1;
 		brush->OriginAlpha = brush->ResultAlpha = terrain->Layer2Data();
 		brush->Set();
 		terrain->ApplyAlphasLayer2();
@@ -239,7 +235,6 @@ void Brush::ApplyBrush()
 
 	case 2:
 	{
-		brush->Target = 1;
 		brush->OriginAlpha = brush->ResultAlpha = terrain->Layer3Data();
 		brush->Set();
 		terrain->ApplyAlphasLayer3();

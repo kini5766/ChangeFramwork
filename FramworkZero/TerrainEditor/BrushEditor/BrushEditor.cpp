@@ -87,7 +87,15 @@ void BrushEditor::RaiseType(UINT x, UINT z, float intensity)
 void BrushEditor::RaiseRect()
 {
 	Vector3 position = Desc.Location;
-	UINT range = Desc.Range;
+	Vector2 cellStart = Vector2(Width * -0.5f, Height * -0.5f);
+	Vector2 cellScale;
+	cellScale.x = Width / (float)(MapWidth - 1);
+	cellScale.y = Height / (float)(MapHeight - 1);
+
+	position.x = (position.x - cellStart.x) / cellScale.x;
+	position.z = (position.z - cellStart.y) / cellScale.y;
+
+	UINT range = (UINT)(Desc.Range / cellScale.x);
 
 	float rad = Desc.Rad;  // 사각형의 회전량 (라디안)
 	float deg = rad * 57.295779513f;
@@ -132,9 +140,9 @@ void BrushEditor::RaiseRect()
 
 	// UINT는 음수 비교 불가
 	if (leftR >= (0u - range2)) leftR = 0;
-	if (rightR >= Width) rightR = Width - 1;
+	if (rightR >= MapWidth) rightR = MapWidth - 1;
 	if (bottomR >= (0u - range2)) bottomR = 0;
-	if (topR >= Height) topR = Height - 1;
+	if (topR >= MapHeight) topR = MapHeight - 1;
 
 	for (UINT z = bottomR; z <= topR; z++)
 	{
@@ -155,7 +163,15 @@ void BrushEditor::RaiseRect()
 void BrushEditor::RaiseCircle()
 {
 	Vector3 position = Desc.Location;
-	UINT range = Desc.Range;
+	Vector2 cellStart = Vector2(Width * -0.5f, Height * -0.5f);
+	Vector2 cellScale;
+	cellScale.x = Width / (float)(MapWidth - 1);
+	cellScale.y = Height / (float)(MapHeight - 1);
+
+	position.x = (position.x - cellStart.x) / cellScale.x;
+	position.z = (position.z - cellStart.y) / cellScale.y;
+
+	UINT range = (UINT)(Desc.Range / cellScale.x);
 
 	UINT leftR = static_cast<UINT>(position.x) - range;
 	UINT topR = static_cast<UINT>(position.z) + range;
@@ -164,9 +180,9 @@ void BrushEditor::RaiseCircle()
 
 	// UINT는 음수 비교 불가
 	if (leftR >= (0u - range)) leftR = 0;
-	if (rightR >= Width) rightR = Width - 1;
+	if (rightR >= MapWidth) rightR = MapWidth - 1;
 	if (bottomR >= (0u - range)) bottomR = 0;
-	if (topR >= Height) topR = Height - 1;
+	if (topR >= MapHeight) topR = MapHeight - 1;
 
 	for (UINT z = bottomR; z <= topR; z++)
 	{
@@ -191,14 +207,22 @@ void BrushEditor::RaiseDrag()
 	if (Desc.DragLength == 0.0f) return;
 
 	Vector3 position = Desc.Location;
+	Vector2 cellStart = Vector2(Width * -0.5f, Height * -0.5f);
+	Vector2 cellScale;
+	cellScale.x = Width / (float)(MapWidth - 1);
+	cellScale.y = Height / (float)(MapHeight - 1);
+
+	position.x = (position.x - cellStart.x) / cellScale.x;
+	position.z = (position.z - cellStart.y) / cellScale.y;
+
+
+	UINT range = (UINT)(Desc.Range / cellScale.x);
+	float length = Desc.DragLength;
 	Vector2 v2Rad = Vec2Rad;
 
-	UINT range = Desc.Range;
-	float length = Desc.DragLength;
-
-	for (UINT z = 0; z < Height; z++)
+	for (UINT z = 0; z < MapHeight; z++)
 	{
-		for (UINT x = 0; x < Width; x++)
+		for (UINT x = 0; x < MapWidth; x++)
 		{
 			// 점과 사각형 중점과의 사이 벡터
 			Vector2 destance;
@@ -211,7 +235,7 @@ void BrushEditor::RaiseDrag()
 			// sin(A-B) = sinA * cosB - cosA * sinB
 			float dy = destance.y * v2Rad.x - destance.x * v2Rad.y;
 
-			if ((dx >= length * -1.0f) &&
+			if ((dx >= length * -0.5f) &&
 				(dx <= 0.0f) &&
 				(dy >= range * -1.0f) &&
 				(dy <= range))
@@ -230,51 +254,23 @@ void BrushEditor::RaiseDrag()
 
 void BrushEditor::RaiseUp(UINT x, UINT z, float intensity)
 {
-	if (Target == 0)
-	{
-		UINT index = Width * z + x;
-		Result[index].Position.y += intensity;
-		TerrainClamp(&Result[index].Position.y);
-	}
-	else
-	{
-		UINT index = Width * (Height - 1 - z) + x;
-		ResultAlpha[index] += intensity;
-		TerrainAlphaClamp(&ResultAlpha[index]);
-	}
+	UINT index = MapWidth * (MapHeight - 1 - z) + x;
+	ResultAlpha[index] += intensity;
+	TerrainAlphaClamp(&ResultAlpha[index]);
 }
 
 void BrushEditor::RaiseDown(UINT x, UINT z, float intensity)
 {
-
-	if (Target == 0)
-	{
-		UINT index = Width * z + x;
-		Result[index].Position.y -= intensity;
-		TerrainClamp(&Result[index].Position.y);
-	}
-	else
-	{
-		UINT index = Width * (Height - 1 - z) + x;
-		ResultAlpha[index] -= intensity;
-		TerrainAlphaClamp(&ResultAlpha[index]);
-	}
+	UINT index = MapWidth * (MapHeight - 1 - z) + x;
+	ResultAlpha[index] -= intensity;
+	TerrainAlphaClamp(&ResultAlpha[index]);
 }
 
 void BrushEditor::RaiseNoise(UINT x, UINT z, float intensity)
 {
-	if (Target == 0)
-	{
-		UINT index = Width * z + x;
-		Result[index].Position.y += Math::Random(-5.0f, 5.0f) * intensity;
-		TerrainClamp(&Result[index].Position.y);
-	}
-	else
-	{
-		UINT index = Width * (Height - 1 - z) + x;
-		ResultAlpha[index] += Math::Random(-5.0f, 5.0f) * intensity;
-		TerrainAlphaClamp(&ResultAlpha[index]);
-	}
+	UINT index = MapWidth * (MapHeight - 1 - z) + x;
+	ResultAlpha[index] += Math::Random(-5.0f, 5.0f) * intensity;
+	TerrainAlphaClamp(&ResultAlpha[index]);
 }
 
 void BrushEditor::RaiseSmoothing(UINT x, UINT z, float intensity)
@@ -292,8 +288,8 @@ void BrushEditor::RaiseSmoothing(UINT x, UINT z, float intensity)
 		intensity, intensit2, intensity
 	};
 
-	int width = (int)Width;
-	int height = (int)Height;
+	int width = (int)MapWidth;
+	int height = (int)MapHeight;
 	float count = 0.0f;
 	float total = 0.0f;
 
@@ -312,16 +308,9 @@ void BrushEditor::RaiseSmoothing(UINT x, UINT z, float intensity)
 			int index2 = 3 * (z2 + 1) + x2 + 1;
 
 			count += filter[index2];
-			if (Target == 0)
-			{
-				UINT index = width * (z3 + 0) + x3 + 0;
-				total += Origin[index].Position.y * filter[index2];
-			}
-			else
-			{
-				UINT index = width * (Height - 1 - z3 + 0) + x3 + 0;
-				total += OriginAlpha[index] * filter[index2];
-			}
+
+			UINT index = width * (MapHeight - 1 - z3 + 0) + x3 + 0;
+			total += OriginAlpha[index] * filter[index2];
 		}
 	}
 
@@ -329,35 +318,16 @@ void BrushEditor::RaiseSmoothing(UINT x, UINT z, float intensity)
 		return;
 	total = total / count;
 
-	if (Target == 0)
-	{
-		UINT index = Width * z + x;
-		Result[index].Position.y = total;
-		TerrainClamp(&Result[index].Position.y);
-	}
-	else
-	{
-		UINT index = Width * (Height - 1 - z) + x;
-		ResultAlpha[index] = total;
-		TerrainAlphaClamp(&ResultAlpha[index]);
-	}
+	UINT index = width * (MapHeight - 1 - z) + x;
+	ResultAlpha[index] = total;
+	TerrainAlphaClamp(&ResultAlpha[index]);
 }
 
 void BrushEditor::RaiseFlat(UINT x, UINT z, float intensity)
 {
-	UINT index = Width * z + x;
-	if (Target == 0)
-	{
-		UINT index = Width * z + x;
-		Result[index].Position.y = FlatHeight;
-		TerrainClamp(&Result[index].Position.y);
-	}
-	else
-	{
-		UINT index = Width * (Height - 1 - z) + x;
-		ResultAlpha[index] = FlatHeight;
-		TerrainAlphaClamp(&ResultAlpha[index]);
-	}
+	UINT index = MapWidth * (MapHeight - 1 - z) + x;
+	ResultAlpha[index] = FlatHeight;
+	TerrainAlphaClamp(&ResultAlpha[index]);
 }
 
 void BrushEditor::RaiseSlope(UINT x, UINT z, float intensity)
@@ -367,28 +337,9 @@ void BrushEditor::RaiseSlope(UINT x, UINT z, float intensity)
 
 	Plane& p = PlaneSlope;
 
-	if (Target == 0)
-	{
-		// 평면 방정식
-		// y = (ax + cz + d) / -b
-		UINT index = Width * z + x;
-		Result[index].Position.y = (p.a * x + p.c * z + p.d) / -p.b;
-		TerrainClamp(&Result[index].Position.y);
-	}
-	else
-	{
-		UINT index = Width * (Height - 1 - z) + x;
-		ResultAlpha[index] = (p.a * x + p.c * z + p.d) / -p.b;
-		TerrainAlphaClamp(&ResultAlpha[index]);
-	}
-}
-
-void BrushEditor::TerrainClamp(float* height)
-{
-	if ((*height) < 0)
-		(*height) = 0.0f;
-	else if((*height) > TERRAIN_TEXTURE_HEIGHT)
-		(*height) = TERRAIN_TEXTURE_HEIGHT;
+	UINT index = MapWidth * (MapHeight - 1 - z) + x;
+	ResultAlpha[index] = (p.a * x + p.c * z + p.d) / -p.b;
+	TerrainAlphaClamp(&ResultAlpha[index]);
 }
 
 void BrushEditor::TerrainAlphaClamp(float * height)

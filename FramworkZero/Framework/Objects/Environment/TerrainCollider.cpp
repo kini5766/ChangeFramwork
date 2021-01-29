@@ -1,6 +1,100 @@
 #include "Framework.h"
 #include "TerrainCollider.h"
 
+
+#pragma region TerrainLodCollider
+
+bool TerrainLodCollider::GetRaycastPosition_Old(Vector3 * outPoint)
+{
+	Matrix W;
+	Transform->GlobalWorld(&W);
+	Matrix V = Context::Get()->View();
+	Matrix P = Context::Get()->Projection();
+	Viewport* vp = Context::Get()->GetViewport();
+	Vector3 mouse = Input::Mouse()->GetPosition();
+
+	//mouse = Vector3(Screen::Width() * 0.5f, Screen::Height() * 0.5f, 0);
+
+	mouse.z = 0.0f;
+	Vector3 n = vp->Unproject(mouse, W, V, P);
+
+	mouse.z = 1.0f;
+	Vector3 f = vp->Unproject(mouse, W, V, P);
+
+	Vector3 start = n;
+	Vector3 direction = f - n;
+
+	float yScale = HeightScale * 255.0f;
+
+	UINT maxWidth = MapWidth - 1;
+	UINT maxHeight = MapHeight - 1;
+
+	float xScale = (Width / ((float)maxWidth));
+	float zScale = (Height / ((float)maxHeight));
+	float xStart = Width * 0.5f;
+	float zStart = Height * 0.5f;
+
+	struct UINTOffset {
+		UINT x, z;
+	}offsets[4]{
+		{0, 0}, {1, 0},
+		{0, 1}, {1, 1}
+	};
+	for (UINT z = 0; z < maxHeight; z++)
+	{
+		for (UINT x = 0; x < maxWidth; x++)
+		{
+			Vector3 p[4];
+			for (UINT i = 0; i < 4; i++)
+			{
+				UINT currZ = (z + offsets[i].z);
+				UINT currX = (x + offsets[i].x);
+				UINT index = MapWidth * currZ + currX;
+
+				float h = Heights[index] * yScale;
+				float hz = (float)currZ * -zScale + zStart;
+				float hx = (float)currX * +xScale - xStart;
+
+				p[i] = Vector3(hx, h, hz);
+			}
+
+			float u, v, distance;
+			if (D3DXIntersectTri(p + 0, p + 1, p + 2, &start, &direction, /* out */ &u, /* out */ &v, /* out */ &distance))
+			{
+				(*outPoint) = p[0] + (p[1] - p[0]) * u + (p[2] - p[0]) * v;
+				return true;
+			}
+			else if (D3DXIntersectTri(p + 3, p + 1, p + 2, &start, &direction, /* out */ &u, /* out */ &v, /* out */ &distance))
+			{
+				(*outPoint) = p[3] + (p[1] - p[3]) * u + (p[2] - p[3]) * v;
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+TerrainLodCollider::TerrainLodCollider()
+{
+}
+
+TerrainLodCollider::TerrainLodCollider(TerrainLOD & value)
+	: Heights(value.HeightMapData())
+	, HeightScale(value.HeightScale())
+	, Transform(value.GetTransform())
+	, MapWidth(value.MapWidth())
+	, MapHeight(value.MapHeight())
+	, Width(value.GetWidth())
+	, Height(value.GetHeight())
+{
+}
+
+#pragma endregion
+
+
+#pragma region TerrainCollider
+
 typedef Terrain::VertexTerrain Vertex;
 
 float TerrainCollider::GetHeight(const Vector3 & position)
@@ -123,69 +217,7 @@ float TerrainCollider::GetVerticalRaycast(const Vector3 & position)
 	return result.y;
 }
 
-bool TerrainCollider::GetRaycastPosition_Old(Vector3 * outPoint, bool bTest)
-{
-	if (bTest)
-	{
-		for (UINT i = 0; i < MeshData->VertexCount; i++)
-			Vertices[i]._Color = Color(0, 0, 0, 0); // test
-	}
-
-	Matrix W;
-	Transform->GlobalWorld(&W);
-	Matrix V = Context::Get()->View();
-	Matrix P = Context::Get()->Projection();
-	Viewport* vp = Context::Get()->GetViewport();
-	Vector3 mouse = Input::Mouse()->GetPosition();
-
-	mouse.z = 0.0f;
-	Vector3 n = vp->Unproject(mouse, W, V, P);
-
-	mouse.z = 1.0f;
-	Vector3 f = vp->Unproject(mouse, W, V, P);
-
-	Vector3 start = n;
-	Vector3 direction = f - n;
-
-	UINT* indices = MeshData->Indices;
-	UINT maxWidth = Width - 1;
-	UINT maxHeight = Height - 1;
-	for (UINT z = 0; z < maxHeight; z++)
-	{
-		for (UINT x = 0; x < maxWidth; x++)
-		{
-			UINT index[4];
-			index[0] = Width * (z + 0) + x + 0;  // 왼아
-			index[1] = Width * (z + 1) + x + 0;  // 왼위
-			index[2] = Width * (z + 0) + x + 1;  // 오아
-			index[3] = Width * (z + 1) + x + 1;  // 오위
-
-			Vector3 p[4];
-			for (UINT i = 0; i < 4; i++)
-			{
-				p[i] = Vertices[index[i]].Position;
-				if (bTest)
-					Vertices[index[i]]._Color = Color(0, 0, 1, 0); // test
-			}
-
-			float u, v, distance;
-			if (D3DXIntersectTri(p + 0, p + 1, p + 2, &start, &direction, /* out */ &u, /* out */ &v, /* out */ &distance))
-			{
-				(*outPoint) = p[0] + (p[1] - p[0]) * u + (p[2] - p[0]) * v;
-				return true;
-			}
-			else if (D3DXIntersectTri(p + 3, p + 1, p + 2, &start, &direction, /* out */ &u, /* out */ &v, /* out */ &distance))
-			{
-				(*outPoint) = p[3] + (p[1] - p[3]) * u + (p[2] - p[3]) * v;
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
-
-bool TerrainCollider::GetMouseRaycast(Vector3 * outPoint, bool bTest)
+bool TerrainCollider::GetMouseRaycast(Vector3 * outPoint)
 {
 	Matrix W;
 	Transform->GlobalWorld(&W);
@@ -193,12 +225,6 @@ bool TerrainCollider::GetMouseRaycast(Vector3 * outPoint, bool bTest)
 	Matrix P = Context::Get()->Projection();
 	Viewport* vp = Context::Get()->GetViewport();
 	Vector3 mouse = Input::Mouse()->GetPosition();
-
-	if (bTest)
-	{
-		for (UINT i = 0; i < MeshData->VertexCount; i++)
-			Vertices[i]._Color = Color(0, 0, 0, 0); // test
-	}
 
 	// 마우스 시작 지점
 	mouse.z = 0.0f;
@@ -303,9 +329,6 @@ bool TerrainCollider::GetMouseRaycast(Vector3 * outPoint, bool bTest)
 			for (UINT i = 0; i < 4; i++)
 			{
 				p[i] = Vertices[index[i]].Position;
-
-				if (bTest)
-					Vertices[index[i]]._Color = Color(0, 0, 1, 0); // test
 			}
 
 			float u, v, distance;
@@ -447,3 +470,5 @@ TerrainCollider::TerrainCollider(Terrain & value)
 	, MeshData(value.GetMeshData())
 {
 }
+
+#pragma endregion

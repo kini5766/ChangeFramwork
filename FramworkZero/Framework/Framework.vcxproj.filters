@@ -343,9 +343,6 @@
     <ClCompile Include="Tools\Viewer\UIProjection.cpp">
       <Filter>Tools\Viewer</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Environment\Terrain.cpp">
-      <Filter>Objects\Environment</Filter>
-    </ClCompile>
     <ClCompile Include="Rendering\Shadow.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
@@ -353,6 +350,12 @@
       <Filter>Tools\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Environment\TerrainCollider.cpp">
+      <Filter>Objects\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Environment\TerrainLOD.cpp">
+      <Filter>Objects\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Environment\Terrain.cpp">
       <Filter>Objects\Environment</Filter>
     </ClCompile>
   </ItemGroup>
@@ -670,9 +673,6 @@
     <ClInclude Include="Tools\Viewer\UIProjection.h">
       <Filter>Tools\Viewer</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Environment\Terrain.h">
-      <Filter>Objects\Environment</Filter>
-    </ClInclude>
     <ClInclude Include="Rendering\Shadow.h">
       <Filter>Rendering</Filter>
     </ClInclude>
@@ -680,6 +680,12 @@
       <Filter>Tools\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Environment\TerrainCollider.h">
+      <Filter>Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Environment\TerrainLOD.h">
+      <Filter>Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Environment\Terrain.h">
       <Filter>Objects\Environment</Filter>
     </ClInclude>
   </ItemGroup>

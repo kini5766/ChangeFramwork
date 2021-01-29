@@ -101,5 +101,3 @@ private:
 
 	Layer layer1, layer2, layer3;
 };
-
-#include "TerrainCollider.h"

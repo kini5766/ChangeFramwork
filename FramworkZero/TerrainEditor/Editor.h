@@ -24,7 +24,7 @@ private:
 	CubeSky* sky;
 
 private:
-	Terrain* terrain = nullptr;
+	TerrainLOD* terrain = nullptr;
 	class Brush* brush = nullptr;
 	class TerrainFile* menuFile = nullptr;
 };

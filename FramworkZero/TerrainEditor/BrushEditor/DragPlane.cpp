@@ -41,9 +41,10 @@ DragPlane::DragPlane(BrushEditor & value)
 {
 	StartPoint = value.DragStartPoint;
 	EndPoint = value.Desc.Location;
-	if (value.Target != 0)
-	{
-		StartPoint.y = 1;
-		EndPoint.y = 0;
-	}
+
+	//if (value.Target != 0)
+	//{
+	//	StartPoint.y = 1;
+	//	EndPoint.y = 0;
+	//}
 }

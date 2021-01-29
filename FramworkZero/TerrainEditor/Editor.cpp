@@ -17,7 +17,7 @@ void Editor::Initialize()
 	menuFile->SetFuncOpen(bind(&Editor::OpenTerrain, this, placeholders::_1));
 
 	sky = new CubeSky(L"Environment/Mountain1024.dds");
-	peojTexure = new ProjectionTexture(Shader::Load(URI::Shaders + L"01_Terrain.fxo"), L"Environment/MagicCircle.png", 21.7f, 22.0f);
+	peojTexure = new ProjectionTexture(Shader::Load(L"01_TerrainLOD.fxo"), L"Environment/MagicCircle.png", 217.0f, 220.0f);
 	shadow = new Shadow(Vector3(128, 0, 128), 65.0f);
 	Shadow::SetGlobal(shadow);
 }
@@ -44,6 +44,15 @@ void Editor::Update()
 
 		peojTexure->Update();
 		//shadow->ImGuiRender();
+
+		if (terrain != nullptr)
+		{
+			// HeightScale
+			ImGui::SliderFloat("Height Scale", &terrain->HeightScale(), 0.001f, 1.0f);
+
+			// Min Max Distance
+			ImGui::SliderFloat2("Distance", terrain->Distance(), 1.0f, 1000.0f);
+		}
 	}
 	ImGui::End();
 
@@ -82,7 +91,7 @@ void Editor::OpenTerrain(wstring file)
 {
 	SafeDelete(terrain);
 
-	terrain = new Terrain(file);
+	terrain = new TerrainLOD(file);
 	terrain->BaseMap(L"Terrain/Sand (Beach Wet2).jpg");
 	terrain->Layer1(L"Terrain/Cliff (Layered Rock).jpg");
 	terrain->Layer2(L"Terrain/Grass (Meadows).jpg");

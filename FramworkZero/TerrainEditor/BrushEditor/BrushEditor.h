@@ -8,16 +8,14 @@ public:
 
 public:
 	struct BrushDesc& Desc;
-	float Intensity = 5.0f;
+	float Intensity = 0.2f;
 	UINT Type = 0;
-	UINT Target = 0;
 
 	// terrain
-	UINT Width;
-	UINT Height;
-	const Terrain::VertexTerrain* Origin;
-	Terrain::VertexTerrain* Result;
-
+	float Width;
+	float Height;
+	UINT MapWidth;
+	UINT MapHeight;
 	const float* OriginAlpha;
 	float* ResultAlpha;
 
@@ -53,7 +51,6 @@ private:
 	void RaiseSlope(UINT x, UINT z, float intensity);
 
 private:
-	void TerrainClamp(float* height);
 	void TerrainAlphaClamp(float* height);
 };
 

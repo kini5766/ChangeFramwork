@@ -79,20 +79,6 @@ cbuffer CB_ProjectionTextures
 };
 
 // --
-// VS_ProjectionTextures
-// --
-
-void VSSet_ProjectionTextures(inout float4 wvp[PROJECTION_TEXTURES_MAX_COUNT], float3 wPosition)
-{
-	for (uint i = 0; i < ProjectionTextureCount; i++)
-	{
-		wvp[i] = float4(wPosition, 1.0f);
-		wvp[i] = mul(wvp[i], ProjectionTexture.View);
-		wvp[i] = mul(wvp[i], ProjectionTexture.Projection);
-	}
-}
-
-// --
 // PS_ProjectionTextures
 // --
 

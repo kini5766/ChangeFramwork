@@ -127,8 +127,10 @@ void Shadow::PreRender()
 
 	Vector3 up = Vector3(0, 1, 0);
 	Vector3 direction = Lighting::Get()->DirectionalDesc()->Direction;
-	Vector3 eye = direction * radius * -2.0f - at;
+	//Vector3 eye = direction * radius * -2.0f - at;
+	Vector3 eye = direction * radius * -2.0f;
 	D3DXMatrixLookAtLH(&desc.View, &eye, &at, &up);
+	eye += at;
 
 	Vector3 center;
 	D3DXVec3TransformCoord(&center, &at, &desc.View);

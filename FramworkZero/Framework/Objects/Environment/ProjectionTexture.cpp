@@ -9,7 +9,7 @@ ProjectionTexture::ProjectionTexture(Shader * s, wstring mapFile, float width, f
 	buffer = new ConstantBuffer(&desc, sizeof(Desc));
 	camera->ResizeScreen(width, height);
 
-	camera->Position(0, 30, 0);
+	camera->Position(0, 100, 0);
 	camera->RotationDegree(90, 0, 0);
 	shader->SetSRV("ProjectionMap", map->SRV());
 	shader->SetConstantBuffer("CB_ProjectionTexture", buffer->Buffer());
@@ -28,7 +28,7 @@ void ProjectionTexture::Update()
 	Vector3 position;
 	camera->Position(&position);
 
-	ImGui::SliderFloat3("Position", position, -100, 100);
+	ImGui::SliderFloat3("Position", position, -512, 512);
 	camera->Position(position);
 
 	ImGui::ColorEdit3("Color", desc.Color);
