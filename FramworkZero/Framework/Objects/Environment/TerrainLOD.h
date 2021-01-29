@@ -18,8 +18,8 @@ public:
 	void Layer3(wstring file);
 
 public:
-	float GetWidth();
-	float GetHeight();
+	float GetWidth() const;
+	float GetHeight() const;
 
 	//float HeightScale() { return desc.HeightScale; }
 	float& HeightScale() { return desc.HeightScale; }

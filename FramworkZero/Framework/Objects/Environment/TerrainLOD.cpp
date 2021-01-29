@@ -126,12 +126,12 @@ void TerrainLOD::Layer3(wstring file)
 	layer3.Map = new Texture(file);
 }
 
-float TerrainLOD::GetWidth()
+float TerrainLOD::GetWidth() const
 {
 	return width * desc.CellSpacing;
 }
 
-float TerrainLOD::GetHeight()
+float TerrainLOD::GetHeight() const
 {
 	return height * desc.CellSpacing;
 }

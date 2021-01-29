@@ -166,10 +166,19 @@ void Brush::UpdateBrush()
 	}break;
 	case BrushInput::MouseState::PICK:
 	{
-		//UINT flatIndex
-		//	= terrain->MapWidth() * (UINT)brushDesc.Location.z
-		//	+ (UINT)brushDesc.Location.x;
-		//brush->FlatHeight = terrain->Vertices()[flatIndex].Position.y;
+		Vector3 position = brushDesc.Location;
+		Vector2 cellStart = Vector2(terrain->GetWidth() * -0.5f, terrain->GetHeight() * -0.5f);
+		Vector2 cellScale;
+		cellScale.x = terrain->GetWidth() / (float)(terrain->MapWidth() - 1);
+		cellScale.y = terrain->GetHeight() / (float)(terrain->MapHeight() - 1);
+
+		position.x = (position.x - cellStart.x) / cellScale.x;
+		position.z = (position.z - cellStart.y) / cellScale.y;
+
+		UINT flatIndex
+			= terrain->MapWidth() * (UINT)brushDesc.Location.z
+			+ (UINT)brushDesc.Location.x;
+		brush->FlatHeight = terrain->HeightMapData()[flatIndex];
 	}break;
 	}
 
@@ -201,8 +210,8 @@ void Brush::UpdatePickMode()
 		return;
 
 	Vector3 curr;
-	//if (((TerrainCollider)*terrain).GetMouseRaycast(&curr) == false)
-	//	return;
+	if (((TerrainLodCollider)*terrain).GetRaycastPosition_Old(&curr) == false)
+		return;
 
 	brushDesc.Location = curr;
 	picker->AddPicker(curr);
