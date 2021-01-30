@@ -1,34 +1,22 @@
 #include "stdafx.h"
-#include "IObjectEditor.h"
+#include "ObjectEditor.h"
 
 #include "Utilities/BinaryFile.h"
 #include "Tools/ImGuiInputText.h"
 #include "ObjectEditorFactory.h"
 
 
-ObjectEditor::ObjectEditor(ObjectEditorFactory * factory, int number)
-	: factory(factory)
+ObjectEditor::ObjectEditor(EditorDesc * desc)
+	: desc(desc)
 {
 	inputName = new ImGuiInputText(28);
-	inputName->Text(("Object " + to_string(number)).c_str());
+	inputName->Text("Object ");
 }
 
 ObjectEditor::~ObjectEditor()
 {
 	SafeDelete(inputName);
 	SafeDelete(target);
-}
-
-void ObjectEditor::Update()
-{
-	if (target != nullptr)
-		target->Update();
-}
-
-void ObjectEditor::Render()
-{
-	if (target != nullptr)
-		target->Render();
 }
 
 void ObjectEditor::ImGuiRender()
@@ -48,13 +36,14 @@ void ObjectEditor::ImGuiRender()
 	if (ImGui::CollapsingHeader("Select Object Type", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		UINT size;
-		string* names = factory->GetNames(&size);
+		string* names = desc->Factory->GetNames(&size);
 		for (UINT i = 0; i < size; i++)
 		{
 			if (ImGui::Button(names[i].c_str()))
 			{
 				typeName = names[i];
-				target = factory->CreateEditor(typeName);
+				target = desc->Factory->CreateEditor(typeName);
+				target->Initialize(desc->Scene);
 				On();
 			}
 		}
@@ -95,7 +84,7 @@ void ObjectEditor::Load(BinaryReader * r)
 	SafeDelete(target);
 	if (typeName != "None")
 	{
-		target = factory->CreateEditor(typeName);
+		target = desc->Factory->CreateEditor(typeName);
 		assert(target != nullptr);
 		target->Load(r);
 	}

@@ -14,15 +14,12 @@ public:
 	class IObjectEditor* CreateEditor(string typeName);
 
 private:
-	// 제조를 위한 값
-	vector<pair<string, IObjectEditor*(*)(void)>> creator;
-	string* names;
+	struct Creator
+	{
+		string Name;
+		function<IObjectEditor*()> Create;
+	};
+	vector<Creator> creators;
 	UINT size;
-
-
-public:
-	void AddValue(string tag, void* value);
-
-private:
-	static map<string, void*> insertValues;
+	string* names;
 };

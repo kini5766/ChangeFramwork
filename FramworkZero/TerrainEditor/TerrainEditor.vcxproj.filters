@@ -26,32 +26,44 @@
     <ClCompile Include="SceneEditor\Scene\EditorDemo.cpp">
       <Filter>SceneEditor\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="SceneEditor\Main\IObjectEditor.cpp">
-      <Filter>SceneEditor\Main</Filter>
-    </ClCompile>
     <ClCompile Include="SceneEditor\Main\ObjectEditorFactory.cpp">
       <Filter>SceneEditor\Main</Filter>
     </ClCompile>
     <ClCompile Include="SceneEditor\Main\SceneEditor.cpp">
       <Filter>SceneEditor\Main</Filter>
     </ClCompile>
-    <ClCompile Include="SceneEditor\Objects\MeshInstancingEditor.cpp">
-      <Filter>SceneEditor\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneEditor\Objects\Component\ComponentMaterial.cpp">
-      <Filter>SceneEditor\Objects\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneEditor\Objects\Component\ComponentCollider.cpp">
-      <Filter>SceneEditor\Objects\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneEditor\Objects\Component\ComponentTransform.cpp">
-      <Filter>SceneEditor\Objects\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneEditor\Main\EditorValue.cpp">
-      <Filter>SceneEditor\Main</Filter>
-    </ClCompile>
     <ClCompile Include="SceneEditor\Objects\EnemyInstancingEditor.cpp">
       <Filter>SceneEditor\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEditor\Component\ComponentCollider.cpp">
+      <Filter>SceneEditor\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEditor\Component\ComponentMaterial.cpp">
+      <Filter>SceneEditor\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEditor\Component\ComponentTransform.cpp">
+      <Filter>SceneEditor\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEditor\Objects\MeshInstancing\MeshInstancingEditor.cpp">
+      <Filter>SceneEditor\Objects\MeshInstancing</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEditor\Main\E_SceneValue.cpp">
+      <Filter>SceneEditor\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEditor\Main\ObjectEditorList.cpp">
+      <Filter>SceneEditor\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEditor\Main\ObjectEditor.cpp">
+      <Filter>SceneEditor\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEditor\Objects\MeshInstancing\MeshInstancingFile.cpp">
+      <Filter>SceneEditor\Objects\MeshInstancing</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEditor\Objects\MeshInstancing\MeshInstancingDesc.cpp">
+      <Filter>SceneEditor\Objects\MeshInstancing</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEditor\Objects\MeshInstancing\MeshInstancingImGui.cpp">
+      <Filter>SceneEditor\Objects\MeshInstancing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,23 +101,38 @@
     <ClInclude Include="SceneEditor\Main\SceneEditor.h">
       <Filter>SceneEditor\Main</Filter>
     </ClInclude>
-    <ClInclude Include="SceneEditor\Objects\MeshInstancingEditor.h">
-      <Filter>SceneEditor\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneEditor\Objects\Component\ComponentMaterial.h">
-      <Filter>SceneEditor\Objects\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneEditor\Objects\Component\ComponentCollider.h">
-      <Filter>SceneEditor\Objects\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneEditor\Objects\Component\ComponentTransform.h">
-      <Filter>SceneEditor\Objects\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneEditor\Main\EditorValue.h">
-      <Filter>SceneEditor\Main</Filter>
-    </ClInclude>
     <ClInclude Include="SceneEditor\Objects\EnemyInstancingEditor.h">
       <Filter>SceneEditor\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor\Component\ComponentCollider.h">
+      <Filter>SceneEditor\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor\Component\ComponentMaterial.h">
+      <Filter>SceneEditor\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor\Component\ComponentTransform.h">
+      <Filter>SceneEditor\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor\Objects\MeshInstancing\MeshInstancingEditor.h">
+      <Filter>SceneEditor\Objects\MeshInstancing</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor\Main\E_SceneValue.h">
+      <Filter>SceneEditor\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor\Main\ObjectEditorList.h">
+      <Filter>SceneEditor\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor\Main\ObjectEditor.h">
+      <Filter>SceneEditor\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor\Objects\MeshInstancing\MeshInstancingFile.h">
+      <Filter>SceneEditor\Objects\MeshInstancing</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor\Objects\MeshInstancing\MeshInstancingDesc.h">
+      <Filter>SceneEditor\Objects\MeshInstancing</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor\Objects\MeshInstancing\MeshInstancingImGui.h">
+      <Filter>SceneEditor\Objects\MeshInstancing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -127,8 +154,11 @@
     <Filter Include="SceneEditor\Main">
       <UniqueIdentifier>{4ae2c817-6202-44a8-b5f8-89aeb3bb1841}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SceneEditor\Objects\Component">
-      <UniqueIdentifier>{5c19e197-e47f-4dc3-8ea3-099caf6671b9}</UniqueIdentifier>
+    <Filter Include="SceneEditor\Component">
+      <UniqueIdentifier>{ed75dc1f-49fe-466a-86c5-2c9df8ee2f28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneEditor\Objects\MeshInstancing">
+      <UniqueIdentifier>{dbd466d5-01bd-40c3-a943-d6ce2667d004}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

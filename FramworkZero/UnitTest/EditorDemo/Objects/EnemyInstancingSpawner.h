@@ -14,8 +14,8 @@ private:
 
 private:
 	// IObjectSpawner을(를) 통해 상속됨
-	virtual bool Load(BinaryReader * r) override;
-	virtual void Initialize(SceneValueUnit * scene) override;
+	bool Load(BinaryReader * r) override;
+	void Initialize(SceneValueUnit * scene) override;
 
 private:
 	void CreateEnemy(int item);

@@ -1,61 +1,46 @@
 #include "stdafx.h"
-#include "EditorValue.h"
+#include "ObjectEditorList.h"
 
-#include "IObjectEditor.h"
+#include "ObjectEditor.h"
 
-EditorValue::EditorValue()
+ObjectEditorList::ObjectEditorList()
 {
 }
 
-EditorValue::~EditorValue()
+ObjectEditorList::~ObjectEditorList()
 {
 	for (auto d : objs)
 		SafeDelete(d);
 }
 
-void EditorValue::Update()
-{
-	for (ObjectEditor* obj : objs)
-		obj->Update();
-}
 
-void EditorValue::Render()
-{
-	for (ObjectEditor* obj : objs)
-		obj->Render();
-}
-
-void EditorValue::ImGuiRender()
-{
-	if (selectedNum != -1)
-		objs[selectedNum]->ImGuiRender();
-}
-
-
-UINT EditorValue::Size() const
+UINT ObjectEditorList::Size() const
 {
 	return objs.size();
 }
 
-ObjectEditor * EditorValue::GetObj(UINT index)
+ObjectEditor * ObjectEditorList::GetObj(UINT index)
 {
 	return objs[index];
 }
 
-void EditorValue::Clear()
+void ObjectEditorList::Clear()
 {
 	for (auto d : objs)
 		SafeDelete(d);
 	objs.clear();
 }
 
-
-void EditorValue::Add(ObjectEditor * obj)
+ObjectEditor* ObjectEditorList::CreateEditor(EditorDesc* desc)
 {
+	ObjectEditor* obj = new ObjectEditor(desc);
+	string str = obj->Name() + to_string(objs.size());
+	obj->Name(str.c_str());
 	objs.push_back(obj);
+	return obj;
 }
 
-void EditorValue::Destroy(int index)
+void ObjectEditorList::Destroy(int index)
 {
 	if (-1 == index)
 		return;
@@ -69,7 +54,7 @@ void EditorValue::Destroy(int index)
 }
 
 
-void EditorValue::SelectNone()
+void ObjectEditorList::SelectNone()
 {
 	if (IsSelected())
 		objs[selectedNum]->Off();
@@ -77,7 +62,7 @@ void EditorValue::SelectNone()
 	selectedNum = -1;
 }
 
-void EditorValue::Select(int index)
+void ObjectEditorList::Select(int index)
 {
 	if (selectedNum == index ||
 		-1 == index)

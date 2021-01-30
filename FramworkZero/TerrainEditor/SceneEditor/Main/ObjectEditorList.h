@@ -1,15 +1,10 @@
 #pragma once
 
-class EditorValue
+class ObjectEditorList
 {
 public:
-	EditorValue();
-	~EditorValue();
-
-public:
-	void Update();
-	void Render();
-	void ImGuiRender();
+	ObjectEditorList();
+	~ObjectEditorList();
 
 public:
 	UINT Size() const;
@@ -19,7 +14,7 @@ public:
 public:
 	class ObjectEditor* GetObj(UINT index);
 	void Clear();
-	void Add(class ObjectEditor* obj);
+	ObjectEditor* CreateEditor(struct EditorDesc* desc);
 	void Destroy(int index);
 
 	void SelectNone();

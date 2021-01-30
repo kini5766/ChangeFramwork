@@ -4,26 +4,23 @@
 #include "Tools/Viewer/IFocus.h"
 
 #include "IObjectEditor.h"
-#include "../Objects/MeshInstancingEditor.h"
-
-map<string, void*> ObjectEditorFactory::insertValues;
+#include "../Objects/MeshInstancing/MeshInstancingEditor.h"
 
 void ObjectEditorFactory::Insert()
 {
-	creator.push_back(make_pair("MeshInstancing",
-		[]()->IObjectEditor* { return new MeshInstancingEditor(); }));
+	creators.push_back({ "MeshInstancing",
+		[]()->IObjectEditor* { return new MeshInstancingEditor(); } });
 }
 
 
 ObjectEditorFactory::ObjectEditorFactory()
 {
 	Insert();
-	size = creator.size();
+	size = creators.size();
 	names = new string[size];
 
-	UINT size = creator.size();
 	for (UINT i = 0; i < size; i++)
-		names[i] = creator[i].first;
+		names[i] = creators[i].Name;
 }
 
 ObjectEditorFactory::~ObjectEditorFactory()
@@ -41,19 +38,14 @@ IObjectEditor * ObjectEditorFactory::CreateEditor(string typeName)
 {
 	IObjectEditor* result = nullptr;
 
-	for (auto c : creator)
+	for (auto c : creators)
 	{
-		if (typeName == c.first)
+		if (typeName == c.Name)
 		{
-			result = c.second();
+			result = c.Create();
 			break;
 		}
 	}
 
 	return result;
-}
-
-void ObjectEditorFactory::AddValue(string tag, void * value)
-{
-	insertValues[tag] = value;
 }

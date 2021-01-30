@@ -1,26 +1,30 @@
 #include "stdafx.h"
 #include "SceneEditor.h"
-
 #include "Utilities/BinaryFile.h"
+
 #include "ObjectEditorFactory.h"
-#include "SceneValue.h"
-#include "IObjectEditor.h"
+#include "ObjectEditorList.h"
+#include "E_SceneValue.h"
+#include "ObjectEditor.h"
 
 SceneEditor::SceneEditor()
 {
-	factory = new ObjectEditorFactory();
-	value = new SceneValue();
+	desc->Factory = new ObjectEditorFactory();
+	desc->Scene = new E_SceneValue();
+	objList = new ObjectEditorList();
 }
 
 SceneEditor::~SceneEditor()
 {
-	SafeDelete(value);
-	SafeDelete(factory);
+	SafeDelete(objList);
+	SafeDelete(desc->Scene);
+	SafeDelete(desc->Factory);
+	SafeDelete(desc);
 }
 
 void SceneEditor::Update()
 {
-	value->Update();
+	desc->Scene->Update();
 }
 
 void SceneEditor::Render()
@@ -35,9 +39,16 @@ void SceneEditor::Render()
 		RenderObjectButton();
 		ImGui::End();
 	}
-	RenderSelected();
 
-	value->Render();
+	if (objList->IsSelected())
+		objList->GetObj(objList->GetSelected())->ImGuiRender();
+
+	desc->Scene->Render();
+}
+
+void SceneEditor::AddValue(string tag, void * value)
+{
+	desc->Scene->AddValue(tag, value);
 }
 
 
@@ -48,13 +59,12 @@ void SceneEditor::RenderTopMenu()
 	if (ImGui::Button("Save")) Save();
 	ImGui::SameLine();
 	if (ImGui::Button("Load")) Load();
-	if (ImGui::Button("SelectNone")) value->SelectNone();
-	if (ImGui::Button("CreateObject")) CreateEditor();
-	if (value->IsSelected())
+	if (ImGui::Button("SelectNone")) objList->SelectNone();
+	if (ImGui::Button("CreateObject")) objList->CreateEditor(desc);
+	if (objList->IsSelected())
 	{
 		if (ImGui::Button("DeleteObject"))
-			value->Destroy(value->GetSelected());
-
+			objList->Destroy(objList->GetSelected());
 	}
 	else
 	{
@@ -68,31 +78,19 @@ void SceneEditor::RenderObjectButton()
 {
 	if (ImGui::CollapsingHeader("Edit Objects", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		UINT size = value->Size();
+		UINT size = objList->Size();
 		for (UINT i = 0; i < size; i++)
 		{
 			ImGui::PushID(i);
-			string imguiName = value->GetObj(i)->Name();
-			if (value->GetSelected() == i)
+			string imguiName = objList->GetObj(i)->Name();
+			if (objList->GetSelected() == i)
 				imguiName = ">" + imguiName + "<";
 
 			if (ImGui::Button(imguiName.c_str(), btnSize))
-				value->Select(i);
+				objList->Select(i);
 			ImGui::PopID();
 		}
 	}
-}
-
-#pragma endregion
-
-
-#pragma region Object Create
-
-ObjectEditor* SceneEditor::CreateEditor()
-{
-	ObjectEditor* obj = new ObjectEditor(factory, static_cast<int>(value->Size()));
-	value->Add(obj);
-	return obj;
 }
 
 #pragma endregion
@@ -122,17 +120,17 @@ void SceneEditor::WriteFile(wstring file)
 {
 	BinaryWriter w(file);
 
-	UINT size = value->Size();
+	UINT size = objList->Size();
 	w.UInt(size);
 
 	for (UINT i = 0; i < size; i++)
-		value->GetObj(i)->Save(&w);
+		objList->GetObj(i)->Save(&w);
 }
 
 void SceneEditor::OpenFile(wstring file)
 {
-	value->SelectNone();
-	value->Clear();
+	objList->SelectNone();
+	objList->Clear();
 
 	BinaryReader r(file);
 
@@ -140,7 +138,7 @@ void SceneEditor::OpenFile(wstring file)
 
 	for (UINT i = 0; i < size; i++)
 	{
-		ObjectEditor* obj = CreateEditor();
+		ObjectEditor* obj = objList->CreateEditor(desc);
 		obj->Load(&r);
 	}
 }

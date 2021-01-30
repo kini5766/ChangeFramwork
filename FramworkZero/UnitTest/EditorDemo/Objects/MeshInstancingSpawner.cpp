@@ -44,18 +44,20 @@ bool MeshInstancingSpawner::Load(BinaryReader * r)
 	ColliderLoader cLoader;
 	MaterialLoader mLoader;
 
-	int imguiItem = r->Int();
-	if (imguiItem == -1) return false;
+	InputValue input;
+
+	input.Item = r->Int();
+	if (input.Item == -1) return false;
 
 	// meshInstancing
-	_f1 = r->Float();
-	_f2 = r->Float();
-	_u1 = r->UInt();
-	_u2 = r->UInt();
+	input._F1 = r->Float();
+	input._F2 = r->Float();
+	input._U1 = r->UInt();
+	input._U2 = r->UInt();
 
 	mLoader.Load(r);
 
-	meshInstancing = GetInstancing(imguiItem);
+	meshInstancing = GetInstancing(input);
 
 	// meshInstance
 	UINT size = r->UInt();
@@ -91,15 +93,15 @@ bool MeshInstancingSpawner::Load(BinaryReader * r)
 	return true;
 }
 
-MeshInstancing * MeshInstancingSpawner::GetInstancing(UINT item)
+MeshInstancing * MeshInstancingSpawner::GetInstancing(InputValue& value)
 {
-	switch (item)
+	switch (value.Item)
 	{
 	case 0: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshCube()))); break;
-	case 1: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshCylinder(_f1, _f2, _u1, _u2)))); break;
-	case 2: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshPlane(_f1, _f2)))); break;
+	case 1: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshCylinder(value._F1, value._F2, value._U1, value._U2)))); break;
+	case 2: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshPlane(value._F1, value._F2)))); break;
 	case 3: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshQuad()))); break;
-	case 4: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshSphere(_f1, _u1, _u2)))); break;
+	case 4: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshSphere(value._F1, value._U1, value._U2)))); break;
 	default: return nullptr;
 	}
 }

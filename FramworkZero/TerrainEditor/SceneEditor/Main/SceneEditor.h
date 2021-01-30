@@ -10,13 +10,12 @@ public:
 	void Update();
 	void Render();
 
+public:
+	void AddValue(string tag, void* value);
+
 private:
 	void RenderTopMenu();
 	void RenderObjectButton();
-	void RenderSelected();
-
-	class ObjectEditor* CreateEditor();
-	//void AddEditor(string tag, void* input);
 
 private:
 	void Save();
@@ -27,8 +26,9 @@ private:
 private:
 	ImVec2 btnSize = ImVec2(180.0f, 24.0f);
 
-	class SceneValue* value;
-	class ObjectEditorFactory* factory;
+private:
+	struct EditorDesc* desc;
+	class ObjectEditorList* objList;
 
 	wstring file = L"new scene.scene";
 };
