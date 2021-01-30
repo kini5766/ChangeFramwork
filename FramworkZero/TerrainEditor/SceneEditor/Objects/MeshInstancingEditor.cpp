@@ -1,16 +1,16 @@
 #include "stdafx.h"
 #include "MeshInstancingEditor.h"
 
-#include "Component/TransformEditor.h"
-#include "Component/ColliderEditor.h"
-#include "Component/MaterialEditor.h"
+#include "Component/ComponentTransform.h"
+#include "Component/ComponentCollider.h"
+#include "Component/ComponentMaterial.h"
 
 MeshInstancingEditor::MeshInstancingEditor()
 {
 	shader = Shader::Load(L"01_Mesh.fxo");
-	tImGui = new TransformEditor();
-	cImGui = new ColliderEditor();
-	mImGui = new MaterialEditor();
+	tImGui = new ComponentTransform();
+	cImGui = new ComponentCollider();
+	mImGui = new ComponentMaterial();
 }
 
 MeshInstancingEditor::~MeshInstancingEditor()
@@ -116,9 +116,9 @@ void MeshInstancingEditor::Load(BinaryReader * r)
 
 void MeshInstancingEditor::ImGuiRender()
 {
-	// 매쉬 유형 선택
 	if (meshInstancing == nullptr)
 	{
+		// 매쉬 유형 선택
 		MakingInstancing();
 		ImGui::Separator();
 		mImGui->RenderImGui();

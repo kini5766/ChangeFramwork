@@ -13,5 +13,10 @@ public:
 	virtual void ResizeScreen() override {}
 
 private:
-	class SceneValue* scene;
+	RenderTarget* renderTarget;
+	DepthStencil* depthStencil;
+	Viewport* viewport;
+
+private:
+	class SceneEditor* editor;
 };

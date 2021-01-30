@@ -1,5 +1,19 @@
 #pragma once
 
+struct SceneAction
+{
+	function<void(void)> Action;
+	bool bDestroy = true;
+};
+
+struct SceneValueUnit
+{
+	map<string, void*>& InsertedValues;
+
+	SceneAction* Updater;
+	SceneAction* Renderer;
+};
+
 class SceneValue
 {
 public:
@@ -7,16 +21,22 @@ public:
 	~SceneValue();
 
 public:
+	void Initialize();
 	void Update();
 	void Render();
 
 public:
-	void Add(class ObjectEditor* obj);
-	void Destroy(UINT index);
-	UINT Size() const;
-	class ObjectEditor* Obj(UINT index);
-	void Clear();
+	void AddObject(class IObjectSpawner* value);
+	void AddValue(string tag, void* value);
+	void* GetValue(string tag);
 
 private:
-	vector<class ObjectEditor*> objs;
+	void Action(list<SceneAction*>& actions);
+
+private:
+	list<SceneAction*> updater;
+	list<SceneAction*> renderer;
+	map<string, void*> insertedValues;
+
+	vector<class IObjectSpawner*> objects;
 };

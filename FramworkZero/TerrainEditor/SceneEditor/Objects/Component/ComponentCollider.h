@@ -1,10 +1,10 @@
 #pragma once
 
-class ColliderEditor
+class ComponentCollider
 {
 public:
-	ColliderEditor();
-	~ColliderEditor();
+	ComponentCollider();
+	~ComponentCollider();
 
 	void RenderImGui(ColliderBox* c);
 	void Save(ColliderBox* c, class BinaryWriter * w);

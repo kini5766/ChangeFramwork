@@ -1,10 +1,10 @@
 #pragma once
 
-class TransformEditor
+class ComponentTransform
 {
 public:
-	TransformEditor();
-	~TransformEditor();
+	ComponentTransform();
+	~ComponentTransform();
 
 	void RenderImGui(Transform* t);
 	void Save(Transform* t, class BinaryWriter * w);

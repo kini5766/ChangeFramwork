@@ -101,22 +101,6 @@ void ObjectEditor::Load(BinaryReader * r)
 	}
 }
 
-bool ObjectEditor::LoadTakeOut(BinaryReader * r)
-{
-	typeName = r->String();
-	inputName->Text(r->String().c_str());
-
-	if (typeName != "None")
-	{
-		target = factory->CreateEditor(typeName);
-		assert(target != nullptr);
-		return target->LoadTakeOut(r);
-	}
-
-	return false;
-}
-
-
 void ObjectEditor::Name(const char * value)
 {
 	inputName->Text(value);

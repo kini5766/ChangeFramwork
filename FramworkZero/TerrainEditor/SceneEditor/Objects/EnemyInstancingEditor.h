@@ -5,7 +5,7 @@
 class EnemyInstancingEditor : public IObjectEditor
 {
 public:
-	EnemyInstancingEditor(class IFocus* player);
+	EnemyInstancingEditor();
 	~EnemyInstancingEditor();
 
 public:
@@ -15,24 +15,16 @@ public:
 	void Render() override;
 	void Save(BinaryWriter * w) override;
 	void Load(BinaryReader * r) override;
-	bool LoadTakeOut(BinaryReader * r) override;
 	void On() override;
 	void Off() override;
 
 private:
-	void CreateEnemy(int item);
 	void AddInstance();
 	void Select(int i);
-	void SetScale(Transform* t);
-
-	// render
-private:
-	class EnemyInstancing* enemy;
-	class IFocus* player;
 
 	// save load
 private:
-	class TransformEditor* tImGui;
+	class ComponentTransform* tImGui;
 
 	// imgui
 private:

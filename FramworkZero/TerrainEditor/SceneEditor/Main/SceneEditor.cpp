@@ -18,29 +18,6 @@ SceneEditor::~SceneEditor()
 	SafeDelete(factory);
 }
 
-SceneValue * SceneEditor::Takeout(wstring file)
-{
-	SceneValue * result = new SceneValue();
-
-	BinaryReader r(URI::Scenes + file + L".scene");
-
-	UINT size = r.UInt();
-	for (UINT i = 0; i < size; i++)
-	{
-		ObjectEditor* obj = new ObjectEditor(factory, static_cast<int>(value->Size()));
-		if (obj->LoadTakeOut(&r))
-			result->Add(obj);
-		else SafeDelete(obj);
-	}
-
-	return result;
-}
-
-void SceneEditor::AddValue(string tag, void * value)
-{
-	factory->AddValue(tag, value);
-}
-
 void SceneEditor::Update()
 {
 	value->Update();
@@ -48,13 +25,16 @@ void SceneEditor::Update()
 
 void SceneEditor::Render()
 {
-	ImGui::Begin("Editor");
-	//ImGui::DockSpace(ImGui::GetID("Editor"));
-	RenderTopMenu();
-	ImGui::Separator();
-	RenderObjectButton();
-	ImGui::End();
-
+	//ImGui::Begin("Scene");
+	//ImGui::DockSpace(ImGui::GetID("Scene"));
+	//ImGui::End();
+	{
+		ImGui::Begin("Editor");
+		RenderTopMenu();
+		ImGui::Separator();
+		RenderObjectButton();
+		ImGui::End();
+	}
 	RenderSelected();
 
 	value->Render();
@@ -68,16 +48,13 @@ void SceneEditor::RenderTopMenu()
 	if (ImGui::Button("Save")) Save();
 	ImGui::SameLine();
 	if (ImGui::Button("Load")) Load();
-	if (ImGui::Button("SelectNone")) SelectNone();
+	if (ImGui::Button("SelectNone")) value->SelectNone();
 	if (ImGui::Button("CreateObject")) CreateEditor();
-	if (selectedType == SelectedType::Editor)
+	if (value->IsSelected())
 	{
 		if (ImGui::Button("DeleteObject"))
-		{
-			UINT num = selectedNum;
-			SelectNone();
-			value->Destroy(num);
-		}
+			value->Destroy(value->GetSelected());
+
 	}
 	else
 	{
@@ -95,52 +72,15 @@ void SceneEditor::RenderObjectButton()
 		for (UINT i = 0; i < size; i++)
 		{
 			ImGui::PushID(i);
-			string imguiName = value->Obj(i)->Name();
-			if (selectedNum == i)
+			string imguiName = value->GetObj(i)->Name();
+			if (value->GetSelected() == i)
 				imguiName = ">" + imguiName + "<";
 
 			if (ImGui::Button(imguiName.c_str(), btnSize))
-				Select(i);
+				value->Select(i);
 			ImGui::PopID();
 		}
 	}
-}
-
-void SceneEditor::RenderSelected()
-{
-	if (selectedType == SelectedType::Editor)
-		value->Obj(selectedNum)->ImGuiRender();
-}
-
-#pragma endregion
-
-
-#pragma region Select
-
-void SceneEditor::Deselect()
-{
-	if (selectedType == SelectedType::Editor)
-		value->Obj(selectedNum)->Off();
-}
-
-void SceneEditor::SelectNone()
-{
-	Deselect();
-	selectedType = SelectedType::None;
-	selectedNum = -1;
-}
-
-void SceneEditor::Select(UINT index)
-{
-	if (selectedType == SelectedType::Editor && selectedNum == index)
-	{
-		SelectNone();
-		return;
-	}
-	Deselect();
-	selectedType = SelectedType::Editor;
-	selectedNum = index;
-	value->Obj(selectedNum)->On();
 }
 
 #pragma endregion
@@ -186,12 +126,12 @@ void SceneEditor::WriteFile(wstring file)
 	w.UInt(size);
 
 	for (UINT i = 0; i < size; i++)
-		value->Obj(i)->Save(&w);
+		value->GetObj(i)->Save(&w);
 }
 
 void SceneEditor::OpenFile(wstring file)
 {
-	SelectNone();
+	value->SelectNone();
 	value->Clear();
 
 	BinaryReader r(file);
@@ -206,5 +146,4 @@ void SceneEditor::OpenFile(wstring file)
 }
 
 #pragma endregion
-
 

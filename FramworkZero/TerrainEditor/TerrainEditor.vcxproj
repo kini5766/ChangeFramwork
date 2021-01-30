@@ -139,6 +139,16 @@
     <ClCompile Include="File\TerrainConverter.cpp" />
     <ClCompile Include="File\TerrainFile.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SceneEditor\Main\IObjectEditor.cpp" />
+    <ClCompile Include="SceneEditor\Main\ObjectEditorFactory.cpp" />
+    <ClCompile Include="SceneEditor\Main\SceneEditor.cpp" />
+    <ClCompile Include="SceneEditor\Main\EditorValue.cpp" />
+    <ClCompile Include="SceneEditor\Objects\Component\ComponentCollider.cpp" />
+    <ClCompile Include="SceneEditor\Objects\Component\ComponentMaterial.cpp" />
+    <ClCompile Include="SceneEditor\Objects\Component\ComponentTransform.cpp" />
+    <ClCompile Include="SceneEditor\Objects\EnemyInstancingEditor.cpp" />
+    <ClCompile Include="SceneEditor\Objects\MeshInstancingEditor.cpp" />
+    <ClCompile Include="SceneEditor\Scene\EditorDemo.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -153,6 +163,16 @@
     <ClInclude Include="File\TerrainConverter.h" />
     <ClInclude Include="File\TerrainFile.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="SceneEditor\Main\IObjectEditor.h" />
+    <ClInclude Include="SceneEditor\Main\ObjectEditorFactory.h" />
+    <ClInclude Include="SceneEditor\Main\SceneEditor.h" />
+    <ClInclude Include="SceneEditor\Main\EditorValue.h" />
+    <ClInclude Include="SceneEditor\Objects\Component\ComponentCollider.h" />
+    <ClInclude Include="SceneEditor\Objects\Component\ComponentMaterial.h" />
+    <ClInclude Include="SceneEditor\Objects\Component\ComponentTransform.h" />
+    <ClInclude Include="SceneEditor\Objects\EnemyInstancingEditor.h" />
+    <ClInclude Include="SceneEditor\Objects\MeshInstancingEditor.h" />
+    <ClInclude Include="SceneEditor\Scene\EditorDemo.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Editor.h" />
   </ItemGroup>

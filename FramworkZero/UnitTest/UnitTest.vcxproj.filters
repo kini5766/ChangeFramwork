@@ -7,32 +7,11 @@
     <ClCompile Include="Character\Kachujin.cpp">
       <Filter>Character</Filter>
     </ClCompile>
-    <ClCompile Include="EditorDemo\Objects\MeshInstancingEditor.cpp">
-      <Filter>EditorDemo\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="EditorDemo\Scene\EditorDemo.cpp">
       <Filter>EditorDemo\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="EditorDemo\Main\IObjectEditor.cpp">
-      <Filter>EditorDemo\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\Main\ObjectEditorFactory.cpp">
-      <Filter>EditorDemo\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\Main\SceneEditor.cpp">
-      <Filter>EditorDemo\Main</Filter>
-    </ClCompile>
     <ClCompile Include="EditorDemo\Main\SceneValue.cpp">
       <Filter>EditorDemo\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\Objects\Component\TransformEditor.cpp">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\Objects\Component\ColliderEditor.cpp">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\Objects\Component\MaterialEditor.cpp">
-      <Filter>EditorDemo\Objects\Component</Filter>
     </ClCompile>
     <ClCompile Include="Component\HPSystem.cpp">
       <Filter>Component</Filter>
@@ -64,9 +43,6 @@
     <ClCompile Include="Player\CharacterController.cpp">
       <Filter>Player</Filter>
     </ClCompile>
-    <ClCompile Include="EditorDemo\Objects\EnemyInstancingEditor.cpp">
-      <Filter>EditorDemo\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Component\AttackAnimation.cpp">
       <Filter>Component\Attack</Filter>
     </ClCompile>
@@ -91,6 +67,27 @@
     <ClCompile Include="Character\GasMask.cpp">
       <Filter>Character</Filter>
     </ClCompile>
+    <ClCompile Include="EditorDemo\Main\ObjectSpawnerFactory.cpp">
+      <Filter>EditorDemo\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Main\SceneLoader.cpp">
+      <Filter>EditorDemo\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\Component\ColliderLoader.cpp">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\Component\MaterialLoader.cpp">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\Component\TransformLoader.cpp">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\MeshInstancingSpawner.cpp">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\EnemyInstancingSpawner.cpp">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
@@ -99,32 +96,11 @@
     <ClInclude Include="Character\Kachujin.h">
       <Filter>Character</Filter>
     </ClInclude>
-    <ClInclude Include="EditorDemo\Objects\MeshInstancingEditor.h">
-      <Filter>EditorDemo\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="EditorDemo\Scene\EditorDemo.h">
       <Filter>EditorDemo\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="EditorDemo\Main\IObjectEditor.h">
-      <Filter>EditorDemo\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\Main\ObjectEditorFactory.h">
-      <Filter>EditorDemo\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\Main\SceneEditor.h">
-      <Filter>EditorDemo\Main</Filter>
-    </ClInclude>
     <ClInclude Include="EditorDemo\Main\SceneValue.h">
       <Filter>EditorDemo\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\Objects\Component\TransformEditor.h">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\Objects\Component\ColliderEditor.h">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\Objects\Component\MaterialEditor.h">
-      <Filter>EditorDemo\Objects\Component</Filter>
     </ClInclude>
     <ClInclude Include="Component\HPSystem.h">
       <Filter>Component</Filter>
@@ -156,9 +132,6 @@
     <ClInclude Include="Player\CharacterController.h">
       <Filter>Player</Filter>
     </ClInclude>
-    <ClInclude Include="EditorDemo\Objects\EnemyInstancingEditor.h">
-      <Filter>EditorDemo\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Component\AttackAnimation.h">
       <Filter>Component\Attack</Filter>
     </ClInclude>
@@ -185,6 +158,30 @@
     </ClInclude>
     <ClInclude Include="Character\GasMask.h">
       <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Main\ObjectSpawnerFactory.h">
+      <Filter>EditorDemo\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Main\IObjectSpawner.h">
+      <Filter>EditorDemo\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Main\SceneLoader.h">
+      <Filter>EditorDemo\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\Component\ColliderLoader.h">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\Component\MaterialLoader.h">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\Component\TransformLoader.h">
+      <Filter>EditorDemo\Objects\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\MeshInstancingSpawner.h">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\EnemyInstancingSpawner.h">
+      <Filter>EditorDemo\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

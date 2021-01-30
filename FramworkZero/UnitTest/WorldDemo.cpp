@@ -4,7 +4,7 @@
 #include "Objects/PostProcessing/PostEffectTest.h"
 
 #include "EditorDemo/Main/SceneValue.h"
-#include "EditorDemo/Main/SceneEditor.h"
+#include "EditorDemo/Main/SceneLoader.h"
 #include "Tools/Viewer/OrbitCamera.h"
 #include "Component/WorldLightGroup.h"
 #include "Player/WorldPlayer.h"
@@ -15,6 +15,7 @@ void WorldDemo::Initialize()
 	lights = new WorldLightGroup();
 
 	player = new WorldPlayer();
+	scene = new SceneValue();
 	LoadScene();
 	Billboards();
 
@@ -68,10 +69,12 @@ void WorldDemo::Render()
 
 void WorldDemo::LoadScene()
 {
-	SceneEditor editor;
-	editor.AddValue("IFocusPlayer", player->GetFocus());
-	scene = editor.Takeout(L"World2");
-	Debug::Gizmo->SetTransform(nullptr);
+	scene->AddValue("IFocusPlayer", player->GetFocus());
+
+	SceneLoader loader;
+	loader.Load(scene, L"World2");
+
+	scene->Initialize();
 }
 
 void WorldDemo::Billboards()

@@ -43,9 +43,9 @@ private:
 
 	// save load
 private:
-	class TransformEditor* tImGui;
-	class ColliderEditor* cImGui;
-	class MaterialEditor* mImGui;
+	class ComponentTransform* tImGui;
+	class ComponentCollider* cImGui;
+	class ComponentMaterial* mImGui;
 	float _f1 = 1.0f;
 	float _f2 = 1.0f;
 	UINT _u1 = 1u;

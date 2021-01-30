@@ -7,10 +7,6 @@ public:
 	~SceneEditor();
 
 public:
-	class SceneValue* Takeout(wstring file);
-	void AddValue(string tag, void* value);
-
-public:
 	void Update();
 	void Render();
 
@@ -20,10 +16,7 @@ private:
 	void RenderSelected();
 
 	class ObjectEditor* CreateEditor();
-
-	void Deselect();
-	void SelectNone();
-	void Select(UINT index);
+	//void AddEditor(string tag, void* input);
 
 private:
 	void Save();
@@ -37,12 +30,6 @@ private:
 	class SceneValue* value;
 	class ObjectEditorFactory* factory;
 
-	UINT selectedNum = 0;
 	wstring file = L"new scene.scene";
-
-private:
-	enum class SelectedType { 
-		None = 0, Editor, Debug 
-	} selectedType;
 };
 

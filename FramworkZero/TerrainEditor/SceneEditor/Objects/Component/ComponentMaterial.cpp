@@ -1,21 +1,21 @@
 #include "stdafx.h"
-#include "MaterialEditor.h"
+#include "ComponentMaterial.h"
 
 #include "Tools/ImGuiInputText.h"
 #include "Utilities/BinaryFile.h"
 
-MaterialEditor::MaterialEditor()
+ComponentMaterial::ComponentMaterial()
 {
 }
 
-MaterialEditor::~MaterialEditor()
+ComponentMaterial::~ComponentMaterial()
 {
 	SafeDelete(diffuseImGui);
 	SafeDelete(specularImGui);
 	SafeDelete(normalMapImGui);
 }
 
-void MaterialEditor::RenderImGui()
+void ComponentMaterial::RenderImGui()
 {
 	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -84,7 +84,7 @@ void MaterialEditor::RenderImGui()
 	}
 }
 
-void MaterialEditor::Save(BinaryWriter * w)
+void ComponentMaterial::Save(BinaryWriter * w)
 {
 	w->Color4f(emissive);
 	w->Color4f(ambient);
@@ -95,7 +95,7 @@ void MaterialEditor::Save(BinaryWriter * w)
 	w->String(String::ToString(normalMap));
 }
 
-void MaterialEditor::Load(BinaryReader * r)
+void ComponentMaterial::Load(BinaryReader * r)
 {
 	emissive = r->Color4f();
 	ambient = r->Color4f();
@@ -108,7 +108,7 @@ void MaterialEditor::Load(BinaryReader * r)
 	//diffuseMap = String::ToWString(r->String());
 }
 
-void MaterialEditor::Apply(Material * mat)
+void ComponentMaterial::Apply(Material * mat)
 {
 	mat->Emissive(emissive);
 	mat->Ambient(ambient);

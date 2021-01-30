@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "TransformEditor.h"
+#include "ComponentTransform.h"
 
 #include "Utilities/BinaryFile.h"
 
-TransformEditor::TransformEditor()
+ComponentTransform::ComponentTransform()
 {
 }
 
-TransformEditor::~TransformEditor()
+ComponentTransform::~ComponentTransform()
 {
 }
 
-void TransformEditor::RenderImGui(Transform * t)
+void ComponentTransform::RenderImGui(Transform * t)
 {
 	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -43,7 +43,7 @@ void TransformEditor::RenderImGui(Transform * t)
 	}
 }
 
-void TransformEditor::Save(Transform * t, BinaryWriter * w)
+void ComponentTransform::Save(Transform * t, BinaryWriter * w)
 {
 	Vector3 pos;
 	Quaternion rota;
@@ -58,7 +58,7 @@ void TransformEditor::Save(Transform * t, BinaryWriter * w)
 	w->Vector3(scale);
 }
 
-void TransformEditor::Load(Transform * t, BinaryReader * r)
+void ComponentTransform::Load(Transform * t, BinaryReader * r)
 {
 	t->Position(r->Vector3());
 	t->Rotation(Quaternion((float*)r->Vector4()));

@@ -15,7 +15,6 @@ public:
 	virtual void Save(BinaryWriter* w) = 0;
 	virtual void Load(BinaryReader* r) = 0;
 	// return : 로드 성공 여부
-	virtual bool LoadTakeOut(BinaryReader* r) { Load(r); return true; }
 };
 
 class ObjectEditor
@@ -33,7 +32,6 @@ public:
 	void Off();
 	void Save(BinaryWriter* w);
 	void Load(BinaryReader* r);
-	bool LoadTakeOut(BinaryReader* r);
 
 public:
 	void Name(const char* value);

@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "ColliderEditor.h"
+#include "ComponentCollider.h"
 
 #include "Utilities/BinaryFile.h"
 
-ColliderEditor::ColliderEditor()
+ComponentCollider::ComponentCollider()
 {
 }
 
-ColliderEditor::~ColliderEditor()
+ComponentCollider::~ComponentCollider()
 {
 }
 
-void ColliderEditor::RenderImGui(ColliderBox * c)
+void ComponentCollider::RenderImGui(ColliderBox * c)
 {
 	if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -62,7 +62,7 @@ void ColliderEditor::RenderImGui(ColliderBox * c)
 	}
 }
 
-void ColliderEditor::Save(ColliderBox * c, BinaryWriter * w)
+void ComponentCollider::Save(ColliderBox * c, BinaryWriter * w)
 {
 	Vector3 pos;
 	Quaternion rota;
@@ -80,7 +80,7 @@ void ColliderEditor::Save(ColliderBox * c, BinaryWriter * w)
 	w->UInt(c->GetLayer());
 }
 
-void ColliderEditor::Load(ColliderBox * c, BinaryReader * r)
+void ComponentCollider::Load(ColliderBox * c, BinaryReader * r)
 {
 	Transform* t = c->GetTransform();
 	t->Position(r->Vector3());

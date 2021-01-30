@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SceneValue.h"
 
-#include "IObjectEditor.h"
+#include "IObjectSpawner.h"
 
 SceneValue::SceneValue()
 {
@@ -9,47 +9,81 @@ SceneValue::SceneValue()
 
 SceneValue::~SceneValue()
 {
-	for (auto d : objs)
+	for (auto d : updater)
 		SafeDelete(d);
+
+	for (auto d : renderer)
+		SafeDelete(d);
+
+	for (auto d : objects)
+		SafeDelete(d);
+}
+
+void SceneValue::Initialize()
+{
+	for (IObjectSpawner* object : objects)
+	{
+		SceneValueUnit unit = {
+			insertedValues,
+			new SceneAction(),
+			new SceneAction()
+		};
+
+		object->Initialize(&unit);
+
+		if (unit.Updater->bDestroy)
+		{
+			SafeDelete(unit.Updater);
+		}
+		else updater.push_back(unit.Updater);
+
+		if (unit.Renderer->bDestroy)
+		{
+			SafeDelete(unit.Renderer);
+		}
+		else renderer.push_back(unit.Renderer);
+	}
+
 }
 
 void SceneValue::Update()
 {
-	for (ObjectEditor* obj : objs)
-		obj->Update();
+	Action(updater);
 }
 
 void SceneValue::Render()
 {
-	for (ObjectEditor* obj : objs)
-		obj->Render();
+	Action(renderer);
 }
 
-void SceneValue::Add(ObjectEditor * obj)
+void SceneValue::AddObject(IObjectSpawner * value)
 {
-	objs.push_back(obj);
+	objects.push_back(value);
 }
 
-void SceneValue::Destroy(UINT index)
+void SceneValue::AddValue(string tag, void * value)
 {
-	vector<ObjectEditor*>::iterator iter = objs.begin() + index;
-	SafeDelete(*iter);
-	objs.erase(iter);
+	insertedValues[tag] = value;
 }
 
-UINT SceneValue::Size() const
+void * SceneValue::GetValue(string tag)
 {
-	return objs.size();
+	return insertedValues[tag];
 }
 
-ObjectEditor * SceneValue::Obj(UINT index)
+void SceneValue::Action(list<SceneAction*>& actions)
 {
-	return objs[index];
-}
+	list<SceneAction*>::iterator iter = actions.begin();
+	while (iter != actions.end())
+	{
+		if ((*iter)->bDestroy)
+		{
+			SafeDelete(*iter);
+			actions.erase(iter++);
+			return;
+		}
 
-void SceneValue::Clear()
-{
-	for (auto d : objs)
-		SafeDelete(d);
-	objs.clear();
+		(*iter)->Action();
+		++iter;
+	}
 }

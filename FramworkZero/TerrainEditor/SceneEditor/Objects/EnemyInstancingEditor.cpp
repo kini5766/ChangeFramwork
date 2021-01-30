@@ -2,20 +2,15 @@
 #include "EnemyInstancingEditor.h"
 
 #include "Tools/Viewer/OrbitCamera.h"
-#include "Component/TransformEditor.h"
-#include "Enemy/EnemyInstancing.h"
-#include "Enemy/MeleeEnemy.h"
-#include "Enemy/MagicianEnemy.h"
+#include "Component/ComponentTransform.h"
 
-EnemyInstancingEditor::EnemyInstancingEditor(IFocus* player)
-	: player(player)
+EnemyInstancingEditor::EnemyInstancingEditor()
 {
-	tImGui = new TransformEditor();
+	tImGui = new ComponentTransform();
 }
 
 EnemyInstancingEditor::~EnemyInstancingEditor()
 {
-	SafeDelete(enemy);
 	SafeDelete(tImGui);
 
 	for (auto d : descs)
@@ -24,14 +19,19 @@ EnemyInstancingEditor::~EnemyInstancingEditor()
 
 void EnemyInstancingEditor::Update()
 {
-	if (enemy != nullptr)
-		enemy->Update();
 }
 
 void EnemyInstancingEditor::Render()
 {
-	if (enemy != nullptr)
-		enemy->Render();
+	// 매쉬 인스턴스 선택
+	for (UINT i = 0; i < descs.size(); i++)
+	{
+		Matrix local;
+		modelTemp->LocalWorld(&local);
+		modelTemp->SetParent(&descs[i]->Transform);
+		modelTemp->LocalWorld(local);
+		Debug::Box->RenderBox(modelTemp, Color(1, 0, 1, 1));
+	}
 }
 
 
@@ -66,52 +66,6 @@ void EnemyInstancingEditor::Load(BinaryReader * r)
 		desc->PatrolPoints.push_back(r->Vector3());
 
 		descs.push_back(desc);
-	}
-}
-
-bool EnemyInstancingEditor::LoadTakeOut(BinaryReader * r)
-{
-	CreateEnemy(r->Int());
-
-	UINT size = r->UInt();
-	if (size == 0)
-		return false;
-
-	for (UINT i = 0; i < size; i++)
-	{
-		Transform t;
-		tImGui->Load(&t, r);
-		SetScale(&t);
-
-		Matrix w;
-		t.LocalWorld(&w);
-
-		vector<Vector3> patrolPoints;
-		patrolPoints.push_back(r->Vector3());
-		patrolPoints.push_back(r->Vector3());
-		enemy->AddInstance(w, &patrolPoints);
-	}
-
-	return true;
-}
-
-void EnemyInstancingEditor::CreateEnemy(int item)
-{
-	enemyType = item;
-	switch (item)
-	{
-	case 0: enemy = new EnemyInstancing(player, unique_ptr<IEnemy>(new MeleeEnemy())); break;
-	case 1: enemy = new EnemyInstancing(player, unique_ptr<IEnemy>(new MagicianEnemy(player))); break;
-	}
-
-}
-
-void EnemyInstancingEditor::SetScale(Transform * t)
-{
-	switch (enemyType)
-	{
-	case 0: t->Scale(0.03f, 0.03f, 0.03f); break;
-	case 1: t->Scale(0.025f, 0.025f, 0.025f); break;
 	}
 }
 
@@ -176,12 +130,6 @@ void EnemyInstancingEditor::ImGuiRender()
 			{
 				Select(i);
 			}
-
-			Matrix local;
-			modelTemp->LocalWorld(&local);
-			modelTemp->SetParent(&descs[i]->Transform);
-			modelTemp->LocalWorld(local);
-			Debug::Box->RenderBox(modelTemp, Color(1, 0, 1, 1));
 		}
 	}
 

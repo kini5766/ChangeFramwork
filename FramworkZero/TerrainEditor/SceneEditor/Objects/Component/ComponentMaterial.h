@@ -1,15 +1,14 @@
 #pragma once
 
-class MaterialEditor
+class ComponentMaterial
 {
 public:
-	MaterialEditor();
-	~MaterialEditor();
+	ComponentMaterial();
+	~ComponentMaterial();
 
 	void RenderImGui();
 	void Save(class BinaryWriter * w);
 	void Load(class BinaryReader * r);
-
 	void Apply(Material* mat);
 
 private:

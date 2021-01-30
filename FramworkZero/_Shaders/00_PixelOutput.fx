@@ -74,7 +74,6 @@ struct MeshOutput_Shadow
 	float3 oPosition : Position1;  // NDC
 	float3 wPosition : Position2;  // World
 	//float4 wvpPosition : Position3;  // 디퍼드 렌더링 (나중에)
-	float4 wvpPosition_Sub[PROJECTION_TEXTURE_MAX_COUNT] : Position4;  // 프로젝션텍스쳐 -> PS로 이동
 	float4 sPosition : PositionS;  // 빛 기준 위치
 
 	float3 Normal : Normal0;
