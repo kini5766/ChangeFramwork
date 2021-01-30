@@ -13,6 +13,7 @@ Terrain::Terrain(wstring imageFile)
 	perTransform = new PerTransform(shader);
 	vertexBuffer = new VertexBuffer(meshData->Vertices, meshData->VertexCount, meshData->Stride, 0, true);
 	indexBuffer = new IndexBuffer(meshData->Indices, meshData->IndexCount);
+	shadow = new ShadowCaster(shader);
 
 	material = new Material(shader);
 	material->Diffuse(1, 1, 1, 1);
@@ -20,10 +21,8 @@ Terrain::Terrain(wstring imageFile)
 
 	material->SetTexture("BaseMap", baseMap);
 
-	shadow = new ShadowTest(shader, Vector3(128.0f, 64.0f, 128.0f), 128.0f);
-	//shadow = new ShadowCaster(shader);
-	//shadow->SetShadow_Global();
-	//shadow->SetFuncPreRender(bind(&Terrain::PreRender_Depth, this));
+	shadow->SetShadow_Global();
+	shadow->SetFuncPreRender(bind(&Terrain::PreRender_Depth, this));
 
 	layer1.sSRV = shader->AsSRV("Layer1AlphaMap");
 	layer1.sMap = shader->AsSRV("Layer1ColorMap");
@@ -59,8 +58,6 @@ void Terrain::Update()
 
 void Terrain::PreRender_Depth()
 {
-	shadow->PreRender();
-
 	perTransform->Render();
 
 	vertexBuffer->Render();

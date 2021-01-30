@@ -66,7 +66,7 @@ private:
 	VertexBuffer* vertexBuffer;
 	PerTransform* perTransform;
 	UINT pass = 3;
-	ShadowTest* shadow;
+	ShadowCaster* shadow;
 
 public:
 	struct VertexTerrain

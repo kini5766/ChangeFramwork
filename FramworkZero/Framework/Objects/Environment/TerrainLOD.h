@@ -54,7 +54,7 @@ private:
 	MeshData* meshData;
 	PerTransform* perTransform;
 	MeshRenderer* renderer;
-	ShadowTest* shadow;
+	ShadowCaster* shadow;
 
 	Material* material;
 

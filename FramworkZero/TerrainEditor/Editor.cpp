@@ -18,7 +18,7 @@ void Editor::Initialize()
 
 	sky = new CubeSky(L"Environment/Mountain1024.dds");
 	peojTexure = new ProjectionTexture(Shader::Load(L"01_TerrainLOD.fxo"), L"Environment/MagicCircle.png", 217.0f, 220.0f);
-	shadow = new Shadow(Vector3(128, 0, 128), 65.0f);
+	shadow = new Shadow(Vector3(-64.0f, 64.0f, 64.0f), 512.0f);
 	Shadow::SetGlobal(shadow);
 }
 
@@ -43,7 +43,7 @@ void Editor::Update()
 		ImGui::SliderFloat3("Directional Light", Lighting::Get()->DirectionalDesc()->Direction, -1.0f, 1.0f);
 
 		peojTexure->Update();
-		//shadow->ImGuiRender();
+		shadow->ImGuiRender();
 
 		if (terrain != nullptr)
 		{
@@ -70,8 +70,6 @@ void Editor::Update()
 void Editor::PreRender()
 {
 	shadow->PreRender();
-	if (terrain != nullptr)
-		terrain->PreRender_Depth();
 }
 
 void Editor::Render()

@@ -2,82 +2,14 @@
 #include "Shadow.h"
 
 
-#pragma region ShadowCaster
-
-ShadowCaster::ShadowCaster(Shader* s)
-	: shader(new ShaderSetter(s))
-{
-	sShadowSampler = shader->GetShader()->AsSampler("ShadowSampler");
-}
-
-ShadowCaster::~ShadowCaster()
-{
-	if (desc != nullptr)
-	{
-		desc->FuncPreRender = []() {};
-		desc->IsDestroy = true;
-	}
-	SafeDelete(buffer);
-
-	SafeDelete(shader);
-}
-
-void ShadowCaster::SetShadow_Global()
-{
-	if (desc != nullptr) {
-		desc->FuncPreRender = []() {};
-		desc->IsDestroy = true;
-	}
-	SafeDelete(buffer);
-
-	Shadow::AddCaster_Global(&desc);
-
-	if (desc == nullptr)
-		return;
-
-	desc->FuncPreRender = bind(&ShadowCaster::PreRender, this);
-	buffer = new ConstantBuffer(&desc->ShadowDesc, sizeof(Shadow::ShadowDesc));
-	shader->SetConstantBuffer("CB_Shadow", buffer->Buffer());
-	shader->SetSRV("ShadowMap", desc->DepthStencil->SRV());
-}
-
-void ShadowCaster::SetShadow(Shadow * value)
-{
-	if (desc != nullptr) {
-		desc->FuncPreRender = []() {};
-		desc->IsDestroy = true;
-	}
-	SafeDelete(buffer);
-
-	value->AddCaster(&desc);
-
-	desc->FuncPreRender = bind(&ShadowCaster::PreRender, this);
-	buffer = new ConstantBuffer(&desc->ShadowDesc, sizeof(Shadow::ShadowDesc));
-	shader->SetConstantBuffer("CB_Shadow", buffer->Buffer());
-	shader->SetSRV("ShadowMap", desc->DepthStencil->SRV());
-}
-
-void ShadowCaster::PreRender()
-{
-	buffer->Render();
-	shader->Render();
-	sShadowSampler->SetSampler(0, desc->ShadowSampler);
-
-	funcPreRender();
-}
-
-#pragma endregion
-
-
 #pragma region Shadow
 
 Shadow* Shadow::globalShadow = nullptr;
 
-void Shadow::AddCaster_Global(ShadowCastDesc ** shadowcast)
+ShadowCastDesc * Shadow::AddCaster_Global()
 {
-	if (globalShadow == nullptr) return;
-
-	globalShadow->AddCaster(shadowcast);
+	if (globalShadow == nullptr) return nullptr;
+	return globalShadow->AddCaster();
 }
 
 Shadow::Shadow(const Vector3 & at, float radius, float width, float height)
@@ -127,7 +59,6 @@ void Shadow::PreRender()
 
 	Vector3 up = Vector3(0, 1, 0);
 	Vector3 direction = Lighting::Get()->DirectionalDesc()->Direction;
-	//Vector3 eye = direction * radius * -2.0f - at;
 	Vector3 eye = direction * radius * -2.0f;
 	D3DXMatrixLookAtLH(&desc.View, &eye, &at, &up);
 	eye += at;
@@ -142,9 +73,6 @@ void Shadow::PreRender()
 	float n = center.z - radius;
 	D3DXMatrixOrthoLH(&desc.Projection, r - l, t - b, n, f);
 
-	Context::Get()->MainCamera()->GetMatrix(&desc.View);
-	Context::Get()->MainCamera()->GetProjection()->GetMatrix(&desc.Projection);
-
 	desc.MapSize = Vector2(width, height);
 
 	list<ShadowCastDesc*>::iterator iter = shadowCasters.begin();
@@ -157,7 +85,7 @@ void Shadow::PreRender()
 			continue;
 		}
 
-		(*iter)->FuncPreRender();
+		(*iter)->FuncPreRender(&desc);
 
 		++iter;
 	}
@@ -183,115 +111,98 @@ void Shadow::ImGuiRender()
 		v.x = vMax.x - vMin.x;
 		v.y = vMax.y - vMin.y;
 
-		ImGui::Image((void*)renderTarget->SRV(), v);
-		//ImGui::Image((void*)depthStencil->SRV(), v);
+		//ImGui::Image((void*)renderTarget->SRV(), v);
+		ImGui::Image((void*)depthStencil->SRV(), v);
 	}
 	ImGui::End();
 }
 
-void Shadow::AddCaster(ShadowCastDesc ** outDesc)
+ShadowCastDesc * Shadow::AddCaster()
 {
 	ShadowCastDesc * casterDesc = new ShadowCastDesc();
 
-	casterDesc->IsDestroy = false;
 	casterDesc->DepthStencil = depthStencil;
 	casterDesc->ShadowSampler = shadowSampler;
-	casterDesc->ShadowDesc = &desc;
-	casterDesc->ThisPointer = outDesc;
 
-	*outDesc = casterDesc;
+	casterDesc->IsDestroy = false;
+	casterDesc->ThisPointer = nullptr;
+	casterDesc->FuncPreRender = [](ShadowDesc*) {};
+
 	shadowCasters.push_back(casterDesc);
+	return casterDesc;
 }
 
 #pragma endregion
 
 
+#pragma region ShadowCaster
 
-ShadowTest::ShadowTest(Shader * s, const Vector3 & at, float radius, float width, float height)
+ShadowCaster::ShadowCaster(Shader* s)
 	: shader(new ShaderSetter(s))
-	, at(at)
-	, radius(radius)
-	, width(width)
-	, height(height)
 {
-	renderTarget = new RenderTarget(width, height);
-	depthStencil = new DepthStencil(width, height);
-	viewport = new Viewport(width, height);
+	buffer = new ConstantBuffer(&shadowDesc, sizeof(ShadowDesc));
+	sShadowSampler = shader->GetShader()->AsSampler("ShadowSampler");
 
-	buffer = new ConstantBuffer(&desc, sizeof(Desc));
 	shader->SetConstantBuffer("CB_Shadow", buffer->Buffer());
-
-	// Create Sampler State
-	{
-		D3D11_SAMPLER_DESC desc;
-		ZeroMemory(&desc, sizeof(D3D11_SAMPLER_DESC));
-		desc.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
-		desc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
-		desc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
-		desc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
-		desc.BorderColor[0] = 1;
-		desc.ComparisonFunc = D3D11_COMPARISON_LESS;
-
-		Check(D3D::GetDevice()->CreateSamplerState(&desc, &shadowSampler));
-		sShadowSampler = shader->GetShader()->AsSampler("ShadowSampler");
-	}
 }
 
-ShadowTest::~ShadowTest()
+ShadowCaster::~ShadowCaster()
 {
+	if (desc != nullptr)
+	{
+		desc->FuncPreRender = [](ShadowDesc*) {};
+		desc->IsDestroy = true;
+	}
+
 	SafeDelete(buffer);
-
-	SafeDelete(viewport);
-	SafeDelete(depthStencil);
-	SafeDelete(renderTarget);
-
-	SafeRelease(shadowSampler);
+	SafeDelete(shader);
 }
 
-void ShadowTest::PreRender()
+void ShadowCaster::SetShadow_Global()
 {
-	//Context::Get()->GetCamera()->Position(&at);
-	//D3D11_DEPTH_STENCIL_DESC;
+	SafeDeleteDesc();
+	desc = Shadow::AddCaster_Global();
+	SetDesc();
+}
 
-	renderTarget->PreRender(depthStencil);
-	viewport->RSSetViewport();
+void ShadowCaster::SetShadow(Shadow * value)
+{
+	SafeDeleteDesc();
+	desc = value->AddCaster();
+	SetDesc();
+}
 
-	Vector3 up = Vector3(0, 1, 0);
-	Vector3 direction = Lighting::Get()->DirectionalDesc()->Direction;
-	Vector3 eye = direction * radius * -2.0f + at;
-	D3DXMatrixLookAtLH(&desc.View, &eye, &at, &up);
-
-	Vector3 center;
-	D3DXVec3TransformCoord(&center, &at, &desc.View);
-	float l = center.x - radius;
-	float r = center.x + radius;
-	float t = center.y + radius;
-	float b = center.y - radius;
-	float f = center.z + radius;
-	float n = center.z - radius;
-	D3DXMatrixOrthoLH(&desc.Projection, r - l, t - b, n, f);
-
+void ShadowCaster::PreRender(ShadowDesc * shadow)
+{
+	memcpy(&shadowDesc, shadow, sizeof(ShadowDesc));
 	buffer->Render();
+	
+	shader->SetSRV("ShadowMap", desc->DepthStencil->SRV());
 	shader->Render();
-	sShadowSampler->SetSampler(0, shadowSampler);
 
-	shader->SetSRV("ShadowMap", depthStencil->SRV());
+	sShadowSampler->SetSampler(0, desc->ShadowSampler);
 
-	desc.MapSize = Vector2(width, height);
+	funcPreRender();
 }
 
-void ShadowTest::RenderImGui()
+void ShadowCaster::SafeDeleteDesc()
 {
-	ImGui::DragFloat3("At", at, 0.1f);
-	ImGui::Begin("Shadow Depth");
-	{
-		ImVec2 vMin = ImGui::GetWindowContentRegionMin();
-		ImVec2 vMax = ImGui::GetWindowContentRegionMax();
-		ImVec2 v;
-		v.x = vMax.x - vMin.x;
-		v.y = vMax.y - vMin.y;
+	if (desc == nullptr)
+		return;
 
-		ImGui::Image((void*)depthStencil->SRV(), v);
-	}
-	ImGui::End();
+	desc->FuncPreRender = [](ShadowDesc*) {};
+	desc->IsDestroy = true;
 }
+
+void ShadowCaster::SetDesc()
+{
+	if (desc == nullptr)
+		return;
+
+	desc->FuncPreRender = bind(&ShadowCaster::PreRender, this, placeholders::_1);
+	depth = desc->DepthStencil;
+	desc->ThisPointer = &desc;
+}
+
+#pragma endregion
+

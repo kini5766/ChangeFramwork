@@ -1,57 +1,43 @@
 #pragma once
 
-class ShadowCaster
+struct ShadowDesc
 {
-public:
-	ShadowCaster(Shader* s);
-	~ShadowCaster();
+	Matrix View;
+	Matrix Projection;
 
-public:
-	void SetShadow_Global();
-	void SetShadow(class Shadow* value);
-	void SetFuncPreRender(const function<void(void)>& value) { funcPreRender = value; }
+	// 블러
+	Vector2 MapSize;
 
-private:
-	void PreRender();  // Event
+	//
+	float Bias = -0.001f;
 
-private:
-	function<void(void)> funcPreRender;
+	// 셰도우 방법
+	UINT Quality = 2;
+};
 
-	ShaderSetter* shader;
-	ConstantBuffer* buffer;
 
-	ID3DX11EffectSamplerVariable* sShadowSampler;
+struct ShadowCastDesc
+{
+	// inputs
+	ID3D11SamplerState* ShadowSampler;
+	DepthStencil* DepthStencil;
 
-private:
-	struct ShadowCastDesc* desc;
-
+	// outouts
+	function<void(ShadowDesc*)> FuncPreRender;
+	// 셰도우가 파괴되면 null로 만들어줌
+	ShadowCastDesc** ThisPointer;
+	bool IsDestroy;
 };
 
 
 class Shadow
 {
-public:
-	struct ShadowDesc
-	{
-		Matrix View;
-		Matrix Projection;
-
-		// 블러
-		Vector2 MapSize;
-
-		//
-		float Bias = -0.001f;
-
-		// 셰도우 방법
-		UINT Quality = 2;
-	};
-
 private:
 	static Shadow* globalShadow;
 
 public:
 	static void SetGlobal(Shadow* value) { globalShadow = value; }
-	static void AddCaster_Global(ShadowCastDesc** shadowcast);
+	static ShadowCastDesc* AddCaster_Global();
 
 
 public:
@@ -63,7 +49,7 @@ public:
 	void ImGuiRender();
 
 public:
-	void AddCaster(ShadowCastDesc** outDesc);
+	struct ShadowCastDesc* AddCaster();
 
 public:
 	ID3D11ShaderResourceView* SRV() { return renderTarget->SRV(); }
@@ -87,63 +73,32 @@ private:
 };
 
 
-struct ShadowCastDesc
-{
-	function<void(void)> FuncPreRender;
-
-	const struct Shadow::ShadowDesc* ShadowDesc;
-	ID3D11SamplerState* ShadowSampler;
-	DepthStencil* DepthStencil;
-	bool IsDestroy;
-
-	ShadowCastDesc** ThisPointer;
-};
-
-
-class ShadowTest
+class ShadowCaster
 {
 public:
-	ShadowTest(Shader* s, const Vector3& at, float radius, float width = 1024, float height = 1024);
-	~ShadowTest();
+	ShadowCaster(Shader* s);
+	~ShadowCaster();
 
-	void PreRender();
-	void RenderImGui();
-	ID3D11ShaderResourceView* SRV() { return renderTarget->SRV(); }
-
-	void Quality(UINT value) { desc.Quality = value; }
-	void Bias(float value) { desc.Bias = value; }
+public:
+	void SetShadow_Global();
+	void SetShadow(class Shadow* value);
+	void SetFuncPreRender(const function<void(void)>& value) { funcPreRender = value; }
 
 private:
+	void PreRender(struct ShadowDesc* desc);  // Event
+	void SafeDeleteDesc();
+	void SetDesc();
+
+private:
+	function<void(void)> funcPreRender;
+
 	ShaderSetter* shader;
-
-	// 각진 그림자
-	float width, height;
-	// 영역 크기 (오소그래픽)
-	float radius;
-	Vector3 at;
-
-	RenderTarget* renderTarget;
-	DepthStencil* depthStencil;
-	Viewport* viewport;
-
 	ConstantBuffer* buffer;
+	DepthStencil* depth = nullptr;
 
-	ID3D11SamplerState* shadowSampler;
 	ID3DX11EffectSamplerVariable* sShadowSampler;
 
 private:
-	struct Desc
-	{
-		Matrix View;
-		Matrix Projection;
-
-		// 블러
-		Vector2 MapSize;
-
-		//
-		float Bias = -0.001f;
-
-		// 셰도우 방법
-		UINT Quality = 2;
-	} desc;
+	struct ShadowCastDesc* desc = nullptr;
+	ShadowDesc shadowDesc;
 };

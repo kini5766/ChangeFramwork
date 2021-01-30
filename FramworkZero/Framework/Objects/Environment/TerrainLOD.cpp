@@ -14,6 +14,7 @@ TerrainLOD::TerrainLOD(wstring ddsFile)
 	renderer = new MeshRenderer(shader, meshData);
 	perTransform = new PerTransform(shader);
 	buffer = new ConstantBuffer(&desc, sizeof(Desc));
+	shadow = new ShadowCaster(shader);
 
 	material = renderer->GetDefaultMaterial();
 	material->SetConstantBuffer("CB_TerrainLOD", buffer->Buffer());
@@ -27,7 +28,9 @@ TerrainLOD::TerrainLOD(wstring ddsFile)
 
 	desc.CellSpacingU = 1.0f / width;
 	desc.CellSpacingV = 1.0f / height;
-	shadow = new ShadowTest(shader, Vector3(-64.0f, 64.0f, 64.0f), 512.0f);
+
+	shadow->SetFuncPreRender(bind(&TerrainLOD::PreRender_Depth, this));
+	shadow->SetShadow_Global();
 
 	layer1.sSRV = shader->AsSRV("Layer1AlphaMap");
 	layer1.sMap = shader->AsSRV("Layer1ColorMap");
@@ -82,13 +85,10 @@ void TerrainLOD::Render()
 
 	renderer->Pass(0);
 	renderer->Render();
-
-	shadow->RenderImGui();
 }
 
 void TerrainLOD::PreRender_Depth()
 {
-	shadow->PreRender();
 	buffer->Render();
 
 	perTransform->Render();
