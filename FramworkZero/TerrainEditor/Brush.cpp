@@ -43,7 +43,7 @@ void Brush::SetTerrain(TerrainLOD * value)
 	brush->Height = terrain->GetHeight();
 
 	// Lod off
-	terrain->Distance() = Vector2(1000.0f, 1000.0f);
+	terrain->Distance() = Vector2(1.0f, 1.0f);
 }
 
 void Brush::Update()
