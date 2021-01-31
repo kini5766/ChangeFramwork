@@ -7,7 +7,7 @@
 
 void Main::Initialize()
 {
-	Push(new EditorDemo());
+	Push(new Editor());
 }
 
 

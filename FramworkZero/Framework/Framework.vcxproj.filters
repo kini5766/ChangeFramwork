@@ -358,6 +358,9 @@
     <ClCompile Include="Objects\Environment\Terrain.cpp">
       <Filter>Objects\Environment</Filter>
     </ClCompile>
+    <ClCompile Include="Tools\Frustum.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -687,6 +690,9 @@
     </ClInclude>
     <ClInclude Include="Objects\Environment\Terrain.h">
       <Filter>Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Frustum.h">
+      <Filter>Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

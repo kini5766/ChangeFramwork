@@ -3,7 +3,7 @@
 class MeshInstancingImGui
 {
 public:
-	MeshInstancingImGui(struct MeshInstancingDesc* desc);
+	MeshInstancingImGui(class MeshInstancingDesc* desc);
 	~MeshInstancingImGui();
 
 public:
@@ -17,7 +17,7 @@ private:
 
 
 private:
-	struct MeshInstancingDesc* desc;
+	class MeshInstancingDesc* desc;
 
 	// imgui
 private:

@@ -3,7 +3,7 @@
 class MeshInstancingFile
 {
 public:
-	MeshInstancingFile(struct MeshInstancingDesc* desc);
+	MeshInstancingFile(class MeshInstancingDesc* desc);
 	~MeshInstancingFile();
 
 public:
@@ -11,5 +11,5 @@ public:
 	void Load(class BinaryReader * r);
 
 private:
-	struct MeshInstancingDesc* desc;
+	class MeshInstancingDesc* desc;
 };

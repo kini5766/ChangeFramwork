@@ -86,6 +86,7 @@
     <ClCompile Include="Tools\Coord\SphereCoord.cpp" />
     <ClCompile Include="Tools\Coord\Transform.cpp" />
     <ClCompile Include="Tools\Coord\WorldMatrix.cpp" />
+    <ClCompile Include="Tools\Frustum.cpp" />
     <ClCompile Include="Tools\Lighting\BurntLight.cpp" />
     <ClCompile Include="Tools\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="Tools\Lighting\Lighting.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="Tools\Coord\SphereCoord.h" />
     <ClInclude Include="Tools\Coord\Transform.h" />
     <ClInclude Include="Tools\Coord\WorldMatrix.h" />
+    <ClInclude Include="Tools\Frustum.h" />
     <ClInclude Include="Tools\Lighting\BurntLight.h" />
     <ClInclude Include="Tools\Lighting\DirectionalLight.h" />
     <ClInclude Include="Tools\Lighting\Lighting.h" />

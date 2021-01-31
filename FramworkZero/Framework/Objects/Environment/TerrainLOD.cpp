@@ -15,6 +15,7 @@ TerrainLOD::TerrainLOD(wstring ddsFile)
 	perTransform = new PerTransform(shader);
 	buffer = new ConstantBuffer(&desc, sizeof(Desc));
 	shadow = new ShadowCaster(shader);
+	frustum = new Frustum(nullptr, nullptr);
 
 	material = renderer->GetDefaultMaterial();
 	material->SetConstantBuffer("CB_TerrainLOD", buffer->Buffer());
@@ -38,10 +39,13 @@ TerrainLOD::TerrainLOD(wstring ddsFile)
 	layer2.sMap = shader->AsSRV("Layer2ColorMap");
 	layer3.sSRV = shader->AsSRV("Layer3AlphaMap");
 	layer3.sMap = shader->AsSRV("Layer3ColorMap");
+
 }
 
 TerrainLOD::~TerrainLOD()
 {
+	SafeDeleteArray(bounds);
+	SafeDelete(frustum);
 	SafeDelete(shadow);
 
 	SafeRelease(heightMap);
@@ -60,6 +64,14 @@ TerrainLOD::~TerrainLOD()
 void TerrainLOD::Update()
 {
 	perTransform->Update();
+
+	frustum->Update();
+	Plane p6[6];
+	frustum->Planes(p6, 6);
+	desc.Culling[0] = p6[0];
+	desc.Culling[1] = p6[1];
+	desc.Culling[2] = p6[4];
+	desc.Culling[3] = p6[5];
 }
 
 void TerrainLOD::Render()
@@ -96,6 +108,9 @@ void TerrainLOD::PreRender_Depth()
 	renderer->Pass(1);
 	renderer->Render();
 }
+
+
+#pragma region Map
 
 void TerrainLOD::BaseMap(wstring file)
 {
@@ -175,6 +190,11 @@ void TerrainLOD::ApplyAlphasLayer3()
 	}
 	D3D::GetDC()->Unmap(layer3.Texture2D, 0);
 }
+
+#pragma endregion
+
+
+#pragma region Initialize
 
 void TerrainLOD::ReadDataMap()
 {
@@ -257,8 +277,44 @@ void TerrainLOD::CreatePatchMeshData()
 	patchWidth = ((width - 1) / cellsPerPatch) + 1;
 	patchHeight = ((height - 1) / cellsPerPatch) + 1;
 
+	UINT vertexCount = (patchWidth) * (patchHeight);
+
+	// CreatePatchBound
+	bounds = new Vector2[vertexCount];
+
+	for (UINT z = 0; z < patchHeight; z++)
+	{
+		for (UINT x = 0; x < patchWidth; x++)
+		{
+			UINT x0 = x * cellsPerPatch;
+			UINT x1 = x0 + cellsPerPatch;
+
+			UINT z0 = z * cellsPerPatch;
+			UINT z1 = z0 + cellsPerPatch;
+
+			float minY = FLT_MAX;
+			float maxY = -FLT_MAX;
+
+			for (UINT tempZ = z0; tempZ <= z1; tempZ++)
+			{
+				for (UINT tempX = x0; tempX <= x1; tempX++)
+				{
+					//UINT k = (height - 1 - tempZ) * width + tempX;
+					UINT k = tempZ * patchWidth + tempX;
+
+					minY = min(minY, heights[k]);
+					maxY = max(maxY, heights[k]);
+				}
+			}
+
+			UINT patchIndex = z * patchWidth + x;
+			bounds[patchIndex] = Vector2(minY, maxY);
+		} //
+	}
+
+	// CreatePatchVertices
 	TerrainVertex* vertices =
-		meshData->NewVertices<TerrainVertex>((patchWidth) * (patchHeight));
+		meshData->NewVertices<TerrainVertex>(vertexCount);
 
 	float halfWidth = GetWidth() * 0.5f;
 	float halfHeight = GetHeight() * 0.5f;
@@ -276,13 +332,16 @@ void TerrainLOD::CreatePatchMeshData()
 		for (UINT x = 0; x < patchWidth; x++)
 		{
 			float tempX = x * xScale - halfWidth;
+			UINT patchIndex = z * patchWidth + x;
 
-			vertices[(patchWidth) * z + x].Position = Vector3(tempX, 0.0f, tempZ);
-			vertices[(patchWidth) * z + x].Uv.x = x * du;
-			vertices[(patchWidth) * z + x].Uv.y = z * dv;
+			vertices[patchIndex].Position = Vector3(tempX, 0.0f, tempZ);
+			vertices[patchIndex].Uv.x = x * du;
+			vertices[patchIndex].Uv.y = z * dv;
+			vertices[patchIndex].Bound = bounds[patchIndex];
 		}
 	}
 
+	// CreatePatchIndices
 	UINT patchCount = (patchWidth - 1) * (patchHeight - 1);
 	meshData->NewIndices(patchCount * 4);  // * 6Àº ¾È ÇÔ
 
@@ -302,3 +361,5 @@ void TerrainLOD::CreatePatchMeshData()
 		}
 	}
 }
+
+#pragma endregion

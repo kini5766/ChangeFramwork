@@ -131,6 +131,8 @@ typedef D3DXPLANE Plane;
 #include "Tools/Collider/SendBox.h"
 #include "Tools/Collider/ReceiveBox.h"
 
+#include "Tools/Frustum.h"
+
 
 //Rendering
 // IASet하거나, Shader에 값 넘겨주는 클래스들

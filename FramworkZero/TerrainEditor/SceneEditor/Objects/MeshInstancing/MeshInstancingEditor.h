@@ -20,7 +20,7 @@ public:
 	void Initialize(E_SceneValue * value) override;
 
 private:
-	struct MeshInstancingDesc* desc;
+	class MeshInstancingDesc* desc;
 
 	class MeshInstancingFile* file;
 	class MeshInstancingImGui* imgui;
