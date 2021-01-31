@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "EnemyInstancingSpawner.h"
 
-#include "Component/TransformLoader.h"
+#include "EditorDemo/Component/TransformLoader.h"
 
 #include "Tools/Viewer/OrbitCamera.h"
 #include "Enemy/EnemyInstancing.h"
@@ -16,9 +16,6 @@ EnemyInstancingSpawner::EnemyInstancingSpawner(SceneValue* scene)
 EnemyInstancingSpawner::~EnemyInstancingSpawner()
 {
 	SafeDelete(enemy);
-
-	for (auto d : descs)
-		SafeDelete(d);
 }
 
 void EnemyInstancingSpawner::Update()

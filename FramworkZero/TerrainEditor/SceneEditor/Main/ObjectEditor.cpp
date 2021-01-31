@@ -87,6 +87,7 @@ void ObjectEditor::Load(BinaryReader * r)
 		target = desc->Factory->CreateEditor(typeName);
 		assert(target != nullptr);
 		target->Load(r);
+		target->Initialize(desc->Scene);
 	}
 }
 

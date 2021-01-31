@@ -4,6 +4,7 @@
 #include "MeshInstancingDesc.h"
 
 MeshInstancingImGui::MeshInstancingImGui(MeshInstancingDesc * desc)
+	: desc(desc)
 {
 }
 

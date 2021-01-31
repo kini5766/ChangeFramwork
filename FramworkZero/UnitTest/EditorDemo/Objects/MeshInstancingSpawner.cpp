@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "MeshInstancingSpawner.h"
 
-#include "Component/TransformLoader.h"
-#include "Component/ColliderLoader.h"
-#include "Component/MaterialLoader.h"
+#include "EditorDemo/Component/TransformLoader.h"
+#include "EditorDemo/Component/ColliderLoader.h"
+#include "EditorDemo/Component/MaterialLoader.h"
 
 MeshInstancingSpawner::MeshInstancingSpawner()
 {

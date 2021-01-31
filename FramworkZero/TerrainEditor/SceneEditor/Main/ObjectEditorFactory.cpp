@@ -5,11 +5,14 @@
 
 #include "IObjectEditor.h"
 #include "../Objects/MeshInstancing/MeshInstancingEditor.h"
+#include "../Objects/EnemyInstancing/EnemyInstancingEditor.h"
 
 void ObjectEditorFactory::Insert()
 {
 	creators.push_back({ "MeshInstancing",
 		[]()->IObjectEditor* { return new MeshInstancingEditor(); } });
+	creators.push_back({ "EnemyInstancing",
+		[]()->IObjectEditor* { return new EnemyInstancingEditor(); } });
 }
 
 

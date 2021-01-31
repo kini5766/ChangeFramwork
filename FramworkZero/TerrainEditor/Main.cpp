@@ -3,10 +3,11 @@
 #include "Systems/Window.h"
 
 #include "Editor.h"
+#include "SceneEditor/Scene/EditorDemo.h"
 
 void Main::Initialize()
 {
-	Push(new Editor());
+	Push(new EditorDemo());
 }
 
 

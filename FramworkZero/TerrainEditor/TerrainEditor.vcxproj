@@ -147,7 +147,10 @@
     <ClCompile Include="SceneEditor\Main\ObjectEditorFactory.cpp" />
     <ClCompile Include="SceneEditor\Main\SceneEditor.cpp" />
     <ClCompile Include="SceneEditor\Main\ObjectEditorList.cpp" />
-    <ClCompile Include="SceneEditor\Objects\EnemyInstancingEditor.cpp" />
+    <ClCompile Include="SceneEditor\Objects\EnemyInstancing\EnemyInstancingDesc.cpp" />
+    <ClCompile Include="SceneEditor\Objects\EnemyInstancing\EnemyInstancingEditor.cpp" />
+    <ClCompile Include="SceneEditor\Objects\EnemyInstancing\EnemyInstancingFile.cpp" />
+    <ClCompile Include="SceneEditor\Objects\EnemyInstancing\EnemyInstancingImGui.cpp" />
     <ClCompile Include="SceneEditor\Objects\MeshInstancing\MeshInstancingDesc.cpp" />
     <ClCompile Include="SceneEditor\Objects\MeshInstancing\MeshInstancingEditor.cpp" />
     <ClCompile Include="SceneEditor\Objects\MeshInstancing\MeshInstancingFile.cpp" />
@@ -176,7 +179,10 @@
     <ClInclude Include="SceneEditor\Main\ObjectEditorFactory.h" />
     <ClInclude Include="SceneEditor\Main\SceneEditor.h" />
     <ClInclude Include="SceneEditor\Main\ObjectEditorList.h" />
-    <ClInclude Include="SceneEditor\Objects\EnemyInstancingEditor.h" />
+    <ClInclude Include="SceneEditor\Objects\EnemyInstancing\EnemyInstancingDesc.h" />
+    <ClInclude Include="SceneEditor\Objects\EnemyInstancing\EnemyInstancingEditor.h" />
+    <ClInclude Include="SceneEditor\Objects\EnemyInstancing\EnemyInstancingFile.h" />
+    <ClInclude Include="SceneEditor\Objects\EnemyInstancing\EnemyInstancingImGui.h" />
     <ClInclude Include="SceneEditor\Objects\MeshInstancing\MeshInstancingDesc.h" />
     <ClInclude Include="SceneEditor\Objects\MeshInstancing\MeshInstancingEditor.h" />
     <ClInclude Include="SceneEditor\Objects\MeshInstancing\MeshInstancingFile.h" />

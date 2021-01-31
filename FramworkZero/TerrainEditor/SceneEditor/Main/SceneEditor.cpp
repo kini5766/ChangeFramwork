@@ -9,6 +9,7 @@
 
 SceneEditor::SceneEditor()
 {
+	desc = new EditorDesc();
 	desc->Factory = new ObjectEditorFactory();
 	desc->Scene = new E_SceneValue();
 	objList = new ObjectEditorList();

@@ -73,20 +73,20 @@
     <ClCompile Include="EditorDemo\Main\SceneLoader.cpp">
       <Filter>EditorDemo\Main</Filter>
     </ClCompile>
-    <ClCompile Include="EditorDemo\Objects\Component\ColliderLoader.cpp">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\Objects\Component\MaterialLoader.cpp">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorDemo\Objects\Component\TransformLoader.cpp">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClCompile>
     <ClCompile Include="EditorDemo\Objects\MeshInstancingSpawner.cpp">
       <Filter>EditorDemo\Objects</Filter>
     </ClCompile>
     <ClCompile Include="EditorDemo\Objects\EnemyInstancingSpawner.cpp">
       <Filter>EditorDemo\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Component\ColliderLoader.cpp">
+      <Filter>EditorDemo\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Component\MaterialLoader.cpp">
+      <Filter>EditorDemo\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Component\TransformLoader.cpp">
+      <Filter>EditorDemo\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,20 +168,20 @@
     <ClInclude Include="EditorDemo\Main\SceneLoader.h">
       <Filter>EditorDemo\Main</Filter>
     </ClInclude>
-    <ClInclude Include="EditorDemo\Objects\Component\ColliderLoader.h">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\Objects\Component\MaterialLoader.h">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorDemo\Objects\Component\TransformLoader.h">
-      <Filter>EditorDemo\Objects\Component</Filter>
-    </ClInclude>
     <ClInclude Include="EditorDemo\Objects\MeshInstancingSpawner.h">
       <Filter>EditorDemo\Objects</Filter>
     </ClInclude>
     <ClInclude Include="EditorDemo\Objects\EnemyInstancingSpawner.h">
       <Filter>EditorDemo\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Component\ColliderLoader.h">
+      <Filter>EditorDemo\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Component\MaterialLoader.h">
+      <Filter>EditorDemo\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Component\TransformLoader.h">
+      <Filter>EditorDemo\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -193,9 +193,6 @@
     </Filter>
     <Filter Include="EditorDemo\Objects">
       <UniqueIdentifier>{1838f51f-aa90-4467-a190-537210b9c343}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EditorDemo\Objects\Component">
-      <UniqueIdentifier>{f3bed2c3-11b9-423c-b63d-984c34bd74ba}</UniqueIdentifier>
     </Filter>
     <Filter Include="EditorDemo\Main">
       <UniqueIdentifier>{aad9f2dd-1144-478a-9786-6aec3bad607a}</UniqueIdentifier>
@@ -214,6 +211,9 @@
     </Filter>
     <Filter Include="Component\Attack">
       <UniqueIdentifier>{037b9337-0c9e-43d3-b2f7-e26fb5e5c9b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorDemo\Component">
+      <UniqueIdentifier>{f3bed2c3-11b9-423c-b63d-984c34bd74ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

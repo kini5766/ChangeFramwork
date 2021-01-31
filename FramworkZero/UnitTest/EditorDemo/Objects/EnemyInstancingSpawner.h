@@ -22,20 +22,10 @@ private:
 	void SetScale(Transform * t);
 
 private:
-	// render
 	class EnemyInstancing* enemy;
 	class IFocus* player;
 
 private:
-	// load
 	// 0 : Melee, 1 : Magician
 	int enemyType = 0;
-	Transform* modelTemp = nullptr;
-	
-	struct EnemyInstanceDesc
-	{
-		Transform Transform;
-		vector<Vector3> PatrolPoints;
-	};
-	vector<EnemyInstanceDesc*> descs;
 };
