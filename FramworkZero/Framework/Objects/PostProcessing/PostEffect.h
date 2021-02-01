@@ -5,7 +5,7 @@ typedef function<RenderTarget* (RenderTarget* before, DepthStencil* depthStencil
 class PostEffect
 {
 public:
-	PostEffect(Shader* shader);
+	PostEffect(Shader* shader, float width = 0, float height = 0);
 	~PostEffect();
 
 public:

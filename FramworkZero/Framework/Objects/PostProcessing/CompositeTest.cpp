@@ -1,9 +1,13 @@
 #include "Framework.h"
 #include "CompositeTest.h"
 
-CompositeTest::CompositeTest(Shader * shader)
+CompositeTest::CompositeTest(Shader * shader, float width, float height)
 {
-	float width = Screen::Width(), height = Screen::Height();
+	if (width == 0)
+		width = Screen::Width();
+	if (height == 0)
+		height = Screen::Height();
+
 	for (UINT i = 0; i < 4; i++)
 		renderTargets[i] = new RenderTarget(width, height);
 

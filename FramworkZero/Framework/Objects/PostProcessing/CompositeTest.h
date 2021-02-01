@@ -3,7 +3,7 @@
 class CompositeTest
 {
 public:
-	CompositeTest(Shader* shader);
+	CompositeTest(Shader* shader, float width = 0, float height = 0);
 	~CompositeTest();
 
 public:

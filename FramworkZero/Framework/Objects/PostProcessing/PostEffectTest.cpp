@@ -71,14 +71,14 @@ void PostEffectTest::ImGuiRender()
 	if (select != mode)
 	{
 		mode = select;
+		None();
 		switch (mode)
 		{
-		case 0: None(); break;
-		case 1: None(); OnSaturation(); break;
-		case 2: None(); OnVignette(); break;
-		case 3: None(); OnWiggle(); break;
-		case 4: None(); OnLensDistortion(); break;
-		case 5: None(); OnRaialBlur(); break;
+		case 1: OnSaturation(); break;
+		case 2: OnVignette(); break;
+		case 3: OnWiggle(); break;
+		case 4: OnLensDistortion(); break;
+		case 5: OnRaialBlur(); break;
 		default: break;
 		}
 	}

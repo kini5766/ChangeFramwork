@@ -3,7 +3,7 @@
 class LensDistortion
 {
 public:
-	LensDistortion(Shader* shader);
+	LensDistortion(Shader* shader, float width = 0, float height = 0);
 	~LensDistortion();
 
 public:

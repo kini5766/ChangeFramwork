@@ -1,11 +1,14 @@
 #include "Framework.h"
 #include "PostEffect.h"
 
-PostEffect::PostEffect(Shader* shader)
+PostEffect::PostEffect(Shader* shader, float width, float height)
 	: shader(shader)
 {
+	if (width == 0)
+		width = Screen::Width();
+	if (height == 0)
+		height = Screen::Height();
 
-	float width = Screen::Width(), height = Screen::Height();
 	renderTarget = new RenderTarget(width, height);
 	depthStencil = new DepthStencil(width, height);
 	viewport = new Viewport(width, height);

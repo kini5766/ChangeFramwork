@@ -1,9 +1,13 @@
 #include "Framework.h"
 #include "Saturation.h"
 
-Saturation::Saturation(Shader* shader)
+Saturation::Saturation(Shader* shader, float width, float height)
 {
-	float width = Screen::Width(), height = Screen::Height();
+	if (width == 0)
+		width = Screen::Width();
+	if (height == 0)
+		height = Screen::Height();
+
 	renderTarget = new RenderTarget(width, height);
 
 	material = new ShaderSetter(shader);

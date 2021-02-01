@@ -1,9 +1,13 @@
 #include "Framework.h"
 #include "Vignette.h"
 
-Vignette::Vignette(Shader * shader)
+Vignette::Vignette(Shader * shader, float width, float height)
 {
-	float width = Screen::Width(), height = Screen::Height();
+	if (width == 0)
+		width = Screen::Width();
+	if (height == 0)
+		height = Screen::Height();
+
 	renderTarget = new RenderTarget(width, height);
 
 	material = new ShaderSetter(shader);

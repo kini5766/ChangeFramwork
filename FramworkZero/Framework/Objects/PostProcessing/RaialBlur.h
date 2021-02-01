@@ -3,7 +3,7 @@
 class RaialBlur
 {
 public:
-	RaialBlur(Shader* shader);
+	RaialBlur(Shader* shader, float width = 0, float height = 0);
 	~RaialBlur();
 
 public:

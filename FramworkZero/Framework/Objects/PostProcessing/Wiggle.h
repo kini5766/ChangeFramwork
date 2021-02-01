@@ -3,7 +3,7 @@
 class Wiggle
 {
 public:
-	Wiggle(Shader* shader);
+	Wiggle(Shader* shader, float width = 0, float height = 0);
 	~Wiggle();
 
 public:

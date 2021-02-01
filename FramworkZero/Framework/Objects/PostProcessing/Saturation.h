@@ -3,7 +3,7 @@
 class Saturation
 {
 public:
-	Saturation(Shader* shader);
+	Saturation(Shader* shader, float width = 0, float height = 0);
 	~Saturation();
 
 public:

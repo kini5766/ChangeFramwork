@@ -3,7 +3,7 @@
 class Vignette
 {
 public:
-	Vignette(Shader* shader);
+	Vignette(Shader* shader, float width = 0, float height = 0);
 	~Vignette();
 
 public:

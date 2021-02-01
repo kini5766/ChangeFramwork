@@ -14,7 +14,7 @@ Panel::Panel(Shader* shader)
 	verteces[4].Position = Vector3(-1.0f, +1.0f, 0.0f);
 	verteces[5].Position = Vector3(+1.0f, +1.0f, 0.0f);
 
-	vertexBuffer = new  VertexBuffer(verteces, 6, sizeof(Vertex));
+	vertexBuffer = new VertexBuffer(verteces, 6, sizeof(Vertex));
 }
 
 Panel::~Panel()
