@@ -361,6 +361,12 @@
     <ClCompile Include="Tools\Frustum.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\PostProcessing\EffectUnitGroup.cpp">
+      <Filter>Objects\PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\RTVGroup.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -692,6 +698,12 @@
       <Filter>Objects\Environment</Filter>
     </ClInclude>
     <ClInclude Include="Tools\Frustum.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\PostProcessing\EffectUnitGroup.h">
+      <Filter>Objects\PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\RTVGroup.h">
       <Filter>Tools</Filter>
     </ClInclude>
   </ItemGroup>

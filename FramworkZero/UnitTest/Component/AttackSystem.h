@@ -5,6 +5,7 @@ struct AttackDesc
 	float Attack = 10.0f;
 };
 
+// hp system 으로 값 전달
 class AttackSystem
 {
 public:

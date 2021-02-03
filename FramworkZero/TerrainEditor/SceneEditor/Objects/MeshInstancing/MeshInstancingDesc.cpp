@@ -8,10 +8,16 @@ MeshInstancingDesc::MeshInstancingDesc()
 	TImGui = new ComponentTransform();
 	CImGui = new ComponentCollider();
 	MImGui = new ComponentMaterial();
+
+	shadow = new ShadowCaster(Shader);
+	shadow->SetFuncPreRender(bind(&MeshInstancingDesc::PreRender_Depth, this));
+	shadow->SetShadow_Global();
 }
 
 MeshInstancingDesc::~MeshInstancingDesc()
 {
+	SafeDelete(shadow);
+
 	SafeDelete(Mesh);
 
 	SafeDelete(MImGui);
@@ -34,11 +40,21 @@ void MeshInstancingDesc::Render()
 	if (Mesh == nullptr)
 		return;
 
+	Mesh->Pass(5);
 	Mesh->Render();
 
 	for (ColliderBox* collider : Colliders)
 		if (collider != nullptr)
 			Debug::Box->RenderBox(collider->GetTransform(), Color(0.0f, 1.0f, 0.0f, 1.0f));
+}
+
+void MeshInstancingDesc::PreRender_Depth()
+{
+	if (Mesh == nullptr)
+		return;
+
+	Mesh->Pass(4);
+	Mesh->Render();
 }
 
 void MeshInstancingDesc::AddInstance()

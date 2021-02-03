@@ -14,11 +14,11 @@ PostEffect::PostEffect(Shader* shader, float width, float height)
 	viewport = new Viewport(width, height);
 
 	panel = new Panel(shader);
+
 }
 
 PostEffect::~PostEffect()
 {
-	//SafeRelease(shader);
 }
 
 void PostEffect::Update()
@@ -35,7 +35,7 @@ void PostEffect::BeginPreRender()
 void PostEffect::EndPreRender()
 {
 	RenderTarget* after = renderTarget;
-	for (PostEffectEvent& action : eventEffects)
+	for (FuncComposite& action : funcComposites)
 		after = action(after, depthStencil, panel);
 	panel->Pass(0);
 	panel->SRV(after->SRV());
@@ -45,5 +45,10 @@ void PostEffect::EndPreRender()
 void PostEffect::Render()
 {
 	panel->Render();
+}
+
+void PostEffect::AddEffects(const vector<FuncComposite>& values)
+{
+	funcComposites.insert(funcComposites.end(), values.begin(), values.end());
 }
 

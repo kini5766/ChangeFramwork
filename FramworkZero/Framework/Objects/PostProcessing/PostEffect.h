@@ -1,6 +1,6 @@
 #pragma once
 
-typedef function<RenderTarget* (RenderTarget* before, DepthStencil* depthStencil, Panel* panel)> PostEffectEvent;
+typedef function<RenderTarget* (RenderTarget* before, DepthStencil* depthStencil, Panel* panel)> FuncComposite;
 
 class PostEffect
 {
@@ -15,8 +15,9 @@ public:
 	void Render();
 
 public:
-	void ClearEffects() { eventEffects.clear(); }
-	void AddEffect(const PostEffectEvent& value) { eventEffects.push_back(value); }
+	void ClearEffects() { funcComposites.clear(); }
+	void AddEffect(const FuncComposite& value) { funcComposites.push_back(value); }
+	void AddEffects(const vector<FuncComposite>& values);
 
 	// render values
 private:
@@ -26,6 +27,6 @@ private:
 	Panel* panel;
 
 	Shader* shader;
-	vector<PostEffectEvent> eventEffects;
+	vector<FuncComposite> funcComposites;
 
 };

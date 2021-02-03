@@ -28,6 +28,7 @@ public:
 public:
 	void Update();
 	void Render();
+	void PreRender_Depth();
 
 public:
 	void AddInstance();
@@ -37,4 +38,5 @@ public:
 
 private:
 	Shader* Shader;
+	ShadowCaster* shadow;
 };

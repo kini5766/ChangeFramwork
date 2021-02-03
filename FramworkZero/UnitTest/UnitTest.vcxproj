@@ -131,6 +131,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Behavior\BehaviorSelecter.cpp" />
+    <ClCompile Include="Behavior\EnemyBehavior.cpp" />
+    <ClCompile Include="Behavior\Follow.cpp" />
+    <ClCompile Include="Behavior\Patrol.cpp" />
     <ClCompile Include="Character\Friedrich.cpp" />
     <ClCompile Include="Character\GasMask.cpp" />
     <ClCompile Include="Component\AttackAnimation.cpp" />
@@ -142,6 +146,8 @@
     <ClCompile Include="EditorDemo\Objects\EnemyInstancingSpawner.cpp" />
     <ClCompile Include="Enemy\MagicianEnemy.cpp" />
     <ClCompile Include="Enemy\MeleeEnemy.cpp" />
+    <ClCompile Include="Planner\SituationController.cpp" />
+    <ClCompile Include="Planner\TimeTable.cpp" />
     <ClCompile Include="Player\CharacterController.cpp" />
     <ClCompile Include="Character\Kachujin.cpp" />
     <ClCompile Include="Character\Paladin.cpp" />
@@ -166,6 +172,12 @@
     <ClCompile Include="WorldDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Behavior\BehaviorSelecter.h" />
+    <ClInclude Include="Behavior\Comeback.h" />
+    <ClInclude Include="Behavior\EnemyBehavior.h" />
+    <ClInclude Include="Behavior\Follow.h" />
+    <ClInclude Include="Behavior\Patrol.h" />
+    <ClInclude Include="Behavior\Recognition.h" />
     <ClInclude Include="Character\Friedrich.h" />
     <ClInclude Include="Character\GasMask.h" />
     <ClInclude Include="Component\AttackAnimation.h" />
@@ -178,6 +190,9 @@
     <ClInclude Include="Enemy\EnemyDesc.h" />
     <ClInclude Include="Enemy\MagicianEnemy.h" />
     <ClInclude Include="Enemy\MeleeEnemy.h" />
+    <ClInclude Include="Planner\Pilot.h" />
+    <ClInclude Include="Planner\SituationController.h" />
+    <ClInclude Include="Planner\TimeTable.h" />
     <ClInclude Include="Player\CharacterController.h" />
     <ClInclude Include="Character\Kachujin.h" />
     <ClInclude Include="Character\Paladin.h" />

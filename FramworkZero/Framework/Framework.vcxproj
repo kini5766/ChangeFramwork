@@ -50,6 +50,7 @@
     <ClCompile Include="Objects\Model\ModelSkinnedInstancing.cpp" />
     <ClCompile Include="Objects\Particle\Particle.cpp" />
     <ClCompile Include="Objects\PostProcessing\CompositeTest.cpp" />
+    <ClCompile Include="Objects\PostProcessing\EffectUnitGroup.cpp" />
     <ClCompile Include="Objects\PostProcessing\LensDistortion.cpp" />
     <ClCompile Include="Objects\PostProcessing\Panel.cpp" />
     <ClCompile Include="Objects\PostProcessing\PostEffect.cpp" />
@@ -100,6 +101,7 @@
     <ClCompile Include="Tools\Math.cpp" />
     <ClCompile Include="Tools\ImGuiInputText.cpp" />
     <ClCompile Include="Rendering\Shader.cpp" />
+    <ClCompile Include="Tools\RTVGroup.cpp" />
     <ClCompile Include="Tools\Texture\DepthStencil.cpp" />
     <ClCompile Include="Tools\Texture\RenderTarget.cpp" />
     <ClCompile Include="Tools\Texture\Texture.cpp" />
@@ -154,6 +156,7 @@
     <ClInclude Include="Objects\Particle\Particle.h" />
     <ClInclude Include="Objects\Particle\ParticleData.h" />
     <ClInclude Include="Objects\PostProcessing\CompositeTest.h" />
+    <ClInclude Include="Objects\PostProcessing\EffectUnitGroup.h" />
     <ClInclude Include="Objects\PostProcessing\LensDistortion.h" />
     <ClInclude Include="Objects\PostProcessing\Panel.h" />
     <ClInclude Include="Objects\PostProcessing\PostEffect.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="Tools\Math.h" />
     <ClInclude Include="Tools\ImGuiInputText.h" />
     <ClInclude Include="Rendering\Shader.h" />
+    <ClInclude Include="Tools\RTVGroup.h" />
     <ClInclude Include="Tools\Texture\DepthStencil.h" />
     <ClInclude Include="Tools\Texture\RenderTarget.h" />
     <ClInclude Include="Tools\Texture\Texture.h" />
