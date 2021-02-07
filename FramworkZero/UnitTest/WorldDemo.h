@@ -20,7 +20,7 @@ public:
 	void Update() override;
 	void PreRender() override;
 	void Render() override;
-	void PostRender() override {};
+	void PostRender() override;
 	void ResizeScreen() override {};
 
 private:
@@ -29,7 +29,9 @@ private:
 
 private:
 	CubeSky* sky;
+	Shadow* shadow;
 	Billboard* billboard;
+	Water* water;
 
 private:
 	class PostEffectTest* postEffect;
@@ -38,6 +40,4 @@ private:
 	class WorldPlayer* player;
 	class SceneValue* scene;
 	class WorldLightGroup* lights;
-	class EnemyInstancing* meleeEnemy;
-	class EnemyInstancing* magicianEnemy;
 };

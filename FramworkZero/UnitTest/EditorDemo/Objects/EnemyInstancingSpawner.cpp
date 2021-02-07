@@ -3,7 +3,7 @@
 
 #include "EditorDemo/Component/TransformLoader.h"
 
-#include "Tools/Viewer/OrbitCamera.h"
+#include "Rendering/Camera/OrbitCamera.h"
 #include "Enemy/EnemyInstancing.h"
 #include "Enemy/MeleeEnemy.h"
 #include "Enemy/MagicianEnemy.h"

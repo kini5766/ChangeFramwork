@@ -73,7 +73,7 @@ void MeshInstancingDesc::SetInstancing()
 	if (Mesh == nullptr)
 		return;
 
-	Mesh->Pass(1);
+	//Mesh->Pass(1);
 	MImGui->Apply(Mesh->GetRenderer()->GetDefaultMaterial());
 }
 

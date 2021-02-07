@@ -24,15 +24,29 @@ public:
 	D3DXMATRIX View();
 	D3DXMATRIX Projection();
 
-	Viewport* GetViewport() { return mainCamera->GetViewport(); }
+	Viewport* GetViewport() { return viewport; }
+
+public:
+	Plane* Culling() { return culling; }
+	//Plane& Culling(UINT index) { return culling[index]; }
+	Plane& Clipping() { return clipping; }
 
 public:
 	void ResizeScreen();
 
 	void Update();
 	void Render();
+	void PreRenderMain();
+	void PreRender(ICamera* preRenderCamera);
+	void PostRender();
 
 private:
+	ICamera* currCamera = nullptr;
+	Viewport* viewport;
 	unique_ptr<Camera> mainCamera;
-	class CanvasCamera* canvasCamera;
+	CanvasCamera* canvasCamera;
+
+private:
+	Plane culling[4];
+	Plane clipping;
 };

@@ -8,11 +8,15 @@
 MeshInstancingSpawner::MeshInstancingSpawner()
 {
 	shader = Shader::Load(L"01_Mesh.fxo");
+	shadow = new ShadowCaster(shader);
+	shadow->SetFuncPreRender(bind(&MeshInstancingSpawner::PreRender_Depth, this));
+	shadow->SetShadow_Global();
 }
 
 MeshInstancingSpawner::~MeshInstancingSpawner()
 {
 	SafeDelete(meshInstancing);
+	SafeDelete(shadow);
 	SafeRelease(shader);
 }
 
@@ -23,6 +27,13 @@ void MeshInstancingSpawner::Update()
 
 void MeshInstancingSpawner::Render()
 {
+	meshInstancing->Pass(5);
+	meshInstancing->Render();
+}
+
+void MeshInstancingSpawner::PreRender_Depth()
+{
+	meshInstancing->Pass(4);
 	meshInstancing->Render();
 }
 
@@ -86,7 +97,7 @@ bool MeshInstancingSpawner::Load(BinaryReader * r)
 	if (meshInstancing == nullptr)
 		return false;
 
-	meshInstancing->Pass(1);
+	//meshInstancing->Pass(1);
 	mLoader.Apply(meshInstancing->GetRenderer()->GetDefaultMaterial());
 
 	meshInstancing->UpdateTransforms();

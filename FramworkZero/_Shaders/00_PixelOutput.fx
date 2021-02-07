@@ -2,19 +2,25 @@
 #include "00_ProjectionTexture.fx"
 #include "00_Shadow.fx"
 
+
 // --
-// PS_MeshOutput
+// MeshOutput
 // --
 
 struct MeshOutput
 {
-	float4 Position : SV_Position0;
-	float3 oPosition : Position1;
-	float3 wPosition : Position2;
+	float4 Position : SV_Position0;  // 레스터 라이징 위치
+	float3 oPosition : Position1;  // NDC
+	float3 wPosition : Position2;  // World
+	float4 wvpPosition : Position3;  // 반사
+	float4 sPosition : PositionS;  // 빛 기준 위치
 
 	float3 Normal : Normal0;
 	float3 Tangent : Tangent0;
 	float2 Uv : Uv0;
+
+	float4 Culling : SV_CullDistance;
+	float4 Clipping : SV_ClipDistance;
 };
 
 float4 PS_MeshOutput(MeshOutput input) : SV_Target0
@@ -73,13 +79,15 @@ struct MeshOutput_Shadow
 	float4 Position : SV_Position0;  // 레스터 라이징 위치
 	float3 oPosition : Position1;  // NDC
 	float3 wPosition : Position2;  // World
-	//float4 wvpPosition : Position3;  // 디퍼드 렌더링 (나중에)
 	float4 sPosition : PositionS;  // 빛 기준 위치
 
 	float3 Normal : Normal0;
 	float3 Tangent : Tangent0;
 	float2 Uv : Uv0;
 	float4 Color : Color0;
+
+	float4 Culling : SV_CullDistance;
+	float4 Clipping : SV_ClipDistance;
 
 	//uint TargetIndex : SV_RenderTargetArrayIndex;  // EnvCube
 };

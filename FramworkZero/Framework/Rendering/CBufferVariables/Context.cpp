@@ -1,7 +1,7 @@
 #include "Framework.h"
 #include "Context.h"
 
-#include "Tools/Viewer/CanvasCamera.h"
+#include "Rendering/Camera/CanvasCamera.h"
 
 Context* Context::instance = nullptr;
 
@@ -24,18 +24,27 @@ void Context::Delete()
 
 Context::Context()
 {
+	viewport = new Viewport(Screen::Width(), Screen::Height());
+
 	mainCamera = unique_ptr<Camera>(new Freedom());
 	canvasCamera = new CanvasCamera();
+	currCamera = mainCamera.get();
+
+	ZeroMemory(culling, sizeof(Plane) * 4);
+	clipping = Plane(0, 0, 0, 0);
 }
 
 Context::~Context()
 {
 	SafeDelete(canvasCamera);
-	mainCamera.reset();
+	SafeDelete(viewport);
 }
 
 void Context::MainCamera(unique_ptr<Camera> value)
 {
+	if (currCamera == mainCamera.get())
+		currCamera = value.get();
+
 	mainCamera.reset();
 	mainCamera = move(value);
 }
@@ -48,7 +57,8 @@ CanvasCamera * Context::Canvas()
 D3DXMATRIX Context::View()
 {
 	Matrix view;
-	mainCamera->GetMatrix(&view);
+
+	currCamera->GetView(&view);
 
 	return view;
 }
@@ -56,13 +66,15 @@ D3DXMATRIX Context::View()
 D3DXMATRIX Context::Projection()
 {
 	D3DXMATRIX projection;
-	mainCamera->GetProjection()->GetMatrix(&projection);
+
+	currCamera->GetProjection(&projection);
 
 	return projection;
 }
 
 void Context::ResizeScreen()
 {
+	viewport->Set(Screen::Width(), Screen::Height());
 	mainCamera->ResizeScreen(Screen::Width(), Screen::Height());
 	canvasCamera->ResizeScreen(Screen::Width(), Screen::Height());
 }
@@ -81,29 +93,10 @@ void Context::Update()
 	//Debug::Log->Show(str);
 
 	Vector3 P;
-	mainCamera->Position(&P);
+	mainCamera->GetTransform()->Position(&P);
 
-	Vector3 R;
-	Quaternion q;
-	mainCamera->Rotation(&q);
-	{
-		float xy2 = 2 * q.x * q.y;
-		float xz2 = 2 * q.x * q.z;
-		float yz2 = 2 * q.y * q.z;
-
-		float xx2 = 2 * q.x * q.x;
-		float yy2 = 2 * q.y * q.y;
-		float zz2 = 2 * q.z * q.z;
-
-		float xw2 = 2 * q.x * q.w;
-		float yw2 = 2 * q.y * q.w;
-		float zw2 = 2 * q.z * q.w;
-
-		R.x = atan2(xw2 - yz2, 1 - xx2 - zz2);
-		R.y = atan2(yw2 - xz2, 1 - yy2 - zz2);
-		R.z = asin(xy2 + zw2);
-	}
-	R *= Math::Rad2Deg;
+	EulerAngle euler = mainCamera->GetTransform()->RotationEuler();
+	Vector3 R = euler.EulerDegree();
 
 	str = "Camera(P) : " + to_string((int)P.x) + ", " + to_string((int)P.y) + ", " + to_string((int)P.z);
 	//Gui::Get()->RenderText(5.0f, 20.0f, 1, 1, 1, str);
@@ -116,6 +109,35 @@ void Context::Update()
 
 void Context::Render()
 {
-	mainCamera->GetViewport()->RSSetViewport();
+	viewport->RSSetViewport();
+
+	currCamera = mainCamera.get();
+	currCamera->GetPlanes4(culling);
+
+	clipping = Plane(0, 0, 0, 0);
+}
+
+void Context::PreRenderMain()
+{
+	currCamera = mainCamera.get();
+	currCamera->GetPlanes4(culling);
+
+	clipping = Plane(0, 0, 0, 0);
+}
+
+void Context::PreRender(ICamera * preRenderCamera)
+{
+	currCamera = preRenderCamera;
+	currCamera->GetPlanes4(culling);
+
+	clipping = Plane(0, 0, 0, 0);
+}
+
+void Context::PostRender()
+{
+	currCamera = canvasCamera;
+	currCamera->GetPlanes4(culling);
+
+	clipping = Plane(0, 0, 0, 0);
 }
 

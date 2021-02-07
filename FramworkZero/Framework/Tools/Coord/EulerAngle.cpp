@@ -24,6 +24,21 @@ EulerAngle::~EulerAngle()
 {
 }
 
+EulerAngle EulerAngle::Degree(float xDeg, float yDeg, float zDeg)
+{
+	EulerAngle result;
+	result.SetDegree(xDeg, yDeg, zDeg);
+	return result;
+}
+
+EulerAngle EulerAngle::Degree(const Vector3& eulerDegree)
+{
+	EulerAngle result;
+	result.SetDegree(eulerDegree);
+	return result;
+}
+
+
 Vector3 EulerAngle::EulerRadius() const
 {
 	return euler;
@@ -34,9 +49,11 @@ Vector3 EulerAngle::EulerDegree() const
 	return euler * Math::Rad2Deg;
 }
 
-void EulerAngle::ToQuaternion(Quaternion* out) const
+Quaternion EulerAngle::ToQuaternion() const
 {
-	D3DXQuaternionRotationYawPitchRoll(out, euler.y, euler.x, euler.z);
+	Quaternion out;
+	D3DXQuaternionRotationYawPitchRoll(&out, euler.y, euler.x, euler.z);
+	return out;
 }
 
 void EulerAngle::SetRadius(const Vector3& eulerRadius)

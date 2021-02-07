@@ -23,6 +23,12 @@ void Projection::GetMatrix(Matrix * matrix)
 	memcpy(matrix, &this->matrix, sizeof(Matrix));
 }
 
+void Projection::Resize(float width, float height)
+{
+	this->width = width;
+	this->height = height;
+}
+
 void Projection::Set(float width, float height, float zn, float zf, float fov)
 {
 	this->width = width;

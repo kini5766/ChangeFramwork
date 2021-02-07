@@ -17,7 +17,6 @@ EnemyInstancing::~EnemyInstancing()
 	for (auto d : instances)
 		SafeDelete(d);
 	enemy.reset();
-	//SafeDelete(enemy);
 }
 
 void EnemyInstancing::Update()
@@ -31,9 +30,12 @@ void EnemyInstancing::Update()
 void EnemyInstancing::Render()
 {
 	enemy->Render();
+}
 
+void EnemyInstancing::PostRender()
+{
 	for (EnemyInstance* i : instances)
-		i->Render();
+		i->PostRender();
 }
 
 void EnemyInstancing::AddInstance(const Matrix& localWorld, const vector<Vector3>* patrolPoints)

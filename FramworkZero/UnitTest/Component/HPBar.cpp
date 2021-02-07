@@ -63,8 +63,8 @@ void HPBar::Update(float hp, float hpMax)
 	}
 }
 
-void HPBar::Render()
+void HPBar::PostRender()
 {
-	hpbarG->Render();
-	hpbarR->Render();
+	hpbarG->PostRender();
+	hpbarR->PostRender();
 }

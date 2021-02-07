@@ -19,8 +19,6 @@ struct TerrainLODDesc
 	float CellSpacingU;
 	float CellSpacingV;
 	float HeightScale;
-
-	float4 Culling[4];
 };
 
 cbuffer CB_TerrainLOD
@@ -87,7 +85,7 @@ bool OutFrustum(float3 center, float3 radius)
 	for (int i = 0; i < 4; i++)
 	{
 		[flatten]
-		if (OutFrustumPlane(center, radius, TerrainLOD.Culling[i]))
+		if (OutFrustumPlane(center, radius, Culling[i]))
 		{
 			return true;
 		}

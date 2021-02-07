@@ -36,6 +36,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00_Global", "00_Global", "{
 		_Shaders\00_TerrainBrush.fx = _Shaders\00_TerrainBrush.fx
 		_Shaders\00_TerrainLayer.fx = _Shaders\00_TerrainLayer.fx
 		_Shaders\00_VertexInput.fx = _Shaders\00_VertexInput.fx
+		_Shaders\00_Water.fx = _Shaders\00_Water.fx
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Compute", "02_Compute", "{84238D42-F657-4385-88C6-C35EF8C0A02D}"
@@ -57,6 +58,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Object", "01_Object", "{
 		_Shaders\01_SkyCube.fx = _Shaders\01_SkyCube.fx
 		_Shaders\01_Terrain.fx = _Shaders\01_Terrain.fx
 		_Shaders\01_TerrainLOD.fx = _Shaders\01_TerrainLOD.fx
+		_Shaders\01_Water.fx = _Shaders\01_Water.fx
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_PostProcessing", "03_PostProcessing", "{6678EECB-B628-4628-B633-5EB505E77C30}"

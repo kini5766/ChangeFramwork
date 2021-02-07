@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tools/Viewer/IFocus.h"
+#include "Rendering/Camera/IFocus.h"
 
 class CharacterController : public IFocus
 {

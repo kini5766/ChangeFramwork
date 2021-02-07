@@ -31,7 +31,7 @@ CubeSky::~CubeSky()
 void CubeSky::Update()
 {
 	Vector3 position;
-	Context::Get()->MainCamera()->Position(&position);
+	Context::Get()->MainCamera()->GetTransform()->Position(&position);
 
 	transform->Position(position);
 	sphere->Update();

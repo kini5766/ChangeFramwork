@@ -10,6 +10,7 @@ public:
 public:
 	void Update();
 	void Render();
+	void PostRender();
 
 public:
 	void AddInstance(const Matrix& localWorld, const vector<Vector3>* patrolPoints);

@@ -5,7 +5,7 @@
 #include "Component/AttackSystem.h"
 #include "Component/RotateSystem.h"
 
-#include "Tools/Viewer/IFocus.h"
+#include "Rendering/Camera/IFocus.h"
 
 MagicAttack::MagicAttack(IFocus* player, MeshInstancing* model)
 	: player(player), sphere(model)

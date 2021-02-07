@@ -28,7 +28,7 @@ struct PatrolChecker
 			&& (*InRecognition == false);
 	};
 };
-
+/*
 // 적 인식
 // 전투 중이 아닐 때
 // 인식 범위 안 일 때
@@ -95,3 +95,4 @@ struct Patrol
 	bool* InBattle;
 	bool* IsSkillAble;
 };
+*/

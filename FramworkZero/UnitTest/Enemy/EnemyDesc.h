@@ -1,7 +1,7 @@
 #pragma once
 
 #include "stdafx.h"
-#include "Tools/Viewer/IFocus.h"
+#include "Rendering/Camera/IFocus.h"
 #include "Objects/Model/ModelAnimation.h"
 #include "Component/AttackAnimation.h"
 

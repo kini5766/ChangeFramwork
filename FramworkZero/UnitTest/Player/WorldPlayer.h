@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tools/Viewer/IFocus.h"
+#include "Rendering/Camera/IFocus.h"
 
 class WorldPlayer
 {
@@ -11,6 +11,7 @@ public:
 public:
 	void Update();
 	void Render();
+	void PostRender();
 
 	IFocus* GetFocus();
 

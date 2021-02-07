@@ -6,7 +6,8 @@ public:
 	Projection(float width, float height, float zn, float zf, float fov);
 	virtual ~Projection();
 
-	void GetMatrix(Matrix* matrix);
+	virtual void GetMatrix(Matrix* matrix);
+	virtual void Resize(float width, float height);
 
 protected:
 	virtual void Set(float width, float height, float zn, float zf, float fov);

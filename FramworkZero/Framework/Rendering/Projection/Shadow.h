@@ -92,7 +92,7 @@ private:
 private:
 	function<void(void)> funcPreRender;
 
-	ShaderSetter* shader;
+	ShaderSetter* material;
 	ConstantBuffer* buffer;
 	DepthStencil* depth = nullptr;
 

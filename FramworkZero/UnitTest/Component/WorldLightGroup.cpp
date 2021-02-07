@@ -3,9 +3,9 @@
 
 WorldLightGroup::WorldLightGroup()
 {
-	Lighting::Get()->GetBurntLight()->GetDesc()->Scale = Vector3(16, 15, 14);
-	Lighting::Get()->GetBurntLight()->GetDesc()->Position = Vector3(12, 6, 0);
-	Lighting::Get()->GetBurntLight()->ApplyLight();
+	//Lighting::Get()->GetBurntLight()->GetDesc()->Scale = Vector3(16, 15, 14);
+	//Lighting::Get()->GetBurntLight()->GetDesc()->Position = Vector3(12, 6, 0);
+	//Lighting::Get()->GetBurntLight()->ApplyLight();
 
 	PointLightDesc point;
 	point =

@@ -5,7 +5,7 @@
 
 #include "EditorDemo/Main/SceneValue.h"
 #include "EditorDemo/Main/SceneLoader.h"
-#include "Tools/Viewer/OrbitCamera.h"
+#include "Rendering/Camera/OrbitCamera.h"
 #include "Component/WorldLightGroup.h"
 #include "Player/WorldPlayer.h"
 
@@ -13,28 +13,37 @@ void WorldDemo::Initialize()
 {
 	sky = new CubeSky(L"Environment/GrassCube1024.dds");
 	lights = new WorldLightGroup();
+	shadow = new Shadow(Vector3(-64.0f, 64.0f, 64.0f), 512.0f);
+	Shadow::SetGlobal(shadow);
+	water = new Water({ 125, 0, 0 });
+	postEffect = new PostEffectTest();
 
 	player = new WorldPlayer();
 	scene = new SceneValue();
-	LoadScene();
 	Billboards();
+	LoadScene();
 
 	OrbitCamera* camera = new OrbitCamera();
 	camera->SetTarget(player->GetFocus());
 	Context::Get()->MainCamera(unique_ptr<Camera>(camera));
 
-	postEffect = new PostEffectTest();
+	water->GetTransform()->Position(128, 1, 128);
+
 	Debug::Line->OffRendering();
 }
 
 void WorldDemo::Destroy()
 {
-	SafeDelete(postEffect);
-	SafeDelete(sky);
-	SafeDelete(lights);
+	SafeDelete(scene);
 	SafeDelete(billboard);
 	SafeDelete(player);
-	SafeDelete(scene);
+
+	SafeDelete(postEffect);
+	SafeDelete(water);
+	Shadow::SetGlobal(nullptr);
+	SafeDelete(shadow);
+	SafeDelete(lights);
+	SafeDelete(sky);
 }
 
 void WorldDemo::Update()
@@ -43,20 +52,40 @@ void WorldDemo::Update()
 	player->Update();
 	scene->Update();
 	sky->Update();
+	water->Update();
 
 	postEffect->Update();
+
 	postEffect->ImGuiRender();
+	//shadow->ImGuiRender();
 }
 
 void WorldDemo::PreRender()
 {
+	shadow->PreRender();
+
+	water->PreRender_Reflection();
+	{
+		sky->Render();
+		billboard->Render();
+		scene->Render();
+		player->Render();
+	}
+
+	water->PreRender_Refraction();
+	{
+		sky->Render();
+		billboard->Render();
+		scene->Render();
+		player->Render();
+	}
+
 	postEffect->BeginPreRender();
 	{
 		sky->Render();
-		lights->Render();
 		billboard->Render();
+		water->Render();
 		scene->Render();
-
 		player->Render();
 	}
 	postEffect->EndPreRender();
@@ -64,7 +93,13 @@ void WorldDemo::PreRender()
 
 void WorldDemo::Render()
 {
+	//lights->Render();
 	postEffect->Render();
+}
+
+void WorldDemo::PostRender()
+{
+	player->PostRender();
 }
 
 void WorldDemo::LoadScene()

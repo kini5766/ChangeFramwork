@@ -8,8 +8,7 @@ public:
 
 public:
 	void Update();
-	void Render();
-
+	void PostRender();
 
 private:
 	void UpdateState();

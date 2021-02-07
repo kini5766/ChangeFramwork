@@ -27,17 +27,19 @@ PerFrameBuffer::~PerFrameBuffer()
 
 void PerFrameBuffer::Update()
 {
-	desc.View = Context::Get()->View();
-	D3DXMatrixInverse(&desc.ViewInverse, nullptr, &desc.View);
-	desc.Projection = Context::Get()->Projection();
-	desc.VP = desc.View * desc.Projection;
-	//desc.Culling
-	//desc.Clipping
 	desc.Time = Time::Get()->Running();
 }
 
 void PerFrameBuffer::Render()
 {
+	desc.View = Context::Get()->View();
+	D3DXMatrixInverse(&desc.ViewInverse, nullptr, &desc.View);
+	desc.Projection = Context::Get()->Projection();
+	desc.VP = desc.View * desc.Projection;
+
+	desc.Clipping = Context::Get()->Clipping();
+	memcpy(desc.Culling, Context::Get()->Culling(), sizeof(Plane) * 4);
+
 	buffer->Render();
 	lightBuffer->Render();
 	pointLightBuffer->Render();

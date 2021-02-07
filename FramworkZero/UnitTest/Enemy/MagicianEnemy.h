@@ -28,4 +28,5 @@ private:
 	EnemyDesc desc;
 
 	MeshInstancing* sphere;
+	Texture* cubeMap;
 };

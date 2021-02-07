@@ -5,17 +5,13 @@
 #include "Tools/Coord/SphereCoord.h"
 
 OrbitCamera::OrbitCamera()
+	: Camera(unique_ptr<Projection>(new Perspective(Screen::Width(), Screen::Height())))
 {
-	perspective = new Perspective(Screen::Width(), Screen::Height());
-	projection = perspective;
-	viewport = new Viewport(Screen::Width(), Screen::Height());
-
-
 	sphereCoord = new SphereCoord();
 	sphereCoord->Rho(distance);
 	//sphereCoord->Theta(Math::PI * 0.65f);
-	Position(sphereCoord->RectCoord_Y());
-	Rotation(sphereCoord->YawPitch_Z());
+	transform->Position(sphereCoord->RectCoord_Y());
+	transform->RotationEuler(sphereCoord->YawPitch_Z());
 
 	ray = CollisionManager::Get()->CreateRaycast(
 		Ray(Vector3(0.0f, 0.0f, 0.0f), -sphereCoord->RectCoord_YNormal()),
@@ -26,14 +22,12 @@ OrbitCamera::OrbitCamera()
 OrbitCamera::~OrbitCamera()
 {
 	ray->Destroy();
-	SafeDelete(perspective);
-	SafeDelete(viewport);
 }
 
 void OrbitCamera::Update()
 {
 	Vector3 pos;
-	Position(&pos);
+	transform->Position(&pos);
 
 	Vector3 focus(0.0f, 0.0f, 0.0f);
 	if (target != nullptr)
@@ -95,16 +89,10 @@ void OrbitCamera::Update()
 	}
 
 	pos = focus - sphereCoord->RectCoord_Y();
-	Position(pos);
+	transform->Position(pos);
 
-	Rotation(sphereCoord->YawPitch_Z());
+	transform->RotationEuler(sphereCoord->YawPitch_Z());
 	ray->SetRay(Ray(focus, -sphereCoord->RectCoord_YNormal()));
-}
-
-void OrbitCamera::ResizeScreen(float width, float height)
-{
-	viewport->Set(width, height);
-	perspective->Set(width, height);
 }
 
 void OrbitCamera::SetTarget(IFocus * value)

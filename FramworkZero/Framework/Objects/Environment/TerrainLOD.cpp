@@ -15,7 +15,6 @@ TerrainLOD::TerrainLOD(wstring ddsFile)
 	perTransform = new PerTransform(shader);
 	buffer = new ConstantBuffer(&desc, sizeof(Desc));
 	shadow = new ShadowCaster(shader);
-	frustum = new Frustum(nullptr, nullptr);
 
 	material = renderer->GetDefaultMaterial();
 	material->SetConstantBuffer("CB_TerrainLOD", buffer->Buffer());
@@ -45,7 +44,6 @@ TerrainLOD::TerrainLOD(wstring ddsFile)
 TerrainLOD::~TerrainLOD()
 {
 	SafeDeleteArray(bounds);
-	SafeDelete(frustum);
 	SafeDelete(shadow);
 
 	SafeRelease(heightMap);
@@ -64,14 +62,6 @@ TerrainLOD::~TerrainLOD()
 void TerrainLOD::Update()
 {
 	perTransform->Update();
-
-	frustum->Update();
-	Plane p6[6];
-	frustum->Planes(p6, 6);
-	desc.Culling[0] = p6[0];
-	desc.Culling[1] = p6[1];
-	desc.Culling[2] = p6[4];
-	desc.Culling[3] = p6[5];
 }
 
 void TerrainLOD::Render()

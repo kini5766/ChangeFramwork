@@ -8,7 +8,7 @@ public:
 
 public:
 	void Update(float hpPer, float hpMax);
-	void Render();
+	void PostRender();
 
 public:
 	Transform* GetTransform() { return hpbarPos; }

@@ -15,6 +15,14 @@ output.Position = ViewProjection(output.Position); \
 output.Normal = WorldNormal(input.Normal); \
 output.Tangent = WorldTangent(input.Tangent); \
 output.Uv = input.Uv; \
+\
+output.Culling.x = dot(float4(output.wPosition, 1), Culling[0]);\
+output.Culling.y = dot(float4(output.wPosition, 1), Culling[1]);\
+output.Culling.z = dot(float4(output.wPosition, 1), Culling[2]);\
+output.Culling.w = dot(float4(output.wPosition, 1), Culling[3]);\
+\
+output.Clipping = float4(0, 0, 0, 0); \
+output.Clipping.x = dot(float4(output.wPosition, 1), Clipping); \
 
 
 // --

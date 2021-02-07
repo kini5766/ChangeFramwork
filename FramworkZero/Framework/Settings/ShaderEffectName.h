@@ -7,12 +7,13 @@ namespace ShaderEffectName
 	constexpr auto CB_PERFRAME = "CB_PerFrame";
 	constexpr auto CB_WORLD = "CB_World";
 
-	// 00_Light.fx
+	// 00_Material.fx
 	constexpr auto CB_MATERIAL = "CB_Material";
 	constexpr auto DIFFUSEMAP = "DiffuseMap";
 	constexpr auto SPECULARMAP = "SpecularMap";
 	constexpr auto NORMALMAP = "NormalMap";
 
+	// 00_Light.fx
 	constexpr auto CB_LIGHT = "CB_Light";
 	constexpr auto CB_LIGHT_SPOT = "CB_SpotLights";
 	constexpr auto CB_LIGHT_POINT = "CB_PointLights";
@@ -21,6 +22,23 @@ namespace ShaderEffectName
 	// 00_Render.fx
 	constexpr auto INV_BINDPOSE = "InvBindPose";
 	constexpr auto BONESMAP = "BonesMap";
+
+	// 00_ProjectionTexture.fx
+	constexpr auto PROJECTION_MAP = "ProjectionMap";
+	constexpr auto CB_PROJECTIONTEXTURE = "CB_ProjectionTexture";
+
+
+	// --------------------------------------------------------
+
+
+	// 01_Water.fx
+	constexpr auto CB_WATER = "CB_Water";
+	constexpr auto REFRACTION_MAP = "RefractionMap";
+	constexpr auto REFRACTION_DEPTH_MAP = "RefractionDepthMap";
+	constexpr auto REFLECTION_MAP = "ReflectionMap";
+	constexpr auto REFLECTION_DEPTH_MAP = "ReflectionDepthMap";
+	constexpr auto REFLECTION_VIEW = "ReflectionView";
+
 
 	// --------------------------------------------------------
 

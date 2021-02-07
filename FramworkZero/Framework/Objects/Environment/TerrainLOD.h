@@ -78,7 +78,6 @@ private:
 	ID3D11Texture2D* heightMap = nullptr;
 	ID3D11ShaderResourceView* heightMapSRV = nullptr;
 
-	Frustum* frustum;
 	Vector2* bounds;
 
 private:
@@ -99,8 +98,6 @@ private:
 		float CellSpacingU;  // pixelSize x
 		float CellSpacingV;  // pixelSize y
 		float HeightScale = 0.275f;
-
-		Plane Culling[4];
 	}desc;
 
 private:

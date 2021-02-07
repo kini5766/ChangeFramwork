@@ -8,18 +8,16 @@ public:
 
 public:
 	void Update();
-	void Render();
+	void PostRender();
 	void SRV(ID3D11ShaderResourceView* srv);
-	Transform* GetTransform() { return transform; }
+	Transform* GetTransform() { return mesh->GetTransform(); }
 
 private:
-	ShaderSetter* shader;
-	VertexBuffer* vertexBuffer;
-	IndexBuffer* indexBuffer;
-	Transform* transform;
-	Matrix world;
+	MeshData CreateMeshData();
 
-	ConstantBuffer* buffer;
+private:
+	Shader* shader;
+	Mesh* mesh;
 
 private:
 	struct VertexTexture
@@ -27,10 +25,4 @@ private:
 		Vector3 Position;
 		Vector2 Uv;
 	};
-
-	struct Desc
-	{
-		Matrix View;
-		Matrix Projection;
-	}desc;
 };

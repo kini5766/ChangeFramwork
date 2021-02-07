@@ -93,9 +93,9 @@ typedef D3DXPLANE Plane;
 #include "Tools/MainLogic/Mouse.h"
 #include "Tools/MainLogic/Time.h"
 //#include "Tools/MainLogic/GameLogic.h"
+#include "Tools/MainLogic/WinDesc.h"
 
 #include "Tools/Math.h"
-#include "Tools/WinDesc.h"
 
 #include "Tools/Coord/EulerAngle.h"
 #include "Tools/Coord/Transform.h"
@@ -110,9 +110,9 @@ typedef D3DXPLANE Plane;
 #include "Tools/Viewer/Projection.h"
 #include "Tools/Viewer/Perspective.h"
 #include "Tools/Viewer/Orthographic.h"
-#include "Tools/Viewer/Camera.h"
-#include "Tools/Viewer/Freedom.h"
-#include "Tools/Viewer/Fixity.h"
+#include "Tools/Viewer/ProjectionPointer.h"
+#include "Tools/Viewer/CameraTransform.h"
+#include "Tools/Viewer/Frustum.h"
 
 #include "Tools/Lighting/LightingDesc.h"
 #include "Tools/Lighting/DirectionalLight.h"
@@ -131,8 +131,6 @@ typedef D3DXPLANE Plane;
 #include "Tools/Collider/SendBox.h"
 #include "Tools/Collider/ReceiveBox.h"
 
-#include "Tools/Frustum.h"
-
 
 //Rendering
 // IASet하거나, Shader에 값 넘겨주는 클래스들
@@ -140,13 +138,21 @@ typedef D3DXPLANE Plane;
 #include "Rendering/Shader.h"
 #include "Rendering/Buffers/Buffers.h"
 
+#include "Rendering/Camera/Camera.h"
+#include "Rendering/Camera/Freedom.h"
+#include "Rendering/Camera/Fixity.h"
+
+#include "Rendering/Camera/PreCamera.h"
+#include "Rendering/Camera/SubCamera.h"
+
 #include "Rendering/CBufferVariables/Context.h"
 #include "Rendering/CBufferVariables/ShaderSetter.h"
 #include "Rendering/CBufferVariables/Material.h"
 #include "Rendering/CBufferVariables/PerFrame.h"
 #include "Rendering/CBufferVariables/PerTransform.h"
 
-#include "Rendering/Shadow.h"
+#include "Rendering/Projection/Shadow.h"
+#include "Rendering/Projection/ProjectionTexture.h"
 
 // Utilities
 // 유용한
@@ -180,8 +186,8 @@ typedef D3DXPLANE Plane;
 #include "Objects/Environment/Billboard.h"
 #include "Objects/Environment/Terrain.h"
 #include "Objects/Environment/TerrainLOD.h"
-#include "Objects/Environment/ProjectionTexture.h"
 #include "Objects/Environment/TerrainCollider.h"
+#include "Objects/Environment/Water.h"
 
 #include "Objects/Canvas/Render2D.h"
 

@@ -85,7 +85,11 @@ void WorldPlayer::Render()
 
 	mesh->Render();
 	kachujinMaker->Render();
-	playerHp->Render();
+}
+
+void WorldPlayer::PostRender()
+{
+	playerHp->PostRender();
 }
 
 IFocus * WorldPlayer::GetFocus()
@@ -96,7 +100,8 @@ IFocus * WorldPlayer::GetFocus()
 void WorldPlayer::Player(ModelSkinnedInstance* instance)
 {
 	instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
-	instance->GetTransform()->Rotation(EulerAngle(0.0f, -90.0f, 0.0f));
+	instance->GetTransform()->RotationEuler(
+		EulerAngle::Degree(0.0f, -90.0f, 0.0f));
 
 	kachujin = new KachujinInstance(instance);
 	player = new CharacterController
@@ -129,7 +134,8 @@ void WorldPlayer::PlayerHp(Transform* transform)
 
 	playerHp->GetHurtbox()->GetTransform()->SetParent(transform);
 	playerHp->GetHurtbox()->GetTransform()->Position(0.0f, 100.0f, 0.0f);
-	playerHp->GetHurtbox()->GetTransform()->Rotation(EulerAngle(0.0f, 0.0f, 0.0f));
+	playerHp->GetHurtbox()->GetTransform()->RotationEuler(
+		EulerAngle::Degree(0.0f, 0.0f, 0.0f));
 	playerHp->GetHurtbox()->GetTransform()->Scale(75.0f, 200.0f, 75.0f);
 }
 
@@ -137,7 +143,8 @@ void WorldPlayer::PlayerAttack()
 {
 	attack = new NormalAttack();
 	attack->InitTransform()->Position(0.0f, 100.0f, -70.0f);
-	attack->InitTransform()->Rotation(EulerAngle(0.0f, 0.0f, 0.0f));
+	attack->InitTransform()->RotationEuler(
+		EulerAngle::Degree(0.0f, 0.0f, 0.0f));
 	attack->InitTransform()->Scale(120.0f, 200.0f, 240.0f);
 	attack->Tag(L"PlayerAttack");
 	attack->Attack(10.0f);
@@ -160,7 +167,8 @@ void WorldPlayer::PlayerWeapon(Transform* transform)
 	initWeapon->SetParent(weapon);
 	initWeapon->Position(-2.9f, 1.45f, -6.45f);
 	initWeapon->Scale(5.0f, 5.0f, 75.0f);
-	initWeapon->Rotation(EulerAngle(0, 0, 1));
+	initWeapon->RotationEuler(
+		EulerAngle::Degree(0, 0, 1));
 }
 
 void WorldPlayer::OnDamage()

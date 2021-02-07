@@ -51,12 +51,12 @@ void HPSystem::Update()
 	}
 }
 
-void HPSystem::Render()
+void HPSystem::PostRender()
 {
 	if (hp == 0.0f)
 		return;
 
-	hpBar->Render();
+	hpBar->PostRender();
 }
 
 Transform * HPSystem::GetHpbar()

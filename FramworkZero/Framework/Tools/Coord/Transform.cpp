@@ -66,9 +66,15 @@ void Transform::Scale(Vector3 * out)
 	*out = scale;
 }
 
-void Transform::Rotation(const EulerAngle & value)
+void Transform::RotationEuler(const EulerAngle & value)
 {
-	value.ToQuaternion(&rotation);
+	rotation = value.ToQuaternion();
+	ChangedWorld();
+}
+
+EulerAngle Transform::RotationEuler()
+{
+	return EulerAngle(rotation);
 }
 
 void Transform::Rotation(const Quaternion & value)

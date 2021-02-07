@@ -38,13 +38,12 @@ void Gizmo::Render()
 
 	ImGuizmo::SetRect(0, 0, Screen::Width(), Screen::Height());
 
-	Matrix V, P;
-	Context::Get()->MainCamera()->GetMatrix(&V);
-	P = Context::Get()->Projection();
-
 	Matrix W;
 	transform->GlobalWorld(&W);
-	ImGuizmo::Manipulate(V, P, operation, mode, W);
+	ImGuizmo::Manipulate(
+		Context::Get()->View(), 
+		Context::Get()->Projection(), 
+		operation, mode, W);
 
 	transform->GlobalWorld(W);
 

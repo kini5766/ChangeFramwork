@@ -8,7 +8,7 @@ public:
 
 public:
 	void Update();
-	void Render();
+	void PostRender();
 
 public:
 	Transform* GetHpbar();

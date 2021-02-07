@@ -263,14 +263,16 @@ void Window::WinValue::UpdateGame()
 	D3D::Get()->Clear();
 	{
 		Context::Get()->Render();
-
 		mainExecute->Render();
 
+		Context::Get()->PostRender();
 		mainExecute->PostRender();
+
 		Debug::Gizmo->Render();
 		Debug::Line->Render();  // 디버그 라인
 		Debug::Log->Render();
 		Gui::Get()->Render();  // 글자
 	}
 	D3D::Get()->Present();
+	Context::Get()->PreRenderMain();
 }

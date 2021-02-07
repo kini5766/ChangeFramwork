@@ -11,6 +11,14 @@ Perspective::~Perspective()
 {
 }
 
+void Perspective::Resize(float width, float height)
+{
+	Super::Resize(width, height);
+
+	aspect = width / height;
+	D3DXMatrixPerspectiveFovLH(&matrix, fov, aspect, zn, zf);
+}
+
 void Perspective::Set(float width, float height, float zn, float zf, float fov)
 {
 	Super::Set(width, height, zn, zf, fov);

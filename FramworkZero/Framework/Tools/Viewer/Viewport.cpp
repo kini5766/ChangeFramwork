@@ -28,6 +28,12 @@ void Viewport::Set(float width, float height, float x, float y, float minDepth, 
 	RSSetViewport();
 }
 
+void Viewport::Resize(float width, float height)
+{
+	viewport.Width = this->width = width;  // 너비
+	viewport.Height = this->height = height;  // 높이
+}
+
 Vector3 Viewport::Project(const Vector3 & source, const Matrix & W, const Matrix & V, const Matrix & P)
 {
 	Vector3 result;

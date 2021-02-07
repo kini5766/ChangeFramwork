@@ -67,9 +67,14 @@
     <Filter Include="Objects\Environment">
       <UniqueIdentifier>{c0fa3cdf-76d4-4249-bbf3-fb631efbed4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering\Projection">
+      <UniqueIdentifier>{1a5cf3b0-dd1c-48f3-84be-f7ce1c376f08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Camera">
+      <UniqueIdentifier>{d94c3f6f-7081-422a-86f4-ba2bde514e4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Framework.cpp" />
     <ClCompile Include="Systems\Gui.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
@@ -94,12 +99,6 @@
     <ClCompile Include="Tools\Math.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Tools\Viewer\Camera.cpp">
-      <Filter>Tools\Viewer</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\Viewer\Freedom.cpp">
-      <Filter>Tools\Viewer</Filter>
-    </ClCompile>
     <ClCompile Include="Tools\Viewer\Orthographic.cpp">
       <Filter>Tools\Viewer</Filter>
     </ClCompile>
@@ -111,9 +110,6 @@
     </ClCompile>
     <ClCompile Include="Tools\Viewer\Viewport.cpp">
       <Filter>Tools\Viewer</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\WinDesc.cpp">
-      <Filter>Tools</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Buffers\VertexBuffer.cpp">
       <Filter>Rendering\Buffers</Filter>
@@ -153,9 +149,6 @@
     </ClCompile>
     <ClCompile Include="Debugger\DebugLine.cpp">
       <Filter>Debugger</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\MainLogic\GameLogic.cpp">
-      <Filter>Tools\MainLogic</Filter>
     </ClCompile>
     <ClCompile Include="Tools\MainLogic\Keyboard.cpp">
       <Filter>Tools\MainLogic</Filter>
@@ -232,17 +225,11 @@
     <ClCompile Include="Objects\Model\ModelAnimation.cpp">
       <Filter>Objects\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Tools\Animation\SimpleAnimator.cpp">
-      <Filter>Tools\Animation</Filter>
-    </ClCompile>
     <ClCompile Include="Tools\Animation\ClipTimer.cpp">
       <Filter>Tools\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Tools\Animation\Animator.cpp">
       <Filter>Tools\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\Viewer\OrbitCamera.cpp">
-      <Filter>Tools\Viewer</Filter>
     </ClCompile>
     <ClCompile Include="Tools\Collider\Collider.cpp">
       <Filter>Tools\Collider</Filter>
@@ -264,9 +251,6 @@
     </ClCompile>
     <ClCompile Include="Tools\Collider\ReceiveBox.cpp">
       <Filter>Tools\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\Viewer\CanvasCamera.cpp">
-      <Filter>Tools\Viewer</Filter>
     </ClCompile>
     <ClCompile Include="Tools\Texture\Texture.cpp">
       <Filter>Tools\Texture</Filter>
@@ -334,17 +318,8 @@
     <ClCompile Include="Objects\PostProcessing\RaialBlur.cpp">
       <Filter>Objects\PostProcessing</Filter>
     </ClCompile>
-    <ClCompile Include="Tools\Viewer\Fixity.cpp">
-      <Filter>Tools\Viewer</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Environment\ProjectionTexture.cpp">
-      <Filter>Objects\Environment</Filter>
-    </ClCompile>
     <ClCompile Include="Tools\Viewer\UIProjection.cpp">
       <Filter>Tools\Viewer</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Shadow.cpp">
-      <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Tools\Texture\Texture2DDesc.cpp">
       <Filter>Tools\Texture</Filter>
@@ -358,18 +333,60 @@
     <ClCompile Include="Objects\Environment\Terrain.cpp">
       <Filter>Objects\Environment</Filter>
     </ClCompile>
-    <ClCompile Include="Tools\Frustum.cpp">
-      <Filter>Tools</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\PostProcessing\EffectUnitGroup.cpp">
       <Filter>Objects\PostProcessing</Filter>
     </ClCompile>
-    <ClCompile Include="Tools\RTVGroup.cpp">
-      <Filter>Tools</Filter>
+    <ClCompile Include="Tools\Viewer\Frustum.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\CameraTransform.cpp">
+      <Filter>Tools\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\MainLogic\WinDesc.cpp">
+      <Filter>Tools\MainLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\CanvasCamera.cpp">
+      <Filter>Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\Fixity.cpp">
+      <Filter>Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\Freedom.cpp">
+      <Filter>Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\OrbitCamera.cpp">
+      <Filter>Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="Rendering\Camera\Camera.cpp">
+      <Filter>Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Projection\ProjectionTexture.cpp">
+      <Filter>Rendering\Projection</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Projection\Reflection.cpp">
+      <Filter>Rendering\Projection</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Projection\Refraction.cpp">
+      <Filter>Rendering\Projection</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Projection\Shadow.cpp">
+      <Filter>Rendering\Projection</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\PreCamera.cpp">
+      <Filter>Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Viewer\ProjectionPointer.cpp">
+      <Filter>Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\SubCamera.cpp">
+      <Filter>Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Environment\Water.cpp">
+      <Filter>Objects\Environment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Framework.h" />
     <ClInclude Include="Systems\Gui.h">
       <Filter>Systems</Filter>
     </ClInclude>
@@ -406,12 +423,6 @@
     <ClInclude Include="Tools\Math.h">
       <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Tools\Viewer\Camera.h">
-      <Filter>Tools\Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\Viewer\Freedom.h">
-      <Filter>Tools\Viewer</Filter>
-    </ClInclude>
     <ClInclude Include="Tools\Viewer\Orthographic.h">
       <Filter>Tools\Viewer</Filter>
     </ClInclude>
@@ -423,9 +434,6 @@
     </ClInclude>
     <ClInclude Include="Tools\Viewer\Viewport.h">
       <Filter>Tools\Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\WinDesc.h">
-      <Filter>Tools</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\Buffers\Buffers.h">
       <Filter>Rendering\Buffers</Filter>
@@ -471,9 +479,6 @@
     </ClInclude>
     <ClInclude Include="Debugger\DebugLine.h">
       <Filter>Debugger</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\MainLogic\GameLogic.h">
-      <Filter>Tools\MainLogic</Filter>
     </ClInclude>
     <ClInclude Include="Tools\MainLogic\Keyboard.h">
       <Filter>Tools\MainLogic</Filter>
@@ -562,20 +567,11 @@
     <ClInclude Include="Objects\Model\ModelAnimation.h">
       <Filter>Objects\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Tools\Animation\SimpleAnimator.h">
-      <Filter>Tools\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="Tools\Animation\ClipTimer.h">
       <Filter>Tools\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Tools\Animation\Animator.h">
       <Filter>Tools\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\Viewer\OrbitCamera.h">
-      <Filter>Tools\Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\Viewer\IFocus.h">
-      <Filter>Tools\Viewer</Filter>
     </ClInclude>
     <ClInclude Include="Tools\Collider\CollisionManager.h">
       <Filter>Tools\Collider</Filter>
@@ -600,9 +596,6 @@
     </ClInclude>
     <ClInclude Include="Tools\Collider\ReceiveBox.h">
       <Filter>Tools\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\Viewer\CanvasCamera.h">
-      <Filter>Tools\Viewer</Filter>
     </ClInclude>
     <ClInclude Include="Tools\Texture\Texture.h">
       <Filter>Tools\Texture</Filter>
@@ -673,17 +666,8 @@
     <ClInclude Include="Objects\PostProcessing\RaialBlur.h">
       <Filter>Objects\PostProcessing</Filter>
     </ClInclude>
-    <ClInclude Include="Tools\Viewer\Fixity.h">
-      <Filter>Tools\Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Environment\ProjectionTexture.h">
-      <Filter>Objects\Environment</Filter>
-    </ClInclude>
     <ClInclude Include="Tools\Viewer\UIProjection.h">
       <Filter>Tools\Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Shadow.h">
-      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Tools\Texture\Texture2DDesc.h">
       <Filter>Tools\Texture</Filter>
@@ -697,14 +681,60 @@
     <ClInclude Include="Objects\Environment\Terrain.h">
       <Filter>Objects\Environment</Filter>
     </ClInclude>
-    <ClInclude Include="Tools\Frustum.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\PostProcessing\EffectUnitGroup.h">
       <Filter>Objects\PostProcessing</Filter>
     </ClInclude>
-    <ClInclude Include="Tools\RTVGroup.h">
-      <Filter>Tools</Filter>
+    <ClInclude Include="Tools\Viewer\Frustum.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\CameraTransform.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\MainLogic\WinDesc.h">
+      <Filter>Tools\MainLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\CanvasCamera.h">
+      <Filter>Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\Fixity.h">
+      <Filter>Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\Freedom.h">
+      <Filter>Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\IFocus.h">
+      <Filter>Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\OrbitCamera.h">
+      <Filter>Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework.h" />
+    <ClInclude Include="Rendering\Camera\Camera.h">
+      <Filter>Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Projection\ProjectionTexture.h">
+      <Filter>Rendering\Projection</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Projection\Reflection.h">
+      <Filter>Rendering\Projection</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Projection\Refraction.h">
+      <Filter>Rendering\Projection</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Projection\Shadow.h">
+      <Filter>Rendering\Projection</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Viewer\ProjectionPointer.h">
+      <Filter>Tools\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\PreCamera.h">
+      <Filter>Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\SubCamera.h">
+      <Filter>Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Environment\Water.h">
+      <Filter>Objects\Environment</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

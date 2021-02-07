@@ -1,25 +1,16 @@
 #include "Framework.h"
 
-Frustum::Frustum(Camera * camera, Projection* projection)
-	: camera(camera)
-	, projection(projection)
+Frustum::Frustum()
 {
-	if (camera == nullptr)
-		this->camera = Context::Get()->MainCamera();
-	if (projection == nullptr)
-		this->projection = Context::Get()->MainCamera()->GetProjection();
+	ZeroMemory(planes, sizeof(Plane) * 6);
 }
 
 Frustum::~Frustum()
 {
 }
 
-void Frustum::Update()
+void Frustum::Update(const Matrix& V, const Matrix& P)
 {
-	Matrix V, P;
-	camera->GetMatrix(&V);
-	projection->GetMatrix(&P);
-
 	Matrix M = V * P;
 
 	//Left

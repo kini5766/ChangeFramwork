@@ -61,8 +61,9 @@ void CharacterController::Update()
 		{
 			nextState = 1;
 			Vector3 up = transform->Up();
-			Vector3 cameraFoword = Context::Get()->MainCamera()->Forward();
-			Vector3 cameraRight = Context::Get()->MainCamera()->Right();
+			CameraTransform* camera = Context::Get()->MainCamera()->GetTransform();
+			Vector3 cameraFoword = camera->Forward();
+			Vector3 cameraRight = camera->Right();
 			cameraFoword.y = -(up.x * cameraFoword.x + up.z * cameraFoword.y) / up.y;
 			cameraRight.y = -(up.x * cameraRight.x + up.z * cameraRight.y) / up.y;
 			D3DXVec3Normalize(&cameraFoword, &cameraFoword);

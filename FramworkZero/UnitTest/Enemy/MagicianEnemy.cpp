@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "MagicianEnemy.h"
 
-#include "Tools/Viewer/IFocus.h"
+#include "Rendering/Camera/IFocus.h"
 #include "Component/MagicAttack.h"
 
 #include "Character/Friedrich.h"
@@ -26,12 +26,17 @@ MagicianEnemy::MagicianEnemy(IFocus* player)
 		});
 	modelInstancing->Pass(0);
 
+	cubeMap = new Texture(L"Environment/GrassCube1024.dds");
 	sphere = new MeshInstancing(shaderMesh, unique_ptr<MeshData>(new MeshSphere(0.5f)));
-	sphere->Pass(1);
+	sphere->Pass(8);
+	sphere->GetRenderer()->GetDefaultMaterial()->SetSRV("CubeMap", cubeMap->SRV());
+	sphere->GetRenderer()->GetDefaultMaterial()->Emissive(0.9f, 0.9f, 0.9f, 0.9f);
+	sphere->GetRenderer()->GetDefaultMaterial()->Specular(0.9f, 0.9f, 0.9f, 20.9f);
 	sphere->GetRenderer()->GetDefaultMaterial()->Diffuse(0.0f, 0.0f, 0.0f);
 	magicAttack = new MagicAttack(player, sphere);
 	magicAttack->InitTransform()->Position(-25.0f, 135.0f, -40.0f);
-	magicAttack->InitTransform()->Rotation(EulerAngle(180.0f, 0.0f, 0.0f));
+	magicAttack->InitTransform()->RotationEuler(
+		EulerAngle::Degree(180.0f, 0.0f, 0.0f));
 	magicAttack->Tag(L"EnemyAttack");
 
 	desc.HP = 80.0f;
@@ -49,6 +54,7 @@ MagicianEnemy::~MagicianEnemy()
 
 	SafeRelease(shaderModel);
 	SafeRelease(shaderMesh);
+	SafeDelete(cubeMap);
 }
 
 void MagicianEnemy::Update()

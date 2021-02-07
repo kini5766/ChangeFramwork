@@ -2,16 +2,12 @@
 #include "Freedom.h"
 
 Freedom::Freedom()
+	: Camera(unique_ptr<Projection>(new Perspective(Screen::Width(), Screen::Height())))
 {
-	perspective = new Perspective(Screen::Width(), Screen::Height());
-	projection = perspective;
-	viewport = new Viewport(Screen::Width(), Screen::Height());
 }
 
 Freedom::~Freedom()
 {
-	SafeDelete(perspective);
-	SafeDelete(viewport);
 }
 
 void Freedom::Update()
@@ -22,41 +18,42 @@ void Freedom::Update()
 	// move
 	{
 		Vector3 P;
-		Position(&P);
+		transform->Position(&P);
 
 		float moveDelta = move * Time::Delta();
 		// move
 		if (Input::Keyboard()->Press('W'))
-			P += Forward() * moveDelta;
+			P += transform->Forward() * moveDelta;
 		else if (Input::Keyboard()->Press('S'))
-			P -= Forward() * moveDelta;
+			P -= transform->Forward() * moveDelta;
 
 		if (Input::Keyboard()->Press('D'))
-			P += Right() * moveDelta;
+			P += transform->Right() * moveDelta;
 		else if (Input::Keyboard()->Press('A'))
-			P -= Right() * moveDelta;
+			P -= transform->Right() * moveDelta;
 
 
 		if (Input::Keyboard()->Press('E'))
-			P += Up() * moveDelta;
+			P += transform->Up() * moveDelta;
 		else if (Input::Keyboard()->Press('Q'))
-			P -= Up() * moveDelta;
+			P -= transform->Up() * moveDelta;
 
-		Position(P);
+		transform->Position(P);
 	}
 
 	// roation
 	{
 		Vector3 axis = Input::Mouse()->GetMoveValue();
-		RotatePitch(axis.y * rotation);
-		RotateYaw(axis.x * rotation);
-	}
-}
 
-void Freedom::ResizeScreen(float width, float height)
-{
-	viewport->Set(width, height);
-	perspective->Set(width, height);
+		EulerAngle r = transform->RotationEuler();
+		{
+			Vector3 result = r.EulerDegree();
+			result.x += axis.y * rotation;
+			result.y += axis.x * rotation;
+			r.SetDegree(result);
+		}
+		transform->RotationEuler(r);
+	}
 }
 
 void Freedom::Speed(float _move, float _rotation)

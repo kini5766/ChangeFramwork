@@ -1,12 +1,6 @@
 #include "00_Global.fx"
 #include "00_Light.fx"
 
-cbuffer CB_Render2D
-{
-	matrix View2D;
-	matrix Projection2D;
-};
-
 struct VertexInput
 {
     float4 Position : Position0;
@@ -24,8 +18,7 @@ VertexOutput VS(VertexInput input)
     VertexOutput output;
     
     output.Position = WorldPosition(input.Position);
-    output.Position = mul(output.Position, View2D);
-    output.Position = mul(output.Position, Projection2D);
+    output.Position = ViewProjection(output.Position);
 
 	output.Uv = input.Uv;
     

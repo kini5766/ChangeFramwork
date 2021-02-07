@@ -11,6 +11,7 @@ public:
 private:
 	void Update();
 	void Render();
+	void PreRender_Depth();
 
 private:
 	// IObjectSpawner을(를) 통해 상속됨
@@ -20,6 +21,7 @@ private:
 	// render
 private:
 	Shader* shader;
+	ShadowCaster* shadow;
 	MeshInstancing* meshInstancing = nullptr;
 
 private:

@@ -28,6 +28,7 @@ void PostEffect::Update()
 
 void PostEffect::BeginPreRender()
 {
+	Context::Get()->PreRenderMain();
 	viewport->RSSetViewport();
 	renderTarget->PreRender(depthStencil);
 }

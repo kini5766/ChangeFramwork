@@ -2,7 +2,7 @@
 #include "EnemyInstance.h"
 
 #include "Character/Paladin.h"
-#include "Tools/Viewer/IFocus.h"
+#include "Rendering/Camera/IFocus.h"
 
 #include "Component/HPSystem.h"
 #include "Component/RotateSystem.h"
@@ -22,7 +22,8 @@ EnemyInstance::EnemyInstance(const EnemyInstanceDesc* desc)
 	hp->GetHurtbox()->GetTransform()->SetParent(transform);
 	//hp->GetHurtbox()->GetTransform()->Scale(75.0f, 180.0f, 75.0f);
 	hp->GetHurtbox()->GetTransform()->Position(0.0f, 90.0f, 0.0f);
-	hp->GetHurtbox()->GetTransform()->Rotation(EulerAngle(0.0f, 0.0f, 0.0f));
+	hp->GetHurtbox()->GetTransform()->RotationEuler(
+		EulerAngle::Degree(0.0f, 0.0f, 0.0f));
 	hp->GetHurtbox()->SetLayer(
 		COLLIDER_LAYER_ENEMY |
 		COLLIDER_LAYER_HITBOX
@@ -55,12 +56,12 @@ void EnemyInstance::Update()
 	hp->Update();
 }
 
-void EnemyInstance::Render()
+void EnemyInstance::PostRender()
 {
 	if (bLost)
 		return;
 
-	hp->Render();
+	hp->PostRender();
 }
 
 void EnemyInstance::UpdateState()

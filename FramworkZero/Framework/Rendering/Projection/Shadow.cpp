@@ -54,6 +54,7 @@ Shadow::~Shadow()
 
 void Shadow::PreRender()
 {
+	Context::Get()->PreRenderMain();
 	renderTarget->PreRender(depthStencil);
 	viewport->RSSetViewport();
 
@@ -93,13 +94,13 @@ void Shadow::PreRender()
 
 void Shadow::ImGuiRender()
 {
-	//static UINT quality = 0;
-	//ImGui::InputInt("Quality", (int*)&quality);
-	//Quality(quality);
+	static UINT quality = 0;
+	ImGui::InputInt("Quality", (int*)&quality);
+	Quality(quality);
 
-	//static float bias = -0.001f;
-	//ImGui::DragFloat("Bias", &bias, 0.001f);
-	//Bias(bias);
+	static float bias = -0.001f;
+	ImGui::DragFloat("Bias", &bias, 0.001f);
+	Bias(bias);
 
 	ImGui::DragFloat3("At", at, 0.1f);
 
@@ -138,12 +139,12 @@ ShadowCastDesc * Shadow::AddCaster()
 #pragma region ShadowCaster
 
 ShadowCaster::ShadowCaster(Shader* s)
-	: shader(new ShaderSetter(s))
+	: material(new ShaderSetter(s))
 {
 	buffer = new ConstantBuffer(&shadowDesc, sizeof(ShadowDesc));
-	sShadowSampler = shader->GetShader()->AsSampler("ShadowSampler");
+	sShadowSampler = material->GetShader()->AsSampler("ShadowSampler");
 
-	shader->SetConstantBuffer("CB_Shadow", buffer->Buffer());
+	material->SetConstantBuffer("CB_Shadow", buffer->Buffer());
 }
 
 ShadowCaster::~ShadowCaster()
@@ -155,7 +156,7 @@ ShadowCaster::~ShadowCaster()
 	}
 
 	SafeDelete(buffer);
-	SafeDelete(shader);
+	SafeDelete(material);
 }
 
 void ShadowCaster::SetShadow_Global()
@@ -177,8 +178,8 @@ void ShadowCaster::PreRender(ShadowDesc * shadow)
 	memcpy(&shadowDesc, shadow, sizeof(ShadowDesc));
 	buffer->Render();
 	
-	shader->SetSRV("ShadowMap", desc->DepthStencil->SRV());
-	shader->Render();
+	material->SetSRV("ShadowMap", desc->DepthStencil->SRV());
+	material->Render();
 
 	sShadowSampler->SetSampler(0, desc->ShadowSampler);
 

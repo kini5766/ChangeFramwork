@@ -23,7 +23,9 @@ public:
 	void Scale(const Vector3& value);
 	void Scale(Vector3* out);
 
-	void Rotation(const EulerAngle& value);
+	void RotationEuler(const EulerAngle& value);
+	EulerAngle RotationEuler();
+
 	void Rotation(const Quaternion& value);
 	void Rotation(Quaternion* out);
 

@@ -20,7 +20,7 @@ void DirectionalLight::ApplyLight()
 	SphereCoord scoord;
 	scoord.SetRectCoord_Y(desc->Direction);
 
-	transform->Rotation(scoord.YawPitch_Z());
+	transform->RotationEuler(scoord.YawPitch_Z());
 }
 
 void DirectionalLight::ApplyTransform()

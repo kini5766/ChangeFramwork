@@ -4,8 +4,8 @@
 RenderTarget::RenderTarget(float width, float height, DXGI_FORMAT format)
 	: format(format)
 {
-	this->width = (width < 1) ? Screen::Width() : width;
-	this->height = (height < 1) ? Screen::Height() : height;
+	this->width = (width > 0.0f) ? width : (UINT)Screen::Width();
+	this->height = (height > 0.0f) ? height : (UINT)Screen::Height();
 
 	// texture
 	Texture2DDesc tex2DDesc;

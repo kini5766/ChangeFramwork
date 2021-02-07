@@ -6,9 +6,10 @@
 
 void Editor::Initialize()
 {
-	Context::Get()->MainCamera()->RotationDegree(20, 0, 0);
-	Context::Get()->MainCamera()->Position(126, 35, 39);
-	((Freedom*)Context::Get()->MainCamera())->Speed(100);
+	Context::Get()->MainCamera()->GetTransform()->RotationEuler(
+		EulerAngle::Degree(20, 0, 0));
+	Context::Get()->MainCamera()->GetTransform()->Position(126, 35, 39);
+	((Freedom*)Context::Get()->MainCamera())->Speed(100, 0.1f);
 
 	shader = Shader::Load(L"01_Mesh.fxo");
 

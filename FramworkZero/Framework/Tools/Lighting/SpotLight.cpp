@@ -21,7 +21,7 @@ void SpotLight::ApplyLight()
 
 	SphereCoord scoord;
 	scoord.SetRectCoord_Y(transform->Forward());
-	transform->Rotation(scoord.YawPitch_Z());
+	transform->RotationEuler(scoord.YawPitch_Z());
 
 	Vector3 s;
 	transform->Scale(&s);

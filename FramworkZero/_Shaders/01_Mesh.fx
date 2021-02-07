@@ -3,7 +3,6 @@
 #include "00_VertexInput.fx"
 
 
-
 // >-- None --< //
 
 // --
@@ -94,6 +93,31 @@ MeshOutput_Shadow VS_Mesh_Shadow(VertexMesh input)
 
 
 // --
+// PS_CubeMap
+// --
+TextureCube CubeMap;
+
+float4 PS_CubeMap(MeshOutput input) : SV_Target0
+{
+	// Set Material
+	float3 normal = input.Normal;
+	float3 tangent = normalize(input.Tangent);
+
+	NormalMapping(input.Uv, normal, tangent);
+	Texture(Material.Diffuse, DiffuseMap, input.Uv);
+	Texture(Material.Specular, SpecularMap, input.Uv);
+
+	normal = normalize(normal);
+
+	// Material Lighting
+	float4 c = Lighting_All(normal, input.wPosition);
+	c += CubeMap.Sample(LinearSampler, input.wPosition);
+
+	return c;
+}
+
+
+// --
 // Pass
 // --
 
@@ -112,4 +136,8 @@ technique11 T0
 	P_VP(P5, VS_Mesh_Inst_Shadow, PS_MeshOutput_Shadow)
 	P_RS_VP(P6, FrontCounterClockwise_True, VS_Mesh_Depth, PS_Shadow_Depth)
 	P_VP(P7, VS_Mesh_Shadow, PS_MeshOutput_Shadow)
+
+	// PS CubeMap
+	P_VP(P8, VS_Mesh_Inst, PS_CubeMap)
+	P_VP(P9, VS_Mesh, PS_CubeMap)
 }
