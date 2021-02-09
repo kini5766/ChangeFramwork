@@ -1,9 +1,10 @@
 #include "Framework.h"
 #include "SubCamera.h"
 
-SubCamera::SubCamera(unique_ptr<Projection> projection, float width, float height)
+
+SubCamera::SubCamera(float width, float height, Projection* projection)
 	: PreCamera(width, height)
-	, projection(move(projection))
+	, projection(projection)
 {
 	transform = new CameraTransform();
 	frustum = new Frustum();
@@ -18,8 +19,10 @@ SubCamera::~SubCamera()
 void SubCamera::Update()
 {
 	Matrix V, P;
-	transform->GetView(&V);
-	projection->GetMatrix(&P);
+
+	GetView(&V);
+	GetProjection(&P);
+
 	frustum->Update(V, P);
 }
 
@@ -30,7 +33,9 @@ void SubCamera::GetView(Matrix * out)
 
 void SubCamera::GetProjection(Matrix * out)
 {
-	projection->GetMatrix(out);
+	if (projection == nullptr)
+		Context::Get()->MainCamera()->GetProjection()->GetMatrix(out);
+	else projection->GetMatrix(out);
 }
 
 void SubCamera::GetPlanes4(Plane * planes)

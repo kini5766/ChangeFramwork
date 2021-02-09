@@ -21,10 +21,16 @@ void Editor::Initialize()
 	peojTexure = new ProjectionTexture(Shader::Load(L"01_TerrainLOD.fxo"), L"Environment/MagicCircle.png", 217.0f, 220.0f);
 	shadow = new Shadow(Vector3(-64.0f, 64.0f, 64.0f), 512.0f);
 	Shadow::SetGlobal(shadow);
+
+	water = new Water({ 125, 0, 0 });
+	water->GetTransform()->Position(128, 32, 128);
+	Debug::Gizmo->SetTransform(water->GetTransform());
 }
 
 void Editor::Destroy()
 {
+	SafeDelete(water);
+
 	Shadow::SetGlobal(nullptr);
 	SafeDelete(shadow);
 	SafeDelete(peojTexure);
@@ -39,6 +45,8 @@ void Editor::Destroy()
 
 void Editor::Update()
 {
+	water->Update();
+
 	ImGui::Begin("ImGui Test");
 	{
 		ImGui::SliderFloat3("Directional Light", Lighting::Get()->DirectionalDesc()->Direction, -1.0f, 1.0f);
@@ -71,6 +79,21 @@ void Editor::Update()
 void Editor::PreRender()
 {
 	shadow->PreRender();
+
+	if (terrain != nullptr)
+	{
+		water->PreRender_Reflection();
+		{
+			sky->Render();
+			terrain->Render();
+		}
+
+		water->PreRender_Refraction();
+		{
+			sky->Render();
+			terrain->Render();
+		}
+	}
 }
 
 void Editor::Render()
@@ -81,6 +104,7 @@ void Editor::Render()
 
 	if (terrain != nullptr)
 	{
+		water->Render();
 		brush->Render();
 		terrain->Render();
 	}

@@ -23,9 +23,9 @@ void WorldDemo::Initialize()
 	Billboards();
 	LoadScene();
 
-	OrbitCamera* camera = new OrbitCamera();
-	camera->SetTarget(player->GetFocus());
-	Context::Get()->MainCamera(unique_ptr<Camera>(camera));
+	//OrbitCamera* camera = new OrbitCamera();
+	//camera->SetTarget(player->GetFocus());
+	//Context::Get()->MainCamera(unique_ptr<Camera>(camera));
 
 	water->GetTransform()->Position(128, 1, 128);
 

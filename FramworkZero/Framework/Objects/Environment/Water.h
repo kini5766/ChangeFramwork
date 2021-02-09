@@ -37,6 +37,7 @@ private:
 	class Reflection* reflection;
 	class Refraction* refraction;
 
+	Texture* waterMap;
 	float waveSpeed = 0.06f;
 	float radius;
 

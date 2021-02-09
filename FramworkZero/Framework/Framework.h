@@ -110,7 +110,6 @@ typedef D3DXPLANE Plane;
 #include "Tools/Viewer/Projection.h"
 #include "Tools/Viewer/Perspective.h"
 #include "Tools/Viewer/Orthographic.h"
-#include "Tools/Viewer/ProjectionPointer.h"
 #include "Tools/Viewer/CameraTransform.h"
 #include "Tools/Viewer/Frustum.h"
 

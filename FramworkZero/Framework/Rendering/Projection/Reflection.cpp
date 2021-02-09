@@ -7,10 +7,7 @@ Reflection::Reflection(Shader * shader, Transform* transform, float width, float
 	: material(new ShaderSetter(shader))
 	, transform(transform)
 {
-	reflectionCamera = new SubCamera(
-		unique_ptr<Projection>(new ProjectionPointer()),
-		width, height
-	);
+	reflectionCamera = new SubCamera(width, height);
 
 }
 
@@ -44,6 +41,7 @@ void Reflection::Update()
 
 	Matrix V;
 	camera->GetView(&V);
+
 	material->SetMatrix(REFLECTION_VIEW, V);
 }
 

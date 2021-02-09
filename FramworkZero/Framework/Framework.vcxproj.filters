@@ -67,11 +67,14 @@
     <Filter Include="Objects\Environment">
       <UniqueIdentifier>{c0fa3cdf-76d4-4249-bbf3-fb631efbed4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering\Camera">
+      <UniqueIdentifier>{d94c3f6f-7081-422a-86f4-ba2bde514e4b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Rendering\Projection">
       <UniqueIdentifier>{1a5cf3b0-dd1c-48f3-84be-f7ce1c376f08}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering\Camera">
-      <UniqueIdentifier>{d94c3f6f-7081-422a-86f4-ba2bde514e4b}</UniqueIdentifier>
+    <Filter Include="Tools\ImGui">
+      <UniqueIdentifier>{2ac59e5f-c256-431d-aaed-f69971e650bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +164,6 @@
     </ClCompile>
     <ClCompile Include="Rendering\Shader.cpp">
       <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\ImGuiInputText.cpp">
-      <Filter>Tools</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Model\ModelData.cpp">
       <Filter>Objects\Model</Filter>
@@ -376,14 +376,17 @@
     <ClCompile Include="Rendering\Camera\PreCamera.cpp">
       <Filter>Rendering\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Tools\Viewer\ProjectionPointer.cpp">
-      <Filter>Rendering\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Rendering\Camera\SubCamera.cpp">
       <Filter>Rendering\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Environment\Water.cpp">
       <Filter>Objects\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\ImGui\ImGuiSrvViewer.cpp">
+      <Filter>Tools\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\ImGui\ImGuiInputText.cpp">
+      <Filter>Tools\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -491,9 +494,6 @@
     </ClInclude>
     <ClInclude Include="Rendering\Shader.h">
       <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\ImGuiInputText.h">
-      <Filter>Tools</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Model\ModelData.h">
       <Filter>Objects\Model</Filter>
@@ -724,9 +724,6 @@
     <ClInclude Include="Rendering\Projection\Shadow.h">
       <Filter>Rendering\Projection</Filter>
     </ClInclude>
-    <ClInclude Include="Tools\Viewer\ProjectionPointer.h">
-      <Filter>Tools\Viewer</Filter>
-    </ClInclude>
     <ClInclude Include="Rendering\Camera\PreCamera.h">
       <Filter>Rendering\Camera</Filter>
     </ClInclude>
@@ -735,6 +732,12 @@
     </ClInclude>
     <ClInclude Include="Objects\Environment\Water.h">
       <Filter>Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\ImGui\ImGuiSrvViewer.h">
+      <Filter>Tools\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\ImGui\ImGuiInputText.h">
+      <Filter>Tools\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

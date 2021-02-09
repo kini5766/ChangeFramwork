@@ -2,7 +2,7 @@
 #include "ObjectEditor.h"
 
 #include "Utilities/BinaryFile.h"
-#include "Tools/ImGuiInputText.h"
+#include "Tools/ImGui/ImGuiInputText.h"
 #include "ObjectEditorFactory.h"
 
 

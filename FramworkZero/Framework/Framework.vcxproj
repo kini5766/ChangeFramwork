@@ -96,6 +96,8 @@
     <ClCompile Include="Tools\Coord\SphereCoord.cpp" />
     <ClCompile Include="Tools\Coord\Transform.cpp" />
     <ClCompile Include="Tools\Coord\WorldMatrix.cpp" />
+    <ClCompile Include="Tools\ImGui\ImGuiInputText.cpp" />
+    <ClCompile Include="Tools\ImGui\ImGuiSrvViewer.cpp" />
     <ClCompile Include="Tools\Lighting\BurntLight.cpp" />
     <ClCompile Include="Tools\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="Tools\Lighting\Lighting.cpp" />
@@ -107,7 +109,6 @@
     <ClCompile Include="Systems\Window.cpp" />
     <ClCompile Include="Tools\MainLogic\WinDesc.cpp" />
     <ClCompile Include="Tools\Math.cpp" />
-    <ClCompile Include="Tools\ImGuiInputText.cpp" />
     <ClCompile Include="Rendering\Shader.cpp" />
     <ClCompile Include="Tools\Texture\DepthStencil.cpp" />
     <ClCompile Include="Tools\Texture\RenderTarget.cpp" />
@@ -118,7 +119,6 @@
     <ClCompile Include="Tools\Viewer\Orthographic.cpp" />
     <ClCompile Include="Tools\Viewer\Perspective.cpp" />
     <ClCompile Include="Tools\Viewer\Projection.cpp" />
-    <ClCompile Include="Tools\Viewer\ProjectionPointer.cpp" />
     <ClCompile Include="Tools\Viewer\UIProjection.cpp" />
     <ClCompile Include="Tools\Viewer\Viewport.cpp" />
     <ClCompile Include="Utilities\BinaryFile.cpp" />
@@ -213,6 +213,8 @@
     <ClInclude Include="Tools\Coord\SphereCoord.h" />
     <ClInclude Include="Tools\Coord\Transform.h" />
     <ClInclude Include="Tools\Coord\WorldMatrix.h" />
+    <ClInclude Include="Tools\ImGui\ImGuiInputText.h" />
+    <ClInclude Include="Tools\ImGui\ImGuiSrvViewer.h" />
     <ClInclude Include="Tools\Lighting\BurntLight.h" />
     <ClInclude Include="Tools\Lighting\DirectionalLight.h" />
     <ClInclude Include="Tools\Lighting\Lighting.h" />
@@ -225,7 +227,6 @@
     <ClInclude Include="Systems\Window.h" />
     <ClInclude Include="Tools\MainLogic\WinDesc.h" />
     <ClInclude Include="Tools\Math.h" />
-    <ClInclude Include="Tools\ImGuiInputText.h" />
     <ClInclude Include="Rendering\Shader.h" />
     <ClInclude Include="Tools\Texture\DepthStencil.h" />
     <ClInclude Include="Tools\Texture\RenderTarget.h" />
@@ -236,7 +237,6 @@
     <ClInclude Include="Tools\Viewer\Orthographic.h" />
     <ClInclude Include="Tools\Viewer\Perspective.h" />
     <ClInclude Include="Tools\Viewer\Projection.h" />
-    <ClInclude Include="Tools\Viewer\ProjectionPointer.h" />
     <ClInclude Include="Tools\Viewer\UIProjection.h" />
     <ClInclude Include="Tools\Viewer\Viewport.h" />
     <ClInclude Include="Utilities\BinaryFile.h" />

@@ -22,8 +22,6 @@ CharacterController::~CharacterController()
 
 void CharacterController::Update()
 {
-	Debug::Gizmo->SetTransform(transform);
-
 	if (currState == 4 &&
 		nextState == 4)
 	{
@@ -59,13 +57,21 @@ void CharacterController::Update()
 			nextState = 0;
 		else
 		{
+			//Debug::Gizmo->SetTransform(transform);
+
 			nextState = 1;
 			Vector3 up = transform->Up();
 			CameraTransform* camera = Context::Get()->MainCamera()->GetTransform();
+
 			Vector3 cameraFoword = camera->Forward();
 			Vector3 cameraRight = camera->Right();
-			cameraFoword.y = -(up.x * cameraFoword.x + up.z * cameraFoword.y) / up.y;
-			cameraRight.y = -(up.x * cameraRight.x + up.z * cameraRight.y) / up.y;
+
+			Vector3 rUp = up * D3DXVec3Dot(&up, &cameraRight);
+			Vector3 fUp = up * D3DXVec3Dot(&up, &cameraFoword);
+
+			cameraFoword = cameraFoword - fUp;
+			cameraRight = cameraRight - rUp;
+
 			D3DXVec3Normalize(&cameraFoword, &cameraFoword);
 			D3DXVec3Normalize(&cameraRight, &cameraRight);
 

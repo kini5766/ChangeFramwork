@@ -20,6 +20,7 @@ private:
 	Shader* shader;
 	Shadow* shadow;
 	ProjectionTexture* peojTexure;
+	Water* water;
 
 	CubeSky* sky;
 

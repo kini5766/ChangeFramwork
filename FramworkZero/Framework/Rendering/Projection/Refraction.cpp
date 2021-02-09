@@ -1,6 +1,8 @@
 #include "Framework.h"
 #include "Refraction.h"
 
+#include "Tools/ImGui/ImGuiSrvViewer.h"
+
 using namespace ShaderEffectName;
 
 Refraction::Refraction(Shader* shader, Transform * transform, float width, float height)
@@ -34,4 +36,6 @@ void Refraction::Render()
 	material->SetSRV(REFRACTION_DEPTH_MAP, refractionCamera->GetDepthStencil()->SRV());
 
 	material->Render();
+
+	//ImGuiSrvViewer::Render("Map", refractionCamera->GetDepthStencil()->SRV());
 }

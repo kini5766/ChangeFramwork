@@ -15,5 +15,5 @@ public:
 
 private:
 	float move = 20.0f;
-	float rotation = 0.002f;
+	float rotation = 0.1f;
 };

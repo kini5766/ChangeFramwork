@@ -33,8 +33,11 @@ namespace ShaderEffectName
 
 	// 01_Water.fx
 	constexpr auto CB_WATER = "CB_Water";
+	constexpr auto WATERMAP = "WaterMap";
+
 	constexpr auto REFRACTION_MAP = "RefractionMap";
 	constexpr auto REFRACTION_DEPTH_MAP = "RefractionDepthMap";
+
 	constexpr auto REFLECTION_MAP = "ReflectionMap";
 	constexpr auto REFLECTION_DEPTH_MAP = "ReflectionDepthMap";
 	constexpr auto REFLECTION_VIEW = "ReflectionView";

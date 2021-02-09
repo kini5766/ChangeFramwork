@@ -17,12 +17,17 @@ Water::Water(const InitializeDesc & initDesc)
 	reflection = new Reflection(shader, mesh->GetTransform(), initDesc.Width, initDesc.Height);
 	refraction = new Refraction(shader, mesh->GetTransform(), initDesc.Width, initDesc.Height);
 	
+	waterMap = new Texture(L"Environment/Water1.jpg");
+
 	mesh->GetMaterial()->NormalMap(L"Environment/Wave1.dds");
+	mesh->GetMaterial()->SetSRV(WATERMAP, waterMap->SRV());
 	mesh->GetMaterial()->SetConstantBuffer(CB_WATER, buffer->Buffer());
 }
 
 Water::~Water()
 {
+	SafeDelete(waterMap);
+
 	SafeDelete(buffer);
 	SafeDelete(refraction);
 	SafeDelete(reflection);

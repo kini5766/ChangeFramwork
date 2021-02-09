@@ -1,6 +1,7 @@
 #include "00_Global.fx"
 #include "00_PixelOutput.fx"
 
+
 // --
 // 1Pass Result
 // --
@@ -19,6 +20,8 @@ Texture2D RefractionDepthMap;
 // --
 // Water
 // --
+
+Texture2D WaterMap;
 
 SamplerState WaterSampler
 {
@@ -83,6 +86,26 @@ VertexOutput_Water VS_Water(VertexInput_Water input)
 	return output;
 }
 
+float WaterDepth(VertexOutput_Water input, float2 reflectionUv)
+{
+	float z = input.ReflectionPosition.z / input.ReflectionPosition.w;
+
+	float depth = RefractionDepthMap.Sample(WaterSampler, reflectionUv).r;
+
+	depth *= input.ReflectionPosition.w;
+	float l = saturate(depth - input.ReflectionPosition.z) * 10.0f;
+	return saturate(pow(l, 2));
+
+	float n = 0.1f;
+	float f = 1000.0f;
+	//float l;
+	l = depth;
+	float z2 = (n * 2.0f) / (f + n - l * (f - n));
+	l = z;
+	float z3 = (n * 2.0f) / (f + n - l * (f - n));
+	return saturate(z2 - z3);
+}
+
 float4 PS_Water(VertexOutput_Water input) : SV_Target
 {
 	// Normal
@@ -93,30 +116,42 @@ float4 PS_Water(VertexOutput_Water input) : SV_Target
 	float4 normalMap2 = NormalMap.Sample(LinearSampler, input.Normal2) * 2.0f - 1.0f;
 	float3 normal = normalMap.rgb + normalMap2.rgb;
 
-	// Reflection
-	float2 reflection;
-	reflection.x = input.ReflectionPosition.x / input.ReflectionPosition.w * 0.5f + 0.5f;
-	reflection.y = -input.ReflectionPosition.y / input.ReflectionPosition.w * 0.5f + 0.5f;
-	reflection += normal.xy * Water.WaveScale;
 
+	// Reflection
+	float2 reflectionUv;
+	reflectionUv.x = input.ReflectionPosition.x / input.ReflectionPosition.w * 0.5f + 0.5f;
+	reflectionUv.y = -input.ReflectionPosition.y / input.ReflectionPosition.w * 0.5f + 0.5f;
+	
+	float2 reflection = reflectionUv + normal.xy * Water.WaveScale;
 	float4 reflectionColor = ReflectionMap.Sample(WaterSampler, reflection);
-	return float4(reflectionColor.rgb, 1.0f);
 
 	// Refraction
-	float2 refraction;
-	refraction.x = input.RefractionPosition.x / input.RefractionPosition.w * 0.5f + 0.5f;
-	refraction.y = -input.RefractionPosition.y / input.RefractionPosition.w * 0.5f + 0.5f;
-	refraction += normal.xy * Water.WaveScale;
-
+	float2 refractionUv;
+	refractionUv.x = input.RefractionPosition.x / input.RefractionPosition.w * 0.5f + 0.5f;
+	refractionUv.y = -input.RefractionPosition.y / input.RefractionPosition.w * 0.5f + 0.5f;
+	
+	float2 refraction = refractionUv + normal.xy * Water.WaveScale;
 	float4 refractionColor = RefractionMap.Sample(WaterSampler, refraction);
+
+
+	// WaterDepth
+	input.Uv.x += Time * 0.005f;
+	input.Uv.y += Time * 0.009f;
+	float2 waterDepth = input.Uv + normal.xy * Water.WaveScale;
+	float4 waterColor = WaterMap.Sample(LinearSampler, waterDepth);
+	float d = WaterDepth(input, refraction);
+	//return float4(d, d, d, 1.0f);
+	refractionColor = lerp(refractionColor, waterColor, d);
+
 
 	// Fresnel
 	float3 viewDir = normalize(ViewPosition() - input.wPosition);
 	float3 heightView = viewDir.yyy;
-	float r = (1.2f - 1.0f) / (1.2f / 1.0f);
-	float fresnel = saturate(min(1, r + (1 - r) * pow(1 - dot(normal, heightView), 2)));
+	float r = (1.2f - 0.3f) / (1.2f / 0.3f);
+	float fresnel = saturate(min(1.0f, r + (1.0f - r) * pow(1.0f - dot(normal, heightView), 16)));
 
 	float4 c = lerp(reflectionColor, refractionColor, fresnel);
+
 
 	// Material Lighting (디퓨즈 컬러 0, 0, 0)
 	Material.Diffuse = float4(0, 0, 0, 0);

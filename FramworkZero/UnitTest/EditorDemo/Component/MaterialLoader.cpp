@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "MaterialLoader.h"
 
-#include "Tools/ImGuiInputText.h"
+#include "Tools/ImGui/ImGuiInputText.h"
 #include "Utilities/BinaryFile.h"
 
 MaterialLoader::MaterialLoader()

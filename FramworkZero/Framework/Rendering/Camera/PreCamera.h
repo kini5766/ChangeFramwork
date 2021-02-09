@@ -1,5 +1,6 @@
 #pragma once
 
+// PreRender용 카메라
 class PreCamera : public ICamera
 {
 public:

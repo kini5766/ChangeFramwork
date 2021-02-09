@@ -27,6 +27,28 @@ void Camera::ResizeScreen(float width, float height)
 	projection->Resize(width, height);
 }
 
+void Camera::ImGuiRender()
+{
+	string str = string("FPS : ") + to_string(ImGui::GetIO().Framerate);
+	//Debug::Log->Show(str);
+	//string str = string("FPS : ") + to_string(Time::Get()->FPS());
+	Gui::Get()->RenderText(5.0f, 5.0f, 1, 1, 1, str);
+
+	Vector3 P;
+	GetTransform()->Position(&P);
+
+	EulerAngle euler = GetTransform()->RotationEuler();
+	Vector3 R = euler.EulerDegree();
+
+	str = "Camera(P) : " + to_string((int)P.x) + ", " + to_string((int)P.y) + ", " + to_string((int)P.z);
+	//Gui::Get()->RenderText(5.0f, 20.0f, 1, 1, 1, str);
+	Debug::Log->Show(str);
+
+	str = "Camera(R) : " + to_string((int)R.x) + ", " + to_string((int)R.y) + ", " + to_string((int)R.z);
+	//Gui::Get()->RenderText(5.0f, 35.0f, 1, 1, 1, str);
+	Debug::Log->Show(str);
+}
+
 void Camera::GetView(Matrix * out)
 {
 	transform->GetView(out);

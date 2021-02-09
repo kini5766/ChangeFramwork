@@ -30,14 +30,14 @@ CubeSky::~CubeSky()
 
 void CubeSky::Update()
 {
-	Vector3 position;
-	Context::Get()->MainCamera()->GetTransform()->Position(&position);
-
-	transform->Position(position);
 	sphere->Update();
 }
 
 void CubeSky::Render()
 {
+	Matrix V = Context::Get()->View();
+	D3DXMatrixInverse(&V, nullptr, &V);
+	transform->Position(V._41, V._42, V._43);
+
 	sphere->Render();
 }

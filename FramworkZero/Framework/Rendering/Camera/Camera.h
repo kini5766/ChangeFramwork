@@ -25,6 +25,7 @@ public:
 public:
 	virtual void Update();
 	virtual void ResizeScreen(float width, float height);
+	virtual void ImGuiRender();
 
 public:
 	CameraTransform* GetTransform() { return transform; }
