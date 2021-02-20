@@ -156,7 +156,10 @@ void EnvCamera::GetEnvViews_Side6(Matrix * out)
 	for (UINT i = 0; i < 6; i++)
 		D3DXMatrixLookAtLH(&out[i], &position, &lookAt[i].At, &lookAt[i].Up);
 
-	forword = out[4];
+
+	Vector3 f = Context::Get()->MainCamera()->GetTransform()->Forward();
+	Vector3 u = Context::Get()->MainCamera()->GetTransform()->Up();
+	D3DXMatrixLookAtLH(&forword, &position, &(position + f), &u);
 }
 
 void EnvCamera::SetProjection(float width, float height, float zNear, float zFar, float fov)

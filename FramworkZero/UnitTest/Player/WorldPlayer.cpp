@@ -31,7 +31,9 @@ WorldPlayer::WorldPlayer()
 
 	envCubeMap = new EnvCubeMap();
 	envCubeMap->GetTransform()->SetParent(instance->GetTransform());
-	envCubeMap->GetDesc().Type = 1;
+	envCubeMap->GetTransform()->Position(0.0f, 3.0f, 0.0f);
+	envCubeMap->GetDesc().Type = 2;
+	//envCubeMap->GetDesc().Type = 3;
 
 	vector<Material*>& materials = kachujinMaker->GetModel()->GetMaterials();
 	for (Material* material : materials)

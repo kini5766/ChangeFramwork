@@ -1,17 +1,4 @@
 
-// --
-// VS_PREENVCUBE_GENERATE
-// --
-
-// input -> output
-#define VS_PREENVCUBE_GENERATE \
-output.Position = WorldPosition(input.Position); \
-float3 wPosition = output.Position.xyz; \
-output.Position = mul(output.Position, Shadow.View); \
-output.Position = mul(output.Position, Shadow.Projection); \
-\
-output.sPosition = output.Position; \
-
 
 // --
 // PreEnvCube

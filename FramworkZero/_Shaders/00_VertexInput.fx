@@ -24,7 +24,6 @@ output.Culling.w = dot(float4(output.wPosition, 1), Culling[3]);\
 output.Clipping = float4(0, 0, 0, 0); \
 output.Clipping.x = dot(float4(output.wPosition, 1), Clipping); \
 
-
 // --
 // Mesh
 // --
@@ -153,3 +152,22 @@ void SetModelWorld_All_Inst(inout matrix world, in VertexModel_Inst input)
 	else
 		SetModelWorld(world, input.BlendIndices.x);
 }
+
+
+// --
+// VS_PREENVCUBE_GENERATE
+// --
+
+// input -> output
+#define VS_PREENVCUBE_GENERATE \
+output.oPosition = input.Position.xyz; \
+\
+output.Position = WorldPosition(input.Position); \
+output.wPosition = output.Position.xyz; \
+\
+output.Position = ViewProjection(output.Position); \
+\
+output.Normal = WorldNormal(input.Normal); \
+output.Tangent = WorldTangent(input.Tangent); \
+output.Uv = input.Uv; \
+\

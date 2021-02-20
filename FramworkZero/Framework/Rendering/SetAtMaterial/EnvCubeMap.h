@@ -25,7 +25,7 @@ private:
 private:
 	struct Desc
 	{
-		UINT Type = 0;
+		UINT Type = 3;
 		float Alpha = 0.75f;
 		float RefractAmount = 0.52f;
 		float Padding;

@@ -6,6 +6,10 @@ Billboard::Billboard()
 	shader = new ShaderSetter(Shader::Load(URI::Shaders + L"01_Billboard.fxo"));
 	perFrame = new PerFrame();
 	perFrame->SetAtMaterial(shader);
+
+	preEnvCube = Context::Get()->AddEnvCubeCaster({ shader->GetShader(),
+		bind(&Billboard::PreRender_EnvCube, this) }
+	);
 }
 
 Billboard::~Billboard()
@@ -13,6 +17,8 @@ Billboard::~Billboard()
 	SafeDelete(shader);
 	SafeDelete(perFrame);
 	SafeDelete(textureArray);
+
+	SafeRelease(preEnvCube);
 }
 
 void Billboard::SetTextures(vector<wstring> value)
@@ -48,4 +54,19 @@ void Billboard::Render()
 	vertexBuffer->Render();
 	shader->Render();
 	shader->GetShader()->Draw(0, 0, vertexCount);
+}
+
+void Billboard::PreRender_EnvCube()
+{
+	if (vertices.size() != vertexCount)
+	{
+		vertexCount = vertices.size();
+		SafeDelete(vertexBuffer);
+		vertexBuffer = new VertexBuffer(vertices.data(), vertices.size(), sizeof(VertexBillboard));
+	}
+
+	perFrame->Render();
+	vertexBuffer->Render();
+	shader->Render();
+	shader->GetShader()->Draw(0, 1, vertexCount);
 }

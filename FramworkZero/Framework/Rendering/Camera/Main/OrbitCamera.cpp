@@ -48,8 +48,8 @@ void OrbitCamera::Update()
 	{
 		//float rho = sphereCoord->Rho();
 		distance -= axis.z * 0.007f;
-		if (distance < 6.0f)
-			distance = 6.0f;
+		if (distance < 1.0f)
+			distance = 1.0f;
 		else if (distance > 100.0f)
 			distance = 100.0f;
 		//sphereCoord->Rho(rho);

@@ -13,8 +13,6 @@ struct MeshOutput
 	float4 Position : SV_Position0;  // 레스터 라이징 위치
 	float3 oPosition : Position1;  // NDC
 	float3 wPosition : Position2;  // World
-	float4 wvpPosition : Position3;  // 반사
-	float4 sPosition : PositionS;  // 빛 기준 위치
 
 	float3 Normal : Normal0;
 	float3 Tangent : Tangent0;
@@ -274,4 +272,8 @@ float4 PS_PreEnvCube_MeshOutput(MeshOutput_PreEnvCube input) : SV_Target0
 	output.Culling = float4(0, 0, 0, 0);
 	output.Clipping = float4(0, 0, 0, 0);
 	return PS_MeshOutput_Shadow(output);
+
+
+	//Texture(Material.Diffuse, DiffuseMap, input.Uv);
+	//return Material.Diffuse;
 }

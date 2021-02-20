@@ -15,12 +15,15 @@ public:
 public:
 	void Update();
 	void Render();
+	void PreRender_EnvCube();
 
 private:
 	ShaderSetter* shader;
 	PerFrame* perFrame;
 	VertexBuffer* vertexBuffer;
 	UINT vertexCount = 0;
+
+	EnvCubeCaster* preEnvCube;
 
 	// w, h, format 동일해야함
 	TextureArray* textureArray = nullptr;
