@@ -9,7 +9,10 @@ public:
 public:
 	void Update();
 	void Render();
+
+private:
 	void PreRender_Depth();
+	void PreRender_EnvCube();
 
 public:
 	void BaseMap(wstring file);
@@ -51,12 +54,14 @@ private:
 	// Renderer
 private:
 	Shader* shader;
-	MeshData* meshData;
-	PerTransform* perTransform;
-	MeshRenderer* renderer;
-	ShadowCaster* shadow;
-
 	Material* material;
+	PerTransform* perTransform;
+	ShadowCaster* shadowCaster;
+	EnvCubeCaster* envCubeCaster;
+
+	MeshData* meshData;
+	MeshRenderer* renderer;
+
 
 private:
 	// 데이터 파일

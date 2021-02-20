@@ -7,17 +7,11 @@
 
 MeshInstancingSpawner::MeshInstancingSpawner()
 {
-	shader = Shader::Load(L"01_Mesh.fxo");
-	shadow = new ShadowCaster(shader);
-	shadow->SetFuncPreRender(bind(&MeshInstancingSpawner::PreRender_Depth, this));
-	shadow->SetShadow_Global();
 }
 
 MeshInstancingSpawner::~MeshInstancingSpawner()
 {
 	SafeDelete(meshInstancing);
-	SafeDelete(shadow);
-	SafeRelease(shader);
 }
 
 void MeshInstancingSpawner::Update()
@@ -27,13 +21,6 @@ void MeshInstancingSpawner::Update()
 
 void MeshInstancingSpawner::Render()
 {
-	meshInstancing->Pass(5);
-	meshInstancing->Render();
-}
-
-void MeshInstancingSpawner::PreRender_Depth()
-{
-	meshInstancing->Pass(4);
 	meshInstancing->Render();
 }
 
@@ -98,7 +85,7 @@ bool MeshInstancingSpawner::Load(BinaryReader * r)
 		return false;
 
 	//meshInstancing->Pass(1);
-	mLoader.Apply(meshInstancing->GetRenderer()->GetDefaultMaterial());
+	mLoader.Apply(meshInstancing->GetMaterial());
 
 	meshInstancing->UpdateTransforms();
 	return true;
@@ -108,11 +95,11 @@ MeshInstancing * MeshInstancingSpawner::GetInstancing(InputValue& value)
 {
 	switch (value.Item)
 	{
-	case 0: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshCube()))); break;
-	case 1: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshCylinder(value._F1, value._F2, value._U1, value._U2)))); break;
-	case 2: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshPlane(value._F1, value._F2)))); break;
-	case 3: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshQuad()))); break;
-	case 4: return(new MeshInstancing(shader, unique_ptr<MeshData>(new MeshSphere(value._F1, value._U1, value._U2)))); break;
+	case 0: return(new MeshInstancing(unique_ptr<MeshData>(new MeshCube()))); break;
+	case 1: return(new MeshInstancing(unique_ptr<MeshData>(new MeshCylinder(value._F1, value._F2, value._U1, value._U2)))); break;
+	case 2: return(new MeshInstancing(unique_ptr<MeshData>(new MeshPlane(value._F1, value._F2)))); break;
+	case 3: return(new MeshInstancing(unique_ptr<MeshData>(new MeshQuad()))); break;
+	case 4: return(new MeshInstancing(unique_ptr<MeshData>(new MeshSphere(value._F1, value._U1, value._U2)))); break;
 	default: return nullptr;
 	}
 }

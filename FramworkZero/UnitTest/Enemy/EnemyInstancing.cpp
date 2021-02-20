@@ -40,13 +40,13 @@ void EnemyInstancing::PostRender()
 
 void EnemyInstancing::AddInstance(const Matrix& localWorld, const vector<Vector3>* patrolPoints)
 {
-	ModelSkinnedInstance* i = enemy->GetModel()->AddInstance();
+	ModelInstance* i = enemy->GetModel()->AddInstance();
 
 	Transform* t = i->GetTransform();
 	t->LocalWorld(localWorld);
 
 	Animator* anim = new Animator();
-	enemy->BindAnimation(anim, i->GetAnimation());
+	enemy->BindAnimation(anim, i->GetAnimAdapter());
 
 	EnemyInstanceDesc desc;
 	desc.Player = player;

@@ -1,17 +1,14 @@
 #include "stdafx.h"
 #include "MagicianEnemy.h"
 
-#include "Rendering/Camera/IFocus.h"
+#include "Rendering/Camera/Main/IFocus.h"
 #include "Component/MagicAttack.h"
 
 #include "Character/Friedrich.h"
 
 MagicianEnemy::MagicianEnemy(IFocus* player)
 {
-	shaderModel = Shader::Load(URI::Shaders + L"01_Model.fxo");
-	shaderMesh = Shader::Load(URI::Shaders + L"01_Mesh.fxo");
-
-	modelInstancing = new ModelSkinnedInstancing(shaderModel, {
+	modelInstancing = new ModelInstancing({
 		/*매쉬*/ L"Friedrich/Mesh",
 		/*매터리얼*/ L"Friedrich/Mesh",
 		/*클립*/ {
@@ -24,15 +21,13 @@ MagicianEnemy::MagicianEnemy(IFocus* player)
 			L"Friedrich/Fall",  // 6
 		}
 		});
-	modelInstancing->Pass(0);
 
 	cubeMap = new Texture(L"Environment/GrassCube1024.dds");
-	sphere = new MeshInstancing(shaderMesh, unique_ptr<MeshData>(new MeshSphere(0.5f)));
-	sphere->Pass(8);
-	sphere->GetRenderer()->GetDefaultMaterial()->SetSRV("CubeMap", cubeMap->SRV());
-	sphere->GetRenderer()->GetDefaultMaterial()->Emissive(0.9f, 0.9f, 0.9f, 0.9f);
-	sphere->GetRenderer()->GetDefaultMaterial()->Specular(0.9f, 0.9f, 0.9f, 20.9f);
-	sphere->GetRenderer()->GetDefaultMaterial()->Diffuse(0.0f, 0.0f, 0.0f);
+	sphere = new MeshInstancing(unique_ptr<MeshData>(new MeshSphere(0.5f)));
+	sphere->GetMaterial()->SetSRV("CubeMap", cubeMap->SRV());
+	sphere->GetMaterial()->Emissive(0.9f, 0.9f, 0.9f, 0.9f);
+	sphere->GetMaterial()->Specular(0.9f, 0.9f, 0.9f, 20.9f);
+	sphere->GetMaterial()->Diffuse(0.0f, 0.0f, 0.0f);
 	magicAttack = new MagicAttack(player, sphere);
 	magicAttack->InitTransform()->Position(-25.0f, 135.0f, -40.0f);
 	magicAttack->InitTransform()->RotationEuler(
@@ -52,8 +47,6 @@ MagicianEnemy::~MagicianEnemy()
 	SafeDelete(sphere);
 	SafeDelete(modelInstancing);
 
-	SafeRelease(shaderModel);
-	SafeRelease(shaderMesh);
 	SafeDelete(cubeMap);
 }
 
@@ -70,15 +63,15 @@ void MagicianEnemy::Update()
 void MagicianEnemy::Render()
 {
 	modelInstancing->Render();
-	sphere->Render();
+	sphere->Render_CubeMap();
 }
 
-ModelSkinnedInstancing * MagicianEnemy::GetModel()
+ModelInstancing * MagicianEnemy::GetModel()
 {
 	return modelInstancing;
 }
 
-void MagicianEnemy::BindAnimation(Animator * animator, ModelAnimation * model)
+void MagicianEnemy::BindAnimation(Animator * animator, AnimationAdapter * model)
 {
 	Friedrich::BindAnimation(animator, model);
 }

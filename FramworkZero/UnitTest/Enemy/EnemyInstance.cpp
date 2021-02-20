@@ -2,7 +2,7 @@
 #include "EnemyInstance.h"
 
 #include "Character/Paladin.h"
-#include "Rendering/Camera/IFocus.h"
+#include "Rendering/Camera/Main/IFocus.h"
 
 #include "Component/HPSystem.h"
 #include "Component/RotateSystem.h"

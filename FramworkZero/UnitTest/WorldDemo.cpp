@@ -5,7 +5,7 @@
 
 #include "EditorDemo/Main/SceneValue.h"
 #include "EditorDemo/Main/SceneLoader.h"
-#include "Rendering/Camera/OrbitCamera.h"
+#include "Rendering/Camera/Main/OrbitCamera.h"
 #include "Component/WorldLightGroup.h"
 #include "Player/WorldPlayer.h"
 
@@ -13,8 +13,7 @@ void WorldDemo::Initialize()
 {
 	sky = new CubeSky(L"Environment/GrassCube1024.dds");
 	lights = new WorldLightGroup();
-	shadow = new Shadow(Vector3(-64.0f, 64.0f, 64.0f), 512.0f);
-	Shadow::SetGlobal(shadow);
+	shadow = new Shadow(Vector3(-64.0f, 64.0f, 64.0f), 128.0f);
 	water = new Water({ 125, 0, 0 });
 	postEffect = new PostEffectTest();
 
@@ -23,9 +22,9 @@ void WorldDemo::Initialize()
 	Billboards();
 	LoadScene();
 
-	//OrbitCamera* camera = new OrbitCamera();
-	//camera->SetTarget(player->GetFocus());
-	//Context::Get()->MainCamera(unique_ptr<Camera>(camera));
+	OrbitCamera* camera = new OrbitCamera();
+	camera->SetTarget(player->GetFocus());
+	Context::Get()->MainCamera(unique_ptr<Camera>(camera));
 
 	water->GetTransform()->Position(128, 1, 128);
 
@@ -40,7 +39,6 @@ void WorldDemo::Destroy()
 
 	SafeDelete(postEffect);
 	SafeDelete(water);
-	Shadow::SetGlobal(nullptr);
 	SafeDelete(shadow);
 	SafeDelete(lights);
 	SafeDelete(sky);
@@ -54,8 +52,12 @@ void WorldDemo::Update()
 	sky->Update();
 	water->Update();
 
+	shadow->Update();
 	postEffect->Update();
 
+	Vector3 direction = Lighting::Get()->DirectionalDesc()->Direction;
+	ImGui::SliderFloat3("direction", direction, -1.0f, 1.0f);
+	Lighting::Get()->DirectionalDesc()->Direction = direction;
 	postEffect->ImGuiRender();
 	//shadow->ImGuiRender();
 }
@@ -89,11 +91,12 @@ void WorldDemo::PreRender()
 		player->Render();
 	}
 	postEffect->EndPreRender();
+
+	player->PreRender();
 }
 
 void WorldDemo::Render()
 {
-	//lights->Render();
 	postEffect->Render();
 }
 

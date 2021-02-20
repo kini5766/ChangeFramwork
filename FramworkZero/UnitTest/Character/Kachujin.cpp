@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "Kachujin.h"
 
-#include "Objects/Model/ModelAnimation.h"
+#include "Rendering/Model/AnimationAdapter.h"
 
 
 // --
-// Paladin
+// Kachujin
 // --
 
-void Kachujin::BindAnimation(Animator* animator, ModelAnimation* model)
+void Kachujin::BindAnimation(Animator* animator, AnimationAdapter* model)
 {
 	animator->BindAll(model);
 
@@ -17,11 +17,15 @@ void Kachujin::BindAnimation(Animator* animator, ModelAnimation* model)
 }
 
 
-KachujinInstance::KachujinInstance(ModelSkinnedInstance * instance)
+// --
+// KachujinInstance
+// --
+
+KachujinInstance::KachujinInstance(ModelInstance * instance)
 	: instance(instance)
 {
 	animator = new Animator();
-	Kachujin::BindAnimation(animator, instance->GetAnimation());
+	Kachujin::BindAnimation(animator, instance->GetAnimAdapter());
 	instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
 }
 

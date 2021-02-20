@@ -28,15 +28,10 @@ public:
 public:
 	void Update();
 	void Render();
-	void PreRender_Depth();
 
 public:
 	void AddInstance();
 	void SetInstancing();
 	ColliderBox* AddCollider(UINT index);
 	MeshInstancing* CreateInstancing(UINT type);
-
-private:
-	Shader* Shader;
-	ShadowCaster* shadow;
 };

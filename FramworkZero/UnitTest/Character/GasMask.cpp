@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "GasMask.h"
 
-#include "Objects/Model/ModelAnimation.h"
+#include "Rendering/Model/AnimationAdapter.h"
 
 
 // --
 // Paladin
 // --
 
-void GasMask::BindAnimation(Animator* animator, ModelAnimation* model)
+void GasMask::BindAnimation(Animator* animator, AnimationAdapter* model)
 {
 	animator->BindAll(model);
 
@@ -17,11 +17,11 @@ void GasMask::BindAnimation(Animator* animator, ModelAnimation* model)
 }
 
 
-GasMaskInstance::GasMaskInstance(ModelSkinnedInstance * instance)
+GasMaskInstance::GasMaskInstance(ModelInstance * instance)
 	: instance(instance)
 {
 	animator = new Animator();
-	GasMask::BindAnimation(animator, instance->GetAnimation());
+	GasMask::BindAnimation(animator, instance->GetAnimAdapter());
 	instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
 }
 

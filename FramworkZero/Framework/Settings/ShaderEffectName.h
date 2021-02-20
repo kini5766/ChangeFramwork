@@ -27,6 +27,16 @@ namespace ShaderEffectName
 	constexpr auto PROJECTION_MAP = "ProjectionMap";
 	constexpr auto CB_PROJECTIONTEXTURE = "CB_ProjectionTexture";
 
+	// 00_Shadow.fx
+	constexpr auto CB_SHADOW = "CB_Shadow";
+	constexpr auto SHADOW_SAMPLER = "ShadowSampler";
+	constexpr auto SHADOW_MAP = "ShadowMap";
+
+	// 00_EnvCubeMap.fx
+	constexpr auto CB_PRE_ENVCUBE = "CB_PreEnvCube";
+	constexpr auto CB_ENVCUBE = "CB_EnvCube";
+	constexpr auto ENVCUBE_MAP = "EnvCubeMap";
+
 
 	// --------------------------------------------------------
 

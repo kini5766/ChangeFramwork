@@ -3,23 +3,23 @@
 class GasMask
 {
 public:
-	static void BindAnimation(Animator* animator, class ModelAnimation* model);
+	static void BindAnimation(Animator* animator, class AnimationAdapter* model);
 };
 
 class GasMaskInstance
 {
 public:
-	GasMaskInstance(ModelSkinnedInstance* instance);
+	GasMaskInstance(ModelInstance* instance);
 	~GasMaskInstance();
 
 public:
 	void Update();
 
 public:
-	ModelSkinnedInstance* GetInstance() { return instance; }
+	ModelInstance* GetInstance() { return instance; }
 	Animator* GetAnimator() { return animator; }
 
 private:
-	ModelSkinnedInstance* instance;
+	ModelInstance* instance;
 	Animator* animator;
 };

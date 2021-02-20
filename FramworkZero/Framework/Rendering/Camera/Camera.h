@@ -6,7 +6,7 @@ class ICamera
 public:
 	virtual void GetView(Matrix* out) = 0;
 	virtual void GetProjection(Matrix* out) = 0;
-	virtual void GetPlanes4(Plane* planes) = 0;
+	virtual void GetPlanes_Side4(Plane* planes) = 0;
 };
 
 // 메인 카메라용 카메라
@@ -20,7 +20,7 @@ public:
 	// ICamera을(를) 통해 상속됨
 	virtual void GetView(Matrix * out) override;
 	virtual void GetProjection(Matrix * out) override;
-	virtual void GetPlanes4(Plane * planes) override;
+	virtual void GetPlanes_Side4(Plane * planes) override;
 
 public:
 	virtual void Update();

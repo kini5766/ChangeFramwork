@@ -4,7 +4,8 @@
 Billboard::Billboard()
 {
 	shader = new ShaderSetter(Shader::Load(URI::Shaders + L"01_Billboard.fxo"));
-	perFrame = new PerFrame(shader->GetShader());
+	perFrame = new PerFrame();
+	perFrame->SetAtMaterial(shader);
 }
 
 Billboard::~Billboard()

@@ -386,3 +386,17 @@ pass name \
     SetDomainShader(CompileShader(ds_5_0, ds())); \
     SetPixelShader(CompileShader(ps_5_0, ps())); \
 }
+
+//--
+// + TS + GS
+//--
+
+#define P_VTGP(name, vs, hs, ds, gs, ps) \
+pass name \
+{ \
+    SetVertexShader(CompileShader(vs_5_0, vs())); \
+    SetHullShader(CompileShader(hs_5_0, hs())); \
+    SetDomainShader(CompileShader(ds_5_0, ds())); \
+    SetGeometryShader(CompileShader(gs_5_0, gs())); \
+    SetPixelShader(CompileShader(ps_5_0, ps())); \
+}

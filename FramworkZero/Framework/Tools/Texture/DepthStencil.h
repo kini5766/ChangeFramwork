@@ -7,9 +7,9 @@ public:
 	~DepthStencil();
 
 public:
-	ID3D11Texture2D* Texture() { return texture; }
-	ID3D11DepthStencilView* DSV() { return dsv; }
-	ID3D11ShaderResourceView* SRV() { return srv; }
+	ID3D11Texture2D* Texture() const { return texture; }
+	ID3D11DepthStencilView* DSV() const { return dsv; }
+	ID3D11ShaderResourceView* SRV() const { return srv; }
 
 private:
 	float width, height;

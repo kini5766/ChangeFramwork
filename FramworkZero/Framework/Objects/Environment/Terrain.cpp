@@ -5,24 +5,23 @@ Terrain::Terrain(wstring imageFile)
 	: imageFile(imageFile), meshData(new MeshData())
 	, shader(Shader::Load(URI::Shaders + L"01_Terrain.fxo"))
 {
+	shadowCaster = Context::Get()->AddShadowCaster({ shader,
+		bind(&Terrain::PreRender_Depth, this) });
+
 	ReadHeightData(); // 높이맵, 이미지맵 (dds)에서 높이 정보를 읽어오는 함수
 	CreateVertexData();  // y = heightMap.r
 	CreateIndexData();
 	RecalculateNormals();
 
-	perTransform = new PerTransform(shader);
+	material = new Material(shader);
+	perTransform = new PerTransform();
 	vertexBuffer = new VertexBuffer(meshData->Vertices, meshData->VertexCount, meshData->Stride, 0, true);
 	indexBuffer = new IndexBuffer(meshData->Indices, meshData->IndexCount);
-	shadow = new ShadowCaster(shader);
 
-	material = new Material(shader);
 	material->Diffuse(1, 1, 1, 1);
 	material->Specular(1, 1, 1, 20);
-
-	material->SetTexture("BaseMap", baseMap);
-
-	shadow->SetShadow_Global();
-	shadow->SetFuncPreRender(bind(&Terrain::PreRender_Depth, this));
+	material->SetSRV("BaseMap", nullptr);
+	perTransform->SetAtMaterial(material);
 
 	layer1.sSRV = shader->AsSRV("Layer1AlphaMap");
 	layer1.sMap = shader->AsSRV("Layer1ColorMap");
@@ -34,7 +33,6 @@ Terrain::Terrain(wstring imageFile)
 
 Terrain::~Terrain()
 {
-	SafeDelete(shadow);
 
 	SafeDelete(baseMap);
 
@@ -48,6 +46,7 @@ Terrain::~Terrain()
 	meshData->SafeDeleteData();
 	SafeDelete(meshData);
 
+	SafeRelease(shadowCaster);
 	SafeRelease(shader);
 }
 
@@ -196,7 +195,7 @@ void Terrain::BaseMap(wstring file)
 	SafeDelete(baseMap);
 
 	baseMap = new Texture(file);
-	material->SetTexture("BaseMap", baseMap);
+	material->SetSRV("BaseMap", baseMap->SRV());
 }
 
 void Terrain::Layer1(wstring file)

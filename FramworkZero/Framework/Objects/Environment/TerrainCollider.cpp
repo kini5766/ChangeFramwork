@@ -383,8 +383,8 @@ bool TerrainCollider::GetMouseRaycast2(Vector3 * outPoint)
 	Vector3 mouse = Input::Mouse()->GetPosition();
 
 	//mouse = Vector3(Screen::Width() * 0.5f, Screen::Height() * 0.5f, 0); // test
-	for (UINT i = 0; i < MeshData->VertexCount; i++)
-		Vertices[i]._Color = Color(0, 0, 0, 0); // test
+	//for (UINT i = 0; i < MeshData->VertexCount; i++)
+	//	Vertices[i]._Color = Color(0, 0, 0, 0); // test
 
 	// 마우스 시작 지점
 	mouse.z = 0.0f;
@@ -442,7 +442,7 @@ bool TerrainCollider::GetMouseRaycast2(Vector3 * outPoint)
 			for (UINT i = 0; i < 4; i++)
 			{
 				p[i] = Vertices[index[i]].Position;
-				Vertices[index[i]]._Color = Color(0, 0, 1, 0); // test
+				//Vertices[index[i]]._Color = Color(0, 0, 1, 0); // test
 			}
 
 			float u, v, distance;

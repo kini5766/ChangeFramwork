@@ -1,8 +1,8 @@
 #pragma once
 
 #include "stdafx.h"
-#include "Rendering/Camera/IFocus.h"
-#include "Objects/Model/ModelAnimation.h"
+#include "Rendering/Camera/Main/IFocus.h"
+#include "Rendering/Model/AnimationAdapter.h"
 #include "Component/AttackAnimation.h"
 
 struct EnemyDesc
@@ -19,8 +19,8 @@ class IEnemy
 {
 public:
 	virtual ~IEnemy() {}
-	virtual ModelSkinnedInstancing* GetModel() = 0;
-	virtual void BindAnimation(Animator*, ModelAnimation*) = 0;
+	virtual ModelInstancing* GetModel() = 0;
+	virtual void BindAnimation(Animator*, AnimationAdapter*) = 0;
 	virtual AttackAnimation* MakeAttackInstance(Transform*) = 0;
 
 	virtual const EnemyDesc* GetDesc() = 0;

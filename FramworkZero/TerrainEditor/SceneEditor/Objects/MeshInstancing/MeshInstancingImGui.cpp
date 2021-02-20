@@ -104,7 +104,7 @@ void MeshInstancingImGui::ImGuiRender()
 	desc->MImGui->RenderImGui();
 	if (ImGui::Button("Apply Material"))
 	{
-		desc->MImGui->Apply(desc->Mesh->GetRenderer()->GetDefaultMaterial());
+		desc->MImGui->Apply(desc->Mesh->GetMaterial());
 	}
 
 	desc->Mesh->UpdateTransforms();

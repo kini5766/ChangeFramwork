@@ -6,14 +6,15 @@ Particle::Particle(wstring xmlFile)
 {
 	Shader* shader = Shader::Load(L"01_Particle.fxo");
 	material = new Material(shader);
-	perTransform = new PerTransform(shader);
-	
+	perTransform = new PerTransform();
+	buffer = new ConstantBuffer(&desc, sizeof(Desc));
+
 	ReadFile(URI::Particles + xmlFile + L".xml");
 
-	buffer = new ConstantBuffer(&desc, sizeof(Desc));
 	material->SetConstantBuffer("CB_Particle", buffer->Buffer());
-
 	material->SetSRV("ParticleMap", map->SRV());
+	perTransform->SetAtMaterial(material);
+
 	Reset();
 }
 

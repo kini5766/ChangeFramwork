@@ -20,7 +20,6 @@ void Editor::Initialize()
 	sky = new CubeSky(L"Environment/Mountain1024.dds");
 	peojTexure = new ProjectionTexture(Shader::Load(L"01_TerrainLOD.fxo"), L"Environment/MagicCircle.png", 217.0f, 220.0f);
 	shadow = new Shadow(Vector3(-64.0f, 64.0f, 64.0f), 512.0f);
-	Shadow::SetGlobal(shadow);
 
 	water = new Water({ 125, 0, 0 });
 	water->GetTransform()->Position(128, 32, 128);
@@ -31,7 +30,6 @@ void Editor::Destroy()
 {
 	SafeDelete(water);
 
-	Shadow::SetGlobal(nullptr);
 	SafeDelete(shadow);
 	SafeDelete(peojTexure);
 	SafeDelete(sky);

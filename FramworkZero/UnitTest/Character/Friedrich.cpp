@@ -1,7 +1,13 @@
 #include "stdafx.h"
 #include "Friedrich.h"
 
-void Friedrich::BindAnimation(Animator * animator, ModelAnimation * model)
+#include "Rendering/Model/AnimationAdapter.h"
+
+// --
+// Friedrich
+// --
+
+void Friedrich::BindAnimation(Animator * animator, AnimationAdapter * model)
 {
 	animator->BindAll(model);
 
@@ -21,14 +27,23 @@ void Friedrich::BindAnimation(Animator * animator, ModelAnimation * model)
 }
 
 
-FriedrichInstance::FriedrichInstance(ModelSkinnedInstance * instance)
+// --
+// FriedrichInstance
+// --
+
+FriedrichInstance::FriedrichInstance(ModelInstance * instance)
 {
+	animator = new Animator();
+	Friedrich::BindAnimation(animator, instance->GetAnimAdapter());
+	instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
 }
 
 FriedrichInstance::~FriedrichInstance()
 {
+	SafeDelete(animator);
 }
 
 void FriedrichInstance::Update()
 {
+	animator->Update();
 }

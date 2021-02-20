@@ -3,23 +3,23 @@
 class Friedrich
 {
 public:
-	static void BindAnimation(Animator* animator, class ModelAnimation* model);
+	static void BindAnimation(Animator* animator, class AnimationAdapter* model);
 };
 
 class FriedrichInstance
 {
 public:
-	FriedrichInstance(ModelSkinnedInstance* instance);
+	FriedrichInstance(ModelInstance* instance);
 	~FriedrichInstance();
 
 public:
 	void Update();
 
 public:
-	ModelSkinnedInstance* GetInstance() { return instance; }
+	ModelInstance* GetInstance() { return instance; }
 	Animator* GetAnimator() { return animator; }
 
 private:
-	ModelSkinnedInstance* instance;
+	ModelInstance* instance;
 	Animator* animator;
 };

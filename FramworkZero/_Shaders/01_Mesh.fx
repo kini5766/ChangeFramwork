@@ -93,28 +93,29 @@ MeshOutput_Shadow VS_Mesh_Shadow(VertexMesh input)
 
 
 // --
-// PS_CubeMap
+// VS EnvCube PreRender
 // --
-TextureCube CubeMap;
 
-float4 PS_CubeMap(MeshOutput input) : SV_Target0
+MeshOutput_PreEnvCube VS_PreEnvCube_Mesh_Inst(VertexMesh_Inst input)
 {
-	// Set Material
-	float3 normal = input.Normal;
-	float3 tangent = normalize(input.Tangent);
+	MeshOutput_PreEnvCube output = (MeshOutput_PreEnvCube)0;
+	World = input.Transform;
+	// input -> output
+	VS_PREENVCUBE_GENERATE;
+	VSSet_Shadow(output.sPosition, output.wPosition);
 
-	NormalMapping(input.Uv, normal, tangent);
-	Texture(Material.Diffuse, DiffuseMap, input.Uv);
-	Texture(Material.Specular, SpecularMap, input.Uv);
-
-	normal = normalize(normal);
-
-	// Material Lighting
-	float4 c = Lighting_All(normal, input.wPosition);
-	c += CubeMap.Sample(LinearSampler, input.wPosition);
-
-	return c;
+	return output;
 }
+MeshOutput_PreEnvCube VS_PreEnvCube_Mesh(VertexMesh input)
+{
+	MeshOutput_PreEnvCube output = (MeshOutput_PreEnvCube)0;
+	// input -> output
+	VS_PREENVCUBE_GENERATE;
+	VSSet_Shadow(output.sPosition, output.wPosition);
+
+	return output;
+}
+
 
 
 // --
@@ -138,6 +139,15 @@ technique11 T0
 	P_VP(P7, VS_Mesh_Shadow, PS_MeshOutput_Shadow)
 
 	// PS CubeMap
-	P_VP(P8, VS_Mesh_Inst, PS_CubeMap)
-	P_VP(P9, VS_Mesh, PS_CubeMap)
+	P_BS_VP(P8, AlphaBlend, VS_Mesh_Inst, PS_CubeMap)
+	P_BS_VP(P9, AlphaBlend, VS_Mesh, PS_CubeMap)
+
+	// EnvCube PreRender
+	P_VGP(P10, VS_PreEnvCube_Mesh_Inst, GS_PreEnvCube_MeshOutput, PS_PreEnvCube_MeshOutput)
+	P_VGP(P11, VS_PreEnvCube_Mesh, GS_PreEnvCube_MeshOutput, PS_PreEnvCube_MeshOutput)
+
+	// EnvCube Render
+	P_BS_VP(P12, AlphaBlend, VS_Mesh_Inst_Shadow, PS_MeshOutput_Shadow_EnvCube)
+	P_BS_VP(P13, AlphaBlend, VS_Mesh_Shadow, PS_MeshOutput_Shadow_EnvCube)
+
 }

@@ -59,7 +59,7 @@ void Camera::GetProjection(Matrix * out)
 	projection->GetMatrix(out);
 }
 
-void Camera::GetPlanes4(Plane * planes)
+void Camera::GetPlanes_Side4(Plane * planes)
 {
 	Plane p6[6];
 	frustum->Planes(p6, 6);

@@ -9,6 +9,7 @@ public:
 public:
 	void Update();
 	void Render();
+	void PreRender_EnvCube();
 
 public:
 	Material* GetMaterial() { return material; }
@@ -22,4 +23,5 @@ private:
 	ID3D11ShaderResourceView* srv = nullptr;  // 流立 积己窃
 	UINT pass = 0;
 
+	EnvCubeCaster* preEnvCube;
 };

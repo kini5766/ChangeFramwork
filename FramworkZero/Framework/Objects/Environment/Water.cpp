@@ -1,8 +1,8 @@
 #include "Framework.h"
 #include "Water.h"
 
-#include "Rendering/Projection/Reflection.h"
-#include "Rendering/Projection/Refraction.h"
+#include "Rendering/PreRenderers/Reflection.h"
+#include "Rendering/PreRenderers/Refraction.h"
 
 using namespace ShaderEffectName;
 

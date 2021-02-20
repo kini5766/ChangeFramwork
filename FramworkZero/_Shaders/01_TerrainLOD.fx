@@ -2,6 +2,7 @@
 #include "00_Light.fx"
 #include "00_ProjectionTexture.fx"
 #include "00_Shadow.fx"
+#include "00_EnvCubeMap.fx"
 
 #include "00_TerrainBrush.fx"
 #include "00_TerrainLayer.fx"
@@ -217,6 +218,8 @@ DomainOutput DS(CHullOutput input, const OutputPatch<HullOutput, 4> patch, float
 DepthOutput DS_Depth(CHullOutput input, const OutputPatch<HullOutput, 4> patch, float2 uv : SV_DomainLocation)
 {
 	DepthOutput output;
+	output.Culling = float4(0, 0, 0, 0);
+	output.Clipping = float4(0, 0, 0, 0);
 
 	float4 p1 = lerp(patch[0].Position, patch[1].Position, uv.x);
 	float4 p2 = lerp(patch[2].Position, patch[3].Position, uv.x);
@@ -294,9 +297,108 @@ float4 PS_Wire(DomainOutput input) : SV_Target
 	return float4(1, 1, 1, 1);
 }
 
+
+// --
+// PreEnvCube
+// --
+
+// CHS_PreEnvCube //////////
+CHullOutput CHS_PreEnvCube(InputPatch<VertexOutput, 4> input)
+{
+	float4 position[4];
+	position[0] = WorldPosition(input[0].Position);
+	position[1] = WorldPosition(input[1].Position);
+	position[2] = WorldPosition(input[2].Position);
+	position[3] = WorldPosition(input[3].Position);
+
+	// Frustum
+	float minY = input[0].Bound.x;
+	float maxY = input[0].Bound.y;
+
+	float3 minBox = float3(position[2].x, minY, position[2].z);
+	float3 maxBox = float3(position[1].x, maxY, position[1].z);
+
+	float3 boxCenter = (minBox + maxBox) * 0.5f;
+	float3 boxRadius = abs(maxBox - minBox) * 0.5f;
+
+	CHullOutput output;
+
+	output.Edge[0] = -1;
+	output.Edge[1] = -1;
+	output.Edge[2] = -1;
+	output.Edge[3] = -1;
+
+	output.Inside[0] = -1;
+	output.Inside[1] = -1;
+
+	return output;
+}
+
+[domain("quad")]
+[partitioning("fractional_even")]
+[outputtopology("triangle_cw")]
+[outputcontrolpoints(4)]
+[patchconstantfunc("CHS_PreEnvCube")]
+HullOutput HS_PreEnvCube(InputPatch<VertexOutput, 4> input, uint id : SV_OutputControlPointID)
+{
+	HullOutput output;
+	output.Position = input[id].Position;
+	output.Uv = input[id].Uv;
+
+	return output;
+}
+
+struct PreEnvCube_Output
+{
+	float4 Position : SV_Position;
+	float3 wPosition : Position1;
+	float2 Uv : UV;
+
+	uint TargetIndex : SV_RenderTargetArrayIndex;  // EnvCube
+};
+
+// GS_PreEnvCube //////////
+[maxvertexcount(18)]
+void GS_PreEnvCube(triangle DomainOutput input[3], inout TriangleStream<PreEnvCube_Output> stream)
+{
+	int vertex = 0;
+	PreEnvCube_Output output;
+
+	[unroll(6)]
+	for (int i = 0; i < 6; i++)
+	{
+		// SV_·»´õÅ¸°Ù [i]
+		output.TargetIndex = i;
+
+		[unroll(3)]
+		for (vertex = 0; vertex < 3; vertex++)
+		{
+			output.Position = mul(float4(input[vertex].wPosition, 1), PreEnvCube.Views[i]);
+			output.Position = mul(output.Position, PreEnvCube.Projection);
+
+			output.wPosition = input[vertex].wPosition;
+
+			output.Uv = input[vertex].Uv;
+
+			stream.Append(output);
+		}
+
+		stream.RestartStrip();
+	}
+}
+
+float4 PS_PreEnvCube(PreEnvCube_Output input) : SV_Target
+{
+	DomainOutput output = (DomainOutput)input;
+	return PS(output);
+}
+
 technique11 T0
 {
 	P_VTP(P0, VS, HS, DS, PS)
 	P_RS_VTP(P1, FrontCounterClockwise_True, VS, HS, DS_Depth, PS_Shadow_Depth)
 	P_RS_VTP(P2, FillMode_WireFrame, VS, HS, DS, PS_Wire)
+	
+	// EnvCube PreRender
+	P_VTGP(P3, VS, HS_PreEnvCube, DS, GS_PreEnvCube, PS_PreEnvCube)
 };

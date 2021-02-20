@@ -1,28 +1,35 @@
 #include "Framework.h"
 #include "MeshInstancing.h"
 
-MeshInstancing::MeshInstancing(Shader * shader, unique_ptr<MeshData> data)
-	: meshData(move(data))
+MeshInstancing::MeshInstancing(unique_ptr<MeshData> shape)
 {
-	renderer = new MeshRenderer(shader, meshData.get());
-	perframe = new PerFrame(shader);
+	shader = Shader::Load(L"01_Mesh.fxo");
+	shadowCaster = Context::Get()->AddShadowCaster({ shader,
+		bind(&MeshInstancing::PreRender_Depth, this) }
+	);
+	envCubeCaster = Context::Get()->AddEnvCubeCaster({ shader,
+		bind(&MeshInstancing::PreRender_EnvCube, this) }
+	);
 
-	instanceBuffer = new VertexBuffer(worlds, MESH_INSTANCE_MAX_COUNT, sizeof(Matrix), 1, true);
+
+	material = new Material(shader);
+	perframe = new PerFrame();
+	renderer = new MeshInstRenderer(move(shape));
+
+
+	perframe->SetAtMaterial(material);
+	renderer->GetRenderer()->SetMaterial(material);
 }
 
 MeshInstancing::~MeshInstancing()
 {
-	for (auto d : instances)
-		SafeDelete(d);
-
-	SafeDelete(instanceBuffer);
-
-	SafeDelete(perframe);
 	SafeDelete(renderer);
+	SafeDelete(perframe);
+	SafeDelete(material);
 
-	meshData->SafeDeleteData();
-	meshData.reset();
-	//SafeDelete(meshData);
+	SafeRelease(envCubeCaster);
+	SafeRelease(shadowCaster);
+	SafeRelease(shader);
 }
 
 void MeshInstancing::Update()
@@ -30,67 +37,54 @@ void MeshInstancing::Update()
 	perframe->Update();
 }
 
+void MeshInstancing::UpdateTransforms()
+{
+	renderer->UpdateTransforms();
+}
+
 void MeshInstancing::Render()
 {
-	instanceBuffer->Render();
-
 	perframe->Render();
-	renderer->RenderInstance(instances.size());
+
+	renderer->Pass(5);
+	renderer->Render();
 }
+
+void MeshInstancing::Render_CubeMap()
+{
+	perframe->Render();
+
+	renderer->Pass(8);
+	renderer->Render();
+}
+
+void MeshInstancing::Render_EnvCube()
+{
+	perframe->Render();
+
+	renderer->Pass(12);
+	renderer->Render();
+}
+
 
 MeshInstance * MeshInstancing::AddInstance()
 {
-	MeshInstance* instance = nullptr;
-
-	if (junkInstances.size() == 0)
-	{
-		UINT index = instances.size();
-
-		instance = new MeshInstance(this, index);
-		instances.push_back(instance);
-
-		instance->GetTransform()->ReplaceMatrixGetter(worlds + index);
-	}
-	else
-	{
-		UINT index = junkInstances.back();
-
-		instance = instances[index];
-
-		Matrix m;
-		D3DXMatrixIdentity(&m);
-		instance->GetTransform()->GlobalWorld(m);
-
-		junkInstances.pop_back();
-	}
-
-	return instance;
+	return renderer->AddInstance();
 }
 
-void MeshInstancing::RemoveInstance(MeshInstance * value)
+
+void MeshInstancing::PreRender_Depth()
 {
-	assert(value->Perent() == this);
+	perframe->Render();
 
-	Transform* t = value->GetTransform();
-	t->UnLink();
-
-	Matrix m;
-	ZeroMemory(m, sizeof(Matrix));
-	t->GlobalWorld(m);
-
-	junkInstances.push_back(value->Id());
+	renderer->Pass(4);
+	renderer->Render();
 }
 
-void MeshInstancing::UpdateTransforms()
+void MeshInstancing::PreRender_EnvCube()
 {
-	D3D11_MAPPED_SUBRESOURCE subResource;
+	perframe->Render();
 
-	for (MeshInstance* instance : instances)
-		instance->GetTransform()->UpdateWorld();
-
-	D3D::GetDC()->Map(instanceBuffer->Buffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &subResource);
-	{
-		memcpy(subResource.pData, worlds, sizeof(Matrix) * MESH_INSTANCE_MAX_COUNT);
-	}
-	D3D::GetDC()->Unmap(instanceBuffer->Buffer(), 0);
+	renderer->Pass(10);
+	renderer->Render();
 }

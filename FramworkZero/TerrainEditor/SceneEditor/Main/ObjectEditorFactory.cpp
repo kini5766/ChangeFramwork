@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ObjectEditorFactory.h"
 
-#include "Rendering/Camera/IFocus.h"
+#include "Rendering/Camera/Main/IFocus.h"
 
 #include "IObjectEditor.h"
 #include "../Objects/MeshInstancing/MeshInstancingEditor.h"

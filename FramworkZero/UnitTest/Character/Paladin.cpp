@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "Paladin.h"
 
-#include "Objects/Model/ModelAnimation.h"
+#include "Rendering/Model/AnimationAdapter.h"
 
 
 // --
 // Paladin
 // --
 
-void Paladin::BindAnimation(Animator* animator, ModelAnimation* model)
+void Paladin::BindAnimation(Animator* animator, AnimationAdapter* model)
 {
 	animator->BindAll(model);
 
@@ -37,11 +37,11 @@ void Paladin::BindAnimation(Animator* animator, ModelAnimation* model)
 // PaladinInstance
 // --
 
-PaladinInstance::PaladinInstance(ModelSkinnedInstance * instance)
+PaladinInstance::PaladinInstance(ModelInstance * instance)
 	: instance(instance)
 {
 	animator = new Animator();
-	Paladin::BindAnimation(animator, instance->GetAnimation());
+	Paladin::BindAnimation(animator, instance->GetAnimAdapter());
 
 	instance->GetTransform()->Scale(0.03f, 0.03f, 0.03f);
 }

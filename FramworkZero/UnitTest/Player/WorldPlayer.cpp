@@ -10,11 +10,7 @@
 
 WorldPlayer::WorldPlayer()
 {
-	shaderModel = Shader::Load(URI::Shaders + L"01_Model.fxo");
-	shaderMesh = Shader::Load(URI::Shaders + L"01_Mesh.fxo");
-
-	kachujinMaker = new ModelSkinnedInstancing(shaderModel,
-		{
+	kachujinMaker = new ModelInstancing({
 			/*매쉬*/ L"Kachujin/Mesh",
 			/*매터리얼*/ L"Kachujin/Mesh",
 			/*클립*/ {
@@ -26,17 +22,26 @@ WorldPlayer::WorldPlayer()
 			}
 		}
 	);
-	kachujinMaker->Pass(0);
 
-	ModelSkinnedInstance* instance = kachujinMaker->AddInstance();
+	ModelInstance* instance = kachujinMaker->AddInstance();
 	PlayerAttack();
 	Player(instance);
 	PlayerHp(instance->GetTransform());
 	PlayerWeapon(instance->GetTransform());
+
+	envCubeMap = new EnvCubeMap();
+	envCubeMap->GetTransform()->SetParent(instance->GetTransform());
+	envCubeMap->GetDesc().Type = 1;
+
+	vector<Material*>& materials = kachujinMaker->GetModel()->GetMaterials();
+	for (Material* material : materials)
+		envCubeMap->SetAtMaterial(material);
 }
 
 WorldPlayer::~WorldPlayer()
 {
+	SafeDelete(envCubeMap);
+
 	SafeDelete(mesh);
 	SafeDelete(weapon);
 
@@ -45,9 +50,6 @@ WorldPlayer::~WorldPlayer()
 	SafeDelete(player);
 	SafeDelete(kachujin);
 	SafeDelete(kachujinMaker);
-
-	SafeRelease(shaderMesh);
-	SafeRelease(shaderModel);
 }
 
 void WorldPlayer::Update()
@@ -76,6 +78,8 @@ void WorldPlayer::Update()
 	weapon->LocalWorld(kachujin->GetInstance()->GetAttachBone(40));
 	mesh->Update();
 	mesh->UpdateTransforms();
+
+	envCubeMap->ImGuiRender();
 }
 
 void WorldPlayer::Render()
@@ -84,7 +88,23 @@ void WorldPlayer::Render()
 		return;
 
 	mesh->Render();
-	kachujinMaker->Render();
+	if (bStealth)
+	{
+		envCubeMap->Render();
+		kachujinMaker->Render_EnvCube();
+	}
+	else
+	{
+		kachujinMaker->Render();
+	}
+}
+
+void WorldPlayer::PreRender()
+{
+	if (bStealth)
+	{
+		envCubeMap->PreRender();
+	}
 }
 
 void WorldPlayer::PostRender()
@@ -97,7 +117,7 @@ IFocus * WorldPlayer::GetFocus()
 	return player;
 }
 
-void WorldPlayer::Player(ModelSkinnedInstance* instance)
+void WorldPlayer::Player(ModelInstance* instance)
 {
 	instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
 	instance->GetTransform()->RotationEuler(
@@ -158,10 +178,9 @@ void WorldPlayer::PlayerWeapon(Transform* transform)
 	weapon = new Transform();
 	weapon->SetParent(transform);
 
-	mesh = new MeshInstancing(shaderMesh, unique_ptr<MeshData>(new MeshCube()));
-	mesh->Pass(1);
-	mesh->GetRenderer()->GetDefaultMaterial()->Diffuse(Color(0.125f, 0.125f, 0.125f, 1.0f));
-	mesh->GetRenderer()->GetDefaultMaterial()->DiffuseMap("Box.png");
+	mesh = new MeshInstancing(unique_ptr<MeshData>(new MeshCube()));
+	mesh->GetMaterial()->Diffuse(Color(0.125f, 0.125f, 0.125f, 1.0f));
+	mesh->GetMaterial()->DiffuseMap("Box.png");
 
 	Transform* initWeapon = mesh->AddInstance()->GetTransform();
 	initWeapon->SetParent(weapon);

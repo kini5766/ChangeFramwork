@@ -18,14 +18,19 @@ CubeSky::CubeSky(wstring file_cubeMap)
 
 	material = sphere->GetMaterial();
 	material->SetSRV("SkyCubeMap", srv);
+
+	preEnvCube = Context::Get()->AddEnvCubeCaster({ shader,
+		bind(&CubeSky::PreRender_EnvCube, this) }
+	);
 }
 
 CubeSky::~CubeSky()
 {
-	SafeRelease(srv);
-
 	material->GetShader()->Release();
 	SafeDelete(sphere);
+
+	SafeRelease(srv);
+	SafeRelease(preEnvCube);
 }
 
 void CubeSky::Update()
@@ -39,5 +44,16 @@ void CubeSky::Render()
 	D3DXMatrixInverse(&V, nullptr, &V);
 	transform->Position(V._41, V._42, V._43);
 
+	sphere->Pass(0);
+	sphere->Render();
+}
+
+void CubeSky::PreRender_EnvCube()
+{
+	Matrix V = Context::Get()->View();
+	D3DXMatrixInverse(&V, nullptr, &V);
+	transform->Position(V._41, V._42, V._43);
+
+	sphere->Pass(1);
 	sphere->Render();
 }

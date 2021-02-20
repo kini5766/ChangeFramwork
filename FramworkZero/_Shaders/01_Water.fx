@@ -1,5 +1,8 @@
 #include "00_Global.fx"
-#include "00_PixelOutput.fx"
+#include "00_Light.fx"
+#include "00_ProjectionTexture.fx"
+#include "00_Shadow.fx"
+#include "00_EnvCubeMap.fx"
 
 
 // --
@@ -60,6 +63,11 @@ struct VertexOutput_Water
 
 	float2 Normal : Uv1;
 	float2 Normal2 : Uv2;
+
+	float4 Culling : SV_CullDistance;
+	float4 Clipping : SV_ClipDistance;
+
+	uint TargetIndex : SV_RenderTargetArrayIndex;  // EnvCube
 };
 
 VertexOutput_Water VS_Water(VertexInput_Water input)
@@ -82,6 +90,14 @@ VertexOutput_Water VS_Water(VertexInput_Water input)
 
 	output.Normal = input.Uv * Water.NormalMapTile.x;
 	output.Normal2 = input.Uv * Water.NormalMapTile.y;
+
+	output.Culling.x = dot(float4(output.wPosition, 1), Culling[0]);
+	output.Culling.y = dot(float4(output.wPosition, 1), Culling[1]);
+	output.Culling.z = dot(float4(output.wPosition, 1), Culling[2]);
+	output.Culling.w = dot(float4(output.wPosition, 1), Culling[3]);
+	
+	output.Clipping = float4(0, 0, 0, 0);
+	output.Clipping.x = dot(float4(output.wPosition, 1), Clipping);
 
 	return output;
 }
@@ -106,7 +122,7 @@ float WaterDepth(VertexOutput_Water input, float2 reflectionUv)
 	return saturate(z2 - z3);
 }
 
-float4 PS_Water(VertexOutput_Water input) : SV_Target
+float4 PS_Water(VertexOutput_Water input) : SV_Target0
 {
 	// Normal
 	input.Normal.y += Water.WaveTransform;
@@ -114,7 +130,7 @@ float4 PS_Water(VertexOutput_Water input) : SV_Target
 
 	float4 normalMap = NormalMap.Sample(LinearSampler, input.Normal) * 2.0f - 1.0f;
 	float4 normalMap2 = NormalMap.Sample(LinearSampler, input.Normal2) * 2.0f - 1.0f;
-	float3 normal = normalMap.rgb + normalMap2.rgb;
+	float3 normal = normalize(normalMap.rgb + normalMap2.rgb);
 
 
 	// Reflection
@@ -148,7 +164,8 @@ float4 PS_Water(VertexOutput_Water input) : SV_Target
 	float3 viewDir = normalize(ViewPosition() - input.wPosition);
 	float3 heightView = viewDir.yyy;
 	float r = (1.2f - 0.3f) / (1.2f / 0.3f);
-	float fresnel = saturate(min(1.0f, r + (1.0f - r) * pow(1.0f - dot(normal, heightView), 16)));
+	float fresnel = r + (1.0f - r) * pow(1.0f - dot(normal, heightView), 2);
+	fresnel = 1.0f - saturate((fresnel - 0.2f) * 1.3f);
 
 	float4 c = lerp(reflectionColor, refractionColor, fresnel);
 
@@ -160,26 +177,46 @@ float4 PS_Water(VertexOutput_Water input) : SV_Target
 	return float4(c.rgb, 1.0f);
 }
 
+// GS_PreEnvCube_Water //////////
+[maxvertexcount(18)]
+void GS_PreEnvCube_Water(triangle VertexOutput_Water input[3], inout TriangleStream<VertexOutput_Water> stream)
+{
+	int vertex = 0;
+	VertexOutput_Water output = (VertexOutput_Water)0;
+
+	[unroll(6)]
+	for (int i = 0; i < 6; i++)
+	{
+		// SV_렌더타겟 [i]
+		output.TargetIndex = i;
+
+		[unroll(3)]
+		for (vertex = 0; vertex < 3; vertex++)
+		{
+			output.Position = mul(float4(input[vertex].wPosition, 1), PreEnvCube.Views[i]);
+			output.Position = mul(output.Position, PreEnvCube.Projection);
+
+			output.wPosition = input[vertex].wPosition;
+			output.ReflectionPosition = input[vertex].ReflectionPosition;
+			output.RefractionPosition = input[vertex].RefractionPosition;
+
+			output.Uv = input[vertex].Uv;
+
+			output.Normal = input[vertex].Normal;
+			output.Normal2 = input[vertex].Normal2;
+			
+			stream.Append(output);
+		}
+
+		stream.RestartStrip();
+	}
+}
+
+
 technique11 T0
 {
 	P_VP(P0, VS_Water, PS_Water)
-};
 
-//float4 WaTerst_Depth(VertexOutput_Water input, float4 diffuse)
-//{
-//	float x = (Water.TerrainWidth / 2 - Water.WaterWidth / 2) / Water.TerrainWidth; //수면과 지면의 크기 차이 -> 비율화
-//	float y = (Water.TerrainHeight / 2 - Water.WaterHeight / 2) / Water.TerrainHeight;
-//
-//	float u = input.Uv.x / Water.TerrainWidth * Water.WaterWidth; //전체 분에 1
-//	float v = input.Uv.y / Water.TerrainHeight * Water.WaterHeight;
-//	float2 uv = float2(x, y) + float2(u, v);
-//
-//	float height = HeightMap.Sample(LinearSampler, uv/*float2(u, v)*/).r * 255.0f / 10.0f;
-//	height = saturate(Water.WaterPositionY * height / Water.WaterPositionY); //수면과 지면의 떨어진 정도
-//
-//	float4 waterColor = WaterMap.Sample(LinearSampler, input.Uv * 0.2f/*reflection*/) * 2.0f; //워터맵이 너무 통짜네
-//	diffuse += (waterColor * height * 0.5f); //너무 밝군
-//
-//	return float4(diffuse.rgb, 1 - (height * 0.75f));
-//	//높을수록(height) 수심이 얕은거이므로 알파값이 줄어듬
-//}
+	// EnvCube PreRender
+	P_VGP(P1, VS_Water, GS_PreEnvCube_Water, PS_Water)
+};

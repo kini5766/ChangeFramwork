@@ -22,9 +22,6 @@
     <Filter Include="Rendering\Buffers">
       <UniqueIdentifier>{9d9e51cf-5143-4dc1-bccf-fd45ef3267cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering\CBufferVariable">
-      <UniqueIdentifier>{e6887cfd-501d-4ce4-b7da-1ed5c3f7e57f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Debugger">
       <UniqueIdentifier>{65472379-8f57-45f9-bf7c-aa78819f1064}</UniqueIdentifier>
     </Filter>
@@ -34,17 +31,11 @@
     <Filter Include="Objects">
       <UniqueIdentifier>{b0273287-577c-4b58-b452-865887d8d19c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Model">
-      <UniqueIdentifier>{b2a93c62-b3fc-43d7-a617-6d476964342e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Objects\Meshes">
       <UniqueIdentifier>{091e21f6-5bdd-4bd8-b070-cc3f75ddb160}</UniqueIdentifier>
     </Filter>
     <Filter Include="Tools\Lighting">
       <UniqueIdentifier>{831dbbd4-8c93-40e3-965c-ab74c8ee1435}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tools\Animation">
-      <UniqueIdentifier>{c10df74a-95ed-4d06-94fe-e3af44751106}</UniqueIdentifier>
     </Filter>
     <Filter Include="Tools\Collider">
       <UniqueIdentifier>{be6ffecb-a04b-41b8-9a11-70d77d161bf1}</UniqueIdentifier>
@@ -70,11 +61,35 @@
     <Filter Include="Rendering\Camera">
       <UniqueIdentifier>{d94c3f6f-7081-422a-86f4-ba2bde514e4b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering\Projection">
-      <UniqueIdentifier>{1a5cf3b0-dd1c-48f3-84be-f7ce1c376f08}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Tools\ImGui">
       <UniqueIdentifier>{2ac59e5f-c256-431d-aaed-f69971e650bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Model">
+      <UniqueIdentifier>{8ca72b6f-eb41-4e0d-b55f-26f503df8259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Mesh">
+      <UniqueIdentifier>{099a6f86-be19-4ff9-88aa-f57d94fc6ee3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Models">
+      <UniqueIdentifier>{b2a93c62-b3fc-43d7-a617-6d476964342e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Mesh\MeshShapes">
+      <UniqueIdentifier>{a6d18295-3997-4ea8-b82a-b181989c53b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Camera\Main">
+      <UniqueIdentifier>{4125f3d8-ca11-4a05-bde8-0bebc94c0e17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Camera\PreRender">
+      <UniqueIdentifier>{a9008a30-dc93-4831-b4bd-5b799d58325b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Shader">
+      <UniqueIdentifier>{00e52fe8-cb82-497d-9d31-b9e749d6148e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\SetAtMaterial">
+      <UniqueIdentifier>{102ebbd4-73a6-4665-ba05-27e42abd1e0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\PreRenderers">
+      <UniqueIdentifier>{1a5cf3b0-dd1c-48f3-84be-f7ce1c376f08}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -135,18 +150,6 @@
     <ClCompile Include="Rendering\Buffers\StructuredBuffer.cpp">
       <Filter>Rendering\Buffers</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\CBufferVariables\Context.cpp">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\CBufferVariables\ShaderSetter.cpp">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\CBufferVariables\Material.cpp">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\CBufferVariables\PerFrame.cpp">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClCompile>
     <ClCompile Include="Debugger\DebugLog.cpp">
       <Filter>Debugger</Filter>
     </ClCompile>
@@ -161,48 +164,6 @@
     </ClCompile>
     <ClCompile Include="Tools\MainLogic\Time.cpp">
       <Filter>Tools\MainLogic</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Shader.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Model\ModelData.cpp">
-      <Filter>Objects\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Meshes\MeshCube.cpp">
-      <Filter>Objects\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Meshes\MeshCylinder.cpp">
-      <Filter>Objects\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Meshes\MeshPlane.cpp">
-      <Filter>Objects\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Meshes\MeshQuad.cpp">
-      <Filter>Objects\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Meshes\MeshSphere.cpp">
-      <Filter>Objects\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Meshes\MeshInstancing.cpp">
-      <Filter>Objects\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Meshes\MeshRenderer.cpp">
-      <Filter>Objects\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Meshes\SkinnedMeshRenderer.cpp">
-      <Filter>Objects\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Model\ModelSkinnedInstancing.cpp">
-      <Filter>Objects\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Model\ModelComputeAnimInst.cpp">
-      <Filter>Objects\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Model\ModelAnimMap.cpp">
-      <Filter>Objects\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Model\ModelBonesMap.cpp">
-      <Filter>Objects\Model</Filter>
     </ClCompile>
     <ClCompile Include="Debugger\Gizmo.cpp">
       <Filter>Debugger</Filter>
@@ -221,15 +182,6 @@
     </ClCompile>
     <ClCompile Include="Tools\Lighting\BurntLight.cpp">
       <Filter>Tools\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Model\ModelAnimation.cpp">
-      <Filter>Objects\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\Animation\ClipTimer.cpp">
-      <Filter>Tools\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools\Animation\Animator.cpp">
-      <Filter>Tools\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Tools\Collider\Collider.cpp">
       <Filter>Tools\Collider</Filter>
@@ -275,12 +227,6 @@
     </ClCompile>
     <ClCompile Include="Objects\Particle\Particle.cpp">
       <Filter>Objects\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\CBufferVariables\PerTransform.cpp">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Meshes\Mesh.cpp">
-      <Filter>Objects\Meshes</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Canvas\Render2D.cpp">
       <Filter>Objects\Canvas</Filter>
@@ -348,35 +294,7 @@
     <ClCompile Include="Rendering\Camera\CanvasCamera.cpp">
       <Filter>Rendering\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\Camera\Fixity.cpp">
-      <Filter>Rendering\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Camera\Freedom.cpp">
-      <Filter>Rendering\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Camera\OrbitCamera.cpp">
-      <Filter>Rendering\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework.cpp" />
     <ClCompile Include="Rendering\Camera\Camera.cpp">
-      <Filter>Rendering\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Projection\ProjectionTexture.cpp">
-      <Filter>Rendering\Projection</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Projection\Reflection.cpp">
-      <Filter>Rendering\Projection</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Projection\Refraction.cpp">
-      <Filter>Rendering\Projection</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Projection\Shadow.cpp">
-      <Filter>Rendering\Projection</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Camera\PreCamera.cpp">
-      <Filter>Rendering\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Camera\SubCamera.cpp">
       <Filter>Rendering\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Environment\Water.cpp">
@@ -387,6 +305,124 @@
     </ClCompile>
     <ClCompile Include="Tools\ImGui\ImGuiInputText.cpp">
       <Filter>Tools\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Model\Animator.cpp">
+      <Filter>Rendering\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Model\ClipTimer.cpp">
+      <Filter>Rendering\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Model\ModelAnimMap.cpp">
+      <Filter>Rendering\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Model\ModelBonesMap.cpp">
+      <Filter>Rendering\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Model\ModelComputeAnimInst.cpp">
+      <Filter>Rendering\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Model\ModelData.cpp">
+      <Filter>Rendering\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Model\ModelRenderer.cpp">
+      <Filter>Rendering\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="Objects\Models\ModelInstancing.cpp">
+      <Filter>Objects\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh\MeshRenderer.cpp">
+      <Filter>Rendering\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh\SkinnedMeshRenderer.cpp">
+      <Filter>Rendering\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh\MeshTransform.cpp">
+      <Filter>Rendering\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh\Shapes\MeshCube.cpp">
+      <Filter>Rendering\Mesh\MeshShapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh\Shapes\MeshCylinder.cpp">
+      <Filter>Rendering\Mesh\MeshShapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh\Shapes\MeshQuad.cpp">
+      <Filter>Rendering\Mesh\MeshShapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh\Shapes\MeshPlane.cpp">
+      <Filter>Rendering\Mesh\MeshShapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh\Shapes\MeshSphere.cpp">
+      <Filter>Rendering\Mesh\MeshShapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Meshes\MeshInstancing.cpp">
+      <Filter>Objects\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh\MeshInstRenderer.cpp">
+      <Filter>Rendering\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\Main\Freedom.cpp">
+      <Filter>Rendering\Camera\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\Main\OrbitCamera.cpp">
+      <Filter>Rendering\Camera\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\Main\Fixity.cpp">
+      <Filter>Rendering\Camera\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\PreRender\PreCamera.cpp">
+      <Filter>Rendering\Camera\PreRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\PreRender\ShadowCamera.cpp">
+      <Filter>Rendering\Camera\PreRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\PreRender\SubCamera.cpp">
+      <Filter>Rendering\Camera\PreRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera\PreRender\EnvCamera.cpp">
+      <Filter>Rendering\Camera\PreRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Model\AnimationAdapter.cpp">
+      <Filter>Rendering\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Shader\ShaderSetter.cpp">
+      <Filter>Rendering\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Shader\Shader.cpp">
+      <Filter>Rendering\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Shader\Material.cpp">
+      <Filter>Rendering\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\SetAtMaterial\PerFrame.cpp">
+      <Filter>Rendering\SetAtMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\SetAtMaterial\PerTransform.cpp">
+      <Filter>Rendering\SetAtMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\SetAtMaterial\EnvCubeMap.cpp">
+      <Filter>Rendering\SetAtMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Context.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\PreRenderers\ProjectionTexture.cpp">
+      <Filter>Rendering\PreRenderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\PreRenderers\Reflection.cpp">
+      <Filter>Rendering\PreRenderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\PreRenderers\Refraction.cpp">
+      <Filter>Rendering\PreRenderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\PreRenderers\Shadow.cpp">
+      <Filter>Rendering\PreRenderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\PreRenderers\ShadowCaster.cpp">
+      <Filter>Rendering\PreRenderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\PreRenderers\EnvCubeCaster.cpp">
+      <Filter>Rendering\PreRenderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -462,21 +498,6 @@
     <ClInclude Include="Rendering\Buffers\StructuredBuffer.h">
       <Filter>Rendering\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\CBufferVariables\Context.h">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\CBufferVariables\IEffectVariable.h">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\CBufferVariables\ShaderSetter.h">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\CBufferVariables\Material.h">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\CBufferVariables\PerFrame.h">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClInclude>
     <ClInclude Include="Debugger\DebugLog.h">
       <Filter>Debugger</Filter>
     </ClInclude>
@@ -491,57 +512,6 @@
     </ClInclude>
     <ClInclude Include="Tools\MainLogic\Time.h">
       <Filter>Tools\MainLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Shader.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Model\ModelData.h">
-      <Filter>Objects\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Meshes\MeshCube.h">
-      <Filter>Objects\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Meshes\MeshCylinder.h">
-      <Filter>Objects\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Meshes\MeshData.h">
-      <Filter>Objects\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Meshes\MeshPlane.h">
-      <Filter>Objects\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Meshes\MeshQuad.h">
-      <Filter>Objects\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Meshes\MeshSphere.h">
-      <Filter>Objects\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Meshes\MeshInstancing.h">
-      <Filter>Objects\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Meshes\MeshRenderer.h">
-      <Filter>Objects\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Meshes\SkinnedMeshRenderer.h">
-      <Filter>Objects\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Model\ModelSkinnedInstancing.h">
-      <Filter>Objects\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Model\ModelDesc.h">
-      <Filter>Objects\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Model\ModelComputeAnimInst.h">
-      <Filter>Objects\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Model\ModelAnimMap.h">
-      <Filter>Objects\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Model\ModelAnimationDesc.h">
-      <Filter>Objects\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Model\ModelBonesMap.h">
-      <Filter>Objects\Model</Filter>
     </ClInclude>
     <ClInclude Include="Debugger\Gizmo.h">
       <Filter>Debugger</Filter>
@@ -563,15 +533,6 @@
     </ClInclude>
     <ClInclude Include="Tools\Lighting\BurntLight.h">
       <Filter>Tools\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Model\ModelAnimation.h">
-      <Filter>Objects\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\Animation\ClipTimer.h">
-      <Filter>Tools\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools\Animation\Animator.h">
-      <Filter>Tools\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Tools\Collider\CollisionManager.h">
       <Filter>Tools\Collider</Filter>
@@ -623,12 +584,6 @@
     </ClInclude>
     <ClInclude Include="Objects\Particle\ParticleData.h">
       <Filter>Objects\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\CBufferVariables\PerTransform.h">
-      <Filter>Rendering\CBufferVariable</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Meshes\Mesh.h">
-      <Filter>Objects\Meshes</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Canvas\Render2D.h">
       <Filter>Objects\Canvas</Filter>
@@ -696,38 +651,7 @@
     <ClInclude Include="Rendering\Camera\CanvasCamera.h">
       <Filter>Rendering\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\Camera\Fixity.h">
-      <Filter>Rendering\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Camera\Freedom.h">
-      <Filter>Rendering\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Camera\IFocus.h">
-      <Filter>Rendering\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Camera\OrbitCamera.h">
-      <Filter>Rendering\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework.h" />
     <ClInclude Include="Rendering\Camera\Camera.h">
-      <Filter>Rendering\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Projection\ProjectionTexture.h">
-      <Filter>Rendering\Projection</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Projection\Reflection.h">
-      <Filter>Rendering\Projection</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Projection\Refraction.h">
-      <Filter>Rendering\Projection</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Projection\Shadow.h">
-      <Filter>Rendering\Projection</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Camera\PreCamera.h">
-      <Filter>Rendering\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Camera\SubCamera.h">
       <Filter>Rendering\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Environment\Water.h">
@@ -738,6 +662,142 @@
     </ClInclude>
     <ClInclude Include="Tools\ImGui\ImGuiInputText.h">
       <Filter>Tools\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Model\ModelRenderer.h">
+      <Filter>Rendering\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Model\Animator.h">
+      <Filter>Rendering\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Model\ClipTimer.h">
+      <Filter>Rendering\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Model\ModelAnimationDesc.h">
+      <Filter>Rendering\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Model\ModelAnimMap.h">
+      <Filter>Rendering\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Model\ModelBonesMap.h">
+      <Filter>Rendering\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Model\ModelComputeAnimInst.h">
+      <Filter>Rendering\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Model\ModelData.h">
+      <Filter>Rendering\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Model\ModelDesc.h">
+      <Filter>Rendering\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework.h" />
+    <ClInclude Include="Objects\Models\ModelInstancing.h">
+      <Filter>Objects\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh\SkinnedMeshRenderer.h">
+      <Filter>Rendering\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh\MeshRenderer.h">
+      <Filter>Rendering\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh\MeshTransform.h">
+      <Filter>Rendering\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh\Shapes\MeshCube.h">
+      <Filter>Rendering\Mesh\MeshShapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh\Shapes\MeshCylinder.h">
+      <Filter>Rendering\Mesh\MeshShapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh\Shapes\MeshQuad.h">
+      <Filter>Rendering\Mesh\MeshShapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh\Shapes\MeshPlane.h">
+      <Filter>Rendering\Mesh\MeshShapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh\Shapes\MeshSphere.h">
+      <Filter>Rendering\Mesh\MeshShapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh\MeshData.h">
+      <Filter>Rendering\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Meshes\MeshInstancing.h">
+      <Filter>Objects\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh\MeshInstRenderer.h">
+      <Filter>Rendering\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\Main\OrbitCamera.h">
+      <Filter>Rendering\Camera\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\Main\Freedom.h">
+      <Filter>Rendering\Camera\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\Main\Fixity.h">
+      <Filter>Rendering\Camera\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\PreRender\SubCamera.h">
+      <Filter>Rendering\Camera\PreRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\PreRender\PreCamera.h">
+      <Filter>Rendering\Camera\PreRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\PreRender\ShadowCamera.h">
+      <Filter>Rendering\Camera\PreRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\PreRender\EnvCamera.h">
+      <Filter>Rendering\Camera\PreRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera\Main\IFocus.h">
+      <Filter>Rendering\Camera\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Model\AnimationAdapter.h">
+      <Filter>Rendering\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Model\ModelAnimDesc.h">
+      <Filter>Rendering\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shader\ShaderSetter.h">
+      <Filter>Rendering\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shader\Shader.h">
+      <Filter>Rendering\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shader\Material.h">
+      <Filter>Rendering\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shader\IEffectVariable.h">
+      <Filter>Rendering\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\SetAtMaterial\PerFrame.h">
+      <Filter>Rendering\SetAtMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\SetAtMaterial\PerTransform.h">
+      <Filter>Rendering\SetAtMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\SetAtMaterial\EnvCubeMap.h">
+      <Filter>Rendering\SetAtMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Context.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\PreRenderers\ProjectionTexture.h">
+      <Filter>Rendering\PreRenderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\PreRenderers\Reflection.h">
+      <Filter>Rendering\PreRenderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\PreRenderers\Refraction.h">
+      <Filter>Rendering\PreRenderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\PreRenderers\Shadow.h">
+      <Filter>Rendering\PreRenderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\PreRenderers\ShadowCaster.h">
+      <Filter>Rendering\PreRenderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\PreRenderers\EnvCubeCaster.h">
+      <Filter>Rendering\PreRenderers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,9 +6,7 @@
 
 MeleeEnemy::MeleeEnemy()
 {
-	shaderModel = Shader::Load(L"01_Model.fxo");
-
-	modelInstancing = new ModelSkinnedInstancing(shaderModel, {
+	modelInstancing = new ModelInstancing({
 			/*매쉬*/ L"Paladin/Mesh",
 			/*매터리얼*/ L"Paladin/Mesh",
 			/*클립*/ {
@@ -21,7 +19,6 @@ MeleeEnemy::MeleeEnemy()
 				L"Paladin/Fall",  // 6
 			}
 		});
-	modelInstancing->Pass(1);
 
 	normalAttack = new NormalAttack();
 	normalAttack->InitTransform()->Position(0.0f, 90.0f, -40.0f);
@@ -37,7 +34,6 @@ MeleeEnemy::~MeleeEnemy()
 {
 	SafeDelete(normalAttack);
 	SafeDelete(modelInstancing);
-	SafeRelease(shaderModel);
 }
 
 void MeleeEnemy::Update()
@@ -52,12 +48,12 @@ void MeleeEnemy::Render()
 	modelInstancing->Render();
 }
 
-ModelSkinnedInstancing * MeleeEnemy::GetModel()
+ModelInstancing * MeleeEnemy::GetModel()
 {
 	return modelInstancing;
 }
 
-void MeleeEnemy::BindAnimation(Animator * animator, ModelAnimation * model)
+void MeleeEnemy::BindAnimation(Animator * animator, AnimationAdapter * model)
 {
 	Paladin::BindAnimation(animator, model);
 }

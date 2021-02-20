@@ -11,7 +11,8 @@ DebugLine::DebugLine()
 	ZeroMemory(vertices, sizeof(VertexColor) * MAX_DEBUG_LINE);
 	vertexBuffer = new VertexBuffer(vertices, MAX_DEBUG_LINE, sizeof(VertexColor), 0, true);
 
-	perFrame = new PerFrame(shader->GetShader());
+	perFrame = new PerFrame();
+	perFrame->SetAtMaterial(shader);
 }
 
 DebugLine::~DebugLine()

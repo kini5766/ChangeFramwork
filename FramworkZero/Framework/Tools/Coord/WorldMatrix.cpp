@@ -34,12 +34,12 @@ void WorldMatrix::SetWorld(const Matrix & value)
 
 void WorldMatrix::GetWorld_Global(Transform * t)
 {
-	t->GlobalWorld(world);
+	t->GlobalWorld(&world);
 }
 
 void WorldMatrix::GetWorld_Local(Transform * t)
 {
-	t->LocalWorld(world);
+	t->LocalWorld(&world);
 }
 
 void WorldMatrix::GetWorld(Matrix * out)

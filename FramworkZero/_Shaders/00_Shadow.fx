@@ -6,10 +6,19 @@
 // input -> output
 #define VS_DEPTH_GENERATE \
 output.Position = WorldPosition(input.Position); \
+float3 wPosition = output.Position.xyz; \
 output.Position = mul(output.Position, Shadow.View); \
 output.Position = mul(output.Position, Shadow.Projection); \
 \
-output.sPosition = output.Position;
+output.sPosition = output.Position; \
+\
+output.Culling.x = dot(float4(wPosition, 1), Culling[0]); \
+output.Culling.y = dot(float4(wPosition, 1), Culling[1]); \
+output.Culling.z = dot(float4(wPosition, 1), Culling[2]); \
+output.Culling.w = dot(float4(wPosition, 1), Culling[3]); \
+\
+output.Clipping = float4(0, 0, 0, 0); \
+output.Clipping.x = dot(float4(wPosition, 1), Clipping); \
 
 
 
@@ -37,7 +46,6 @@ cbuffer CB_Shadow
 };
 
 
-
 // --
 // PS_Shadow_Depth
 // --
@@ -45,6 +53,9 @@ struct DepthOutput
 {
 	float4 Position : SV_POSITION0;
 	float4 sPosition : POSITION1;  // 조명 기준
+
+	float4 Culling : SV_CullDistance;
+	float4 Clipping : SV_ClipDistance;
 };
 float4 PS_Shadow_Depth(DepthOutput input) : SV_Target
 {
@@ -54,7 +65,6 @@ float4 PS_Shadow_Depth(DepthOutput input) : SV_Target
 	//return float4(depth, depth, depth, 1);
 	return float4(1, 1, 1, 1);
 }
-
 
 
 // --
@@ -67,6 +77,7 @@ void VSSet_Shadow(out float4 sPosition, float3 wPosition)
 	sPosition = mul(sPosition, Shadow.View);
 	sPosition = mul(sPosition, Shadow.Projection);
 }
+
 
 // --
 // PS_Shadow

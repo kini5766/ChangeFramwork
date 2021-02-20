@@ -3,23 +3,23 @@
 class Paladin
 {
 public:
-	static void BindAnimation(Animator* animator, class ModelAnimation* model);
+	static void BindAnimation(Animator* animator, class AnimationAdapter* model);
 };
 
 class PaladinInstance
 {
 public:
-	PaladinInstance(ModelSkinnedInstance* instance);
+	PaladinInstance(ModelInstance* instance);
 	~PaladinInstance();
 
 public:
 	void Update();
 
 public:
-	ModelSkinnedInstance* GetInstance() { return instance; }
+	ModelInstance* GetInstance() { return instance; }
 	Animator* GetAnimator() { return animator; }
 
 private:
-	ModelSkinnedInstance* instance;
+	ModelInstance* instance;
 	Animator* animator;
 };

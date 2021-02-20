@@ -4,7 +4,8 @@
 Panel::Panel(Shader* shader)
 {
 	material = new ShaderSetter(shader);
-	perFrame = new PerFrame(shader);
+	perFrame = new PerFrame();
+	perFrame->SetAtMaterial(material);
 
 	Vertex verteces[6];
 	verteces[0].Position = Vector3(-1.0f, -1.0f, 0.0f);
@@ -19,9 +20,9 @@ Panel::Panel(Shader* shader)
 
 Panel::~Panel()
 {
+	SafeDelete(vertexBuffer);
 	SafeDelete(perFrame);
 	SafeDelete(material);
-	SafeDelete(vertexBuffer);
 }
 
 void Panel::Update()
@@ -39,7 +40,8 @@ void Panel::Render()
 	material->GetShader()->Draw(0, pass, 6);
 }
 
+using namespace ShaderEffectName;
 void Panel::SRV(ID3D11ShaderResourceView * srv)
 {
-	material->SetSRV("DiffuseMap", srv);
+	material->SetSRV(DIFFUSEMAP, srv);
 }

@@ -5,32 +5,37 @@ TerrainLOD::TerrainLOD(wstring ddsFile)
 	: ddsFile(ddsFile)
 {
 	shader = Shader::Load(L"01_TerrainLOD.fxo");
+	shadowCaster = Context::Get()->AddShadowCaster({ shader,
+		bind(&TerrainLOD::PreRender_Depth, this) });
+	envCubeCaster = Context::Get()->AddEnvCubeCaster({ shader,
+		bind(&TerrainLOD::PreRender_EnvCube, this) }
+	);
+
 	meshData = new MeshData();
-
 	ReadDataMap();  // out width, height
+	CreatePatchMeshData();  // set meshData
 
-	CreatePatchMeshData();
+	meshData->NewSubMesh();
+	meshData->SubMeshes[0].topology =
+		D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST;
 
-	renderer = new MeshRenderer(shader, meshData);
-	perTransform = new PerTransform(shader);
+	material = new Material(shader);
+	renderer = new MeshRenderer(meshData);
+	perTransform = new PerTransform();
 	buffer = new ConstantBuffer(&desc, sizeof(Desc));
-	shadow = new ShadowCaster(shader);
 
-	material = renderer->GetDefaultMaterial();
+
 	material->SetConstantBuffer("CB_TerrainLOD", buffer->Buffer());
 	material->SetSRV("HeightMap", heightMapSRV);
 	material->SetSRV("BaseMap", nullptr);
 	material->Emissive() = Color(0.8f, 0.8f, 0.8f, 0.5f);
 	material->Specular() = Color(0.8f, 0.8f, 0.8f, 20);
 
-	meshData->SubMeshes[0].topology =
-		D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST;
+	perTransform->SetAtMaterial(material);
+	renderer->SetMaterial(material);
 
 	desc.CellSpacingU = 1.0f / width;
 	desc.CellSpacingV = 1.0f / height;
-
-	shadow->SetFuncPreRender(bind(&TerrainLOD::PreRender_Depth, this));
-	shadow->SetShadow_Global();
 
 	layer1.sSRV = shader->AsSRV("Layer1AlphaMap");
 	layer1.sMap = shader->AsSRV("Layer1ColorMap");
@@ -44,18 +49,20 @@ TerrainLOD::TerrainLOD(wstring ddsFile)
 TerrainLOD::~TerrainLOD()
 {
 	SafeDeleteArray(bounds);
-	SafeDelete(shadow);
-
-	SafeRelease(heightMap);
-	SafeRelease(heightMapSRV);
 	SafeDeleteArray(heights);
 
 	SafeDelete(buffer);
 	SafeDelete(perTransform);
 	SafeDelete(renderer);
+	SafeDelete(material);
+
 	meshData->SafeDeleteData();
 	SafeDelete(meshData);
 
+	SafeRelease(heightMap);
+	SafeRelease(heightMapSRV);
+	SafeRelease(envCubeCaster);
+	SafeRelease(shadowCaster);
 	SafeRelease(shader);
 }
 
@@ -63,6 +70,9 @@ void TerrainLOD::Update()
 {
 	perTransform->Update();
 }
+
+
+#pragma region Renders
 
 void TerrainLOD::Render()
 {
@@ -92,12 +102,38 @@ void TerrainLOD::Render()
 void TerrainLOD::PreRender_Depth()
 {
 	buffer->Render();
-
 	perTransform->Render();
 
 	renderer->Pass(1);
 	renderer->Render();
 }
+
+void TerrainLOD::PreRender_EnvCube()
+{
+	buffer->Render();
+	perTransform->Render();
+
+	if (layer1.Map != nullptr)
+	{
+		layer1.sSRV->SetResource(layer1.SRV);
+		layer1.sMap->SetResource(layer1.Map->SRV());
+	}
+	if (layer2.Map != nullptr)
+	{
+		layer2.sSRV->SetResource(layer2.SRV);
+		layer2.sMap->SetResource(layer2.Map->SRV());
+	}
+	if (layer3.Map != nullptr)
+	{
+		layer3.sSRV->SetResource(layer3.SRV);
+		layer3.sMap->SetResource(layer3.Map->SRV());
+	}
+
+	renderer->Pass(3);
+	renderer->Render();
+}
+
+#pragma endregion
 
 
 #pragma region Map

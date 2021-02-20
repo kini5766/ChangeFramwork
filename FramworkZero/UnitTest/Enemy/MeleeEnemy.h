@@ -13,16 +13,13 @@ private:
 	void Update() override;
 	void Render() override;
 
-	ModelSkinnedInstancing * GetModel() override;
-	void BindAnimation(Animator *, ModelAnimation *) override;
+	ModelInstancing * GetModel() override;
+	void BindAnimation(Animator *, AnimationAdapter *) override;
 	AttackAnimation * MakeAttackInstance(Transform *) override;
 	const EnemyDesc * GetDesc() override;
 
 private:
-	Shader* shaderModel;
-
-private:
-	ModelSkinnedInstancing* modelInstancing;
+	ModelInstancing* modelInstancing;
 	class NormalAttack* normalAttack;
 	EnemyDesc desc;
 };

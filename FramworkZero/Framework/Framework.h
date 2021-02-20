@@ -71,6 +71,7 @@ typedef D3DXQUATERNION Quaternion;
 typedef D3DXPLANE Plane;
 
 
+// --
 // Settings
 // 실행 전 셋팅할 값들
 
@@ -79,6 +80,7 @@ typedef D3DXPLANE Plane;
 #include "Settings/ShaderEffectName.h"
 
 
+// --
 // Systems
 // 윈도우, d3d, imgui 생성
 
@@ -86,6 +88,7 @@ typedef D3DXPLANE Plane;
 #include "Systems/Gui.h"
 
 
+// --
 // Tools
 // 필요할 때 꺼내 쓰는 클래스들 (특징 : Rendering폴더 클래스를 사용하지 않음)
 
@@ -95,17 +98,21 @@ typedef D3DXPLANE Plane;
 //#include "Tools/MainLogic/GameLogic.h"
 #include "Tools/MainLogic/WinDesc.h"
 
+// 수학 계산기
 #include "Tools/Math.h"
 
+// 공간 변환 계산용
 #include "Tools/Coord/EulerAngle.h"
 #include "Tools/Coord/Transform.h"
 #include "Tools/Coord/WorldMatrix.h"
 
+// 텍스쳐 srv 생성용
 #include "Tools/Texture/Texture.h"
 #include "Tools/Texture/Texture2DDesc.h"
 #include "Tools/Texture/DepthStencil.h"
 #include "Tools/Texture/RenderTarget.h"
 
+// 카메라 관련 도구들
 #include "Tools/Viewer/Viewport.h"
 #include "Tools/Viewer/Projection.h"
 #include "Tools/Viewer/Perspective.h"
@@ -113,6 +120,7 @@ typedef D3DXPLANE Plane;
 #include "Tools/Viewer/CameraTransform.h"
 #include "Tools/Viewer/Frustum.h"
 
+// 라이트 관련
 #include "Tools/Lighting/LightingDesc.h"
 #include "Tools/Lighting/DirectionalLight.h"
 #include "Tools/Lighting/PointLight.h"
@@ -120,9 +128,7 @@ typedef D3DXPLANE Plane;
 #include "Tools/Lighting/BurntLight.h"
 #include "Tools/Lighting/Lighting.h"
 
-#include "Tools/Animation/ClipTimer.h"
-#include "Tools/Animation/Animator.h"
-
+// 콜라이더 관련
 #include "Tools/Collider/Ray.h"
 #include "Tools/Collider/Collider.h"
 #include "Tools/Collider/ColliderBox.h"
@@ -131,28 +137,64 @@ typedef D3DXPLANE Plane;
 #include "Tools/Collider/ReceiveBox.h"
 
 
-//Rendering
+// --
+// Rendering
 // IASet하거나, Shader에 값 넘겨주는 클래스들
 
-#include "Rendering/Shader.h"
+// 쉐이더 및 메터리얼
+#include "Rendering/Shader/Shader.h"
+#include "Rendering/Shader/ShaderSetter.h"
+#include "Rendering/Shader/Material.h"
+
+// 각종 버퍼들
 #include "Rendering/Buffers/Buffers.h"
 
+// 카메라 클래스
 #include "Rendering/Camera/Camera.h"
-#include "Rendering/Camera/Freedom.h"
-#include "Rendering/Camera/Fixity.h"
+// 메인 렌더 카메라용
+#include "Rendering/Camera/Main/Freedom.h"
+#include "Rendering/Camera/Main/Fixity.h"
+// 프리렌더 렌더 카메라용
+#include "Rendering/Camera/PreRender/PreCamera.h"
+#include "Rendering/Camera/PreRender/SubCamera.h"
 
-#include "Rendering/Camera/PreCamera.h"
-#include "Rendering/Camera/SubCamera.h"
+// 메터리얼 셋팅용
+#include "Rendering/SetAtMaterial/PerFrame.h"
+#include "Rendering/SetAtMaterial/PerTransform.h"
+#include "Rendering/SetAtMaterial/EnvCubeMap.h"
 
-#include "Rendering/CBufferVariables/Context.h"
-#include "Rendering/CBufferVariables/ShaderSetter.h"
-#include "Rendering/CBufferVariables/Material.h"
-#include "Rendering/CBufferVariables/PerFrame.h"
-#include "Rendering/CBufferVariables/PerTransform.h"
+// 프리렌더 카메라 사용
+#include "Rendering/PreRenderers/ShadowCaster.h"
+#include "Rendering/PreRenderers/Shadow.h"
+#include "Rendering/PreRenderers/ProjectionTexture.h"
+#include "Rendering/PreRenderers/EnvCubeCaster.h"
 
-#include "Rendering/Projection/Shadow.h"
-#include "Rendering/Projection/ProjectionTexture.h"
+// 메쉬 렌더를 위한 클래스
+#include "Rendering/Mesh/MeshData.h"
+#include "Rendering/Mesh/MeshRenderer.h"
+#include "Rendering/Mesh/SkinnedMeshRenderer.h"
+#include "Rendering/Mesh/MeshTransform.h"
+#include "Rendering/Mesh/MeshInstRenderer.h"
 
+// 메쉬 기본 제공 모형
+#include "Rendering/Mesh/Shapes/MeshQuad.h"
+#include "Rendering/Mesh/Shapes/MeshPlane.h"
+#include "Rendering/Mesh/Shapes/MeshCube.h"
+#include "Rendering/Mesh/Shapes/MeshCylinder.h"
+#include "Rendering/Mesh/Shapes/MeshSphere.h"
+
+// 모델 렌더를 위한 클래스
+#include "Rendering/Model/ClipTimer.h"
+#include "Rendering/Model/Animator.h"
+#include "Rendering/Model/ModelData.h"
+#include "Rendering/Model/ModelAnimationDesc.h"
+#include "Rendering/Model/ModelRenderer.h"
+
+// 전역 렌더 보조용
+#include "Rendering/Context.h"
+
+
+// --
 // Utilities
 // 유용한
 
@@ -160,23 +202,13 @@ typedef D3DXPLANE Plane;
 #include "Utilities/Path.h"
 
 
+// --
 // Objects
 // Rendering클래스를 이용해서 물체를 그리는 클래스
 
-#include "Objects/Meshes/MeshData.h"
-#include "Objects/Meshes/MeshQuad.h"
-#include "Objects/Meshes/MeshPlane.h"
-#include "Objects/Meshes/MeshCube.h"
-#include "Objects/Meshes/MeshCylinder.h"
-#include "Objects/Meshes/MeshSphere.h"
-#include "Objects/Meshes/MeshRenderer.h"
 #include "Objects/Meshes/MeshInstancing.h"
-#include "Objects/Meshes/SkinnedMeshRenderer.h"
-#include "Objects/Meshes/Mesh.h"
 
-#include "Objects/Model/ModelData.h"
-#include "Objects/Model/ModelAnimationDesc.h"
-#include "Objects/Model/ModelSkinnedInstancing.h"
+#include "Objects/Models/ModelInstancing.h"
 
 #include "Objects/Particle/ParticleData.h"
 #include "Objects/Particle/Particle.h"
@@ -193,6 +225,8 @@ typedef D3DXPLANE Plane;
 #include "Objects/PostProcessing/Panel.h"
 #include "Objects/PostProcessing/PostEffect.h"
 
+
+// --
 // Debugger
 // 디버그용 클래스들
 
