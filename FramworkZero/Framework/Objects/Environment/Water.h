@@ -29,6 +29,7 @@ public:
 
 private:
 	MeshData MakeMeshData(float radius);
+	//void PreRender_EnvCube();
 
 private:
 	Shader* shader;
@@ -40,6 +41,8 @@ private:
 	Texture* waterMap;
 	float waveSpeed = 0.06f;
 	float radius;
+
+	//EnvCubeCaster* preEnvCube;
 
 private:
 	struct Desc

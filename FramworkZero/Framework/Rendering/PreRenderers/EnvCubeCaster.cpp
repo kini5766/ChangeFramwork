@@ -22,6 +22,9 @@ EnvCubeCaster::~EnvCubeCaster()
 
 void EnvCubeCaster::PreRender(PreEnvCubeDesc * input)
 {
+	if (bActive == false)
+		return;
+
 	memcpy(desc, input, sizeof(PreEnvCubeDesc));
 	buffer->Render();
 	material->Render();

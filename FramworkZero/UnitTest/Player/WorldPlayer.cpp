@@ -31,13 +31,21 @@ WorldPlayer::WorldPlayer()
 
 	envCubeMap = new EnvCubeMap();
 	envCubeMap->GetTransform()->SetParent(instance->GetTransform());
-	envCubeMap->GetTransform()->Position(0.0f, 3.0f, 0.0f);
-	envCubeMap->GetDesc().Type = 2;
-	//envCubeMap->GetDesc().Type = 3;
-
+	envCubeMap->GetTransform()->Position(0.0f, 160.0f, 0.0f);
+	//envCubeMap->GetTransform()->Scale(75.0f, 200.0f, 75.0f);
+	//envCubeMap->GetDesc().Type = 2;
+	{
+		envCubeMap->GetDesc().Type = 3;
+		envCubeMap->GetDesc().RefractAmount = 0.52f;
+		envCubeMap->GetDesc().FresnelBias = 1.0f;
+		envCubeMap->GetDesc().FresnelAmount = 0.74f;
+		envCubeMap->GetDesc().FresnelScale = 0.57f;
+	}
 	vector<Material*>& materials = kachujinMaker->GetModel()->GetMaterials();
 	for (Material* material : materials)
 		envCubeMap->SetAtMaterial(material);
+
+	kachujinMaker->SetEnablePreEnvCube(!bStealth);
 }
 
 WorldPlayer::~WorldPlayer()

@@ -165,7 +165,7 @@ float4 PS_Water(VertexOutput_Water input) : SV_Target0
 	float3 heightView = viewDir.yyy;
 	float r = (1.2f - 0.3f) / (1.2f / 0.3f);
 	float fresnel = r + (1.0f - r) * pow(1.0f - dot(normal, heightView), 2);
-	fresnel = 1.0f - saturate((fresnel - 0.2f) * 1.3f);
+	fresnel = 1.0f - saturate((fresnel * 1.25f) - 0.25f);
 
 	float4 c = lerp(reflectionColor, refractionColor, fresnel);
 

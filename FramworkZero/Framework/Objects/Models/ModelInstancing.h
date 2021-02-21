@@ -25,11 +25,11 @@ public:
 	ModelInstance* GetInstance(UINT instance) { return instances[instance]; }
 	void RemoveInstance(ModelInstance* value);
 
-	// Getter
+	// Getter, Setter
 public:
 	ModelData* GetModel() { return renderer->GetModel(); }
 	bool EnableAnim() const { return enableAnim; }
-
+	void SetEnablePreEnvCube(bool value) { envCubeCaster->SetActive(value); }
 
 private:  // PreRender
 	void PreRender_Depth();

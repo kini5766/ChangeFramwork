@@ -20,16 +20,18 @@ public:
 	~EnvCubeCaster();
 
 public:
-	void Release() { isRelease = false; funcPreRender = []() {}; }
+	void Release() { bRelease = false; bActive = false; funcPreRender = []() {}; }
+	void SetActive(bool value) { bActive = value; }
 
 public:
 	void PreRender(PreEnvCubeDesc* input);
-	bool IsRelease() const { return isRelease; }
+	bool IsRelease() const { return bRelease; }
 
 private:
 	ShaderSetter* material;
 	function<void()> funcPreRender;
-	bool isRelease = false;
+	bool bRelease = false;
+	bool bActive = true;
 
 private:
 	ConstantBuffer* buffer;

@@ -22,6 +22,10 @@ Water::Water(const InitializeDesc & initDesc)
 	mesh->GetMaterial()->NormalMap(L"Environment/Wave1.dds");
 	mesh->GetMaterial()->SetSRV(WATERMAP, waterMap->SRV());
 	mesh->GetMaterial()->SetConstantBuffer(CB_WATER, buffer->Buffer());
+
+	//preEnvCube = Context::Get()->AddEnvCubeCaster({ shader,
+	//	bind(&Water::PreRender_EnvCube, this) }
+	//);
 }
 
 Water::~Water()
@@ -34,6 +38,7 @@ Water::~Water()
 
 	SafeDelete(mesh);
 	SafeRelease(shader);
+	//SafeRelease(preEnvCube);
 }
 
 void Water::Update()
@@ -89,4 +94,14 @@ MeshData Water::MakeMeshData(float radius)
 	}
 	return data;
 }
+
+//void Water::PreRender_EnvCube()
+//{
+//	reflection->Render();
+//	refraction->Render();
+//
+//	buffer->Render();
+//
+//	mesh->Render();
+//}
 

@@ -65,6 +65,7 @@ void WorldDemo::Update()
 void WorldDemo::PreRender()
 {
 	shadow->PreRender();
+	player->PreRender();
 
 	water->PreRender_Reflection();
 	{
@@ -91,8 +92,6 @@ void WorldDemo::PreRender()
 		player->Render();
 	}
 	postEffect->EndPreRender();
-
-	player->PreRender();
 }
 
 void WorldDemo::Render()

@@ -9,6 +9,7 @@ public:
 public:
 	void Update();
 	void Render();
+private:
 	void PreRender_EnvCube();
 
 public:
