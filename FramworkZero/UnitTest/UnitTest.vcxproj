@@ -131,23 +131,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Behavior\BehaviorSelecter.cpp" />
-    <ClCompile Include="Behavior\EnemyBehavior.cpp" />
-    <ClCompile Include="Behavior\Follow.cpp" />
-    <ClCompile Include="Behavior\Patrol.cpp" />
     <ClCompile Include="Character\Friedrich.cpp" />
     <ClCompile Include="Character\GasMask.cpp" />
     <ClCompile Include="Component\AttackAnimation.cpp" />
     <ClCompile Include="Component\AttackSystem.cpp" />
     <ClCompile Include="Component\MagicAttack.cpp" />
+    <ClCompile Include="Component\PointMoveSystem.cpp" />
     <ClCompile Include="EditorDemo\Component\ColliderLoader.cpp" />
     <ClCompile Include="EditorDemo\Component\MaterialLoader.cpp" />
     <ClCompile Include="EditorDemo\Component\TransformLoader.cpp" />
     <ClCompile Include="EditorDemo\Objects\EnemyInstancingSpawner.cpp" />
     <ClCompile Include="Enemy\MagicianEnemy.cpp" />
     <ClCompile Include="Enemy\MeleeEnemy.cpp" />
-    <ClCompile Include="Planner\SituationController.cpp" />
-    <ClCompile Include="Planner\TimeTable.cpp" />
+    <ClCompile Include="DelayFunction\DelayFunction.cpp" />
+    <ClCompile Include="Enemy\Model.cpp" />
     <ClCompile Include="Player\CharacterController.cpp" />
     <ClCompile Include="Character\Kachujin.cpp" />
     <ClCompile Include="Character\Paladin.cpp" />
@@ -169,20 +166,26 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Follow.cpp" />
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\LookAround.cpp" />
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Patrol.cpp" />
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.cpp" />
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Watchful.cpp" />
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.cpp" />
+    <ClCompile Include="V2Enemy\EnemyBehaviors\Patrolling.cpp" />
+    <ClCompile Include="V2Enemy\EnemyDetectionSystem.cpp" />
+    <ClCompile Include="V2Enemy\FieldEnemy.cpp" />
+    <ClCompile Include="V2Enemy\FieldEnemyInput.cpp" />
+    <ClCompile Include="V2Enemy\V2EnemyInstancing.cpp" />
     <ClCompile Include="WorldDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Behavior\BehaviorSelecter.h" />
-    <ClInclude Include="Behavior\Comeback.h" />
-    <ClInclude Include="Behavior\EnemyBehavior.h" />
-    <ClInclude Include="Behavior\Follow.h" />
-    <ClInclude Include="Behavior\Patrol.h" />
-    <ClInclude Include="Behavior\Recognition.h" />
     <ClInclude Include="Character\Friedrich.h" />
     <ClInclude Include="Character\GasMask.h" />
     <ClInclude Include="Component\AttackAnimation.h" />
     <ClInclude Include="Component\AttackSystem.h" />
     <ClInclude Include="Component\MagicAttack.h" />
+    <ClInclude Include="Component\PointMoveSystem.h" />
     <ClInclude Include="EditorDemo\Component\ColliderLoader.h" />
     <ClInclude Include="EditorDemo\Component\MaterialLoader.h" />
     <ClInclude Include="EditorDemo\Component\TransformLoader.h" />
@@ -190,9 +193,8 @@
     <ClInclude Include="Enemy\EnemyDesc.h" />
     <ClInclude Include="Enemy\MagicianEnemy.h" />
     <ClInclude Include="Enemy\MeleeEnemy.h" />
-    <ClInclude Include="Planner\Pilot.h" />
-    <ClInclude Include="Planner\SituationController.h" />
-    <ClInclude Include="Planner\TimeTable.h" />
+    <ClInclude Include="DelayFunction\DelayFunction.h" />
+    <ClInclude Include="Enemy\Model.h" />
     <ClInclude Include="Player\CharacterController.h" />
     <ClInclude Include="Character\Kachujin.h" />
     <ClInclude Include="Character\Paladin.h" />
@@ -213,6 +215,19 @@
     <ClInclude Include="Enemy\EnemyInstancing.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\EnemyBehaviorPieceDesc.h" />
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Follow.h" />
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\LookAround.h" />
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Patrol.h" />
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.h" />
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Watchful.h" />
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.h" />
+    <ClInclude Include="V2Enemy\EnemyBehaviors\Patrolling.h" />
+    <ClInclude Include="V2Enemy\EnemyDetectionSystem.h" />
+    <ClInclude Include="V2Enemy\FieldEnemy.h" />
+    <ClInclude Include="V2Enemy\FieldEnemyInput.h" />
+    <ClInclude Include="V2Enemy\V2EnemyDesc.h" />
+    <ClInclude Include="V2Enemy\V2EnemyInstancing.h" />
     <ClInclude Include="WorldDemo.h" />
   </ItemGroup>
   <ItemGroup>

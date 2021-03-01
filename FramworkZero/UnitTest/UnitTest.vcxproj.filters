@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="WorldDemo.cpp" />
     <ClCompile Include="Character\Kachujin.cpp">
       <Filter>Character</Filter>
@@ -88,28 +86,52 @@
     <ClCompile Include="EditorDemo\Component\TransformLoader.cpp">
       <Filter>EditorDemo\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Planner\SituationController.cpp">
-      <Filter>Planner</Filter>
+    <ClCompile Include="Component\PointMoveSystem.cpp">
+      <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="Planner\TimeTable.cpp">
-      <Filter>Planner</Filter>
+    <ClCompile Include="DelayFunction\DelayFunction.cpp">
+      <Filter>DelayFunction</Filter>
     </ClCompile>
-    <ClCompile Include="Behavior\Patrol.cpp">
-      <Filter>Behavior</Filter>
+    <ClCompile Include="V2Enemy\V2EnemyInstancing.cpp">
+      <Filter>V2Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Behavior\Follow.cpp">
-      <Filter>Behavior</Filter>
+    <ClCompile Include="Enemy\Model.cpp">
+      <Filter>V2Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Behavior\BehaviorSelecter.cpp">
-      <Filter>Behavior</Filter>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="V2Enemy\FieldEnemy.cpp">
+      <Filter>V2Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Behavior\EnemyBehavior.cpp">
-      <Filter>Behavior</Filter>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\Patrolling.cpp">
+      <Filter>V2Enemy\EnemyBehaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.cpp">
+      <Filter>V2Enemy\EnemyBehaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Watchful.cpp">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.cpp">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Patrol.cpp">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\LookAround.cpp">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Follow.cpp">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\FieldEnemyInput.cpp">
+      <Filter>V2Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyDetectionSystem.cpp">
+      <Filter>V2Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Main.h" />
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="WorldDemo.h" />
     <ClInclude Include="Character\Kachujin.h">
       <Filter>Character</Filter>
@@ -201,32 +223,55 @@
     <ClInclude Include="EditorDemo\Component\TransformLoader.h">
       <Filter>EditorDemo\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Planner\TimeTable.h">
-      <Filter>Planner</Filter>
+    <ClInclude Include="Component\PointMoveSystem.h">
+      <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="Planner\SituationController.h">
-      <Filter>Planner</Filter>
+    <ClInclude Include="DelayFunction\DelayFunction.h">
+      <Filter>DelayFunction</Filter>
     </ClInclude>
-    <ClInclude Include="Planner\Pilot.h">
-      <Filter>Planner</Filter>
+    <ClInclude Include="V2Enemy\V2EnemyDesc.h">
+      <Filter>V2Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Behavior\Patrol.h">
-      <Filter>Behavior</Filter>
+    <ClInclude Include="V2Enemy\V2EnemyInstancing.h">
+      <Filter>V2Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Behavior\Follow.h">
-      <Filter>Behavior</Filter>
+    <ClInclude Include="Enemy\Model.h">
+      <Filter>V2Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Behavior\Comeback.h">
-      <Filter>Behavior</Filter>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="V2Enemy\FieldEnemy.h">
+      <Filter>V2Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Behavior\Recognition.h">
-      <Filter>Behavior</Filter>
+    <ClInclude Include="V2Enemy\EnemyBehaviors\Patrolling.h">
+      <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClInclude>
-    <ClInclude Include="Behavior\BehaviorSelecter.h">
-      <Filter>Behavior</Filter>
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.h">
+      <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClInclude>
-    <ClInclude Include="Behavior\EnemyBehavior.h">
-      <Filter>Behavior</Filter>
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Watchful.h">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.h">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Patrol.h">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\LookAround.h">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Follow.h">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\EnemyBehaviorPieceDesc.h">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\FieldEnemyInput.h">
+      <Filter>V2Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\EnemyDetectionSystem.h">
+      <Filter>V2Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -260,11 +305,17 @@
     <Filter Include="EditorDemo\Component">
       <UniqueIdentifier>{f3bed2c3-11b9-423c-b63d-984c34bd74ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Planner">
-      <UniqueIdentifier>{f3548104-25b6-45ae-bd25-7575fbe23f79}</UniqueIdentifier>
+    <Filter Include="V2Enemy">
+      <UniqueIdentifier>{9885b417-6f01-42e6-8065-1ac037d0fada}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Behavior">
+    <Filter Include="DelayFunction">
+      <UniqueIdentifier>{803e734d-bdd1-4ce4-8f49-289a8c25b97e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="V2Enemy\EnemyBehaviors">
       <UniqueIdentifier>{c69a8493-5a98-4f60-9a60-f9fd639cd191}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="V2Enemy\EnemyBehaviors\EB_Pieces">
+      <UniqueIdentifier>{3b4ad07f-964e-4c09-9683-a6cd9e9cd094}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -43,8 +43,6 @@ void Editor::Destroy()
 
 void Editor::Update()
 {
-	water->Update();
-
 	ImGui::Begin("ImGui Test");
 	{
 		ImGui::SliderFloat3("Directional Light", Lighting::Get()->DirectionalDesc()->Direction, -1.0f, 1.0f);
@@ -62,9 +60,10 @@ void Editor::Update()
 		}
 	}
 	ImGui::End();
-
 	menuFile->RenderImGui();
 
+	shadow->Update();
+	water->Update();
 	sky->Update();
 	if (terrain != nullptr)
 	{
