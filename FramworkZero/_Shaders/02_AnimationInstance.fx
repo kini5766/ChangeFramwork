@@ -24,13 +24,25 @@ void CS(uint3 id : SV_DispatchThreadID)
 
 	float alpha = BlendingFrames[id.y].Alpha;
 
+	transform = curr;
 	if (alpha != 0.0f)
 	{
 		clip = BlendingFrames[id.y].Clip[1].Clip;
 		time = BlendingFrames[id.y].Clip[1].Time;
 		GetAnimWorld(next, id.x, clip, time);
 
-		Lerp(transform, curr, next, alpha);
+
+		if (curr.Scale.x == 0.0f)
+		{
+			// ¿¡´×º» ¾øÀ½
+			transform = curr;
+		}
+		else if (next.Scale.x != 0.0f)
+		{
+			Lerp(transform, curr, next, alpha);
+		}
+
+
 	}
 	else
 	{
