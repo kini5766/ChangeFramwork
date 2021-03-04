@@ -2,6 +2,7 @@
 #include "FieldEnemy.h"
 
 #include "EnemyDetectionSystem.h"
+#include "EnemyBehaviors/Patrolling.h"
 
 FieldEnemy::FieldEnemy(const FieldEnemyInput & input)
 	: desc(input)
@@ -12,14 +13,23 @@ FieldEnemy::FieldEnemy(const FieldEnemyInput & input)
 	inputED.FocusPosition = &focusPosition;
 	inputED.FuncInRange = inRangeDetection;
 	desc.DetectionSystem = new EnemyDetectionSystem(inputED);
+
+	pat = new Patrolling(desc);
+
+	reader = new DelayReader();
+	reader->PushBack(pat);
+	reader->Call();
 }
 
 FieldEnemy::~FieldEnemy()
 {
+	SafeDelete(reader);
+	SafeDelete(pat);
 }
 
 void FieldEnemy::Update()
 {
+	reader->Update();
 }
 
 void FieldEnemy::InRangeDetection()

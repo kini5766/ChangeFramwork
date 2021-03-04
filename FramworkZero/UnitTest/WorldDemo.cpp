@@ -18,7 +18,7 @@ void WorldDemo::Initialize()
 	postEffect = new PostEffectTest();
 
 	player = new WorldPlayer();
-	scene = new SceneValue();
+	//scene = new SceneValue();
 	Billboards();
 	LoadScene();
 
@@ -33,7 +33,7 @@ void WorldDemo::Initialize()
 
 void WorldDemo::Destroy()
 {
-	SafeDelete(scene);
+	//SafeDelete(scene);
 	SafeDelete(billboard);
 	SafeDelete(player);
 
@@ -48,7 +48,7 @@ void WorldDemo::Update()
 {
 	billboard->Update();
 	player->Update();
-	scene->Update();
+	//scene->Update();
 	sky->Update();
 	water->Update();
 
@@ -71,7 +71,7 @@ void WorldDemo::PreRender()
 	{
 		sky->Render();
 		billboard->Render();
-		scene->Render();
+		//scene->Render();
 		player->Render();
 	}
 
@@ -79,7 +79,7 @@ void WorldDemo::PreRender()
 	{
 		sky->Render();
 		billboard->Render();
-		scene->Render();
+		//scene->Render();
 		player->Render();
 	}
 
@@ -88,7 +88,7 @@ void WorldDemo::PreRender()
 		sky->Render();
 		billboard->Render();
 		water->Render();
-		scene->Render();
+		//scene->Render();
 		player->Render();
 	}
 	postEffect->EndPreRender();
@@ -106,12 +106,12 @@ void WorldDemo::PostRender()
 
 void WorldDemo::LoadScene()
 {
-	scene->AddValue("IFocusPlayer", player->GetFocus());
+	//scene->AddValue("IFocusPlayer", player->GetFocus());
 
 	SceneLoader loader;
-	loader.Load(scene, L"World2");
+	//loader.Load(scene, L"World2");
 
-	scene->Initialize();
+	//scene->Initialize();
 }
 
 void WorldDemo::Billboards()

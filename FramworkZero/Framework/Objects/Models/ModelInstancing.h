@@ -7,7 +7,7 @@ class ModelInstancing
 {
 public:
 	ModelInstancing(const ModelDesc& desc);
-	~ModelInstancing();
+	virtual ~ModelInstancing();
 
 public:
 	void Render();
@@ -29,6 +29,7 @@ public:
 public:
 	ModelData* GetModel() { return renderer->GetModel(); }
 	bool EnableAnim() const { return enableAnim; }
+	AnimData* GetAnimData() { return animData; }
 	void SetEnablePreEnvCube(bool value) { envCubeCaster->SetActive(value); }
 
 private:  // PreRender
@@ -41,6 +42,7 @@ private:  // PreRender
 private: // model 관련
 	ModelRenderer* renderer;
 	bool enableAnim;
+	AnimData* animData;
 
 private: // instance 관련
 	ModelInstanceDesc* instanceDesc;
@@ -62,9 +64,8 @@ struct ModelInstanceDesc
 	UINT BoneCount;
 
 	bool EnableAnim;
-	UINT ClipCount = 0;
-	const ModelClipData*const* Clips = nullptr;
 	struct BlendDesc* Blend = nullptr;
+	const AnimData* AnimData = nullptr;
 
 	function<void(class ModelInstance*)> FuncRelease;
 };
@@ -81,14 +82,17 @@ public:
 
 	// Animation
 public:
-	class AnimationAdapter* GetAnimAdapter();
+	class Animator* GetAnimator();
 	void UpdateBoneTracking(Matrix* tracking);
 	Matrix* GetAttachBones() { return bones; }
 	Matrix GetAttachBone(UINT boneIndex);
 
 private:
-	class AnimationAdapter* animation = nullptr;
 	Transform* transform;
+
+	class Animator* animator = nullptr;
+	BlendDesc* blendDesc;
+
 	bool bBoneTracking = false;
 	UINT boneCount = 0;
 	Matrix* bones;
@@ -103,3 +107,5 @@ public:
 	UINT id;
 	function<void(class ModelInstance*)> funcRelease;
 };
+
+

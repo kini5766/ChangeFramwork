@@ -27,15 +27,17 @@ private:
 
 private:
 	ModelInstancing* kachujinMaker;
+	ModelInstance* instance;
+
 	class CharacterController* player;
-	class KachujinInstance* kachujin;
 	class NormalAttack* attack;
 	class HPSystem* playerHp;
 
+	// ¹«±â
 	MeshInstancing* mesh;
 	Transform* weapon;
-	bool bLost = false;
 
+	bool bLost = false;
 	bool bStealth = true;
 	EnvCubeMap* envCubeMap;
 };

@@ -8,19 +8,8 @@
 
 MagicianEnemy::MagicianEnemy(IFocus* player)
 {
-	modelInstancing = new ModelInstancing({
-		/*매쉬*/ L"Friedrich/Mesh",
-		/*매터리얼*/ L"Friedrich/Mesh",
-		/*클립*/ {
-			L"Friedrich/Idle",  // 0
-			L"Friedrich/Walk",  // 1
-			L"Friedrich/Run",  // 2
-			L"Friedrich/Taunt",  // 3
-			L"Friedrich/Attack",  // 4
-			L"Friedrich/React",  // 5
-			L"Friedrich/Fall",  // 6
-		}
-		});
+	modelInstancing = new Friedrich();
+	// instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
 
 	cubeMap = new Texture(L"Environment/GrassCube1024.dds");
 	sphere = new MeshInstancing(unique_ptr<MeshData>(new MeshSphere(0.5f)));
@@ -69,11 +58,6 @@ void MagicianEnemy::Render()
 ModelInstancing * MagicianEnemy::GetModel()
 {
 	return modelInstancing;
-}
-
-void MagicianEnemy::BindAnimation(Animator * animator, AnimationAdapter * model)
-{
-	Friedrich::BindAnimation(animator, model);
 }
 
 AttackAnimation * MagicianEnemy::MakeAttackInstance(Transform * t)

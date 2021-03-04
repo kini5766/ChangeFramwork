@@ -43,7 +43,7 @@ public:
 	// IDelayFunction을(를) 통해 상속됨
 public:
 	// 등록된 모든 함수들 실행 완료 후 리턴호출
-	void Call(const DelayReturn* result) override;
+	void Call(const DelayReturn* result = &DelayReturn([]() {})) override;
 	// 등록된 함수 스택 형식으로 실행
 	void Update() override;
 	// 등록된 모든 함수 제거 후 실행 중인 함수 Cancel

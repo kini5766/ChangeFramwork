@@ -1,10 +1,25 @@
 #include "Framework.h"
 #include "Animator.h"
 
-#include "Rendering/Model/AnimationAdapter.h"
-
 Animator::Animator()
 {
+}
+
+Animator::Animator(const AnimData & data)
+{
+	for (const ClipData& clip : data.Clips)
+	{
+		AddNode(clip.Duration, clip.Speed, clip.FrameRate);
+	}
+
+	UINT size = data.Clips.size();
+	for (UINT i = 0; i < size; i++)
+	{
+		for (const BlendData& blend : data.Clips[i].Blends)
+		{
+			AddBlendEdge(i, blend.End, blend.TweeningTime, blend.bDefault);
+		}
+	}
 }
 
 Animator::~Animator()
@@ -155,28 +170,6 @@ void Animator::GetAnimDesc(BlendDesc * outDesc)
 	{
 		outDesc->Alpha = 0.0f;
 	}
-}
-
-void Animator::BindAll(AnimationAdapter * modelAnim, float tweenTime)
-{
-	UINT size = modelAnim->GetClipCount();
-	const ModelClipData*const* clips = modelAnim->GetClips();
-
-	for (UINT i = 0; i < size; i++)
-	{
-		AddNode(clips[i]->Duration, 1.0f, clips[i]->FrameRate);
-	}
-
-	for (UINT i = 0; i < size; i++)
-	{
-		for (UINT j = 0; j < size; j++)
-		{
-			if (i == j) continue;
-			AddBlendEdge(i, j, tweenTime);
-		}
-	}
-
-	modelAnim->SetAnimator(bind(&Animator::GetAnimDesc, this, placeholders::_1));
 }
 
 

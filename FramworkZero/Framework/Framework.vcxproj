@@ -74,7 +74,6 @@
     <ClCompile Include="Rendering\Mesh\SkinnedMeshRenderer.cpp" />
     <ClCompile Include="Rendering\Model\Animator.cpp" />
     <ClCompile Include="Rendering\Model\ClipTimer.cpp" />
-    <ClCompile Include="Rendering\Model\AnimationAdapter.cpp" />
     <ClCompile Include="Rendering\Model\ModelAnimMap.cpp" />
     <ClCompile Include="Rendering\Model\ModelBonesMap.cpp" />
     <ClCompile Include="Rendering\Model\ModelComputeAnimInst.cpp" />
@@ -192,7 +191,6 @@
     <ClInclude Include="Rendering\Mesh\SkinnedMeshRenderer.h" />
     <ClInclude Include="Rendering\Model\Animator.h" />
     <ClInclude Include="Rendering\Model\ClipTimer.h" />
-    <ClInclude Include="Rendering\Model\AnimationAdapter.h" />
     <ClInclude Include="Rendering\Model\ModelAnimationDesc.h" />
     <ClInclude Include="Rendering\Model\ModelAnimMap.h" />
     <ClInclude Include="Rendering\Model\ModelBonesMap.h" />

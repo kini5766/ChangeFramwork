@@ -45,13 +45,10 @@ void EnemyInstancing::AddInstance(const Matrix& localWorld, const vector<Vector3
 	Transform* t = i->GetTransform();
 	t->LocalWorld(localWorld);
 
-	Animator* anim = new Animator();
-	enemy->BindAnimation(anim, i->GetAnimAdapter());
-
 	EnemyInstanceDesc desc;
 	desc.Player = player;
 	desc.Transform = t;
-	desc.Animator = anim;
+	desc.Animator = i->GetAnimator();
 	desc.Attack = enemy->MakeAttackInstance(t);
 	desc.PatrolPoints = patrolPoints;
 	desc.Desc = enemy->GetDesc();

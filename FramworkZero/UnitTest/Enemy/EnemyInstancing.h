@@ -19,8 +19,4 @@ private:
 	class IFocus* player;
 	unique_ptr<class IEnemy> enemy;
 	vector<class EnemyInstance*> instances;
-
-	//class NormalAttack* normalAttack;
-	//class MagicAttack* magicAttack;
-	//MeshInstancing* sphere;
 };

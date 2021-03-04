@@ -43,7 +43,6 @@ EnemyInstance::~EnemyInstance()
 {
 	SafeDelete(ratate);
 	SafeDelete(hp);
-	SafeDelete(animator);
 }
 
 void EnemyInstance::Update()

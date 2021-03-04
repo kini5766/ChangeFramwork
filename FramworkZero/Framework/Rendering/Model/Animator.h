@@ -1,10 +1,30 @@
 #pragma once
 
-// ModelAnimation -> 각각 모델클래스 -> Animator
+struct BlendData
+{
+	//UINT Start;  // 소유한 ClipData의 인덱스 번호
+	UINT End;
+	float TweeningTime = 0.1f;
+	bool bDefault = false;
+};
+struct ClipData
+{
+	//UINT ClipNum // 인덱스가 클립번호
+	float Duration;
+	float Speed = 1.0f;
+	float FrameRate;
+	vector<BlendData> Blends;
+};
+struct AnimData
+{
+	vector<ClipData> Clips;
+};
+
 class Animator
 {
 public:
 	Animator();
+	Animator(const AnimData& data);
 	~Animator();
 
 public:
@@ -24,12 +44,6 @@ public:
 	void AddBlendEdge(UINT start, UINT end, float tweenTime, bool bDefault = false);
 	void SetFuncNext(function<void(UINT)> value) { funcNext = value; }
 	void GetAnimDesc(struct BlendDesc* outDesc);
-
-public:
-	void BindAll(class AnimationAdapter* modelAnim, float tweenTime = 0.1f);
-
-public:
-	// get clip
 
 private:
 	void NextInput();

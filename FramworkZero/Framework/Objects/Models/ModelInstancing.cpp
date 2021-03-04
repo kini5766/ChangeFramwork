@@ -18,7 +18,6 @@ ModelInstancing::ModelInstancing(const ModelDesc& desc)
 		bind(&ModelInstancing::PreRender_EnvCube, this) }
 	);
 
-	
 	ModelData* data = renderer->GetModel();
 
 	enableAnim = data->ClipCount() != 0;
@@ -30,18 +29,50 @@ ModelInstancing::ModelInstancing(const ModelDesc& desc)
 		UINT materialCount = skinnedData->Materials.size();
 		for (UINT i = 0; i < materialCount; i++)
 			skinnedData->Materials[i]->SetSRV(BONESMAP, compute->GetOutputBoneResultSrv());
+	
+		animData = new AnimData();
+		UINT size = data->ClipCount();
+		const ModelClipData*const* clips = data->Clips();
+
+		ClipData clipData;
+		BlendData blendData;
+		for (UINT i = 0; i < size; i++)
+		{
+			clipData.Duration = clips[i]->Duration;
+			clipData.FrameRate = clips[i]->FrameRate;
+
+			for (UINT j = 0; j < size; j++)
+			{
+				if (i == j)
+				{
+					blendData.bDefault = true;
+					blendData.TweeningTime = 0.0f;
+				}
+				else
+				{
+					blendData.bDefault = false;
+					blendData.TweeningTime = 0.1f;
+				}
+
+				blendData.End = j;
+				clipData.Blends.push_back(blendData);
+			}
+
+			animData->Clips.push_back(clipData);
+		}
 	}
 
 	instanceDesc = new ModelInstanceDesc();
 	instanceDesc->EnableAnim = enableAnim;
 	instanceDesc->BoneCount = data->BoneCount();
-	instanceDesc->ClipCount = data->ClipCount();
-	instanceDesc->Clips = data->Clips();
+	instanceDesc->AnimData = animData;
 	instanceDesc->FuncRelease = bind(&ModelInstancing::RemoveInstance, this, placeholders::_1);
 }
 
 ModelInstancing::~ModelInstancing()
 {
+	SafeDelete(animData);
+
 	SafeDelete(instanceDesc);
 	SafeDelete(compute);
 	SafeDelete(instanceBuffer);
@@ -192,33 +223,30 @@ void ModelInstancing::RemoveInstance(ModelInstance * value)
 
 #pragma region MeshInstance
 
-#include "Rendering/Model/AnimationAdapter.h"
-
 ModelInstance::ModelInstance(const ModelInstanceDesc& desc)
-	: boneCount(desc.BoneCount)
+	: boneCount(desc.BoneCount), blendDesc(desc.Blend)
 	, id(desc.Id), funcRelease(desc.FuncRelease)
 {
 	transform = new Transform();
-
-	if (desc.EnableAnim)
-		animation = new AnimationAdapter(desc.ClipCount, desc.Clips, desc.Blend);
+	animator = new Animator(*desc.AnimData);
 }
 
 ModelInstance::~ModelInstance()
 {
 	SafeDeleteArray(bones);
-	SafeDelete(animation);
+	SafeDelete(animator);
 	SafeDelete(transform);
 }
 
 void ModelInstance::Update()
 {
-	animation->Update();
+	animator->Update();
+	animator->GetAnimDesc(blendDesc);
 }
 
-AnimationAdapter * ModelInstance::GetAnimAdapter()
+Animator * ModelInstance::GetAnimator()
 {
-	return animation;
+	return animator;
 }
 
 void ModelInstance::UpdateBoneTracking(Matrix * tracking)

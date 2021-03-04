@@ -10,20 +10,10 @@
 
 WorldPlayer::WorldPlayer()
 {
-	kachujinMaker = new ModelInstancing({
-			/*매쉬*/ L"Kachujin/Mesh",
-			/*매터리얼*/ L"Kachujin/Mesh",
-			/*클립*/ {
-				L"Kachujin/Idle",
-				L"Kachujin/Walk",
-				L"Kachujin/Run",
-				L"Kachujin/Slash",
-				L"Kachujin/Fall",
-			}
-		}
-	);
+	kachujinMaker = new Kachujin();
 
-	ModelInstance* instance = kachujinMaker->AddInstance();
+	instance = kachujinMaker->AddInstance();
+	instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
 	PlayerAttack();
 	Player(instance);
 	PlayerHp(instance->GetTransform());
@@ -58,7 +48,6 @@ WorldPlayer::~WorldPlayer()
 	SafeDelete(attack);
 	SafeDelete(playerHp);
 	SafeDelete(player);
-	SafeDelete(kachujin);
 	SafeDelete(kachujinMaker);
 }
 
@@ -77,7 +66,6 @@ void WorldPlayer::Update()
 		return;
 	}
 
-	kachujin->Update();
 	kachujinMaker->Update();
 	playerHp->Update();
 	attack->Update();
@@ -85,7 +73,7 @@ void WorldPlayer::Update()
 	kachujinMaker->UpdateTransforms();
 	kachujinMaker->UpdateBoneTracking();
 
-	weapon->LocalWorld(kachujin->GetInstance()->GetAttachBone(40));
+	weapon->LocalWorld(instance->GetAttachBone(40));
 	mesh->Update();
 	mesh->UpdateTransforms();
 
@@ -133,11 +121,10 @@ void WorldPlayer::Player(ModelInstance* instance)
 	instance->GetTransform()->RotationEuler(
 		EulerAngle::Degree(0.0f, -90.0f, 0.0f));
 
-	kachujin = new KachujinInstance(instance);
 	player = new CharacterController
 	(
-		kachujin->GetInstance()->GetTransform(),
-		kachujin->GetAnimator()
+		instance->GetTransform(),
+		instance->GetAnimator()
 	);
 
 	player->SetFuncAttack(

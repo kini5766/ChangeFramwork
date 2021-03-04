@@ -1,40 +1,29 @@
 #include "stdafx.h"
 #include "Kachujin.h"
 
-#include "Rendering/Model/AnimationAdapter.h"
-
-
-// --
-// Kachujin
-// --
-
-void Kachujin::BindAnimation(Animator* animator, AnimationAdapter* model)
+Kachujin::Kachujin()
+	: ModelInstancing({
+	/*매쉬*/ L"Kachujin/Mesh",
+	/*매터리얼*/ L"Kachujin/Mesh",
+	/*클립*/ {
+		L"Kachujin/Idle",  // 1
+		L"Kachujin/Walk",  // 2
+		L"Kachujin/Run",  // 3
+		L"Kachujin/Slash",  // 4
+		L"Kachujin/Fall",  // 5
+		}
+	})
 {
-	animator->BindAll(model);
+	AnimData* anim = GetAnimData();
 
-	animator->SetSpeed(3, 2.0f);
-	animator->AddBlendEdge(3, 0, 0.1f, true);
+	anim->Clips[3].Speed = 2.0f;
+	anim->Clips[3].Blends[0].bDefault = true;
+	anim->Clips[3].Blends[3].bDefault = false;
+
+	//instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
 }
 
-
-// --
-// KachujinInstance
-// --
-
-KachujinInstance::KachujinInstance(ModelInstance * instance)
-	: instance(instance)
+Kachujin::~Kachujin()
 {
-	animator = new Animator();
-	Kachujin::BindAnimation(animator, instance->GetAnimAdapter());
-	instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
 }
 
-KachujinInstance::~KachujinInstance()
-{
-	SafeDelete(animator);
-}
-
-void KachujinInstance::Update()
-{
-	animator->Update();
-}

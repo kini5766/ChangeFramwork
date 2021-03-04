@@ -14,7 +14,6 @@ private:
 	void Render() override;
 
 	ModelInstancing * GetModel() override;
-	void BindAnimation(Animator *, AnimationAdapter *) override;
 	AttackAnimation * MakeAttackInstance(Transform *) override;
 	const EnemyDesc * GetDesc() override;
 

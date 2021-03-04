@@ -382,9 +382,6 @@
     <ClCompile Include="Rendering\Camera\PreRender\EnvCamera.cpp">
       <Filter>Rendering\Camera\PreRender</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\Model\AnimationAdapter.cpp">
-      <Filter>Rendering\Model</Filter>
-    </ClCompile>
     <ClCompile Include="Rendering\Shader\ShaderSetter.cpp">
       <Filter>Rendering\Shader</Filter>
     </ClCompile>
@@ -750,9 +747,6 @@
     </ClInclude>
     <ClInclude Include="Rendering\Camera\Main\IFocus.h">
       <Filter>Rendering\Camera\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Model\AnimationAdapter.h">
-      <Filter>Rendering\Model</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\Model\ModelAnimDesc.h">
       <Filter>Rendering\Model</Filter>

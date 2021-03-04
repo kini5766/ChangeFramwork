@@ -48,7 +48,7 @@ ID3D11Texture2D * ModelComputeAnimInst::CopyFromOutput()
 
 BlendDesc * ModelComputeAnimInst::GetDesc(UINT index)
 {
-	return blendDesc + index;
+	return &blendDesc[index];
 }
 
 void ModelComputeAnimInst::Update()
