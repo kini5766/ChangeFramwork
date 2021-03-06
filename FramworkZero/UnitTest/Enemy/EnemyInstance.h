@@ -18,7 +18,10 @@ private:
 
 	// 이벤트 함수
 private:
-	void OnNextAnimation(UINT next);  // 애니메이션 이벤트
+	//void OnNextAnimation(UINT next);  // 애니메이션 이벤트
+	void Attacked();
+	void Taunted();
+	void Falled();
 	void OnDamage();  // hp 이벤트
 
 private:
@@ -48,6 +51,5 @@ private:
 	float reactRunTime = 0.0f;  // 남은 경직 시간
 
 	bool bWariness = false;  // 전투 상태
-	bool bFall = false;  // 체력 0상태
 	bool bLost = false;  // 렌더 안 하는 상태 (릴리즈)
 };

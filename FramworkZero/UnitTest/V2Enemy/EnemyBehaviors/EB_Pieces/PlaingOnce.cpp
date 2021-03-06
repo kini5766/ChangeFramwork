@@ -4,7 +4,8 @@
 PlaingOnce::PlaingOnce(const PlaingOnceDesc & desc)
 	: desc(desc)
 {
-	funcComple = bind(&PlaingOnce::CompleAnim, this, placeholders::_1);
+	funcComple = bind(&PlaingOnce::CompleAnim, this);
+	desc.Anim->AddFuncChange(desc.Clip, funcComple);
 }
 
 PlaingOnce::~PlaingOnce()
@@ -16,23 +17,27 @@ void PlaingOnce::Call(const DelayReturn * _result)
 {
 	result = _result;
 
+	bChanged = false;
 	desc.Anim->Play(desc.Clip);
-	desc.Anim->SetFuncNext(funcComple);
 }
 
 void PlaingOnce::Update()
 {
+	if (result == nullptr)
+		return;
+	if (bChanged == false)
+		return;
+
+	(*result)();
+	result = nullptr;
 }
 
 void PlaingOnce::Cancel()
 {
-	desc.Anim->SetFuncNext([](UINT) {});
 	result = nullptr;
 }
 
-void PlaingOnce::CompleAnim(UINT i)
+void PlaingOnce::CompleAnim()
 {
-	desc.Anim->SetFuncNext([](UINT) {});
-	(*result)();
-	result = nullptr;
+	bChanged = true;
 }

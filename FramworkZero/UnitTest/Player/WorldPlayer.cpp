@@ -59,8 +59,8 @@ void WorldPlayer::Update()
 	{
 		if (Input::Keyboard()->Down(VK_SPACE))
 		{
-			player->Riseup();
 			playerHp->RecoveryPer(1);
+			player->Riseup();
 			bLost = false;
 		}
 		return;
@@ -107,6 +107,9 @@ void WorldPlayer::PreRender()
 
 void WorldPlayer::PostRender()
 {
+	if (bLost)
+		return;
+
 	playerHp->PostRender();
 }
 

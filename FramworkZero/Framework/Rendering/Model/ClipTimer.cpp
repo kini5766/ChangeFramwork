@@ -7,6 +7,8 @@ ClipTimer::ClipTimer()
 
 ClipTimer::~ClipTimer()
 {
+	for (auto d : timerNotifies)
+		SafeDelete(d);
 }
 
 void ClipTimer::Update()
@@ -15,6 +17,17 @@ void ClipTimer::Update()
 
 	float deltaTime = Time::Delta() * speed * frameRate;
 	runningTime += deltaTime;
+
+	while (currNotify > timerNotifies.size())
+	{
+		if (timerNotifies[currNotify]->Time > runningTime)
+		{
+			break;
+		}
+
+		timerNotifies[currNotify]->Notify();
+		++currNotify;
+	}
 
 	if (mode == 0)
 		UpdateLoop();
@@ -45,6 +58,11 @@ void ClipTimer::PlayOnce(float _speed, float _offsetTime)
 	runningTime = _offsetTime;
 }
 
+void ClipTimer::Stop() 
+{
+	mode = -1; 
+}
+
 void ClipTimer::Clear()
 {
 	clipNum = -1;
@@ -54,6 +72,25 @@ void ClipTimer::Clear()
 	runningTime = 0.0f;
 
 	mode = -1;
+}
+
+void ClipTimer::AddNotifyTimer(const AnimNotify & value, float time)
+{
+	vector<TimerNotify*>::iterator test = timerNotifies.begin();
+
+	// 소트 검사
+	while (test == timerNotifies.end())
+	{
+		if ((*test)->Time > time)
+		{
+			timerNotifies.insert(test, new TimerNotify{ value, time });
+			return;
+		}
+		++test;
+	}
+
+	// 가장 늦은 알림
+	timerNotifies.push_back(new TimerNotify{value, time});
 }
 
 void ClipTimer::UpdateLoop()

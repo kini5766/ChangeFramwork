@@ -34,15 +34,15 @@ ModelInstancing::ModelInstancing(const ModelDesc& desc)
 		UINT size = data->ClipCount();
 		const ModelClipData*const* clips = data->Clips();
 
-		ClipData clipData;
-		BlendData blendData;
 		for (UINT i = 0; i < size; i++)
 		{
+			ClipData clipData;
 			clipData.Duration = clips[i]->Duration;
 			clipData.FrameRate = clips[i]->FrameRate;
 
 			for (UINT j = 0; j < size; j++)
 			{
+				BlendData blendData;
 				if (i == j)
 				{
 					blendData.bDefault = true;

@@ -11,7 +11,7 @@ CharacterController::CharacterController(Transform * transform, Animator * anima
 	userInput = new UserKeyState();
 	ratate = new RotateSystem();
 
-	animator->SetFuncNext(bind(&CharacterController::ClipEnd, this, placeholders::_1));
+	animator->AddFuncChange(4, bind(&CharacterController::Failed, this));
 }
 
 CharacterController::~CharacterController()
@@ -125,15 +125,8 @@ void CharacterController::Focus(Vector3 * outPosition)
 	(*outPosition).y += 3.0f;
 }
 
-void CharacterController::ClipEnd(UINT clip)
+void CharacterController::Failed()
 {
-	if (currState == 4)
-	{
-		if (bDelay)
-		{
-			funcLost();
-			bDelay = false;
-		}
-		else bDelay = true;
-	}
+	funcLost();
 }
+

@@ -16,11 +16,12 @@ public:
 	virtual void Cancel() override;
 
 private:
-	void CompleAnim(UINT i);
+	void CompleAnim();
 
 private:
 	PlaingOnceDesc desc;
-	function<void(UINT)> funcComple;
+	function<void()> funcComple;
 
 	const DelayReturn* result;
+	bool bChanged;
 };

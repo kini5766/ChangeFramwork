@@ -32,9 +32,12 @@ EnemyInstance::EnemyInstance(const EnemyInstanceDesc* desc)
 	hp->AddReceiveTag(L"PlayerAttack");
 	hp->SetFuncDamage(bind(&EnemyInstance::OnDamage, this));
 
-	animator->SetFuncNext(
-		bind(&EnemyInstance::OnNextAnimation, this, placeholders::_1)
-	);
+	//animator->SetFuncNext(
+	//	bind(&EnemyInstance::OnNextAnimation, this, placeholders::_1)
+	//);
+	animator->AddFuncChange(3, bind(&EnemyInstance::Taunted, this));
+	animator->AddFuncChange(4, bind(&EnemyInstance::Attacked, this));
+	animator->AddFuncChange(6, bind(&EnemyInstance::Falled, this));
 
 	ratate = new RotateSystem();
 }
@@ -112,30 +115,42 @@ void EnemyInstance::UpdateState()
 }
 
 // 애니메이션 이벤트
-void EnemyInstance::OnNextAnimation(UINT next)
+//void EnemyInstance::OnNextAnimation(UINT next)
+//{
+//	if (currAction == 3)
+//		nextAction = next;
+//	if (currAction == 4)
+//	{
+//		if (attack->IsAttacking() == false)
+//		{
+//			nextAction = next;
+//		}
+//	}
+//	if (next == 6 && bFall)
+//	{
+//		bLost = true;
+//		transform->Scale(0.0f, 0.0f, 0.0f);
+//	}
+//	if (next == 6)
+//	{
+//		bFall = true;
+//	}
+//}
+
+void EnemyInstance::Attacked()
 {
-	if (currAction == 3)
-		nextAction = next;
+	nextAction = 0;
+}
 
-	if (currAction == 4)
-	{
-		if (attack->IsAttacking() == false)
-		{
-			nextAction = next;
-		}
-	}
+void EnemyInstance::Taunted()
+{
+	nextAction = 0;
+}
 
-
-	if (next == 6 && bFall)
-	{
-		bLost = true;
-		transform->Scale(0.0f, 0.0f, 0.0f);
-	}
-
-	if (next == 6)
-	{
-		bFall = true;
-	}
+void EnemyInstance::Falled()
+{
+	bLost = true;
+	transform->Scale(0.0f, 0.0f, 0.0f);
 }
 
 void EnemyInstance::OnDamage()

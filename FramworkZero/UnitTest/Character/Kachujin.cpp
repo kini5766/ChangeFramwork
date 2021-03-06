@@ -20,6 +20,11 @@ Kachujin::Kachujin()
 	anim->Clips[3].Blends[0].bDefault = true;
 	anim->Clips[3].Blends[3].bDefault = false;
 
+
+	anim->Clips[4].Blends[0].TweeningTime = 0.0f;
+	anim->Clips[4].Blends[0].bDefault = true;
+	anim->Clips[4].Blends[4].bDefault = false;
+
 	//instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
 }
 

@@ -23,7 +23,7 @@ private:
 
 private:
 	// 이벤트함수
-	void ClipEnd(UINT clip);
+	void Failed();
 
 private:
 	Transform* transform;

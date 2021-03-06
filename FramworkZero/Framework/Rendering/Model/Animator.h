@@ -20,6 +20,7 @@ struct AnimData
 	vector<ClipData> Clips;
 };
 
+
 class Animator
 {
 public:
@@ -42,8 +43,11 @@ public:
 	void SetSpeed(UINT clip, float speed);
 	void AddNode(float duration, float speed = 1.0f, float frameRate = 1.0f);
 	void AddBlendEdge(UINT start, UINT end, float tweenTime, bool bDefault = false);
-	void SetFuncNext(function<void(UINT)> value) { funcNext = value; }
 	void GetAnimDesc(struct BlendDesc* outDesc);
+
+	void AddFuncChange(UINT clip, const AnimNotify& value);
+	// 타이머에 노티파이 추가 (시간 지정)
+	void AddNotifyTimer(UINT clip, const AnimNotify& value, float time);
 
 private:
 	void NextInput();
@@ -53,7 +57,6 @@ private:
 	UINT currClip = 0;
 	int inputNext = -1;  // -1은 입력 없음
 	bool bTempEdge = false;
-	function<void(UINT clip)> funcNext = [](UINT) {};
 
 
 private:
@@ -74,11 +77,12 @@ private:
 	{
 		// 클립 번호
 		UINT ClipNum;
-		ClipTimer Time;
+		ClipTimer Timer;
 		float Speed;
 
 		BlendEdge* DefaultEdge;
 		vector<BlendEdge*> Edges;
+		vector<AnimNotify> OnChanges;
 
 		BlendEdge* EdgeByNextClip(UINT nextClip)
 		{

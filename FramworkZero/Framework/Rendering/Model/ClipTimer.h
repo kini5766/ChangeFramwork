@@ -1,5 +1,8 @@
 #pragma once
 
+typedef function<void()> AnimNotify;
+
+
 class ClipTimer
 {
 public:
@@ -14,8 +17,11 @@ public:
 	void PlayLoop(float _speed = 1.0f, float _offsetTime = 0.0f);
 	void PlayOnce(float _speed = 1.0f, float _offsetTime = 0.0f);
 	void SetRunningTime(float value) { runningTime = value; }
-	void Stop() { mode = -1; }
+	void Stop();
 	void Clear();
+
+	// 특정 시간 지나면 호출
+	void AddNotifyTimer(const AnimNotify& value, float time);
 
 public:
 	int ClipNum() { return clipNum; }
@@ -38,4 +44,16 @@ private:
 	float runningTime = 0.0f;
 
 	UINT mode = -1; //  -1 : Stop, 0 : Loop, 1 : Once
+
+private:
+	struct TimerNotify
+	{
+		AnimNotify Notify;
+		float Time;
+	};
+
+	// 재생 시 채워 넣을 알림
+	vector<TimerNotify*> timerNotifies;
+	// 재생 중 현재 검사 중인 알림 순서
+	UINT currNotify = 0;
 };

@@ -89,22 +89,22 @@ void Animator::UpdateClip()
 {
 	// 클립 업데이트
 	ClipNode* curr = nodes[currClip];
-	curr->Time.Update();
+	curr->Timer.Update();
 
 	if (currEdge != nullptr)
 	{
 		// 다음 클립 업데이트
 		ClipNode* next = nodes[currEdge->End];
-		next->Time.Update();
+		next->Timer.Update();
 	}
 	else
 	{
 		BlendEdge* edge = curr->DefaultEdge;
-		float startTime = curr->Time.Duration();
-		startTime -= curr->Time.FrameRate() * curr->Time.Speed() * edge->TweenTime;
+		float startTime = curr->Timer.Duration();
+		startTime -= curr->Timer.FrameRate() * curr->Timer.Speed() * edge->TweenTime;
 
 		// 클립 재생시간 끝났는 데도 입력이 없을 경우
-		if (curr->Time.RunningTime() >= startTime)
+		if (curr->Timer.RunningTime() >= startTime)
 			PlayNextClip(edge, false);
 	}
 }
@@ -118,7 +118,7 @@ void Animator::AddNode(float duration, float speed, float frameRate)
 {
 	ClipNode* node = new ClipNode();
 	node->ClipNum = nodes.size();
-	node->Time.SetClip(node->ClipNum, duration, frameRate);
+	node->Timer.SetClip(node->ClipNum, duration, frameRate);
 	node->Speed = speed;
 	nodes.push_back(node);
 
@@ -129,12 +129,11 @@ void Animator::AddNode(float duration, float speed, float frameRate)
 	node->Edges.push_back(edge);
 	node->DefaultEdge = edge;
 
-	// 처음 시작할 재생 번호
+	// 처음 시작할 재생 번호 (0)
 	if (node->ClipNum == currClip)
 	{
 		ClipNode* curr = nodes[currClip];
-		funcNext(currClip);
-		curr->Time.PlayOnce(curr->Speed);
+		curr->Timer.PlayOnce(curr->Speed);
 	}
 
 }
@@ -158,18 +157,28 @@ void Animator::AddBlendEdge(UINT start, UINT end, float tweenTime, bool bDefault
 void Animator::GetAnimDesc(BlendDesc * outDesc)
 {
 	outDesc->Clip[0].Clip = currClip;
-	outDesc->Clip[0].Time = nodes[currClip]->Time.RunningTime();
+	outDesc->Clip[0].Time = nodes[currClip]->Timer.RunningTime();
 
 	if (currEdge != nullptr)
 	{
 		outDesc->Clip[1].Clip = currEdge->End;
-		outDesc->Clip[1].Time = nodes[currEdge->End]->Time.RunningTime();
+		outDesc->Clip[1].Time = nodes[currEdge->End]->Timer.RunningTime();
 		outDesc->Alpha = blendAlpha;
 	}
 	else
 	{
 		outDesc->Alpha = 0.0f;
 	}
+}
+
+
+void Animator::AddFuncChange(UINT clip, const AnimNotify & value)
+{
+	nodes[clip]->OnChanges.push_back(value);
+}
+void Animator::AddNotifyTimer(UINT clip, const AnimNotify & value, float time)
+{
+	nodes[clip]->Timer.AddNotifyTimer(value, time);
 }
 
 
@@ -199,9 +208,12 @@ void Animator::PlayNextClip(BlendEdge * next, bool bTemp)
 
 	currEdge = next;
 
+	for (AnimNotify& on : nodes[currClip]->OnChanges)
+		on();
+
 	ClipNode* nextClip = nodes[currEdge->End];
-	nextClip->Time.PlayOnce(nextClip->Speed);
-	//nextClip->Time.PlayLoop(nextClip->Speed);
+	nextClip->Timer.PlayOnce(nextClip->Speed);
+	//nextClip->Timer.PlayLoop(nextClip->Speed);
 
 	bTempEdge = bTemp;
 	blendAlpha = 0.0f;
@@ -213,7 +225,6 @@ void Animator::PlayNextClip(BlendEdge * next, bool bTemp)
 void Animator::EndBlend()
 {
 	currClip = currEdge->End;
-	funcNext(currClip);
 	currEdge = nullptr;
 	blendAlpha = 0.0f;
 }
