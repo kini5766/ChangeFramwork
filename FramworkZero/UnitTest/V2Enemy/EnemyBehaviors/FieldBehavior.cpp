@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "FieldEnemy.h"
+#include "FieldBehavior.h"
 
-#include "EnemyDetectionSystem.h"
-#include "EnemyBehaviors/Patrolling.h"
+#include "V2Enemy/EnemyDetectionSystem.h"
+#include "Patrolling.h"
 
-FieldEnemy::FieldEnemy(const FieldEnemyInput & input)
+FieldBehavior::FieldBehavior(const FieldBehaviorInput & input)
 	: desc(input)
-	, inRangeDetection(bind(&FieldEnemy::InRangeDetection, this))
+	, inRangeDetection(bind(&FieldBehavior::InRangeDetection, this))
 {
 	EnemyDetectionInput inputED;
 	inputED.MinePosition = &minePosition;
@@ -21,18 +21,24 @@ FieldEnemy::FieldEnemy(const FieldEnemyInput & input)
 	reader->Call();
 }
 
-FieldEnemy::~FieldEnemy()
+FieldBehavior::~FieldBehavior()
 {
 	SafeDelete(reader);
 	SafeDelete(pat);
 }
 
-void FieldEnemy::Update()
+void FieldBehavior::Update()
 {
+	if (player != nullptr)
+	{
+		player->Focus(&focusPosition);
+	}
+
+	transform->Position(&minePosition);
 	reader->Update();
 }
 
-void FieldEnemy::InRangeDetection()
+void FieldBehavior::InRangeDetection()
 {
 	// 실행 순서 (스택)
 	// 4. 순찰

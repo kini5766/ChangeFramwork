@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "FieldEnemyInput.h"
+#include "FieldBehaviorInput.h"
 
 #include "Component/PointMoveSystem.h"
-#include "EnemyDetectionSystem.h"
+#include "V2Enemy/EnemyDetectionSystem.h"
 
-FieldEnemyDesc::FieldEnemyDesc(const FieldEnemyInput & input)
+FieldBehaviorDesc::FieldBehaviorDesc(const FieldBehaviorInput & input)
 	: Anim(input.Anim)
 	, ClipWalk(input.ClipWalk)
 	, ClipLookAround(input.ClipLookAround)
@@ -17,13 +17,13 @@ FieldEnemyDesc::FieldEnemyDesc(const FieldEnemyInput & input)
 	//DetectionSystem = new EnemyDetectionSystem();
 }
 
-FieldEnemyDesc::~FieldEnemyDesc() 
+FieldBehaviorDesc::~FieldBehaviorDesc()
 {
 	SafeDelete(MoveSystem);
 	SafeDelete(DetectionSystem);
 }
 
-FieldEnemyDesc::operator PatrollingDesc()
+FieldBehaviorDesc::operator PatrollingDesc()
 {
 	PatrollingDesc result;
 

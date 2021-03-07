@@ -1,6 +1,6 @@
 #pragma once
 
-struct FieldEnemyInput
+struct FieldBehaviorInput
 {
 	Transform* Trans;
 
@@ -22,14 +22,14 @@ struct FieldEnemyInput
 
 
 
-#include "EnemyBehaviors/EnemyBehaviorDesc.h"
+#include "EnemyBehaviorDesc.h"
 #include "Rendering/Camera/Main/IFocus.h"
 
-struct FieldEnemyDesc
+struct FieldBehaviorDesc
 {
 public:
-	FieldEnemyDesc(const FieldEnemyInput& input);
-	~FieldEnemyDesc();
+	FieldBehaviorDesc(const FieldBehaviorInput& input);
+	~FieldBehaviorDesc();
 
 public:
 	// 재생할 애니메이터

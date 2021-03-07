@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FieldEnemyInput.h"
+#include "FieldBehaviorInput.h"
 
 /*
 순찰>[적인식]>적확인>[종료시]>전투
@@ -9,21 +9,25 @@
 
 공격받음, 쓰러짐은 중간에 끼워넣음
 */
-class FieldEnemy
+class FieldBehavior
 {
 public:
-	FieldEnemy(const FieldEnemyInput& input);
-	~FieldEnemy();
+	FieldBehavior(const FieldBehaviorInput& input);
+	~FieldBehavior();
 
 public:
 	void Update();
+
+public:
+	void SetFocus(class IFocus* value) { player = value; }
+
 
 private:
 	void InRangeDetection();
 	function<void()> inRangeDetection;
 
 private:
-	FieldEnemyDesc desc;
+	FieldBehaviorDesc desc;
 	Transform* transform;
 	class IFocus* player;
 

@@ -95,14 +95,8 @@
     <ClCompile Include="V2Enemy\V2EnemyInstancing.cpp">
       <Filter>V2Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy\Model.cpp">
-      <Filter>V2Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="V2Enemy\FieldEnemy.cpp">
-      <Filter>V2Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="V2Enemy\EnemyBehaviors\Patrolling.cpp">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClCompile>
@@ -124,10 +118,16 @@
     <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Follow.cpp">
       <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="V2Enemy\FieldEnemyInput.cpp">
+    <ClCompile Include="V2Enemy\EnemyDetectionSystem.cpp">
       <Filter>V2Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="V2Enemy\EnemyDetectionSystem.cpp">
+    <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehavior.cpp">
+      <Filter>V2Enemy\EnemyBehaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.cpp">
+      <Filter>V2Enemy\EnemyBehaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\V2EnemyInstance.cpp">
       <Filter>V2Enemy</Filter>
     </ClCompile>
   </ItemGroup>
@@ -235,14 +235,8 @@
     <ClInclude Include="V2Enemy\V2EnemyInstancing.h">
       <Filter>V2Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy\Model.h">
-      <Filter>V2Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Main.h" />
-    <ClInclude Include="V2Enemy\FieldEnemy.h">
-      <Filter>V2Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="V2Enemy\EnemyBehaviors\Patrolling.h">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClInclude>
@@ -267,10 +261,16 @@
     <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\EnemyBehaviorPieceDesc.h">
       <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
     </ClInclude>
-    <ClInclude Include="V2Enemy\FieldEnemyInput.h">
+    <ClInclude Include="V2Enemy\EnemyDetectionSystem.h">
       <Filter>V2Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="V2Enemy\EnemyDetectionSystem.h">
+    <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehavior.h">
+      <Filter>V2Enemy\EnemyBehaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.h">
+      <Filter>V2Enemy\EnemyBehaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\V2EnemyInstance.h">
       <Filter>V2Enemy</Filter>
     </ClInclude>
   </ItemGroup>

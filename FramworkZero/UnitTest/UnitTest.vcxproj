@@ -144,7 +144,6 @@
     <ClCompile Include="Enemy\MagicianEnemy.cpp" />
     <ClCompile Include="Enemy\MeleeEnemy.cpp" />
     <ClCompile Include="DelayFunction\DelayFunction.cpp" />
-    <ClCompile Include="Enemy\Model.cpp" />
     <ClCompile Include="Player\CharacterController.cpp" />
     <ClCompile Include="Character\Kachujin.cpp" />
     <ClCompile Include="Character\Paladin.cpp" />
@@ -172,10 +171,11 @@
     <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Watchful.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.cpp" />
+    <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehavior.cpp" />
+    <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\Patrolling.cpp" />
     <ClCompile Include="V2Enemy\EnemyDetectionSystem.cpp" />
-    <ClCompile Include="V2Enemy\FieldEnemy.cpp" />
-    <ClCompile Include="V2Enemy\FieldEnemyInput.cpp" />
+    <ClCompile Include="V2Enemy\V2EnemyInstance.cpp" />
     <ClCompile Include="V2Enemy\V2EnemyInstancing.cpp" />
     <ClCompile Include="WorldDemo.cpp" />
   </ItemGroup>
@@ -194,7 +194,6 @@
     <ClInclude Include="Enemy\MagicianEnemy.h" />
     <ClInclude Include="Enemy\MeleeEnemy.h" />
     <ClInclude Include="DelayFunction\DelayFunction.h" />
-    <ClInclude Include="Enemy\Model.h" />
     <ClInclude Include="Player\CharacterController.h" />
     <ClInclude Include="Character\Kachujin.h" />
     <ClInclude Include="Character\Paladin.h" />
@@ -222,11 +221,12 @@
     <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Watchful.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.h" />
+    <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehavior.h" />
+    <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\Patrolling.h" />
     <ClInclude Include="V2Enemy\EnemyDetectionSystem.h" />
-    <ClInclude Include="V2Enemy\FieldEnemy.h" />
-    <ClInclude Include="V2Enemy\FieldEnemyInput.h" />
     <ClInclude Include="V2Enemy\V2EnemyDesc.h" />
+    <ClInclude Include="V2Enemy\V2EnemyInstance.h" />
     <ClInclude Include="V2Enemy\V2EnemyInstancing.h" />
     <ClInclude Include="WorldDemo.h" />
   </ItemGroup>
