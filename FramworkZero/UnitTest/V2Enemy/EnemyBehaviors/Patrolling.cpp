@@ -7,7 +7,7 @@
 
 Patrolling::Patrolling(const PatrollingDesc & desc)
 	: desc(desc)
-	, bindedReset(bind(&Patrolling::Reset, this))
+	, funcReset(bind(&Patrolling::Reset, this))
 {
 	reader = new DelayReader();
 	lookAr = new LookAround(this->desc);
@@ -33,14 +33,14 @@ void Patrolling::Reset()
 		reader->PushBack(pat);
 		reader->PushBack(lookAr);
 	}
-	reader->Call(&bindedReset);
+	reader->Call(&funcReset);
 }
 
 
-void Patrolling::Call(const DelayReturn * _result)
+void Patrolling::Call(const ReturnAction * action)
 {
-	result = _result;
-	reader->Call(&bindedReset);
+	result.SetAction(action);
+	reader->Call(&funcReset);
 }
 
 void Patrolling::Update()
@@ -48,8 +48,7 @@ void Patrolling::Update()
 	if (desc.DetectionSystem->IsInRange())
 	{
 		desc.DetectionSystem->OnInRange();
-		(*result)();
-		result = nullptr;
+		result.OnAction();
 		return;
 	}
 
@@ -58,5 +57,6 @@ void Patrolling::Update()
 
 void Patrolling::Cancel()
 {
+	result.Clear();
 	reader->Cancel();
 }

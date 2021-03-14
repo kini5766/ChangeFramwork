@@ -12,10 +12,10 @@ Watchful::~Watchful()
 {
 }
 
-void Watchful::Call(const DelayReturn * _result)
+void Watchful::Call(const ReturnAction * action)
 {
+	result.SetAction(action);
 	desc.Anim->Play(*desc.IdleClipNum);
-	result = _result;
 }
 
 void Watchful::Update()
@@ -26,5 +26,5 @@ void Watchful::Update()
 
 void Watchful::Cancel()
 {
-	result = nullptr;
+	result.Clear();
 }

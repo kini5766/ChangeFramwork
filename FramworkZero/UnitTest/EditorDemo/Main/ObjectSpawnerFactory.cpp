@@ -5,7 +5,8 @@
 #include "IObjectSpawner.h"
 
 #include "../Objects/MeshInstancingSpawner.h"
-#include "../Objects/EnemyInstancingSpawner.h"
+//#include "../Objects/EnemyInstancingSpawner.h"
+#include "../Objects/V2EnemyInstancingSpawner.h"
 
 
 void ObjectSpawnerFactory::Insert(SceneValue* scene)
@@ -13,7 +14,7 @@ void ObjectSpawnerFactory::Insert(SceneValue* scene)
 	creators.push_back({ "MeshInstancing",
 		[]()->IObjectSpawner* { return new MeshInstancingSpawner(); } });
 	creators.push_back({ "EnemyInstancing",
-		[scene]()->IObjectSpawner* { return new EnemyInstancingSpawner(scene); } });
+		[scene]()->IObjectSpawner* { return new V2EnemyInstancingSpawner(scene); } });
 }
 
 

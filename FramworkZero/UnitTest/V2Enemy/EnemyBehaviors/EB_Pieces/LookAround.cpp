@@ -11,19 +11,19 @@ LookAround::~LookAround()
 {
 }
 
-void LookAround::Call(const DelayReturn * _result)
+void LookAround::Call(const ReturnAction * action)
 {
 	desc.Anim->Play(*desc.ClipLookAround);
-	result = _result;
 	runningTime = 0.0f;
+
+	result.SetAction(action);
 }
 
 void LookAround::Update()
 {
 	if (runningTime >= *desc.LookAroundTime)
 	{
-		(*result)();
-		result = nullptr;
+		result.OnAction();
 		return;
 	}
 
@@ -32,5 +32,5 @@ void LookAround::Update()
 
 void LookAround::Cancel()
 {
-	result = nullptr;
+	result.Clear();
 }

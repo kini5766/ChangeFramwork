@@ -11,12 +11,12 @@ public:
 
 public:
 	// IDelayFunction을(를) 통해 상속됨
-	void Call(const DelayReturn * result) override;
+	void Call(const ReturnAction * result) override;
 	void Update() override;
 	void Cancel() override;
 
 private:
 	FollowDesc desc;
 
-	const DelayReturn* result;
+	DelayReturn result;
 };

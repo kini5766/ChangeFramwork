@@ -8,31 +8,28 @@ struct V2EnemyStatus
 	float HP = 100.0f;
 };
 
-struct V2EnemyClipNumGroup
+struct FieldEnemyClipNumGroup
 {
 	// 걷기 클립번호
-	UINT ClipWalk;
+	UINT ClipWalk = 1;
 	// 둘러보기 클립번호
-	UINT ClipLookAround;
+	UINT ClipLookAround = 0;
 	// 적 발견 클립번호
-	UINT ClipInSight;
+	UINT ClipInSight = 3;
 };
 
-
-struct V2EnemyInput
+struct FieldEnemyDesc
 {
 	V2EnemyStatus Status;
-
+	FieldEnemyClipNumGroup ClipGroup;
 	IFocus* Player;
-	V2EnemyClipNumGroup ClipGroup;
 };
 
-
-struct V2EnemyInstanceDesc
+struct FieldEnemyInput
 {
-	const V2EnemyInput* Parent;
-	ModelInstance* Model;
+	FieldEnemyDesc* Desc;
 
+	ModelInstance* Model;
 	const Matrix* localWorld;
 
 	// 순찰 경로

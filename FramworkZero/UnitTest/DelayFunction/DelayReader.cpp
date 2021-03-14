@@ -1,16 +1,14 @@
 #include "stdafx.h"
 #include "DelayFunction.h"
+//#include "DelayReader.h"
 
 DelayReader::DelayReader()
+	: funcNext(bind(&DelayReader::Next, this))
 {
-	mineResult = new DelayReturn(
-		bind(&DelayReader::Next, this)
-	);
 }
 
 DelayReader::~DelayReader()
 {
-	SafeDelete(mineResult);
 }
 
 void DelayReader::PushBack(IDelayFunction* function)
@@ -43,14 +41,15 @@ void DelayReader::HoldBackNext()
 }
 
 
-void DelayReader::Call(const DelayReturn * _result)
+void DelayReader::Call(const ReturnAction * action)
 {
-	result = _result;
+	result.SetAction(action);
+	Next();
 }
 
 void DelayReader::Update()
 {
-	if (result == nullptr)
+	if (curr == nullptr)
 		return;
 
 	curr->Update();
@@ -58,7 +57,7 @@ void DelayReader::Update()
 
 void DelayReader::Cancel()
 {
-	result = nullptr;
+	result.Clear();
 	funcStack.clear();
 
 	if (curr == nullptr)
@@ -73,15 +72,15 @@ void DelayReader::Next()
 {
 	if (funcStack.size() == 0)
 	{
-		// 모든 함수 실행 완료 -> 종료
-		(*result)();
-		result = nullptr;
 		curr = nullptr;
+
+		// 모든 함수 실행 완료 -> 종료
+		result.OnAction();
 		return;
 	}
 
 	curr = funcStack.back();
 	funcStack.pop_back();
 
-	curr->Call(mineResult);
+	curr->Call(&funcNext);
 }

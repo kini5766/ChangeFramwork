@@ -12,10 +12,10 @@ Follow::~Follow()
 {
 }
 
-void Follow::Call(const DelayReturn * _result)
+void Follow::Call(const ReturnAction * action)
 {
 	desc.Animator->Play(*desc.ClipRun);
-	result = _result;
+	result.SetAction(action);
 }
 
 void Follow::Update()
@@ -26,8 +26,7 @@ void Follow::Update()
 	if (lengthSq < (*desc.FollowInRangeSq))
 	{
 		// ÁÖº¯¿¡ µµÂø
-		(*result)();
-		result = nullptr;
+		result.OnAction();
 		return;
 	}
 
@@ -35,13 +34,12 @@ void Follow::Update()
 	if (desc.Target->Update())
 	{
 		// Á¤È®È÷ µµÂø
-		(*result)();
-		result = nullptr;
+		result.OnAction();
 		return;
 	}
 }
 
 void Follow::Cancel()
 {
-	result = nullptr;
+	result.Clear();
 }

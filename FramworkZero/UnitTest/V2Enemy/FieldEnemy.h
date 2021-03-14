@@ -2,11 +2,11 @@
 
 #include "V2EnemyDesc.h"
 
-class V2EnemyInstance
+class FieldEnemy
 {
 public:
-	V2EnemyInstance(const V2EnemyInstanceDesc& desc);
-	~V2EnemyInstance();
+	FieldEnemy(const FieldEnemyInput& desc);
+	~FieldEnemy();
 
 
 public:
@@ -24,7 +24,7 @@ private:
 	Animator* animator;  // 모델 애니메이터
 	vector<Vector3> patrolPoints;  // 순찰 경로
 
-	V2EnemyClipNumGroup clipGroup;
+	FieldEnemyClipNumGroup clipGroup;
 
 private:
 	class HPSystem* hp;  // 체력, 공격 받는 범위

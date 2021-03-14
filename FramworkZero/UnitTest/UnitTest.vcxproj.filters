@@ -89,12 +89,6 @@
     <ClCompile Include="Component\PointMoveSystem.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="DelayFunction\DelayFunction.cpp">
-      <Filter>DelayFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="V2Enemy\V2EnemyInstancing.cpp">
-      <Filter>V2Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\Patrolling.cpp">
@@ -127,8 +121,20 @@
     <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.cpp">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClCompile>
-    <ClCompile Include="V2Enemy\V2EnemyInstance.cpp">
+    <ClCompile Include="EditorDemo\Objects\V2EnemyInstancingSpawner.cpp">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\V2EnemyMelee.cpp">
       <Filter>V2Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\FieldEnemy.cpp">
+      <Filter>V2Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="DelayFunction\DelayReturn.cpp">
+      <Filter>DelayFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="DelayFunction\DelayReader.cpp">
+      <Filter>DelayFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,9 +238,6 @@
     <ClInclude Include="V2Enemy\V2EnemyDesc.h">
       <Filter>V2Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="V2Enemy\V2EnemyInstancing.h">
-      <Filter>V2Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\Patrolling.h">
@@ -270,8 +273,23 @@
     <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.h">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClInclude>
-    <ClInclude Include="V2Enemy\V2EnemyInstance.h">
+    <ClInclude Include="EditorDemo\Objects\V2EnemyInstancingSpawner.h">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\V2EnemyMelee.h">
       <Filter>V2Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\FieldEnemy.h">
+      <Filter>V2Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayFunction\DelayReturn.h">
+      <Filter>DelayFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayFunction\IDelayFunction.h">
+      <Filter>DelayFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayFunction\DelayReader.h">
+      <Filter>DelayFunction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

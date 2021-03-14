@@ -12,10 +12,22 @@ Patrol::~Patrol()
 {
 }
 
-void Patrol::Call(const DelayReturn * _result)
+void Patrol::Call(const ReturnAction * action)
 {
-	desc.Anim->Play(*desc.ClipWalk);
-	result = _result;
+	float lengthSq;
+	desc.Target->PreUpdate(desc.Point, &lengthSq);
+	if (lengthSq < (*desc.PatrolSafeRangeSq))
+	{
+		// ÁÖº¯¿¡ µµÂø
+		result.Clear();
+		(*action)();
+		return;
+	}
+	else
+	{
+		desc.Anim->Play(*desc.ClipWalk);
+		result.SetAction(action);
+	}
 }
 
 void Patrol::Update()
@@ -26,8 +38,7 @@ void Patrol::Update()
 	if (lengthSq < (*desc.PatrolSafeRangeSq))
 	{
 		// ÁÖº¯¿¡ µµÂø
-		(*result)();
-		result = nullptr;
+		result.OnAction();
 		return;
 	}
 
@@ -35,13 +46,12 @@ void Patrol::Update()
 	if (desc.Target->Update())
 	{
 		// Á¤È®È÷ µµÂø
-		(*result)();
-		result = nullptr;
+		result.OnAction();
 		return;
 	}
 }
 
 void Patrol::Cancel()
 {
-	result = nullptr;
+	result.Clear();
 }

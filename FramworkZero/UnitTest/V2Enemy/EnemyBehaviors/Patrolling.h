@@ -2,6 +2,7 @@
 
 #include "EnemyBehaviorDesc.h"
 
+
 class Patrolling : public IDelayFunction
 {
 public:
@@ -9,13 +10,15 @@ public:
 	~Patrolling();
 
 private:
-	void Reset();
-
-private:
 	// IDelayFunction을(를) 통해 상속됨
-	void Call(const DelayReturn * result) override;
+	void Call(const ReturnAction * action) override;
 	void Update() override;
 	void Cancel() override;
+
+
+private:
+	void Reset();
+	ReturnAction funcReset;
 
 private:
 	PatrollingDesc desc;
@@ -24,7 +27,5 @@ private:
 	class LookAround* lookAr;
 	vector<class Patrol*> pats;
 
-	const DelayReturn* result;
-
-	DelayReturn bindedReset;
+	DelayReturn result;
 };

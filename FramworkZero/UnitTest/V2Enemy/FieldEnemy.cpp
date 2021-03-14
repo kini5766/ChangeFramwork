@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "V2EnemyInstance.h"
+#include "FieldEnemy.h"
 
 #include "Component/HPSystem.h"
 #include "EnemyBehaviors/FieldBehavior.h"
 
-V2EnemyInstance::V2EnemyInstance(const V2EnemyInstanceDesc & desc)
-	: oriStatus(desc.Parent->Status)
-	, clipGroup(desc.Parent->ClipGroup)
-	, player(desc.Parent->Player)
+FieldEnemy::FieldEnemy(const FieldEnemyInput & desc)
+	: oriStatus(desc.Desc->Status)
+	, clipGroup(desc.Desc->ClipGroup)
+	, player(desc.Desc->Player)
 
 	, transform(desc.Model->GetTransform())
 	, animator(desc.Model->GetAnimator())
@@ -34,7 +34,7 @@ V2EnemyInstance::V2EnemyInstance(const V2EnemyInstanceDesc & desc)
 	);
 	hp->GetHurtbox()->Tag(L"Enemy");
 	hp->AddReceiveTag(L"PlayerAttack");
-	hp->SetFuncDamage(bind(&V2EnemyInstance::OnDamage, this));
+	hp->SetFuncDamage(bind(&FieldEnemy::OnDamage, this));
 
 
 	// -- FieldBehavior -- //
@@ -50,25 +50,25 @@ V2EnemyInstance::V2EnemyInstance(const V2EnemyInstanceDesc & desc)
 	behavior->SetFocus(player);
 }
 
-V2EnemyInstance::~V2EnemyInstance()
+FieldEnemy::~FieldEnemy()
 {
 	SafeDelete(behavior);
 	SafeDelete(hp);
 }
 
-void V2EnemyInstance::Update()
+void FieldEnemy::Update()
 {
 	hp->Update();
 	behavior->Update();
 }
 
-void V2EnemyInstance::PostRender()
+void FieldEnemy::PostRender()
 {
 	hp->PostRender();
 }
 
 
-void V2EnemyInstance::OnDamage()
+void FieldEnemy::OnDamage()
 {
 	if (hp->HP() <= 0.0f)
 	{

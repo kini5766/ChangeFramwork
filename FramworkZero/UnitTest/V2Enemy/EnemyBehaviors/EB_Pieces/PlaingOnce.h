@@ -11,7 +11,7 @@ public:
 
 public:
 	// IDelayFunction을(를) 통해 상속됨
-	virtual void Call(const DelayReturn * result) override;
+	virtual void Call(const ReturnAction * result) override;
 	virtual void Update() override;
 	virtual void Cancel() override;
 
@@ -22,6 +22,6 @@ private:
 	PlaingOnceDesc desc;
 	function<void()> funcComple;
 
-	const DelayReturn* result;
-	bool bChanged;
+	bool bChanged = false;
+	DelayReturn result;
 };

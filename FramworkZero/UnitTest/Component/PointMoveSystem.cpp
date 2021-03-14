@@ -24,8 +24,9 @@ void PointMoveSystem::PreUpdate(const Vector3& point, float * outLengthSq)
 	destance.y = 0.0f;
 	D3DXVec3Normalize(&direction, &destance);
 
+	lengthSq = D3DXVec3LengthSq(&destance);
 	if (outLengthSq != nullptr)
-		*outLengthSq = D3DXVec3LengthSq(&destance);
+		*outLengthSq = lengthSq;
 }
 
 bool PointMoveSystem::Update()

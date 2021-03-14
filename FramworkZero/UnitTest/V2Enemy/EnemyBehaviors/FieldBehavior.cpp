@@ -6,6 +6,7 @@
 
 FieldBehavior::FieldBehavior(const FieldBehaviorInput & input)
 	: desc(input)
+	, transform(input.Trans)
 	, inRangeDetection(bind(&FieldBehavior::InRangeDetection, this))
 {
 	EnemyDetectionInput inputED;
