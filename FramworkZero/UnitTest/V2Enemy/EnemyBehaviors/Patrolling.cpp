@@ -3,18 +3,22 @@
 
 #include "V2Enemy/EnemyDetectionSystem.h"
 #include "EB_Pieces/LookAround.h"
-#include "EB_Pieces/Patrol.h"
+#include "EB_Pieces/MovingToPoint.h"
 
 Patrolling::Patrolling(const PatrollingDesc & desc)
 	: desc(desc)
 	, funcReset(bind(&Patrolling::Reset, this))
 {
-	reader = new DelayReader();
+	FlowTesk::FuncCall = bind(&Patrolling::Call, this, placeholders::_1);
+	FlowTesk::FuncUpdate = bind(&Patrolling::Update, this);
+	FlowTesk::FuncCancel = bind(&Patrolling::Cancel, this);
+
+	reader = new FlowPlayer();
 	lookAr = new LookAround(this->desc);
 
 	pats.reserve(desc.PatrolCount);
 	for (UINT i = 0; i < desc.PatrolCount; i++)
-		pats.push_back(new Patrol(this->desc.CastPatrol(i)));
+		pats.push_back(new MovingToPoint(this->desc.CastPatrol(i)));
 }
 
 Patrolling::~Patrolling()
@@ -28,7 +32,7 @@ Patrolling::~Patrolling()
 void Patrolling::Reset()
 {
 	reader->Clear();
-	for (Patrol* pat : pats)
+	for (MovingToPoint* pat : pats)
 	{
 		reader->PushBack(pat);
 		reader->PushBack(lookAr);
@@ -37,7 +41,7 @@ void Patrolling::Reset()
 }
 
 
-void Patrolling::Call(const ReturnAction * action)
+void Patrolling::Call(const FutureAction * action)
 {
 	result.SetAction(action);
 	reader->Call(&funcReset);

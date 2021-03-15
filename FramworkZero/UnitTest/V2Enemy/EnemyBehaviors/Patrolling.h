@@ -3,7 +3,7 @@
 #include "EnemyBehaviorDesc.h"
 
 
-class Patrolling : public IDelayFunction
+class Patrolling : public FlowTesk
 {
 public:
 	Patrolling(const PatrollingDesc& desc);
@@ -11,21 +11,21 @@ public:
 
 private:
 	// IDelayFunction을(를) 통해 상속됨
-	void Call(const ReturnAction * action) override;
-	void Update() override;
-	void Cancel() override;
+	void Call(const FutureAction * action);
+	void Update();
+	void Cancel();
 
 
 private:
 	void Reset();
-	ReturnAction funcReset;
+	FutureAction funcReset;
 
 private:
 	PatrollingDesc desc;
-	DelayReader* reader;
+	FlowPlayer* reader;
 
 	class LookAround* lookAr;
-	vector<class Patrol*> pats;
+	vector<class MovingToPoint*> pats;
 
-	DelayReturn result;
+	FutureReturn result;
 };

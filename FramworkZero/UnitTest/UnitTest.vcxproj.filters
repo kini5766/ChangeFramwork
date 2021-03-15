@@ -103,9 +103,6 @@
     <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.cpp">
       <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Patrol.cpp">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClCompile>
     <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\LookAround.cpp">
       <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
     </ClCompile>
@@ -130,11 +127,14 @@
     <ClCompile Include="V2Enemy\FieldEnemy.cpp">
       <Filter>V2Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="DelayFunction\DelayReturn.cpp">
-      <Filter>DelayFunction</Filter>
+    <ClCompile Include="FlowFunction\FlowPlayer.cpp">
+      <Filter>FlowFunction</Filter>
     </ClCompile>
-    <ClCompile Include="DelayFunction\DelayReader.cpp">
-      <Filter>DelayFunction</Filter>
+    <ClCompile Include="FlowFunction\FutureReturn.cpp">
+      <Filter>FlowFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\MovingToPoint.cpp">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,9 +232,6 @@
     <ClInclude Include="Component\PointMoveSystem.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="DelayFunction\DelayFunction.h">
-      <Filter>DelayFunction</Filter>
-    </ClInclude>
     <ClInclude Include="V2Enemy\V2EnemyDesc.h">
       <Filter>V2Enemy</Filter>
     </ClInclude>
@@ -250,9 +247,6 @@
       <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
     </ClInclude>
     <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.h">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Patrol.h">
       <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
     </ClInclude>
     <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\LookAround.h">
@@ -282,14 +276,26 @@
     <ClInclude Include="V2Enemy\FieldEnemy.h">
       <Filter>V2Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="DelayFunction\DelayReturn.h">
-      <Filter>DelayFunction</Filter>
+    <ClInclude Include="FlowFunction\FlowAction.h">
+      <Filter>FlowFunction</Filter>
     </ClInclude>
-    <ClInclude Include="DelayFunction\IDelayFunction.h">
-      <Filter>DelayFunction</Filter>
+    <ClInclude Include="FlowFunction\FlowBase.h">
+      <Filter>FlowFunction</Filter>
     </ClInclude>
-    <ClInclude Include="DelayFunction\DelayReader.h">
-      <Filter>DelayFunction</Filter>
+    <ClInclude Include="FlowFunction\FlowFunction.h">
+      <Filter>FlowFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\FlowPlayer.h">
+      <Filter>FlowFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\FlowTesk.h">
+      <Filter>FlowFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\FutureReturn.h">
+      <Filter>FlowFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\MovingToPoint.h">
+      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -326,14 +332,14 @@
     <Filter Include="V2Enemy">
       <UniqueIdentifier>{9885b417-6f01-42e6-8065-1ac037d0fada}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DelayFunction">
-      <UniqueIdentifier>{803e734d-bdd1-4ce4-8f49-289a8c25b97e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="V2Enemy\EnemyBehaviors">
       <UniqueIdentifier>{c69a8493-5a98-4f60-9a60-f9fd639cd191}</UniqueIdentifier>
     </Filter>
     <Filter Include="V2Enemy\EnemyBehaviors\EB_Pieces">
       <UniqueIdentifier>{3b4ad07f-964e-4c09-9683-a6cd9e9cd094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FlowFunction">
+      <UniqueIdentifier>{803e734d-bdd1-4ce4-8f49-289a8c25b97e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

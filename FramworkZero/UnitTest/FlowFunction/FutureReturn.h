@@ -3,14 +3,14 @@
 /*
 null 체크 + OnAction 시 action값 null로 설정
 */
-class DelayReturn
+class FutureReturn
 {
 public:
-	DelayReturn();
-	~DelayReturn();
+	FutureReturn();
+	~FutureReturn();
 
 public:
-	void SetAction(const ReturnAction* value = nullptr);
+	void SetAction(const FutureAction* value = nullptr);
 	void Clear() { action = nullptr; }
 	bool IsValid() { return action != nullptr; }
 
@@ -19,5 +19,5 @@ public:
 	void OnAction();
 
 private:
-	const ReturnAction* action;
+	const FutureAction* action;
 };

@@ -17,7 +17,7 @@ FieldBehavior::FieldBehavior(const FieldBehaviorInput & input)
 
 	pat = new Patrolling(desc);
 
-	reader = new DelayReader();
+	reader = new FlowPlayer();
 	reader->PushBack(pat);
 	reader->Call();
 }

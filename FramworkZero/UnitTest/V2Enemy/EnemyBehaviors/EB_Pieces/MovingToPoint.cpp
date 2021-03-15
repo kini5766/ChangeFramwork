@@ -1,18 +1,21 @@
 #include "stdafx.h"
-#include "Patrol.h"
+#include "MovingToPoint.h"
 
 #include "Component/PointMoveSystem.h"
 
-Patrol::Patrol(const PatrolDesc & desc)
+MovingToPoint::MovingToPoint(const MovingToPointDesc & desc)
 	: desc(desc)
 {
+	FlowTesk::FuncCall = bind(&MovingToPoint::Call, this, placeholders::_1);
+	FlowTesk::FuncUpdate = bind(&MovingToPoint::Update, this);
+	FlowTesk::FuncCancel = bind(&MovingToPoint::Cancel, this);
 }
 
-Patrol::~Patrol()
+MovingToPoint::~MovingToPoint()
 {
 }
 
-void Patrol::Call(const ReturnAction * action)
+void MovingToPoint::Call(const FutureAction * action)
 {
 	float lengthSq;
 	desc.Target->PreUpdate(desc.Point, &lengthSq);
@@ -23,18 +26,16 @@ void Patrol::Call(const ReturnAction * action)
 		(*action)();
 		return;
 	}
-	else
-	{
-		desc.Anim->Play(*desc.ClipWalk);
-		result.SetAction(action);
-	}
+	
+
+	desc.Anim->Play(*desc.ClipWalk);
+	result.SetAction(action);
 }
 
-void Patrol::Update()
+void MovingToPoint::Update()
 {
 	float lengthSq;
 	desc.Target->PreUpdate(desc.Point, &lengthSq);
-
 	if (lengthSq < (*desc.PatrolSafeRangeSq))
 	{
 		// ÁÖº¯¿¡ µµÂø
@@ -51,7 +52,7 @@ void Patrol::Update()
 	}
 }
 
-void Patrol::Cancel()
+void MovingToPoint::Cancel()
 {
 	result.Clear();
 }

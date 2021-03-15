@@ -2,7 +2,7 @@
 
 #include "EnemyBehaviorPieceDesc.h"
 
-class Watchful : public IDelayFunction
+class Watchful : public FlowTesk
 {
 public:
 	Watchful(const WatchfulDesc& desc);
@@ -10,12 +10,12 @@ public:
 
 public:
 	// IDelayFunction을(를) 통해 상속됨
-	void Call(const ReturnAction * action) override;
-	void Update() override;
-	void Cancel() override;
+	void Call(const FutureAction * action);
+	void Update();
+	void Cancel();
 
 private:
 	WatchfulDesc desc;
 
-	DelayReturn result;
+	FutureReturn result;
 };

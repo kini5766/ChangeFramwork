@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DelayFunction/DelayFunction.h"
+#include "FlowFunction/FlowFunction.h"
 
 
 struct PlaingOnceDesc
@@ -14,7 +14,7 @@ struct PlaingOnceDesc
 // --
 // Patrolling
 // --
-struct PatrolDesc
+struct MovingToPointDesc
 {
 	// 재생할 애니메이터
 	Animator* Anim;

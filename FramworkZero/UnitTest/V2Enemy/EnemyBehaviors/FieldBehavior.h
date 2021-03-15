@@ -36,7 +36,7 @@ private:
 	Vector3 focusPosition;
 
 private:
-	class DelayReader* reader;
+	class FlowPlayer* reader;
 	class Patrolling* pat;
 	class PlaingOnce* detection;
 };

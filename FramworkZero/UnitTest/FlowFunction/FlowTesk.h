@@ -5,13 +5,17 @@
 마지막 업데이트를 마친 후 리턴
 Cancel하게 되면 리턴하지 않음
 */
-class IDelayFunction
+class FlowTesk : public FlowBase
 {
 public:
+	FlowTesk() { classType = FlowBase::ClassType::FlowTesk; }
+
 	// DelayReturn을 저장
-	virtual void Call(const ReturnAction* result) = 0;
+	function<void(const FutureAction* future)> FuncCall;
+
 	// 함수 갱신
-	virtual void Update() = 0;
+	function<void()> FuncUpdate;
+
 	// DelayReturn를 삭제(DelayReturn를 호출 안 함)
-	virtual void Cancel() = 0;
+	function<void()> FuncCancel;
 };

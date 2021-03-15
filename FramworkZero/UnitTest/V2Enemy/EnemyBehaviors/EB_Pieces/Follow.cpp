@@ -6,13 +6,16 @@
 Follow::Follow(const FollowDesc& desc)
 	: desc(desc)
 {
+	FlowTesk::FuncCall = bind(&Follow::Call, this, placeholders::_1);
+	FlowTesk::FuncUpdate = bind(&Follow::Update, this);
+	FlowTesk::FuncCancel = bind(&Follow::Cancel, this);
 }
 
 Follow::~Follow()
 {
 }
 
-void Follow::Call(const ReturnAction * action)
+void Follow::Call(const FutureAction * action)
 {
 	desc.Animator->Play(*desc.ClipRun);
 	result.SetAction(action);

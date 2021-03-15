@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "EnemyBehaviorDesc.h"
 
-PatrolDesc PatrollingDesc::CastPatrol(int pointIndex)
+MovingToPointDesc PatrollingDesc::CastPatrol(int pointIndex)
 {
-	PatrolDesc result;
+	MovingToPointDesc result;
 
 	result.Target = Target;
 	result.WalkSpeed = WalkSpeed;

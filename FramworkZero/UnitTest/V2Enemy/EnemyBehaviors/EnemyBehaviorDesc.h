@@ -29,6 +29,6 @@ struct PatrollingDesc
 	class EnemyDetectionSystem* DetectionSystem;
 
 public:
-	PatrolDesc CastPatrol(int pointIndex);
+	MovingToPointDesc CastPatrol(int pointIndex);
 	operator LookAroundDesc();
 };

@@ -137,7 +137,6 @@
     <ClCompile Include="Component\AttackSystem.cpp" />
     <ClCompile Include="Component\MagicAttack.cpp" />
     <ClCompile Include="Component\PointMoveSystem.cpp" />
-    <ClCompile Include="DelayFunction\DelayReturn.cpp" />
     <ClCompile Include="EditorDemo\Component\ColliderLoader.cpp" />
     <ClCompile Include="EditorDemo\Component\MaterialLoader.cpp" />
     <ClCompile Include="EditorDemo\Component\TransformLoader.cpp" />
@@ -145,7 +144,8 @@
     <ClCompile Include="EditorDemo\Objects\V2EnemyInstancingSpawner.cpp" />
     <ClCompile Include="Enemy\MagicianEnemy.cpp" />
     <ClCompile Include="Enemy\MeleeEnemy.cpp" />
-    <ClCompile Include="DelayFunction\DelayReader.cpp" />
+    <ClCompile Include="FlowFunction\FlowPlayer.cpp" />
+    <ClCompile Include="FlowFunction\FutureReturn.cpp" />
     <ClCompile Include="Player\CharacterController.cpp" />
     <ClCompile Include="Character\Kachujin.cpp" />
     <ClCompile Include="Character\Paladin.cpp" />
@@ -169,7 +169,7 @@
     </ClCompile>
     <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Follow.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\LookAround.cpp" />
-    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Patrol.cpp" />
+    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\MovingToPoint.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Watchful.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.cpp" />
@@ -188,9 +188,6 @@
     <ClInclude Include="Component\AttackSystem.h" />
     <ClInclude Include="Component\MagicAttack.h" />
     <ClInclude Include="Component\PointMoveSystem.h" />
-    <ClInclude Include="DelayFunction\DelayReader.h" />
-    <ClInclude Include="DelayFunction\DelayReturn.h" />
-    <ClInclude Include="DelayFunction\IDelayFunction.h" />
     <ClInclude Include="EditorDemo\Component\ColliderLoader.h" />
     <ClInclude Include="EditorDemo\Component\MaterialLoader.h" />
     <ClInclude Include="EditorDemo\Component\TransformLoader.h" />
@@ -199,7 +196,12 @@
     <ClInclude Include="Enemy\EnemyDesc.h" />
     <ClInclude Include="Enemy\MagicianEnemy.h" />
     <ClInclude Include="Enemy\MeleeEnemy.h" />
-    <ClInclude Include="DelayFunction\DelayFunction.h" />
+    <ClInclude Include="FlowFunction\FlowAction.h" />
+    <ClInclude Include="FlowFunction\FlowBase.h" />
+    <ClInclude Include="FlowFunction\FlowFunction.h" />
+    <ClInclude Include="FlowFunction\FlowPlayer.h" />
+    <ClInclude Include="FlowFunction\FlowTesk.h" />
+    <ClInclude Include="FlowFunction\FutureReturn.h" />
     <ClInclude Include="Player\CharacterController.h" />
     <ClInclude Include="Character\Kachujin.h" />
     <ClInclude Include="Character\Paladin.h" />
@@ -223,7 +225,7 @@
     <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\EnemyBehaviorPieceDesc.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Follow.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\LookAround.h" />
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Patrol.h" />
+    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\MovingToPoint.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Watchful.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.h" />
