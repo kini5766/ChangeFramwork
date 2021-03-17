@@ -61,4 +61,6 @@ public:
 
 public:
 	operator PatrollingDesc();
+
+	ClipPlayerDesc MakeInSight();
 };

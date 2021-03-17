@@ -1,6 +1,6 @@
 #pragma once
 
-//#include "stdafx.h"
+#include "stdafx.h"
 
 
 typedef function<void(void)> FutureAction;

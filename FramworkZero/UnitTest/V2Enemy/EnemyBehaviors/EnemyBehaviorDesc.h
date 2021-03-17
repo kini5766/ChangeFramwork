@@ -1,15 +1,15 @@
 #pragma once
 
-#include "EB_Pieces/EnemyBehaviorPieceDesc.h"
+#include "FlowFunction/SimpleBehaviors/SimpleBehaviorsValues.h"
 
 struct PatrollingDesc
 {
 	// 재생할 애니메이터
 	Animator* Anim;
 	// 걷기 클립번호
-	UINT* ClipWalk;
+	UINT ClipWalk;
 	// 둘러보기 클립번호
-	UINT* ClipLookAround;
+	UINT ClipLookAround;
 
 	// 목표지점들
 	const Vector3* PatrolPoints;
@@ -17,18 +17,20 @@ struct PatrollingDesc
 	UINT PatrolCount;
 
 	// 이동 시스템
-	class PointMoveSystem* Target;
+	class PointMoveSystem* MovingSystem;
 	// 목표지점의 범위 (제곱)
 	float* PatrolSafeRangeSq;
 	// 이동 속도
 	float* WalkSpeed;
 	// 둘러보기 시간
-	float* LookAroundTime;
+	float LookAroundTime;
 
 	// 적 감지 시스템
 	class EnemyDetectionSystem* DetectionSystem;
 
 public:
-	MovingToPointDesc CastPatrol(int pointIndex);
-	operator LookAroundDesc();
+	ClipPlayerDesc MakeWalk();
+	PointMoverDesc MakeMover(int pointIndex);
+	ClipPlayerDesc MakeLookAround();
+	WaiterDesc MakeWaiter();
 };

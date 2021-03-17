@@ -97,18 +97,6 @@
     <ClCompile Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.cpp">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClCompile>
-    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Watchful.cpp">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.cpp">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\LookAround.cpp">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Follow.cpp">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClCompile>
     <ClCompile Include="V2Enemy\EnemyDetectionSystem.cpp">
       <Filter>V2Enemy</Filter>
     </ClCompile>
@@ -130,11 +118,23 @@
     <ClCompile Include="FlowFunction\FutureReturn.cpp">
       <Filter>FlowFunction</Filter>
     </ClCompile>
-    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\MovingToPoint.cpp">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClCompile>
     <ClCompile Include="FlowFunction\FlowReader.cpp">
       <Filter>FlowFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowFunction\SimpleBehaviors\ClipPlayer.cpp">
+      <Filter>FlowFunction\SimpleBehaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowFunction\SimpleBehaviors\ClipOncePlayer.cpp">
+      <Filter>FlowFunction\SimpleBehaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowFunction\SimpleBehaviors\Waiter.cpp">
+      <Filter>FlowFunction\SimpleBehaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowFunction\SimpleBehaviors\Follower.cpp">
+      <Filter>FlowFunction\SimpleBehaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowFunction\SimpleBehaviors\PointMover.cpp">
+      <Filter>FlowFunction\SimpleBehaviors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -243,21 +243,6 @@
     <ClInclude Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.h">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClInclude>
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Watchful.h">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.h">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\LookAround.h">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Follow.h">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\EnemyBehaviorPieceDesc.h">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClInclude>
     <ClInclude Include="V2Enemy\EnemyDetectionSystem.h">
       <Filter>V2Enemy</Filter>
     </ClInclude>
@@ -285,11 +270,29 @@
     <ClInclude Include="FlowFunction\FutureReturn.h">
       <Filter>FlowFunction</Filter>
     </ClInclude>
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\MovingToPoint.h">
-      <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
-    </ClInclude>
     <ClInclude Include="FlowFunction\FlowReader.h">
       <Filter>FlowFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\SimpleBehaviors\SimpleBehaviorsValues.h">
+      <Filter>FlowFunction\SimpleBehaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\SimpleBehaviors\SimpleBehaviorHeaders.h">
+      <Filter>FlowFunction\SimpleBehaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\SimpleBehaviors\ClipPlayer.h">
+      <Filter>FlowFunction\SimpleBehaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\SimpleBehaviors\ClipOncePlayer.h">
+      <Filter>FlowFunction\SimpleBehaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\SimpleBehaviors\Waiter.h">
+      <Filter>FlowFunction\SimpleBehaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\SimpleBehaviors\PointMover.h">
+      <Filter>FlowFunction\SimpleBehaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\SimpleBehaviors\Follower.h">
+      <Filter>FlowFunction\SimpleBehaviors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -329,11 +332,11 @@
     <Filter Include="V2Enemy\EnemyBehaviors">
       <UniqueIdentifier>{c69a8493-5a98-4f60-9a60-f9fd639cd191}</UniqueIdentifier>
     </Filter>
-    <Filter Include="V2Enemy\EnemyBehaviors\EB_Pieces">
-      <UniqueIdentifier>{3b4ad07f-964e-4c09-9683-a6cd9e9cd094}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FlowFunction">
       <UniqueIdentifier>{803e734d-bdd1-4ce4-8f49-289a8c25b97e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FlowFunction\SimpleBehaviors">
+      <UniqueIdentifier>{5d0024bf-f6cb-448e-bc1e-011e407ead8c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

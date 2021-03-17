@@ -146,6 +146,11 @@
     <ClCompile Include="Enemy\MeleeEnemy.cpp" />
     <ClCompile Include="FlowFunction\FlowReader.cpp" />
     <ClCompile Include="FlowFunction\FutureReturn.cpp" />
+    <ClCompile Include="FlowFunction\SimpleBehaviors\Follower.cpp" />
+    <ClCompile Include="FlowFunction\SimpleBehaviors\ClipPlayer.cpp" />
+    <ClCompile Include="FlowFunction\SimpleBehaviors\ClipOncePlayer.cpp" />
+    <ClCompile Include="FlowFunction\SimpleBehaviors\PointMover.cpp" />
+    <ClCompile Include="FlowFunction\SimpleBehaviors\Waiter.cpp" />
     <ClCompile Include="Player\CharacterController.cpp" />
     <ClCompile Include="Character\Kachujin.cpp" />
     <ClCompile Include="Character\Paladin.cpp" />
@@ -167,11 +172,6 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Follow.cpp" />
-    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\LookAround.cpp" />
-    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\MovingToPoint.cpp" />
-    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.cpp" />
-    <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\Watchful.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehavior.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.cpp" />
@@ -200,6 +200,13 @@
     <ClInclude Include="FlowFunction\FlowReader.h" />
     <ClInclude Include="FlowFunction\FlowTesk.h" />
     <ClInclude Include="FlowFunction\FutureReturn.h" />
+    <ClInclude Include="FlowFunction\SimpleBehaviors\Follower.h" />
+    <ClInclude Include="FlowFunction\SimpleBehaviors\ClipPlayer.h" />
+    <ClInclude Include="FlowFunction\SimpleBehaviors\ClipOncePlayer.h" />
+    <ClInclude Include="FlowFunction\SimpleBehaviors\PointMover.h" />
+    <ClInclude Include="FlowFunction\SimpleBehaviors\SimpleBehaviorHeaders.h" />
+    <ClInclude Include="FlowFunction\SimpleBehaviors\SimpleBehaviorsValues.h" />
+    <ClInclude Include="FlowFunction\SimpleBehaviors\Waiter.h" />
     <ClInclude Include="Player\CharacterController.h" />
     <ClInclude Include="Character\Kachujin.h" />
     <ClInclude Include="Character\Paladin.h" />
@@ -220,12 +227,6 @@
     <ClInclude Include="Enemy\EnemyInstancing.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\EnemyBehaviorPieceDesc.h" />
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Follow.h" />
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\LookAround.h" />
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\MovingToPoint.h" />
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\PlaingOnce.h" />
-    <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\Watchful.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehavior.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.h" />

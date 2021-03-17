@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EnemyBehaviorDesc.h"
+#include "FlowFunction/FlowFunction.h"
 
 
 class Patrolling : public FlowTesk
@@ -10,7 +11,6 @@ public:
 	~Patrolling();
 
 private:
-	// IDelayFunction을(를) 통해 상속됨
 	void Call(const FutureAction * action);
 	void Update();
 	void Cancel();
@@ -22,10 +22,12 @@ private:
 
 private:
 	PatrollingDesc desc;
-	FlowPlayer* reader;
+	FlowReader* reader;
 
-	class LookAround* lookAr;
-	vector<class MovingToPoint*> pats;
+	class ClipPlayer* clipLookAround;
+	class Waiter* waiter;
+	class ClipPlayer* clipWalk;
+	vector<class PointMover*> pats;
 
 	FutureReturn result;
 };

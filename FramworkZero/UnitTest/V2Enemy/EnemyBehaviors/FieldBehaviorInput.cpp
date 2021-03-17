@@ -28,18 +28,27 @@ FieldBehaviorDesc::operator PatrollingDesc()
 	PatrollingDesc result;
 
 	result.Anim = Anim;
-	result.ClipWalk = &ClipWalk;
-	result.ClipLookAround = &ClipLookAround;
+	result.ClipWalk = ClipWalk;
+	result.ClipLookAround = ClipLookAround;
 	result.PatrolPoints = PatrolPoints;
 	result.PatrolCount = PatrolCount;
 
-	result.Target = MoveSystem;
+	result.MovingSystem = MoveSystem;
 	result.WalkSpeed = &WalkSpeed;
 
 	result.DetectionSystem = DetectionSystem;
 
-	result.LookAroundTime = &LookAroundTime;
+	result.LookAroundTime = LookAroundTime;
 	result.PatrolSafeRangeSq = &PatrolSafeRangeSq;
+
+	return result;
+}
+
+ClipPlayerDesc FieldBehaviorDesc::MakeInSight()
+{
+	ClipPlayerDesc result;
+	result.Anim = Anim;
+	result.Clip = ClipInSight;
 
 	return result;
 }

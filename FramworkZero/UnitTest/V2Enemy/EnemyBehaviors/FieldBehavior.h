@@ -36,7 +36,9 @@ private:
 	Vector3 focusPosition;
 
 private:
-	class FlowPlayer* reader;
+	class FlowReader* reader;
 	class Patrolling* pat;
 	class PlaingOnce* detection;
+
+	class ClipOncePlayer* clipInSight;
 };

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FieldBehavior.h"
 
+#include "FlowFunction/SimpleBehaviors/SimpleBehaviorHeaders.h"
 #include "V2Enemy/EnemyDetectionSystem.h"
 #include "Patrolling.h"
 
@@ -16,8 +17,9 @@ FieldBehavior::FieldBehavior(const FieldBehaviorInput & input)
 	desc.DetectionSystem = new EnemyDetectionSystem(inputED);
 
 	pat = new Patrolling(desc);
+	clipInSight = new ClipOncePlayer(desc.MakeInSight());
 
-	reader = new FlowPlayer();
+	reader = new FlowReader();
 	reader->PushBack(pat);
 	reader->Call();
 }
@@ -25,7 +27,10 @@ FieldBehavior::FieldBehavior(const FieldBehaviorInput & input)
 FieldBehavior::~FieldBehavior()
 {
 	SafeDelete(reader);
+
+	SafeDelete(clipInSight);
 	SafeDelete(pat);
+
 }
 
 void FieldBehavior::Update()
@@ -47,5 +52,5 @@ void FieldBehavior::InRangeDetection()
 	// 2. 전투태세
 	// 1. 적확인
 
-
+	reader->PushBack(clipInSight);
 }
