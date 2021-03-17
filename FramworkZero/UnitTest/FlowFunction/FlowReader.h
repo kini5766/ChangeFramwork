@@ -2,19 +2,19 @@
 
 
 /*
-IDelayFunction들을 미리 등록하고
+FlowTesk들을 미리 등록하고
 나중->먼저 등록 순서대로 함수를 호출 (스택형식)
 모든 함수를 실행하고나면 DelayReturn을 호출
 */
-class FlowPlayer : public FlowTesk
+class FlowReader : public FlowTesk
 {
 public:
-	FlowPlayer();
-	virtual ~FlowPlayer();
+	FlowReader();
+	virtual ~FlowReader();
 
 public:
 	// 함수 등록
-	void PushBack(FlowBase* function);
+	void PushBack(FlowTesk* function);
 	// 남은 함수들을 비움 (현재 함수는 그대로)
 	void Clear();
 	// 현재 함수를 취소 시키고 
@@ -38,7 +38,8 @@ private:
 
 private:
 	FlowTesk* curr = nullptr;
-	vector<FlowBase*> funcStack;
+	FlowTesk* next = nullptr;
+	vector<FlowTesk*> funcStack;
 
 	FutureReturn result;
 };

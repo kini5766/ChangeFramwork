@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{93BBB7B8-02C8-4C4A-98EA-C125FBC2F96F}</ProjectGuid>
     <RootNamespace>UnitTest</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -144,7 +144,7 @@
     <ClCompile Include="EditorDemo\Objects\V2EnemyInstancingSpawner.cpp" />
     <ClCompile Include="Enemy\MagicianEnemy.cpp" />
     <ClCompile Include="Enemy\MeleeEnemy.cpp" />
-    <ClCompile Include="FlowFunction\FlowPlayer.cpp" />
+    <ClCompile Include="FlowFunction\FlowReader.cpp" />
     <ClCompile Include="FlowFunction\FutureReturn.cpp" />
     <ClCompile Include="Player\CharacterController.cpp" />
     <ClCompile Include="Character\Kachujin.cpp" />
@@ -196,10 +196,8 @@
     <ClInclude Include="Enemy\EnemyDesc.h" />
     <ClInclude Include="Enemy\MagicianEnemy.h" />
     <ClInclude Include="Enemy\MeleeEnemy.h" />
-    <ClInclude Include="FlowFunction\FlowAction.h" />
-    <ClInclude Include="FlowFunction\FlowBase.h" />
     <ClInclude Include="FlowFunction\FlowFunction.h" />
-    <ClInclude Include="FlowFunction\FlowPlayer.h" />
+    <ClInclude Include="FlowFunction\FlowReader.h" />
     <ClInclude Include="FlowFunction\FlowTesk.h" />
     <ClInclude Include="FlowFunction\FutureReturn.h" />
     <ClInclude Include="Player\CharacterController.h" />

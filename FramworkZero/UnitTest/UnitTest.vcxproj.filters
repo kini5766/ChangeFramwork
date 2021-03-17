@@ -127,14 +127,14 @@
     <ClCompile Include="V2Enemy\FieldEnemy.cpp">
       <Filter>V2Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="FlowFunction\FlowPlayer.cpp">
-      <Filter>FlowFunction</Filter>
-    </ClCompile>
     <ClCompile Include="FlowFunction\FutureReturn.cpp">
       <Filter>FlowFunction</Filter>
     </ClCompile>
     <ClCompile Include="V2Enemy\EnemyBehaviors\EB_Pieces\MovingToPoint.cpp">
       <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowFunction\FlowReader.cpp">
+      <Filter>FlowFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,16 +276,7 @@
     <ClInclude Include="V2Enemy\FieldEnemy.h">
       <Filter>V2Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="FlowFunction\FlowAction.h">
-      <Filter>FlowFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="FlowFunction\FlowBase.h">
-      <Filter>FlowFunction</Filter>
-    </ClInclude>
     <ClInclude Include="FlowFunction\FlowFunction.h">
-      <Filter>FlowFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="FlowFunction\FlowPlayer.h">
       <Filter>FlowFunction</Filter>
     </ClInclude>
     <ClInclude Include="FlowFunction\FlowTesk.h">
@@ -296,6 +287,9 @@
     </ClInclude>
     <ClInclude Include="V2Enemy\EnemyBehaviors\EB_Pieces\MovingToPoint.h">
       <Filter>V2Enemy\EnemyBehaviors\EB_Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\FlowReader.h">
+      <Filter>FlowFunction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
