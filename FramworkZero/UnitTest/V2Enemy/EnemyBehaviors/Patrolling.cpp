@@ -23,6 +23,21 @@ Patrolling::Patrolling(const PatrollingDesc & desc)
 	pats.reserve(size);
 	for (int i = size - 1; i >= 0; i--)
 		pats.push_back(new PointMover(this->desc.MakeMover(i)));
+
+
+	for (PointMover* pat : pats)
+	{
+		// 순서
+		// 4. 대기
+		// 3. 둘러보기(애니매이션)
+		// 2. 이동
+		// 1. 걷기(애니매이션)
+
+		tesks.push_back(waiter);
+		tesks.push_back(clipLookAround);
+		tesks.push_back(pat);
+		tesks.push_back(clipWalk);
+	}
 }
 
 Patrolling::~Patrolling()
@@ -39,20 +54,11 @@ Patrolling::~Patrolling()
 
 void Patrolling::Reset()
 {
-	reader->Clear();
-	for (PointMover* pat : pats)
-	{
-		// 순서
-		// 4. 대기
-		// 3. 둘러보기(애니매이션)
-		// 2. 이동
-		// 1. 걷기(애니매이션)
+	if (tesks.size() == 0)
+		return;
 
-		reader->PushBack(waiter);
-		reader->PushBack(clipLookAround);
-		reader->PushBack(pat);
-		reader->PushBack(clipWalk);
-	}
+	reader->Clear();
+	reader->PushBacks(tesks.size(), tesks[0]);
 	reader->Call(&funcReset);
 }
 

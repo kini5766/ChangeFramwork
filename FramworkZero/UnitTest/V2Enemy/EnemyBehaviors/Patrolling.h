@@ -23,6 +23,7 @@ private:
 private:
 	PatrollingDesc desc;
 	FlowReader* reader;
+	vector<class FlowTesk*> tesks;
 
 	class ClipPlayer* clipLookAround;
 	class Waiter* waiter;
