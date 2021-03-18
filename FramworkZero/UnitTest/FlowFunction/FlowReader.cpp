@@ -18,6 +18,11 @@ void FlowReader::PushBack(FlowTesk* function)
 	funcStack.push_back(function);
 }
 
+void FlowReader::PushBacks(UINT size, FlowTesk* tesks)
+{
+	funcStack.insert(funcStack.end(), size, tesks);
+}
+
 void FlowReader::Clear()
 {
 	funcStack.clear();

@@ -19,8 +19,9 @@ Patrolling::Patrolling(const PatrollingDesc & desc)
 	waiter = new Waiter(this->desc.MakeWaiter());
 	clipWalk = new ClipPlayer(this->desc.MakeWalk());
 
-	pats.reserve(desc.PatrolCount);
-	for (UINT i = 0; i < desc.PatrolCount; i++)
+	UINT size = desc.PatrolCount;
+	pats.reserve(size);
+	for (int i = size - 1; i >= 0; i--)
 		pats.push_back(new PointMover(this->desc.MakeMover(i)));
 }
 

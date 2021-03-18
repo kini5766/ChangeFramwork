@@ -14,7 +14,9 @@ public:
 
 public:
 	// 함수 등록
-	void PushBack(FlowTesk* function);
+	void PushBack(FlowTesk* tesk);
+	// 함수 등록(배열)
+	void PushBacks(UINT size, FlowTesk* tesks);
 	// 남은 함수들을 비움 (현재 함수는 그대로)
 	void Clear();
 	// 현재 함수를 취소 시키고 
