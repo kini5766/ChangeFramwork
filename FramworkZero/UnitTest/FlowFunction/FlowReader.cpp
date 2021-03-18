@@ -13,14 +13,14 @@ FlowReader::~FlowReader()
 {
 }
 
-void FlowReader::PushBack(FlowTesk* function)
+void FlowReader::PushBack(FlowTesk* tesk)
 {
-	funcStack.push_back(function);
+	funcStack.push_back(tesk);
 }
 
-void FlowReader::PushBacks(UINT size, FlowTesk* tesks)
+void FlowReader::PushBacks(UINT size, FlowTesk* first)
 {
-	funcStack.insert(funcStack.end(), size, tesks);
+	funcStack.insert(funcStack.end(), first, first + size);
 }
 
 void FlowReader::Clear()
@@ -47,7 +47,11 @@ void FlowReader::CancelNext()
 void FlowReader::HoldBackNext()
 {
 	if (next != nullptr)
+	{
+		// next값이 존재하면 curr값은 무조건 nullptr
 		curr = next;
+		next = nullptr;
+	}
 
 	if (curr == nullptr)
 		return;
@@ -89,6 +93,7 @@ void FlowReader::Cancel()
 
 	curr->FuncCancel();
 	curr = nullptr;
+	next = nullptr;
 }
 
 
