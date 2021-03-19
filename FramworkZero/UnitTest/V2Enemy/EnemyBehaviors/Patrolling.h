@@ -25,9 +25,7 @@ private:
 	FlowReader* reader;
 	vector<class FlowTesk*> tesks;
 
-	class ClipPlayer* clipLookAround;
 	class Waiter* waiter;
-	class ClipPlayer* clipWalk;
 	vector<class PointMover*> pats;
 
 	FutureReturn result;

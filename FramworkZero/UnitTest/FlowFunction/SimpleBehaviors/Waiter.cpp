@@ -19,6 +19,8 @@ void Waiter::Call(const FutureAction * action)
 	runningTime = 0.0f;
 
 	result.SetAction(action);
+
+	desc.CallAnim();
 }
 
 void Waiter::Update()

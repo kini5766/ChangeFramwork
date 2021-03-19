@@ -39,7 +39,6 @@ FieldBehaviorDesc::operator PatrollingDesc()
 	result.DetectionSystem = DetectionSystem;
 
 	result.LookAroundTime = LookAroundTime;
-	result.PatrolSafeRangeSq = &PatrolSafeRangeSq;
 
 	return result;
 }

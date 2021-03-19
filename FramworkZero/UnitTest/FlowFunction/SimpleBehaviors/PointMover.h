@@ -11,6 +11,8 @@ public:
 	PointMover(const PointMoverDesc& desc);
 	~PointMover();
 
+	PointMoverDesc* GetDesc() { return &desc; }
+
 private:
 	void Call(const FutureAction * action);
 	void Update();

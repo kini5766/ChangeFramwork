@@ -14,24 +14,33 @@ PointMoveSystem::~PointMoveSystem()
 	SafeDelete(sysRatate);
 }
 
-void PointMoveSystem::PreUpdate(const Vector3& point, float * outLengthSq)
+bool PointMoveSystem::GoToPoint()
 {
-	this->point = point;
-
+	// 위치
 	Vector3 position;
 	transform->Position(&position);
-	destance = point - position;
+
+	// 거리
+	Vector3 destance = point - position;
 	destance.y = 0.0f;
+
+	// 방향
+	Vector3 direction;
 	D3DXVec3Normalize(&direction, &destance);
 
-	lengthSq = D3DXVec3LengthSq(&destance);
-	if (outLengthSq != nullptr)
-		*outLengthSq = lengthSq;
-}
+	float lengthSq = D3DXVec3LengthSq(&destance);
+	if (lengthSq < safeRangeSq)
+	{
+		// 주변에 도착
+		return true;
+	}
 
-bool PointMoveSystem::Update()
-{
-	float speedDelta = movingSpeed * Time::Delta();
+
+	if (speeder == nullptr)
+	// 주변과 떨어져있는데 이동 속도가 0인 경우
+		return false;
+
+	float speedDelta = (*speeder) * Time::Delta();
 
 	// 회전
 	Quaternion q;
@@ -41,10 +50,9 @@ bool PointMoveSystem::Update()
 	transform->Rotation(q);
 
 	// 이동
-	Vector3 position;
-	transform->Position(&position);
 	position += -transform->Forward() * speedDelta;
 	transform->Position(position);
+
 
 	if (lengthSq < speedDelta * speedDelta)
 	{
@@ -54,4 +62,14 @@ bool PointMoveSystem::Update()
 	}
 
 	return false;
+}
+
+float PointMoveSystem::GetLengthSq()
+{
+	Vector3 position;
+	transform->Position(&position);
+	Vector3 destance = point - position;
+	destance.y = 0.0f;
+
+	return D3DXVec3LengthSq(&destance);
 }

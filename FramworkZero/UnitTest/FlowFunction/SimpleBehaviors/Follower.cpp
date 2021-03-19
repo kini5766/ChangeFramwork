@@ -18,24 +18,17 @@ Follower::~Follower()
 void Follower::Call(const FutureAction * action)
 {
 	result.SetAction(action);
+
+	desc.CallAnim();
 }
 
 void Follower::Update()
 {
-	float lengthSq;
-	desc.MovingSystem->PreUpdate(*desc.Focus, &lengthSq);
+	desc.MovingSystem->SetPoint(*desc.Focus);
 
-	if (lengthSq < (*desc.FollowInRangeSq))
+	if (desc.MovingSystem->GoToPoint())
 	{
-		// 주변에 도착
-		result.OnAction();
-		return;
-	}
-
-	desc.MovingSystem->SetMoveSpeed(*desc.RunSpeed);
-	if (desc.MovingSystem->Update())
-	{
-		// 정확히 도착
+		// 도착
 		result.OnAction();
 		return;
 	}

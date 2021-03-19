@@ -1,31 +1,18 @@
 #include "stdafx.h"
 #include "EnemyBehaviorDesc.h"
 
-ClipPlayerDesc PatrollingDesc::MakeWalk()
-{
-	ClipPlayerDesc result;
-	result.Anim = Anim;
-	result.Clip = ClipWalk;
-
-	return result;
-}
+#include "Component/PointMoveSystem.h"
 
 PointMoverDesc PatrollingDesc::MakeMover(int pointIndex)
 {
 	PointMoverDesc result;
 	result.MovingSystem = MovingSystem;
-	result.WalkSpeed = WalkSpeed;
-	result.PatrolSafeRangeSq = PatrolSafeRangeSq;
 	result.Point = PatrolPoints[pointIndex];
 
-	return result;
-}
-
-ClipPlayerDesc PatrollingDesc::MakeLookAround()
-{
-	ClipPlayerDesc result;
-	result.Anim = Anim;
-	result.Clip = ClipLookAround;
+	result.CallAnim = [=]() {
+		Anim->Play(ClipWalk);
+		MovingSystem->SetMoveSpeeder(WalkSpeed);
+	};
 
 	return result;
 }
@@ -34,6 +21,10 @@ WaiterDesc PatrollingDesc::MakeWaiter()
 {
 	WaiterDesc result;
 	result.Time = LookAroundTime;
+
+	result.CallAnim = [=]() { 
+		Anim->Play(ClipLookAround); 
+	};
 
 	return result;
 }

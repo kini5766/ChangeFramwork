@@ -56,8 +56,6 @@ public:
 
 	// [직접세팅] 둘러보기 시간
 	float LookAroundTime = 1.0f;
-	// [직접세팅] 목표지점의 범위 (제곱)
-	float PatrolSafeRangeSq = 1.0f;
 
 public:
 	operator PatrollingDesc();

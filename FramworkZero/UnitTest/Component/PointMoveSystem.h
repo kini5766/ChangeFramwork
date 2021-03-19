@@ -8,19 +8,23 @@ public:
 	~PointMoveSystem();
 
 public:
-	void PreUpdate(const Vector3& point, float* outLengthSq = nullptr);
-	bool Update();
+	bool GoToPoint();
 
 public:
-	void SetMoveSpeed(float value) { movingSpeed = value; }
+	// 목표지점으로부터 남은 거리
+	void SetPoint(const Vector3& value) { point = value; }
+	void SetMoveSpeeder(float* value) { speeder = value; }
 	void SetRotateSpeed(float value) { rotateSpeed = value; }
+	void SetSafeRangeSq(float value) { safeRangeSq = value; }
+
+	float GetLengthSq();
 	Transform* GetTransform() { return transform; }
 
 private:
 	// 움직일 대상
 	Transform* transform;
-	// 걷기 속도
-	float movingSpeed = 0.0f;
+	// 이동 속도
+	float* speeder;
 	// 회전 속도
 	float rotateSpeed = 1.0f;
 	// 회전 보간 시스템
@@ -28,9 +32,7 @@ private:
 
 	// 목표지점
 	Vector3 point = Vector3(0, 0, 0);
+	// 목표지점의 허용 범위 (제곱)
+	float safeRangeSq = 1.0f;
 
-private:
-	Vector3 destance;
-	Vector3 direction;
-	float lengthSq;
 };

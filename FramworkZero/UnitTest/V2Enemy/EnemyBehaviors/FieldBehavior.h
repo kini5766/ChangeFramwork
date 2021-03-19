@@ -39,6 +39,7 @@ private:
 	class FlowReader* reader;
 	class Patrolling* pat;
 	class PlaingOnce* detection;
+	class PointMover* recall;
 
 	class ClipOncePlayer* clipInSight;
 };

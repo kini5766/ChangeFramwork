@@ -15,9 +15,7 @@ Patrolling::Patrolling(const PatrollingDesc & desc)
 
 	reader = new FlowReader();
 
-	clipLookAround = new ClipPlayer(this->desc.MakeLookAround());
 	waiter = new Waiter(this->desc.MakeWaiter());
-	clipWalk = new ClipPlayer(this->desc.MakeWalk());
 
 	UINT size = desc.PatrolCount;
 	pats.reserve(size);
@@ -28,15 +26,11 @@ Patrolling::Patrolling(const PatrollingDesc & desc)
 	for (PointMover* pat : pats)
 	{
 		// 순서
-		// 4. 대기
-		// 3. 둘러보기(애니매이션)
-		// 2. 이동
-		// 1. 걷기(애니매이션)
+		// 2. 대기
+		// 1. 이동
 
 		tesks.push_back(waiter);
-		tesks.push_back(clipLookAround);
 		tesks.push_back(pat);
-		tesks.push_back(clipWalk);
 	}
 }
 
@@ -44,10 +38,7 @@ Patrolling::~Patrolling()
 {
 	for (auto d : pats)
 		SafeDelete(d);
-
-	SafeDelete(clipWalk);
 	SafeDelete(waiter);
-	SafeDelete(clipLookAround);
 
 	SafeDelete(reader);
 }
@@ -58,7 +49,7 @@ void Patrolling::Reset()
 		return;
 
 	reader->Clear();
-	reader->PushBacks(tesks.size(), tesks[0]);
+	reader->PushBacks(tesks.size(), tesks.data());
 	reader->Call(&funcReset);
 }
 

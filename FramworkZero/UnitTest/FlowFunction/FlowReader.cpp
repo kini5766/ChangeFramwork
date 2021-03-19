@@ -20,7 +20,7 @@ void FlowReader::PushBack(FlowTesk* tesk)
 
 void FlowReader::PushBacks(UINT size, FlowTesk** first)
 {
-	funcStack.insert(funcStack.end(), size, first);
+	funcStack.insert(funcStack.end(), first, first + size);
 }
 
 void FlowReader::Clear()
@@ -65,7 +65,13 @@ void FlowReader::HoldBackNext()
 void FlowReader::Call(const FutureAction * action)
 {
 	result.SetAction(action);
-	Next();
+
+	if (curr != nullptr)
+	{
+		next = curr;
+		curr = nullptr;
+	}
+	else Next();
 }
 
 void FlowReader::Update()
