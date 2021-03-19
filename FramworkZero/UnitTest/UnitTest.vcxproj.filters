@@ -136,6 +136,9 @@
     <ClCompile Include="FlowFunction\SimpleBehaviors\PointMover.cpp">
       <Filter>FlowFunction\SimpleBehaviors</Filter>
     </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\CombatPosture.cpp">
+      <Filter>V2Enemy\EnemyBehaviors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WorldDemo.h" />
@@ -293,6 +296,9 @@
     </ClInclude>
     <ClInclude Include="FlowFunction\SimpleBehaviors\Follower.h">
       <Filter>FlowFunction\SimpleBehaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\EnemyBehaviors\CombatPosture.h">
+      <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

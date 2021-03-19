@@ -51,3 +51,15 @@ ClipPlayerDesc FieldBehaviorDesc::MakeInSight()
 
 	return result;
 }
+
+PointMoverDesc FieldBehaviorDesc::MakeComeback()
+{
+	PointMoverDesc result;
+	result.MovingSystem = MoveSystem;
+	//result.CallAnim = [=]() { 
+	//desc.Anim->Play(desc.ClipRun); 
+	//MovingSystem->SetMoveSpeeder(RunSpeed); 
+	//};
+
+	return result;
+}

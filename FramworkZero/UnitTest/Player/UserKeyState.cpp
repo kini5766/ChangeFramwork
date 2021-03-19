@@ -9,6 +9,7 @@ UserKeyState::~UserKeyState()
 {
 }
 
+
 void UserKeyState::Update()
 {
 	axis = Vector2(0.0f, 0.0f);
@@ -24,4 +25,5 @@ void UserKeyState::Update()
 	if (Input::Keyboard()->Press(VK_RIGHT) ||
 		Input::Keyboard()->Press('D'))
 		axis.x += 1.0f;
+
 }

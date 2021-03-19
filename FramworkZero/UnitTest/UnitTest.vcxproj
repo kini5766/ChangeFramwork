@@ -172,6 +172,7 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\CombatPosture.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehavior.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="Enemy\EnemyInstancing.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="V2Enemy\EnemyBehaviors\CombatPosture.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehavior.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.h" />

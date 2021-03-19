@@ -61,4 +61,5 @@ public:
 	operator PatrollingDesc();
 
 	ClipPlayerDesc MakeInSight();
+	PointMoverDesc MakeComeback();
 };
