@@ -66,6 +66,7 @@ void StrafeAround::Cancel()
 
 void StrafeAround::Reset()
 {
+
 	reader->Cancel();
 	if (curr)
 	{
@@ -73,21 +74,27 @@ void StrafeAround::Reset()
 		Vector3 d = desc.Perceptor->GetDest();
 
 		Vector3 dc;
-		D3DXVec3Cross(&dc, &d, &(Vector3(0, 1, 0)));
+		D3DXVec3Cross(&dc, &d, &Vector3(0, 1, 0));
+
 
 		// -45도 ~ 45도
 		float r = Math::Random(-Math::PI * 0.25f, Math::PI * 0.25f);
+		//float r = Math::Random(Math::PI * 0.16f, Math::PI * 0.32f);
 		Vector2 axis;
-		axis.x = cosf(r);
-		axis.y = sinf(r);
+		axis.x = -cosf(r);
+		axis.y = -sinf(r);
 
 		Vector3 forward = d * axis.x;
 		Vector3 right = dc * axis.y;
-		Vector3 target = forward + right;
+		Vector3 direction = forward + right;
 
-		Vector3 position;
-		desc.MovingSystem->GetTransform()->Position(&position);
-		arounder->GetDesc()->Point = position + target;
+		D3DXVec3Normalize(&direction, &direction);
+		direction *= Math::Random(desc.MinRange, desc.MinRange * 2.0f);
+
+		Vector3 position = *desc.Perceptor->GetFocus();
+		arounder->GetDesc()->Point = position + direction;
+
+		waiter->GetDesc()->Time = Math::Random(0.25f, 1.0f);
 
 		// 순서
 		// 2. 대기

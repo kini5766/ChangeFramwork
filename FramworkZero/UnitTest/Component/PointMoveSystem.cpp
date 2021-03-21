@@ -14,6 +14,24 @@ PointMoveSystem::~PointMoveSystem()
 	SafeDelete(sysRatate);
 }
 
+bool PointMoveSystem::IsAround()
+{
+	// 위치
+	Vector3 position;
+	transform->Position(&position);
+
+	// 거리
+	Vector3 destance = point - position;
+	destance.y = 0.0f;
+
+	// 방향
+	Vector3 direction;
+	D3DXVec3Normalize(&direction, &destance);
+
+	float lengthSq = D3DXVec3LengthSq(&destance);
+	return lengthSq < safeRangeSq;
+}
+
 bool PointMoveSystem::GoToPoint()
 {
 	// 위치

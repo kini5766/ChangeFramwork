@@ -66,7 +66,7 @@ public:
 	// [직접세팅] 걷기 속도
 	float WalkSpeed = 3.0f;
 	// [직접세팅] 달리기 속도
-	float RunSpeed = 6.0f;
+	float RunSpeed = 10.0f;
 
 	// [직접세팅] 적 감지 시스템
 	class PerceptionSystem* Perceptor = nullptr;
@@ -77,7 +77,7 @@ public:
 	// [직접세팅] 쫒아오기 범위
 	float ApproachRangeSq = 400.0f;
 	// [직접세팅] 거리 유지할 범위
-	float MinRangeSq = 5.0f;
+	float MinRange = 10.0f;
 
 	// [직접세팅] 둘러보기 시간
 	float LookAroundTime = 1.0f;

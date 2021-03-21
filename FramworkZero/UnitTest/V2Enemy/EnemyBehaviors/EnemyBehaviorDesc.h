@@ -58,7 +58,7 @@ struct StrafeAroundDesc
 	class PerceptionSystem* Perceptor;
 
 	// 거리 유지 범위
-	float MinRangeSq;
+	float MinRange;
 	// 쫒아오기 범위
 	float ApproachRangeSq;
 

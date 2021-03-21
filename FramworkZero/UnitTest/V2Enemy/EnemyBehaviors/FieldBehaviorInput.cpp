@@ -71,7 +71,7 @@ CombatPostureDesc FieldBehaviorDesc::MakeCombat()
 	CombatPostureDesc result;
 	result.StrafeAroundDesc.Anim = Anim;
 	result.StrafeAroundDesc.ApproachRangeSq = ApproachRangeSq;
-	result.StrafeAroundDesc.MinRangeSq = MinRangeSq;
+	result.StrafeAroundDesc.MinRange = MinRange;
 	result.StrafeAroundDesc.ClipIdle = ClipIdle;
 	result.StrafeAroundDesc.ClipWalk = ClipWalk;
 	result.StrafeAroundDesc.ClipRun = ClipRun;

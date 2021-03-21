@@ -8,6 +8,7 @@ public:
 	~PointMoveSystem();
 
 public:
+	bool IsAround();
 	bool GoToPoint();
 
 public:

@@ -11,6 +11,9 @@ public:
 	Waiter(const WaiterDesc& desc);
 	~Waiter();
 
+public:
+	WaiterDesc* GetDesc() { return &desc; }
+
 private:
 	void Call(const FutureAction * action);
 	void Update();
