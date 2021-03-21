@@ -12,8 +12,10 @@ V2EnemyMelee::V2EnemyMelee(IFocus * player)
 	desc = new FieldEnemyDesc();
 	desc->Player = player;
 	desc->Status.HP = 100.0f;
+	desc->ClipGroup.ClipIdle = 0;
 	desc->ClipGroup.ClipLookAround = 0;
 	desc->ClipGroup.ClipWalk = 1;
+	desc->ClipGroup.ClipRun = 2;
 	desc->ClipGroup.ClipInSight = 3;
 }
 

@@ -10,10 +10,14 @@ struct V2EnemyStatus
 
 struct FieldEnemyClipNumGroup
 {
-	// 걷기 클립번호
-	UINT ClipWalk = 1;
+	// 대기 클립번호
+	UINT ClipIdle = 0;
 	// 둘러보기 클립번호
 	UINT ClipLookAround = 0;
+	// 걷기 클립번호
+	UINT ClipWalk = 1;
+	// 달리기 클립번호
+	UINT ClipRun = 2;
 	// 적 발견 클립번호
 	UINT ClipInSight = 3;
 };

@@ -4,30 +4,35 @@
 #include "FlowFunction/FlowFunction.h"
 
 
-class Patrolling : public FlowTesk
+// 추격 범위 안 : 주변 맴돌기
+// 추격 범위 밖 : 따라가기
+class StrafeAround : public FlowTesk
 {
 public:
-	Patrolling(const PatrollingDesc& input);
-	~Patrolling();
+	StrafeAround(const StrafeAroundDesc& input);
+	~StrafeAround();
+
 
 private:
 	void Call(const FutureAction * action);
 	void Update();
 	void Cancel();
 
-
 private:
 	void Reset();
 	FutureAction funcReset;
 
+
 private:
-	PatrollingDesc desc;
+	StrafeAroundDesc desc;
 	FutureReturn result;
 
 	FlowReader* reader;
-	vector<class FlowTesk*> tesks;
 
 	class Waiter* waiter;
-	vector<class PointMover*> pats;
+	class Follower* follower;
+	class PointMover* arounder;
 
+private:
+	bool curr = false;
 };

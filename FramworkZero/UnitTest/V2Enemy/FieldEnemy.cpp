@@ -41,6 +41,8 @@ FieldEnemy::FieldEnemy(const FieldEnemyInput & desc)
 	FieldBehaviorInput input;
 	input.Trans = transform;
 	input.Anim = animator;
+	input.ClipRun = clipGroup.ClipRun;
+	input.ClipIdle = clipGroup.ClipIdle;
 	input.ClipWalk = clipGroup.ClipWalk;
 	input.ClipLookAround = clipGroup.ClipLookAround;
 	input.ClipInSight = clipGroup.ClipInSight;

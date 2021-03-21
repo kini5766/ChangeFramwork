@@ -2,25 +2,25 @@
 #include "Patrolling.h"
 
 #include "FlowFunction/SimpleBehaviors/SimpleBehaviorHeaders.h"
-#include "V2Enemy/EnemyDetectionSystem.h"
+#include "V2Enemy/PerceptionSystem.h"
 
 
-Patrolling::Patrolling(const PatrollingDesc & desc)
-	: desc(desc)
+Patrolling::Patrolling(const PatrollingDesc & input)
+	: desc(input)
 	, funcReset(bind(&Patrolling::Reset, this))
 {
 	FlowTesk::FuncCall = bind(&Patrolling::Call, this, placeholders::_1);
 	FlowTesk::FuncUpdate = bind(&Patrolling::Update, this);
 	FlowTesk::FuncCancel = bind(&Patrolling::Cancel, this);
 
-	reader = new FlowReader();
-
-	waiter = new Waiter(this->desc.MakeWaiter());
+	waiter = new Waiter(desc.MakeWaiter());
 
 	UINT size = desc.PatrolCount;
 	pats.reserve(size);
 	for (int i = size - 1; i >= 0; i--)
-		pats.push_back(new PointMover(this->desc.MakeMover(i)));
+		pats.push_back(new PointMover(desc.MakeMover(i)));
+
+	reader = new FlowReader();
 
 
 	for (PointMover* pat : pats)
@@ -36,19 +36,19 @@ Patrolling::Patrolling(const PatrollingDesc & desc)
 
 Patrolling::~Patrolling()
 {
+	SafeDelete(reader);
+
 	for (auto d : pats)
 		SafeDelete(d);
 	SafeDelete(waiter);
-
-	SafeDelete(reader);
 }
 
 void Patrolling::Reset()
 {
+	reader->Clear();
 	if (tesks.size() == 0)
 		return;
 
-	reader->Clear();
 	reader->PushBacks(tesks.size(), tesks.data());
 	reader->Call(&funcReset);
 }
@@ -62,9 +62,10 @@ void Patrolling::Call(const FutureAction * action)
 
 void Patrolling::Update()
 {
-	if (desc.DetectionSystem->IsInRange())
+	desc.Perceptor->Update();
+	if (desc.Perceptor->IsPerceived())
 	{
-		desc.DetectionSystem->OnInRange();
+		desc.FuncInRange();
 		result.OnAction();
 		return;
 	}

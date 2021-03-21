@@ -2,23 +2,30 @@
 #include "FieldBehavior.h"
 
 #include "FlowFunction/SimpleBehaviors/SimpleBehaviorHeaders.h"
-#include "V2Enemy/EnemyDetectionSystem.h"
+#include "V2Enemy/PerceptionSystem.h"
 #include "Component/PointMoveSystem.h"
 #include "Patrolling.h"
+#include "CombatPosture.h"
 
 FieldBehavior::FieldBehavior(const FieldBehaviorInput & input)
 	: desc(input)
 	, transform(input.Trans)
-	, inRangeDetection(bind(&FieldBehavior::InRangeDetection, this))
+	, inRange(bind(&FieldBehavior::InRange, this))
+	//, outRange(bind(&FieldBehavior::OutRange, this))
 {
-	EnemyDetectionInput inputED;
+	PerceptionInput inputED;
 	inputED.MinePosition = &minePosition;
 	inputED.FocusPosition = &focusPosition;
-	inputED.FuncInRange = inRangeDetection;
-	desc.DetectionSystem = new EnemyDetectionSystem(inputED);
+	inputED.SightRangeSq = desc.SightRangeSq;
+	inputED.LoseRangeSq = desc.LoseRangeSq;
+
+	desc.Perceptor = new PerceptionSystem(inputED);
+	desc.FuncInRange = inRange;
+	//desc.FuncOutRange = outRange;
 
 	pat = new Patrolling(desc);
 	clipInSight = new ClipOncePlayer(desc.MakeInSight());
+	combat = new CombatPosture(desc.MakeCombat());
 	recall = new PointMover(desc.MakeComeback());
 
 	reader = new FlowReader();
@@ -31,6 +38,7 @@ FieldBehavior::~FieldBehavior()
 	SafeDelete(reader);
 
 	SafeDelete(recall);
+	SafeDelete(combat);
 	SafeDelete(clipInSight);
 	SafeDelete(pat);
 }
@@ -46,9 +54,9 @@ void FieldBehavior::Update()
 	reader->Update();
 }
 
-void FieldBehavior::InRangeDetection()
+void FieldBehavior::InRange()
 {
-	desc.MoveSystem->GetTransform()->Position(&recall->GetDesc()->Point);
+	desc.MovingSystem->GetTransform()->Position(&recall->GetDesc()->Point);
 
 	// 실행 순서 (스택)
 	// 4. 순찰
@@ -58,6 +66,10 @@ void FieldBehavior::InRangeDetection()
 
 	reader->PushBack(pat);
 	reader->PushBack(recall);
-	// todo 전투태세
+	reader->PushBack(combat);
 	reader->PushBack(clipInSight);
 }
+
+//void FieldBehavior::OutRange()
+//{
+//}

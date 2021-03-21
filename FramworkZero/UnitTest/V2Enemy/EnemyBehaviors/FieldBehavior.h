@@ -23,8 +23,10 @@ public:
 
 
 private:
-	void InRangeDetection();
-	function<void()> inRangeDetection;
+	void InRange();
+	function<void()> inRange;
+	//void OutRange();
+	//function<void()> outRange;
 
 private:
 	FieldBehaviorDesc desc;
@@ -38,8 +40,9 @@ private:
 private:
 	class FlowReader* reader;
 	class Patrolling* pat;
-	class PlaingOnce* detection;
 	class PointMover* recall;
+	class CombatPosture* combat;
+	class PlaingOnce* detection;
 
 	class ClipOncePlayer* clipInSight;
 };

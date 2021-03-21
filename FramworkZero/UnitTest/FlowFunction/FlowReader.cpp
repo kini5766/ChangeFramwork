@@ -93,13 +93,13 @@ void FlowReader::Cancel()
 {
 	result.Clear();
 	funcStack.clear();
+	next = nullptr;
 
 	if (curr == nullptr)
 		return;
 
 	curr->FuncCancel();
 	curr = nullptr;
-	next = nullptr;
 }
 
 

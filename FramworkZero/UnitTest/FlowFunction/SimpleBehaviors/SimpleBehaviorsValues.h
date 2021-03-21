@@ -37,8 +37,6 @@ struct FollowerDesc
 {
 	// 이동 시스템
 	class PointMoveSystem* MovingSystem;
-	// 이동 속도
-	float* MoveSpeed;
 
 	// 목표 지점
 	Vector3* Focus;

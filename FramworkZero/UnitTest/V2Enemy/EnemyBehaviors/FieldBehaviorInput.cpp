@@ -2,25 +2,26 @@
 #include "FieldBehaviorInput.h"
 
 #include "Component/PointMoveSystem.h"
-#include "V2Enemy/EnemyDetectionSystem.h"
+#include "V2Enemy/PerceptionSystem.h"
 
 FieldBehaviorDesc::FieldBehaviorDesc(const FieldBehaviorInput & input)
 	: Anim(input.Anim)
 	, ClipWalk(input.ClipWalk)
+	, ClipRun(input.ClipRun)
 	, ClipLookAround(input.ClipLookAround)
 	, ClipInSight(input.ClipInSight)
 
 	, PatrolPoints(input.PatrolPoints)
 	, PatrolCount(input.PatrolCount)
+	, Skill(input.Skill)
 {
-	MoveSystem = new PointMoveSystem(input.Trans);
-	//DetectionSystem = new EnemyDetectionSystem();
+	MovingSystem = new PointMoveSystem(input.Trans);
 }
 
 FieldBehaviorDesc::~FieldBehaviorDesc()
 {
-	SafeDelete(MoveSystem);
-	SafeDelete(DetectionSystem);
+	SafeDelete(MovingSystem);
+	SafeDelete(Perceptor);
 }
 
 FieldBehaviorDesc::operator PatrollingDesc()
@@ -33,12 +34,13 @@ FieldBehaviorDesc::operator PatrollingDesc()
 	result.PatrolPoints = PatrolPoints;
 	result.PatrolCount = PatrolCount;
 
-	result.MovingSystem = MoveSystem;
+	result.MovingSystem = MovingSystem;
 	result.WalkSpeed = &WalkSpeed;
 
-	result.DetectionSystem = DetectionSystem;
-
 	result.LookAroundTime = LookAroundTime;
+
+	result.Perceptor = Perceptor;
+	result.FuncInRange = FuncInRange;
 
 	return result;
 }
@@ -55,11 +57,30 @@ ClipPlayerDesc FieldBehaviorDesc::MakeInSight()
 PointMoverDesc FieldBehaviorDesc::MakeComeback()
 {
 	PointMoverDesc result;
-	result.MovingSystem = MoveSystem;
-	//result.CallAnim = [=]() { 
-	//desc.Anim->Play(desc.ClipRun); 
-	//MovingSystem->SetMoveSpeeder(RunSpeed); 
-	//};
+	result.MovingSystem = MovingSystem;
+	result.CallAnim = [=]() { 
+		Anim->Play(ClipRun); 
+		MovingSystem->SetMoveSpeeder(&RunSpeed); 
+	};
+
+	return result;
+}
+
+CombatPostureDesc FieldBehaviorDesc::MakeCombat()
+{
+	CombatPostureDesc result;
+	result.StrafeAroundDesc.Anim = Anim;
+	result.StrafeAroundDesc.ApproachRangeSq = ApproachRangeSq;
+	result.StrafeAroundDesc.MinRangeSq = MinRangeSq;
+	result.StrafeAroundDesc.ClipIdle = ClipIdle;
+	result.StrafeAroundDesc.ClipWalk = ClipWalk;
+	result.StrafeAroundDesc.ClipRun = ClipRun;
+	result.StrafeAroundDesc.FuncOutRange = FuncOutRange;
+	result.StrafeAroundDesc.MovingSystem = MovingSystem;
+	result.StrafeAroundDesc.Perceptor = Perceptor;
+	result.StrafeAroundDesc.RunSpeed = &RunSpeed;
+	result.StrafeAroundDesc.WalkSpeed = &WalkSpeed;
+	result.Skill = Skill;
 
 	return result;
 }

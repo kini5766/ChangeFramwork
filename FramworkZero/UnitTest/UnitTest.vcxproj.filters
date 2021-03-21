@@ -97,9 +97,6 @@
     <ClCompile Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.cpp">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClCompile>
-    <ClCompile Include="V2Enemy\EnemyDetectionSystem.cpp">
-      <Filter>V2Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehavior.cpp">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClCompile>
@@ -137,6 +134,12 @@
       <Filter>FlowFunction\SimpleBehaviors</Filter>
     </ClCompile>
     <ClCompile Include="V2Enemy\EnemyBehaviors\CombatPosture.cpp">
+      <Filter>V2Enemy\EnemyBehaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\PerceptionSystem.cpp">
+      <Filter>V2Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\EnemyBehaviors\StrafeAround.cpp">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClCompile>
   </ItemGroup>
@@ -246,9 +249,6 @@
     <ClInclude Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.h">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClInclude>
-    <ClInclude Include="V2Enemy\EnemyDetectionSystem.h">
-      <Filter>V2Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehavior.h">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClInclude>
@@ -300,6 +300,15 @@
     <ClInclude Include="V2Enemy\EnemyBehaviors\CombatPosture.h">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClInclude>
+    <ClInclude Include="V2Enemy\PerceptionSystem.h">
+      <Filter>V2Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\Skill\IEnemySkill.h">
+      <Filter>V2Enemy\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\EnemyBehaviors\StrafeAround.h">
+      <Filter>V2Enemy\EnemyBehaviors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">
@@ -343,6 +352,12 @@
     </Filter>
     <Filter Include="FlowFunction\SimpleBehaviors">
       <UniqueIdentifier>{5d0024bf-f6cb-448e-bc1e-011e407ead8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="V2Enemy\Skill">
+      <UniqueIdentifier>{e788f7a8-0776-4306-91db-532e06cd0e6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FlowFunction\FlowControll">
+      <UniqueIdentifier>{eaeb2ad8-9fd5-4a41-a536-f40f80ad6965}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
