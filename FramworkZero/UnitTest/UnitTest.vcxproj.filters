@@ -142,6 +142,9 @@
     <ClCompile Include="V2Enemy\EnemyBehaviors\StrafeAround.cpp">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClCompile>
+    <ClCompile Include="FlowFunction\FlowControll\FlowRoutine.cpp">
+      <Filter>FlowFunction\FlowControll</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WorldDemo.h" />
@@ -308,6 +311,9 @@
     </ClInclude>
     <ClInclude Include="V2Enemy\EnemyBehaviors\StrafeAround.h">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\FlowControll\FlowRoutine.h">
+      <Filter>FlowFunction\FlowControll</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

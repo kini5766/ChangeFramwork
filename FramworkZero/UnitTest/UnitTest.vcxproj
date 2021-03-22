@@ -144,6 +144,7 @@
     <ClCompile Include="EditorDemo\Objects\V2EnemyInstancingSpawner.cpp" />
     <ClCompile Include="Enemy\MagicianEnemy.cpp" />
     <ClCompile Include="Enemy\MeleeEnemy.cpp" />
+    <ClCompile Include="FlowFunction\FlowControll\FlowRoutine.cpp" />
     <ClCompile Include="FlowFunction\FlowReader.cpp" />
     <ClCompile Include="FlowFunction\FutureReturn.cpp" />
     <ClCompile Include="FlowFunction\SimpleBehaviors\Follower.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Enemy\EnemyDesc.h" />
     <ClInclude Include="Enemy\MagicianEnemy.h" />
     <ClInclude Include="Enemy\MeleeEnemy.h" />
+    <ClInclude Include="FlowFunction\FlowControll\FlowRoutine.h" />
     <ClInclude Include="FlowFunction\FlowFunction.h" />
     <ClInclude Include="FlowFunction\FlowReader.h" />
     <ClInclude Include="FlowFunction\FlowTesk.h" />
