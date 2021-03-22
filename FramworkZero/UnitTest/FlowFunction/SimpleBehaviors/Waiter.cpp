@@ -5,9 +5,6 @@
 Waiter::Waiter(const WaiterDesc & desc)
 	: desc(desc)
 {
-	FlowTesk::FuncCall = bind(&Waiter::Call, this, placeholders::_1);
-	FlowTesk::FuncUpdate = bind(&Waiter::Update, this);
-	FlowTesk::FuncCancel = bind(&Waiter::Cancel, this);
 }
 
 Waiter::~Waiter()

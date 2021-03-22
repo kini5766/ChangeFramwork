@@ -5,14 +5,14 @@
 
 
 // 클립 실행 하고 종료 되면 리턴 호출
-class ClipPlayer : public FlowTesk
+class ClipPlayer : public IFlowTesk
 {
 public:
 	ClipPlayer(const ClipPlayerDesc& desc);
 	~ClipPlayer();
 
 private:
-	void Call(const FutureAction* future);
+	virtual void Call(const FutureAction* future) override;
 
 private:
 	ClipPlayerDesc desc;

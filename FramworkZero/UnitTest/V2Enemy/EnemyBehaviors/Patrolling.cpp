@@ -9,10 +9,6 @@ Patrolling::Patrolling(const PatrollingDesc & input)
 	: desc(input)
 	, funcReset(bind(&Patrolling::Reset, this))
 {
-	FlowTesk::FuncCall = bind(&Patrolling::Call, this, placeholders::_1);
-	FlowTesk::FuncUpdate = bind(&Patrolling::Update, this);
-	FlowTesk::FuncCancel = bind(&Patrolling::Cancel, this);
-
 	waiter = new Waiter(desc.MakeWaiter());
 
 	UINT size = desc.PatrolCount;

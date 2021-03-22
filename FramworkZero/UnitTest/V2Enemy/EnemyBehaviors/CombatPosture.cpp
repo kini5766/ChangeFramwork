@@ -10,10 +10,6 @@ CombatPosture::CombatPosture(const CombatPostureDesc& input)
 	: desc(input)
 	, funcReset(bind(&CombatPosture::Reset, this))
 {
-	FlowTesk::FuncCall = bind(&CombatPosture::Call, this, placeholders::_1);
-	FlowTesk::FuncUpdate = bind(&CombatPosture::Update, this);
-	FlowTesk::FuncCancel = bind(&CombatPosture::Cancel, this);
-
 	desc.StrafeAroundDesc.FuncOutRange = [=]() { 
 		result.OnAction();
 	};

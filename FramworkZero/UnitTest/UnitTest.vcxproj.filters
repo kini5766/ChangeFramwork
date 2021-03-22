@@ -145,6 +145,18 @@
     <ClCompile Include="FlowFunction\FlowControll\FlowRoutine.cpp">
       <Filter>FlowFunction\FlowControll</Filter>
     </ClCompile>
+    <ClCompile Include="FlowFunction\FlowControll\FlowIf.cpp">
+      <Filter>FlowFunction\FlowControll</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowFunction\FlowControll\FlowSwitching.cpp">
+      <Filter>FlowFunction\FlowControll</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowFunction\FlowControll\FlowAction.cpp">
+      <Filter>FlowFunction\FlowControll</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowFunction\FlowControll\FlowLoop.cpp">
+      <Filter>FlowFunction\FlowControll</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WorldDemo.h" />
@@ -313,6 +325,18 @@
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClInclude>
     <ClInclude Include="FlowFunction\FlowControll\FlowRoutine.h">
+      <Filter>FlowFunction\FlowControll</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\FlowControll\FlowIf.h">
+      <Filter>FlowFunction\FlowControll</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\FlowControll\FlowSwitching.h">
+      <Filter>FlowFunction\FlowControll</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\FlowControll\FlowAction.h">
+      <Filter>FlowFunction\FlowControll</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowFunction\FlowControll\FlowLoop.h">
       <Filter>FlowFunction\FlowControll</Filter>
     </ClInclude>
   </ItemGroup>

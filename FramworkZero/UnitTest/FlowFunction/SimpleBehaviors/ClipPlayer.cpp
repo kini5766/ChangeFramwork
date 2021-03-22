@@ -4,7 +4,6 @@
 ClipPlayer::ClipPlayer(const ClipPlayerDesc & desc)
 	: desc(desc)
 {
-	FlowTesk::FuncCall = bind(&ClipPlayer::Call, this, placeholders::_1);
 }
 
 ClipPlayer::~ClipPlayer()

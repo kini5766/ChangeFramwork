@@ -10,10 +10,6 @@ StrafeAround::StrafeAround(const StrafeAroundDesc & input)
 	: desc(input)
 	, funcReset(bind(&StrafeAround::Reset, this))
 {
-	FlowTesk::FuncCall = bind(&StrafeAround::Call, this, placeholders::_1);
-	FlowTesk::FuncUpdate = bind(&StrafeAround::Update, this);
-	FlowTesk::FuncCancel = bind(&StrafeAround::Cancel, this);
-
 	reader = new FlowReader();
 
 	waiter = new Waiter(desc.MakeWaiter());
@@ -66,7 +62,6 @@ void StrafeAround::Cancel()
 
 void StrafeAround::Reset()
 {
-
 	reader->Cancel();
 	if (curr)
 	{

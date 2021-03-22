@@ -144,7 +144,11 @@
     <ClCompile Include="EditorDemo\Objects\V2EnemyInstancingSpawner.cpp" />
     <ClCompile Include="Enemy\MagicianEnemy.cpp" />
     <ClCompile Include="Enemy\MeleeEnemy.cpp" />
+    <ClCompile Include="FlowFunction\FlowControll\FlowAction.cpp" />
+    <ClCompile Include="FlowFunction\FlowControll\FlowIf.cpp" />
+    <ClCompile Include="FlowFunction\FlowControll\FlowLoop.cpp" />
     <ClCompile Include="FlowFunction\FlowControll\FlowRoutine.cpp" />
+    <ClCompile Include="FlowFunction\FlowControll\FlowSwitching.cpp" />
     <ClCompile Include="FlowFunction\FlowReader.cpp" />
     <ClCompile Include="FlowFunction\FutureReturn.cpp" />
     <ClCompile Include="FlowFunction\SimpleBehaviors\Follower.cpp" />
@@ -199,7 +203,11 @@
     <ClInclude Include="Enemy\EnemyDesc.h" />
     <ClInclude Include="Enemy\MagicianEnemy.h" />
     <ClInclude Include="Enemy\MeleeEnemy.h" />
+    <ClInclude Include="FlowFunction\FlowControll\FlowAction.h" />
+    <ClInclude Include="FlowFunction\FlowControll\FlowIf.h" />
+    <ClInclude Include="FlowFunction\FlowControll\FlowLoop.h" />
     <ClInclude Include="FlowFunction\FlowControll\FlowRoutine.h" />
+    <ClInclude Include="FlowFunction\FlowControll\FlowSwitching.h" />
     <ClInclude Include="FlowFunction\FlowFunction.h" />
     <ClInclude Include="FlowFunction\FlowReader.h" />
     <ClInclude Include="FlowFunction\FlowTesk.h" />

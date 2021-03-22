@@ -4,21 +4,18 @@
 FlowReader::FlowReader()
 	: funcNext(bind(&FlowReader::Next, this))
 {
-	FlowTesk::FuncCall = bind(&FlowReader::Call, this, placeholders::_1);
-	FlowTesk::FuncUpdate = bind(&FlowReader::Update, this);
-	FlowTesk::FuncCancel = bind(&FlowReader::Cancel, this);
 }
 
 FlowReader::~FlowReader()
 {
 }
 
-void FlowReader::PushBack(FlowTesk* tesk)
+void FlowReader::PushBack(IFlowTesk* tesk)
 {
 	funcStack.push_back(tesk);
 }
 
-void FlowReader::PushBacks(UINT size, FlowTesk** first)
+void FlowReader::PushBacks(UINT size, IFlowTesk** first)
 {
 	funcStack.insert(funcStack.end(), first, first + size);
 }
@@ -40,7 +37,7 @@ void FlowReader::CancelNext()
 	if (curr == nullptr)
 		return;
 
-	curr->FuncCancel();
+	curr->Cancel();
 	Next();
 }
 
@@ -56,7 +53,7 @@ void FlowReader::HoldBackNext()
 	if (curr == nullptr)
 		return;
 
-	FlowTesk* hold = curr;
+	IFlowTesk* hold = curr;
 	Next();
 	PushBack(hold);
 }
@@ -80,13 +77,13 @@ void FlowReader::Update()
 	{
 		curr = next;
 		next = nullptr;
-		curr->FuncCall(&funcNext);
+		curr->Call(&funcNext);
 	}
 
 	if (curr == nullptr)
 		return;
 
-	curr->FuncUpdate();
+	curr->Update();
 }
 
 void FlowReader::Cancel()
@@ -98,7 +95,7 @@ void FlowReader::Cancel()
 	if (curr == nullptr)
 		return;
 
-	curr->FuncCancel();
+	curr->Cancel();
 	curr = nullptr;
 }
 

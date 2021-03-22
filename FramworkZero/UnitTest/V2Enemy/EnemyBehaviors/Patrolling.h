@@ -4,16 +4,16 @@
 #include "FlowFunction/FlowFunction.h"
 
 
-class Patrolling : public FlowTesk
+class Patrolling : public IFlowTesk
 {
 public:
 	Patrolling(const PatrollingDesc& input);
 	~Patrolling();
 
 private:
-	void Call(const FutureAction * action);
-	void Update();
-	void Cancel();
+	virtual void Call(const FutureAction * action) override;
+	virtual void Update() override;
+	virtual void Cancel() override;
 
 
 private:
@@ -25,7 +25,7 @@ private:
 	FutureReturn result;
 
 	FlowReader* reader;
-	vector<class FlowTesk*> tesks;
+	vector<class IFlowTesk*> tesks;
 
 	class Waiter* waiter;
 	vector<class PointMover*> pats;

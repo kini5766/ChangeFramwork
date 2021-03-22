@@ -5,7 +5,7 @@
 
 
 // 지정 시간 만큼 대기
-class Waiter : public FlowTesk
+class Waiter : public IFlowTesk
 {
 public:
 	Waiter(const WaiterDesc& desc);
@@ -15,9 +15,9 @@ public:
 	WaiterDesc* GetDesc() { return &desc; }
 
 private:
-	void Call(const FutureAction * action);
-	void Update();
-	void Cancel();
+	virtual void Call(const FutureAction * action) override;
+	virtual void Update() override;
+	virtual void Cancel() override;
 
 private:
 	WaiterDesc desc;

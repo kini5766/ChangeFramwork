@@ -5,16 +5,16 @@
 
 
 // Focus의 위치로 이동
-class Follower : public FlowTesk
+class Follower : public IFlowTesk
 {
 public:
 	Follower(const FollowerDesc& desc);
 	~Follower();
 
 private:
-	void Call(const FutureAction * result);
-	void Update();
-	void Cancel();
+	virtual void Call(const FutureAction * result) override;
+	virtual void Update() override;
+	virtual void Cancel() override;
 
 private:
 	FollowerDesc desc;

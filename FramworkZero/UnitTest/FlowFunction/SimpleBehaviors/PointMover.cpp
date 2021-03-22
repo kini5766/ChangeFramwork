@@ -6,9 +6,6 @@
 PointMover::PointMover(const PointMoverDesc & desc)
 	: desc(desc)
 {
-	FlowTesk::FuncCall = bind(&PointMover::Call, this, placeholders::_1);
-	FlowTesk::FuncUpdate = bind(&PointMover::Update, this);
-	FlowTesk::FuncCancel = bind(&PointMover::Cancel, this);
 }
 
 PointMover::~PointMover()
