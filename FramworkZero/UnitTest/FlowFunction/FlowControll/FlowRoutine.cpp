@@ -14,9 +14,12 @@ FlowRoutine::~FlowRoutine()
 
 void FlowRoutine::Call(const FutureAction * action)
 {
-	reader->Clear();
+	reader->Cancel();
 	if (tesks.size() == 0)
+	{
+		(*action)();
 		return;
+	}
 
 	reader->PushBacks(tesks.size(), tesks.data());
 	reader->Call(action);

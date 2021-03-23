@@ -17,17 +17,20 @@ private:
 
 
 private:
-	void Reset();
-	FutureAction funcReset;
+	Judgment UpdateLoop();
+	FutureAction PlayWalk();
+	FutureAction PlayLookAround();
+	Judgment IsAround();
 
 private:
 	PatrollingDesc desc;
-	FutureReturn result;
+	FlowLoop* loop;
 
-	FlowReader* reader;
-	vector<class IFlowTesk*> tesks;
+	vector<FlowRoutine*> patrolls;
+	vector<class PointMover*> moveToPoints;
+	FlowAction* playWalk;
 
+	FlowRoutine* lookAround;
+	FlowAction* playLookAround;
 	class Waiter* waiter;
-	vector<class PointMover*> pats;
-
 };

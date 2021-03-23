@@ -55,13 +55,16 @@ __기능 수정__
 -모델애니메이션
  :매트릭스가 아닌 쿼터니온 slerp로 보간
 , 모델컨버터 클립 부분 수정됨
+, 애니메이션 약간 오류있음
 
--스마트 포인터 사용
-class MeshInstancing
- Meshdata* -> unqiup_ptr<Meshdata>
+-프리렌더용 카메라
 
-class Context
- Camera* -> unique_ptr<Camera>
+
+-셰도우
+
+-환경맵
+
+-포스트랜더
 
 
 __기능 추가__ 
@@ -99,6 +102,7 @@ class CollisionManager
 
 -Object/PostProcessing/PostEffect
  : 받은 함수 포인터로 후처리 효과들을 섞어주는 클래스
+
 
 __쉐이더 수정__
 -이미시브 (프레넬효과 -> 림라이트) 

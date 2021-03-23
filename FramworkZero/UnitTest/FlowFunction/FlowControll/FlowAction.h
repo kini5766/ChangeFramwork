@@ -13,5 +13,5 @@ public:
 	virtual void Call(const FutureAction * result) override;
 
 private:
-	const FutureAction& action;
+	FutureAction action;
 };

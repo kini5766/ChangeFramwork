@@ -23,7 +23,7 @@ void FlowIf::Call(const FutureAction * action)
 	if (currTesk == nullptr)
 	{
 		result.Clear();
-		(*action);
+		(*action)();
 		return;
 	}
 
@@ -44,6 +44,6 @@ void FlowIf::Cancel()
 
 void FlowIf::Result()
 {
-	result.OnAction();
 	currTesk = nullptr;
+	result.OnAction();
 }

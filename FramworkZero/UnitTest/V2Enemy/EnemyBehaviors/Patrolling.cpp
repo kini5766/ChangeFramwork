@@ -7,70 +7,110 @@
 
 Patrolling::Patrolling(const PatrollingDesc & input)
 	: desc(input)
-	, funcReset(bind(&Patrolling::Reset, this))
 {
+	loop = new FlowLoop();
+	loop->SetJudgment(UpdateLoop());
+
+	playLookAround = new FlowAction(PlayLookAround());
 	waiter = new Waiter(desc.MakeWaiter());
 
 	UINT size = desc.PatrolCount;
-	pats.reserve(size);
+	moveToPoints.reserve(size);
 	for (int i = size - 1; i >= 0; i--)
-		pats.push_back(new PointMover(desc.MakeMover(i)));
+		moveToPoints.push_back(new PointMover(desc.MakeMover(i)));
+	playWalk = new FlowAction(PlayWalk());
 
-	reader = new FlowReader();
+	lookAround = new FlowRoutine();
 
-
-	for (PointMover* pat : pats)
+	patrolls.reserve(size);
+	for (PointMover* mov : moveToPoints)
 	{
-		// 순서
+		// 둘러보기
 		// 2. 대기
-		// 1. 이동
+		// 1. 애니메이션 재생
+		lookAround->Tesks()->push_back(waiter);
+		lookAround->Tesks()->push_back(playLookAround);
 
-		tesks.push_back(waiter);
-		tesks.push_back(pat);
+		// 패트롤
+		// 2. 이동
+		// 1. 애니메이션 재생
+		FlowRoutine* pat = new FlowRoutine();
+		patrolls.push_back(pat);
+		pat->Tesks()->push_back(mov);
+		pat->Tesks()->push_back(playWalk);
+
+		// 순서
+		// 2. 둘러보기
+		// 1. 만약 근처가 아니면 다음지점으로
+		loop->Tesks()->push_back(lookAround);
+		loop->Tesks()->push_back(pat);
 	}
 }
 
 Patrolling::~Patrolling()
 {
-	SafeDelete(reader);
+	SafeDelete(loop);
 
-	for (auto d : pats)
+	for (auto d : patrolls)
 		SafeDelete(d);
+	for (auto d : moveToPoints)
+		SafeDelete(d);
+
 	SafeDelete(waiter);
-}
-
-void Patrolling::Reset()
-{
-	reader->Clear();
-	if (tesks.size() == 0)
-		return;
-
-	reader->PushBacks(tesks.size(), tesks.data());
-	reader->Call(&funcReset);
+	SafeDelete(playWalk);
+	SafeDelete(lookAround);
+	SafeDelete(playLookAround);
 }
 
 
 void Patrolling::Call(const FutureAction * action)
 {
-	result.SetAction(action);
-	reader->Call(&funcReset);
+	loop->Call(action);
 }
 
 void Patrolling::Update()
 {
-	desc.Perceptor->Update();
-	if (desc.Perceptor->IsPerceived())
-	{
-		desc.FuncInRange();
-		result.OnAction();
-		return;
-	}
-
-	reader->Update();
+	loop->Update();
 }
 
 void Patrolling::Cancel()
 {
-	result.Clear();
-	reader->Cancel();
+	loop->Cancel();
+}
+
+
+Judgment Patrolling::UpdateLoop()
+{
+	return [=]() {
+		desc.Perceptor->Update();
+		if (desc.Perceptor->IsPerceived())
+		{
+			desc.FuncInRange();
+			return false;
+		}
+		return true; 
+	};
+}
+
+#include "Component/PointMoveSystem.h"
+FutureAction Patrolling::PlayWalk()
+{
+	return [=]() {
+		desc.Anim->Play(desc.ClipWalk);
+		desc.MovingSystem->SetMoveSpeeder(desc.WalkSpeed);
+	};
+}
+
+FutureAction Patrolling::PlayLookAround()
+{
+	return [=]() {
+		desc.Anim->Play(desc.ClipLookAround);
+	};
+}
+
+Judgment Patrolling::IsAround()
+{
+	return [=]() {
+		return desc.MovingSystem->IsAround();
+	};
 }
