@@ -14,7 +14,7 @@ FlowRoutine::~FlowRoutine()
 
 void FlowRoutine::Call(const FutureAction * action)
 {
-	reader->Clear();
+	reader->Cancel();
 	if (tesks.size() == 0)
 		return;
 
