@@ -226,9 +226,12 @@ void ModelInstancing::RemoveInstance(ModelInstance * value)
 ModelInstance::ModelInstance(const ModelInstanceDesc& desc)
 	: boneCount(desc.BoneCount), blendDesc(desc.Blend)
 	, id(desc.Id), funcRelease(desc.FuncRelease)
+	, enableAnim(desc.EnableAnim)
 {
 	transform = new Transform();
-	animator = new Animator(*desc.AnimData);
+
+	if (enableAnim)
+		animator = new Animator(*desc.AnimData);
 }
 
 ModelInstance::~ModelInstance()
@@ -240,8 +243,11 @@ ModelInstance::~ModelInstance()
 
 void ModelInstance::Update()
 {
-	animator->Update();
-	animator->GetAnimDesc(blendDesc);
+	if (enableAnim)
+	{
+		animator->Update();
+		animator->GetAnimDesc(blendDesc);
+	}
 }
 
 Animator * ModelInstance::GetAnimator()

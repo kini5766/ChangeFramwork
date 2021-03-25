@@ -11,7 +11,6 @@ FieldBehavior::FieldBehavior(const FieldBehaviorInput & input)
 	: desc(input)
 	, transform(input.Trans)
 	, inRange(bind(&FieldBehavior::InRange, this))
-	//, outRange(bind(&FieldBehavior::OutRange, this))
 {
 	PerceptionInput inputED;
 	inputED.MinePosition = &minePosition;
@@ -21,12 +20,18 @@ FieldBehavior::FieldBehavior(const FieldBehaviorInput & input)
 
 	desc.Perceptor = new PerceptionSystem(inputED);
 	desc.FuncInRange = inRange;
-	//desc.FuncOutRange = outRange;
 
 	pat = new Patrolling(desc);
 	clipInSight = new ClipOncePlayer(desc.MakeInSight());
 	combat = new CombatPosture(desc.MakeCombat());
-	recall = new PointMover(desc.MakeComeback());
+
+	recall = new FlowRoutine();
+	moveto = new PointMover(desc.MakeComeback());
+	playRun = new FlowAction([=]() {
+		desc.Anim->PlayUpdate(desc.ClipRun);
+		desc.MovingSystem->SetMoveSpeeder(&desc.RunSpeed);
+	});
+	recall->Tesks()->push_back(moveto);
 
 	reader = new FlowReader();
 	reader->PushBack(pat);
@@ -37,6 +42,8 @@ FieldBehavior::~FieldBehavior()
 {
 	SafeDelete(reader);
 
+	SafeDelete(playRun);
+	SafeDelete(moveto);
 	SafeDelete(recall);
 	SafeDelete(combat);
 	SafeDelete(clipInSight);
@@ -56,7 +63,8 @@ void FieldBehavior::Update()
 
 void FieldBehavior::InRange()
 {
-	desc.MovingSystem->GetTransform()->Position(&recall->GetDesc()->Point);
+	// 지금 위치를 복귀 위치로
+	desc.MovingSystem->GetTransform()->Position(&moveto->GetDesc()->Point);
 
 	// 실행 순서 (스택)
 	// 4. 순찰
@@ -69,7 +77,3 @@ void FieldBehavior::InRange()
 	reader->PushBack(combat);
 	reader->PushBack(clipInSight);
 }
-
-//void FieldBehavior::OutRange()
-//{
-//}

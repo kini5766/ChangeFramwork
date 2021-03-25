@@ -2,6 +2,8 @@
 #include "EnvCamera.h"
 
 EnvCamera::EnvCamera(float width, float height)
+	: width(width), height(height)
+	, dsv(nullptr), rtv(nullptr), srv(nullptr)
 {
 	DXGI_FORMAT rtvFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 
@@ -159,7 +161,8 @@ void EnvCamera::GetEnvViews_Side6(Matrix * out)
 
 	Vector3 f = Context::Get()->MainCamera()->GetTransform()->Forward();
 	Vector3 u = Context::Get()->MainCamera()->GetTransform()->Up();
-	D3DXMatrixLookAtLH(&forword, &position, &(position + f), &u);
+	Vector3 l_value(position + f);
+	D3DXMatrixLookAtLH(&forword, &position, &l_value, &u);
 }
 
 void EnvCamera::SetProjection(float width, float height, float zNear, float zFar, float fov)

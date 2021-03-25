@@ -71,30 +71,39 @@ bool Frustum::CheckPoint(Vector3 & position)
 
 bool Frustum::CheckCube(Vector3 & center, Vector3 & size)
 {
+	Vector3 l_value;
 	for (int i = 0; i < 6; i++)
 	{
-		if (D3DXPlaneDotCoord(&planes[i], &Vector3(center.x - size.x, center.y - size.y, center.z - size.z)) >= 0.0f)
+		l_value = Vector3(center.x - size.x, center.y - size.y, center.z - size.z);
+		if (D3DXPlaneDotCoord(&planes[i], &l_value) >= 0.0f)
 			continue;
 
-		if (D3DXPlaneDotCoord(&planes[i], &Vector3(center.x + size.x, center.y - size.y, center.z - size.z)) >= 0.0f)
+		l_value = Vector3(center.x + size.x, center.y - size.y, center.z - size.z);
+		if (D3DXPlaneDotCoord(&planes[i], &l_value) >= 0.0f)
 			continue;
 
-		if (D3DXPlaneDotCoord(&planes[i], &Vector3(center.x - size.x, center.y + size.y, center.z - size.z)) >= 0.0f)
+		l_value = Vector3(center.x - size.x, center.y + size.y, center.z - size.z);
+		if (D3DXPlaneDotCoord(&planes[i], &l_value) >= 0.0f)
 			continue;
 
-		if (D3DXPlaneDotCoord(&planes[i], &Vector3(center.x - size.x, center.y - size.y, center.z + size.z)) >= 0.0f)
+		l_value = Vector3(center.x - size.x, center.y - size.y, center.z + size.z);
+		if (D3DXPlaneDotCoord(&planes[i], &l_value) >= 0.0f)
 			continue;
 
-		if (D3DXPlaneDotCoord(&planes[i], &Vector3(center.x + size.x, center.y + size.y, center.z - size.z)) >= 0.0f)
+		l_value = Vector3(center.x + size.x, center.y + size.y, center.z - size.z);
+		if (D3DXPlaneDotCoord(&planes[i], &l_value) >= 0.0f)
 			continue;
 
-		if (D3DXPlaneDotCoord(&planes[i], &Vector3(center.x + size.x, center.y - size.y, center.z + size.z)) >= 0.0f)
+		l_value = Vector3(center.x + size.x, center.y - size.y, center.z + size.z);
+		if (D3DXPlaneDotCoord(&planes[i], &l_value) >= 0.0f)
 			continue;
 
-		if (D3DXPlaneDotCoord(&planes[i], &Vector3(center.x - size.x, center.y + size.y, center.z + size.z)) >= 0.0f)
+		l_value = Vector3(center.x - size.x, center.y + size.y, center.z + size.z);
+		if (D3DXPlaneDotCoord(&planes[i], &l_value) >= 0.0f)
 			continue;
 
-		if (D3DXPlaneDotCoord(&planes[i], &Vector3(center.x + size.x, center.y + size.y, center.z + size.z)) >= 0.0f)
+		l_value = Vector3(center.x + size.x, center.y + size.y, center.z + size.z);
+		if (D3DXPlaneDotCoord(&planes[i], &l_value) >= 0.0f)
 			continue;
 
 		return false;

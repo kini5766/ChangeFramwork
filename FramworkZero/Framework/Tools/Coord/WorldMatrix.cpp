@@ -90,31 +90,34 @@ Vector3 WorldMatrix::Position()
 
 Vector3 WorldMatrix::LossyScale()
 {
+	Vector3 x(world._31, world._32, world._33);
+	Vector3 y(world._21, world._22, world._23);
+	Vector3 z(world._11, world._12, world._13);
 	return Vector3(
-		D3DXVec3Length(&Vector3(world._31, world._32, world._33)),
-		D3DXVec3Length(&Vector3(world._21, world._22, world._23)),
-		D3DXVec3Length(&Vector3(world._11, world._12, world._13))
+		D3DXVec3Length(&x),
+		D3DXVec3Length(&y),
+		D3DXVec3Length(&z)
 	);
 }
 
 
 Vector3 WorldMatrix::GlobalForward()
 {
-	Vector3 result;
-	D3DXVec3Normalize(&result, &Vector3(world._31, world._32, world._33));
+	Vector3 result(world._31, world._32, world._33);
+	D3DXVec3Normalize(&result, &result);
 	return result;
 }
 
 Vector3 WorldMatrix::GlobalUp()
 {
-	Vector3 result;
-	D3DXVec3Normalize(&result, &Vector3(world._21, world._22, world._23));
+	Vector3 result(world._21, world._22, world._23);
+	D3DXVec3Normalize(&result, &result);
 	return result;
 }
 
 Vector3 WorldMatrix::GlobalRight()
 {
-	Vector3 result;
-	D3DXVec3Normalize(&result, &Vector3(world._11, world._12, world._13));
+	Vector3 result(world._11, world._12, world._13);
+	D3DXVec3Normalize(&result, &result);
 	return result;
 }

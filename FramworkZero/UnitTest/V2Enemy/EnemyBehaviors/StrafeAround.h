@@ -21,7 +21,8 @@ private:
 private:
 	void Reset();
 	FutureAction funcReset;
-
+	FutureAction PlayIdle();
+	FutureAction PlayRun();
 
 private:
 	StrafeAroundDesc desc;
@@ -29,9 +30,15 @@ private:
 
 	FlowReader* reader;
 
+	FlowRoutine* wait;
+	FlowAction* playIdle;
 	class Waiter* waiter;
+
+	FlowAction* playRun;
+	FlowRoutine* follow;
 	class Follower* follower;
-	class PointMover* arounder;
+	FlowRoutine* around;
+	class PointMover* moveto;
 
 private:
 	bool curr = false;

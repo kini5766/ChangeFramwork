@@ -39,10 +39,14 @@ private:
 
 private:
 	class FlowReader* reader;
+
 	class Patrolling* pat;
-	class PointMover* recall;
+
+	class FlowRoutine* recall;
+	class FlowAction* playRun;
+	class PointMover* moveto;
+
 	class CombatPosture* combat;
-	class PlaingOnce* detection;
 
 	class ClipOncePlayer* clipInSight;
 };

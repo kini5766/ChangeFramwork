@@ -5,8 +5,8 @@
 
 void Editor::Initialize()
 {
-	Context::Get()->MainCamera()->RotationDegree(20, 0, 0);
-	Context::Get()->MainCamera()->Position(1, 36, -85);
+	Context::Get()->MainCamera()->GetTransform()->RotationEuler(EulerAngle(20, 0, 0));
+	Context::Get()->MainCamera()->GetTransform()->Position(1, 36, -85);
 
 	sky = new CubeSky(L"Environment/SunsetCube1024.dds");
 
@@ -38,9 +38,9 @@ void Editor::Update()
 	sphere->GetTransform()->Position(&p);
 	if (Input::Mouse()->Press(1) == false)
 	{
-		const Vector3& F = Context::Get()->MainCamera()->Forward();
-		const Vector3& R = Context::Get()->MainCamera()->Right();
-		const Vector3& U = Context::Get()->MainCamera()->Up();
+		Vector3 F = Context::Get()->MainCamera()->GetTransform()->Forward();
+		Vector3 R = Context::Get()->MainCamera()->GetTransform()->Right();
+		Vector3 U = Context::Get()->MainCamera()->GetTransform()->Up();
 
 		if (Input::Keyboard()->Press('W'))
 			p += Vector3(F.x, 0.0f, F.z) * 20.0f * Time::Delta();

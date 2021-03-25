@@ -90,6 +90,7 @@ public:
 private:
 	Transform* transform;
 
+	bool enableAnim;
 	class Animator* animator = nullptr;
 	BlendDesc* blendDesc;
 

@@ -24,11 +24,11 @@ public:
 class TerrainCollider
 {
 public:
-	Terrain::VertexTerrain* Vertices;
-	Transform* Transform;
-	UINT Width;
-	UINT Height;
-	const MeshData* MeshData;
+	Terrain::VertexTerrain* Vertices = nullptr;
+	Transform* Transform = nullptr;
+	UINT Width = 0;
+	UINT Height = 0;
+	const MeshData* MeshData = nullptr;
 
 	// Picker
 public:

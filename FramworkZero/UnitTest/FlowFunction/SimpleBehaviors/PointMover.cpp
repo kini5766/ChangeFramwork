@@ -16,8 +16,6 @@ void PointMover::Call(const FutureAction * action)
 {
 	desc.MovingSystem->SetPoint(desc.Point);
 	result.SetAction(action);
-
-	desc.CallAnim();
 }
 
 void PointMover::Update()

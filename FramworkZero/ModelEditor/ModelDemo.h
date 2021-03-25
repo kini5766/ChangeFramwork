@@ -18,8 +18,7 @@ private:
 	void Airplane();
 
 private:
-	Shader* shader;
-	ModelSkinnedInstancing* tank = nullptr;
-	ModelSkinnedInstancing* tower = nullptr;
-	ModelSkinnedInstancing* airplane = nullptr;
+	ModelInstancing* tank = nullptr;
+	ModelInstancing* tower = nullptr;
+	ModelInstancing* airplane = nullptr;
 };

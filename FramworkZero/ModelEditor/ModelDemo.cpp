@@ -3,8 +3,6 @@
 
 void ModelDemo::Initialize()
 {
-	shader = Shader::Load(L"01_Material.fxo");
-
 	Tank();
 	Tower();
 	Airplane();
@@ -12,8 +10,6 @@ void ModelDemo::Initialize()
 
 void ModelDemo::Destroy()
 {
-	SafeRelease(shader);
-
 	SafeDelete(tank);
 	SafeDelete(airplane);
 }
@@ -44,7 +40,7 @@ void ModelDemo::Render()
 
 void ModelDemo::Tank()
 {
-	tank = new ModelSkinnedInstancing(shader, {
+	tank = new ModelInstancing({
 		L"Tank/Tank", 
 		L"Tank/Tank" }
 	);
@@ -53,17 +49,16 @@ void ModelDemo::Tank()
 	{
 		Transform* transform = tank->AddInstance()->GetTransform();
 		transform->Position(Vector3(x, 0.0f, 5.0f));
-		transform->Rotation(EulerAngle(0, Math::Random(-179.9f, 179.9f), 0));
+		transform->RotationEuler(EulerAngle(0, Math::Random(-179.9f, 179.9f), 0));
 		transform->Scale(0.3f, 0.3f, 0.3f);
 	}
 
 	tank->UpdateTransforms();
-	tank->Pass(0);
 }
 
 void ModelDemo::Tower()
 {
-	tower = new ModelSkinnedInstancing(shader, {
+	tower = new ModelInstancing( {
 		L"Tower/Tower",
 		L"Tower/Tower" }
 	);
@@ -72,17 +67,16 @@ void ModelDemo::Tower()
 	{
 		Transform* transform = tower->AddInstance()->GetTransform();
 		transform->Position(Vector3(x, 0.0f, 7.0f));
-		transform->Rotation(EulerAngle(0, Math::Random(-179.9f, 179.9f), 0));
+		transform->RotationEuler(EulerAngle(0, Math::Random(-179.9f, 179.9f), 0));
 		transform->Scale(0.003f, 0.003f, 0.003f);
 	}
 
 	tower->UpdateTransforms();
-	tower->Pass(0);
 }
 
 void ModelDemo::Airplane()
 {
-	airplane = new ModelSkinnedInstancing(shader, {
+	airplane = new ModelInstancing( {
 		L"B787/Airplane",
 		L"B787/Airplane" }
 	);
@@ -91,11 +85,10 @@ void ModelDemo::Airplane()
 	{
 		Transform* transform = airplane->AddInstance()->GetTransform();
 		transform->Position(Vector3(x, 0.0f, 2.5f));
-		transform->Rotation(EulerAngle(0, Math::Random(-179.9f, 179.9f), 0));
+		transform->RotationEuler(EulerAngle(0, Math::Random(-179.9f, 179.9f), 0));
 		transform->Scale(0.0003f, 0.0003f, 0.0003f);
 	}
 
 	airplane->UpdateTransforms();
-	airplane->Pass(0);
 }
 

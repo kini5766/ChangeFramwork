@@ -30,6 +30,7 @@ public:
 
 public:
 	void Play(UINT clip) { inputNext = (int)clip; }
+	void PlayUpdate(UINT clip);  // 현재클립이랑 다를 경우에만 적용
 	void PlayTempBlend(UINT next, float tweenTime);
 	void SetCurrBlendEdge(UINT start, UINT end);
 	void SetblendAlpha(float value) { blendAlpha = value; }
@@ -66,7 +67,7 @@ private:
 		UINT End;
 		// 전환 시간
 		float TweenTime;
-	}*currEdge;//, *inputEdge;
+	}*currEdge = nullptr;//, *inputEdge;
 
 private:
 	void PlayNextClip(BlendEdge * next, bool bTemp);
@@ -76,11 +77,11 @@ private:
 	struct ClipNode
 	{
 		// 클립 번호
-		UINT ClipNum;
+		UINT ClipNum = 0;
 		ClipTimer Timer;
-		float Speed;
+		float Speed = 0.0f;
 
-		BlendEdge* DefaultEdge;
+		BlendEdge* DefaultEdge = nullptr;
 		vector<BlendEdge*> Edges;
 		vector<AnimNotify> OnChanges;
 

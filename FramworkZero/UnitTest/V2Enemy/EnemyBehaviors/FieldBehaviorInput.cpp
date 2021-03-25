@@ -58,10 +58,6 @@ PointMoverDesc FieldBehaviorDesc::MakeComeback()
 {
 	PointMoverDesc result;
 	result.MovingSystem = MovingSystem;
-	result.CallAnim = [=]() { 
-		Anim->Play(ClipRun); 
-		MovingSystem->SetMoveSpeeder(&RunSpeed); 
-	};
 
 	return result;
 }

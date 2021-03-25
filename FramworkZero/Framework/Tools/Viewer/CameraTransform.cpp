@@ -91,5 +91,6 @@ void CameraTransform::Move()
 
 void CameraTransform::UpdateView()
 {
-	D3DXMatrixLookAtLH(&matView, &position, &(position + forward), &up);
+	Vector3 l_value(position + forward);
+	D3DXMatrixLookAtLH(&matView, &position, &l_value, &up);
 }

@@ -3,10 +3,8 @@
 
 void AnimationDemo::Initialize()
 {
-	Context::Get()->MainCamera()->RotationDegree(13, 70, 0);
-	Context::Get()->MainCamera()->Position(-20, 1, -3);
-
-	shader = Shader::Load(L"01_Material.fxo");
+	Context::Get()->MainCamera()->GetTransform()->RotationEuler(EulerAngle(13, 70, 0));
+	Context::Get()->MainCamera()->GetTransform()->Position(-20, 1, -3);
 
 	Kachujin();
 }
@@ -16,7 +14,6 @@ void AnimationDemo::Destroy()
 	SafeDelete(gizmo);
 	SafeDeleteArray(attachBones);
 	SafeDelete(kachujin);
-	SafeRelease(shader);
 }
 
 void AnimationDemo::Update()
@@ -77,7 +74,7 @@ void AnimationDemo::Render()
 
 void AnimationDemo::Kachujin()
 {
-	kachujin = new ModelSkinnedInstancing(shader,
+	kachujin = new ModelInstancing(
 		{
 			/*매쉬*/ L"Kachujin/Mesh",
 			/*매터리얼*/ L"Kachujin/Mesh",
@@ -90,7 +87,7 @@ void AnimationDemo::Kachujin()
 			}
 		});
 
-	ModelSkinnedInstance* instance = kachujin->AddInstance();
+	ModelInstance* instance = kachujin->AddInstance();
 	instance->GetTransform()->Scale(0.025f, 0.025f, 0.025f);
 
 	for (float x = -50; x <= 50; x += 2.5f)
@@ -101,7 +98,6 @@ void AnimationDemo::Kachujin()
 	}
 
 	kachujin->UpdateTransforms();
-	kachujin->Pass(0);
 
 	attachBones = new Matrix[kachujin->GetModel()->BoneCount()];
 	gizmo = new Transform();

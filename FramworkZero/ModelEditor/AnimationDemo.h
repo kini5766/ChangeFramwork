@@ -16,9 +16,8 @@ private:
 	void Kachujin();
 
 private:
-	Shader* shader;
 	MeshInstancing* box;
-	ModelSkinnedInstancing* kachujin;
+	ModelInstancing* kachujin;
 	Matrix* attachBones;
 	Transform* gizmo;
 };

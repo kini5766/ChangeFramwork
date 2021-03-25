@@ -16,7 +16,7 @@ struct RaycastOutput
 	RaycastOutput(const Ray& ray) : Ray(ray) {}
 
 	Ray Ray;
-	UINT LayerMask;
+	UINT LayerMask = 0;
 	bool IsCollision = false;
 	float OutMinDistance = 0.0f;
 };

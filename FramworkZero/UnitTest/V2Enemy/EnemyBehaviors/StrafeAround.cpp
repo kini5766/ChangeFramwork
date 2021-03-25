@@ -12,18 +12,50 @@ StrafeAround::StrafeAround(const StrafeAroundDesc & input)
 {
 	reader = new FlowReader();
 
+
+	wait = new FlowRoutine();
+	playIdle = new FlowAction(PlayIdle());
 	waiter = new Waiter(desc.MakeWaiter());
+
+	playRun = new FlowAction(PlayRun());
+	follow = new FlowRoutine();
 	follower = new Follower(desc.MakeFollower());
-	arounder = new PointMover(desc.MakeMover());
+	around = new FlowRoutine();
+	moveto = new PointMover(desc.MakeMover());
+
+	// 순서
+	// 2. 대기
+	// 1. 애니메이션 재생
+	wait->Tesks()->push_back(waiter);
+	wait->Tesks()->push_back(playIdle);
+
+	// 순서
+	// 2. 따라감
+	// 1. 재생
+	follow->Tesks()->push_back(follower);
+	follow->Tesks()->push_back(playRun);
+
+	// 순서
+	// 2. 배회
+	// 1. 재생
+	around->Tesks()->push_back(moveto);
+	around->Tesks()->push_back(playRun);
+
 }
 
 StrafeAround::~StrafeAround()
 {
 	SafeDelete(reader);
 
+	SafeDelete(wait);
+	SafeDelete(playIdle);
 	SafeDelete(waiter);
+
+	SafeDelete(playRun);
+	SafeDelete(follow);
 	SafeDelete(follower);
-	SafeDelete(arounder);
+	SafeDelete(around);
+	SafeDelete(moveto);
 }
 
 void StrafeAround::Call(const FutureAction * action)
@@ -68,8 +100,8 @@ void StrafeAround::Reset()
 		// 주변 맴돌기
 		Vector3 d = desc.Perceptor->GetDest();
 
-		Vector3 dc;
-		D3DXVec3Cross(&dc, &d, &Vector3(0, 1, 0));
+		Vector3 dc(0, 1, 0);
+		D3DXVec3Cross(&dc, &d, &dc);
 
 
 		// -45도 ~ 45도
@@ -87,21 +119,36 @@ void StrafeAround::Reset()
 		direction *= Math::Random(desc.MinRange, desc.MinRange * 2.0f);
 
 		Vector3 position = *desc.Perceptor->GetFocus();
-		arounder->GetDesc()->Point = position + direction;
+		moveto->GetDesc()->Point = position + direction;
 
 		waiter->GetDesc()->Time = Math::Random(0.25f, 1.0f);
 
 		// 순서
 		// 2. 대기
 		// 1. 이동
-		reader->PushBack(waiter);
-		reader->PushBack(arounder);
+		//reader->PushBack(waiter);
+		reader->PushBack(around);
 	}
 	else
 	{
 		// 따라가기
-		reader->PushBack(follower);
+		reader->PushBack(follow);
 	}
 
 	reader->Call(&funcReset);
+}
+
+FutureAction StrafeAround::PlayIdle()
+{
+	return [=]() {
+		desc.Anim->PlayUpdate(desc.ClipIdle);
+	};
+}
+
+FutureAction StrafeAround::PlayRun()
+{
+	return [=]() {
+		desc.Anim->PlayUpdate(desc.ClipRun);
+		desc.MovingSystem->SetMoveSpeeder(desc.RunSpeed);
+	};
 }

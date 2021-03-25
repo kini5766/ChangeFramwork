@@ -15,8 +15,6 @@ Follower::~Follower()
 void Follower::Call(const FutureAction * action)
 {
 	result.SetAction(action);
-
-	desc.CallAnim();
 }
 
 void Follower::Update()

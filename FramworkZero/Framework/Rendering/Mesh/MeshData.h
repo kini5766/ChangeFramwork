@@ -51,10 +51,10 @@ struct VertexMesh
 struct SubMeshData
 {
 	UINT MaterialIndex = 0;
-	UINT StartVertex;
-	UINT VertexCount;
-	UINT StartIndex;
-	UINT IndexCount;
+	UINT StartVertex = 0;
+	UINT VertexCount = 0;
+	UINT StartIndex = 0;
+	UINT IndexCount = 0;
 	D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 };
 

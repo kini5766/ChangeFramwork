@@ -38,7 +38,8 @@ Vector3 Viewport::Project(const Vector3 & source, const Matrix & W, const Matrix
 {
 	Vector3 result;
 
-	D3DXVec3TransformCoord(&result, &source, &(W * V * P));
+	Matrix l_value(W * V * P);
+	D3DXVec3TransformCoord(&result, &source, &l_value);
 
 	// ndc -> viewport상 화면 위치
 	result.x = x + 0.5f * width * (1.0f + result.x);
@@ -56,8 +57,8 @@ Vector3 Viewport::Unproject(const Vector3 & source, const Matrix & W, const Matr
 	result.y = (y - source.y) / height * 2.0f + 1.0f;
 	result.z = (source.z - minDepth) / (maxDepth - minDepth);
 
-	Matrix wvp;
-	D3DXMatrixInverse(&wvp, nullptr, &(W * V * P));
+	Matrix wvp(W * V * P);
+	D3DXMatrixInverse(&wvp, nullptr, &wvp);
 	D3DXVec3TransformCoord(&result, &result, &wvp);
 
 	return result;

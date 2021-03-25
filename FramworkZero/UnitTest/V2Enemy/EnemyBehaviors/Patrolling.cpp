@@ -96,7 +96,7 @@ Judgment Patrolling::UpdateLoop()
 FutureAction Patrolling::PlayWalk()
 {
 	return [=]() {
-		desc.Anim->Play(desc.ClipWalk);
+		desc.Anim->PlayUpdate(desc.ClipWalk);
 		desc.MovingSystem->SetMoveSpeeder(desc.WalkSpeed);
 	};
 }
@@ -104,7 +104,7 @@ FutureAction Patrolling::PlayWalk()
 FutureAction Patrolling::PlayLookAround()
 {
 	return [=]() {
-		desc.Anim->Play(desc.ClipLookAround);
+		desc.Anim->PlayUpdate(desc.ClipLookAround);
 	};
 }
 

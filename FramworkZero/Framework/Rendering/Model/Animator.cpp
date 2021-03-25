@@ -37,6 +37,24 @@ Animator::~Animator()
 	//SafeDelete(inputEdge);
 }
 
+void Animator::PlayUpdate(UINT clip)
+{
+	if (currEdge != nullptr)
+	{
+		if (currEdge->End != clip)
+		{
+			EndBlend();
+		}
+	}
+
+	inputNext = clip;
+	if (currClip == inputNext)
+	{
+		inputNext = -1;
+	}
+
+}
+
 void Animator::PlayTempBlend(UINT next, float tweenTime)
 {
 	//SafeDelete(inputEdge);

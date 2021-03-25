@@ -7,9 +7,6 @@ struct WaiterDesc
 {
 	// 대기할 시간
 	float Time;
-
-	// 이 함수가 작동 시 애니메이션 재생
-	function<void()> CallAnim = []() {};
 };
 
 
@@ -28,9 +25,6 @@ struct PointMoverDesc
 	class PointMoveSystem* MovingSystem;
 	// 목표지점
 	Vector3 Point;
-
-	// 이 함수가 작동 시 애니메이션 재생
-	function<void()> CallAnim = []() {};
 };
 
 struct FollowerDesc
@@ -40,9 +34,6 @@ struct FollowerDesc
 
 	// 목표 지점
 	Vector3* Focus;
-
-	// 이 함수가 작동 시 애니메이션 재생
-	function<void()> CallAnim = []() {};
 };
 
 
