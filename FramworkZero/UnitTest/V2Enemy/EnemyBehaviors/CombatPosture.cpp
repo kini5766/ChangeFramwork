@@ -10,12 +10,12 @@ CombatPosture::CombatPosture(const CombatPostureDesc& input)
 	: desc(input)
 	, funcReset(bind(&CombatPosture::Reset, this))
 {
-	desc.StrafeAroundDesc.FuncOutRange = [=]() { 
-		result.OnAction();
-	};
 	strafeAround = new StrafeAround(desc.StrafeAroundDesc);
 	reader = new FlowReader();
 
+	strafeAround->SetFuncOutRange([=]() {
+		result.OnAction();
+	});
 	tesks.push_back(strafeAround);
 }
 
@@ -34,14 +34,11 @@ void CombatPosture::Call(const FutureAction * action)
 
 void CombatPosture::Update()
 {
-
-	//if (desc.Skill->IsValid())
-	//{
-	//	reader->PushBack(desc.Skill->GetTesk());
-	//	reader->HoldBackNext();
-	//}
-
-	// if (desc.Perceptor->GetDistanceSq() < desc.ApproachRangeSq)
+	if (desc.Skill->IsValid())
+	{
+		reader->PushBack(desc.Skill->GetTesk());
+		reader->CancelNext();
+	}
 
 	reader->Update();
 }

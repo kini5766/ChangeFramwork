@@ -22,14 +22,9 @@ public:
 
 
 private:
-	void Result();
-	FutureAction funcResult;
-
-private:
-	FutureReturn result;
 	Judgment judgment;
 	IFlowTesk* teskTrue = nullptr;
 	IFlowTesk* teskFalse = nullptr;
 
-	IFlowTesk* currTesk;
+	IFlowTesk* currTesk = nullptr;
 };

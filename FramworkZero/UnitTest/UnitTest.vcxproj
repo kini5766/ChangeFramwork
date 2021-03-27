@@ -180,12 +180,11 @@
     </ClCompile>
     <ClCompile Include="V2Enemy\EnemyBehaviors\CombatPosture.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.cpp" />
-    <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehavior.cpp" />
-    <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\Patrolling.cpp" />
     <ClCompile Include="V2Enemy\EnemyBehaviors\StrafeAround.cpp" />
     <ClCompile Include="V2Enemy\PerceptionSystem.cpp" />
     <ClCompile Include="V2Enemy\FieldEnemy.cpp" />
+    <ClCompile Include="V2Enemy\Skill\SkillMelee.cpp" />
     <ClCompile Include="V2Enemy\V2EnemyMelee.cpp" />
     <ClCompile Include="WorldDemo.cpp" />
   </ItemGroup>
@@ -242,12 +241,11 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\CombatPosture.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.h" />
-    <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehavior.h" />
-    <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\Patrolling.h" />
     <ClInclude Include="V2Enemy\EnemyBehaviors\StrafeAround.h" />
     <ClInclude Include="V2Enemy\PerceptionSystem.h" />
     <ClInclude Include="V2Enemy\Skill\IEnemySkill.h" />
+    <ClInclude Include="V2Enemy\Skill\SkillMelee.h" />
     <ClInclude Include="V2Enemy\V2EnemyDesc.h" />
     <ClInclude Include="V2Enemy\FieldEnemy.h" />
     <ClInclude Include="V2Enemy\V2EnemyMelee.h" />

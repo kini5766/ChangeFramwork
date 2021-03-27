@@ -33,7 +33,7 @@ struct FollowerDesc
 	class PointMoveSystem* MovingSystem;
 
 	// 목표 지점
-	Vector3* Focus;
+	function<Vector3()> FuncGetFocus;
 };
 
 

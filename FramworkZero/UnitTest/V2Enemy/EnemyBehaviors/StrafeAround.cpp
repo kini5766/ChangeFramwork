@@ -8,20 +8,39 @@
 
 StrafeAround::StrafeAround(const StrafeAroundDesc & input)
 	: desc(input)
-	, funcReset(bind(&StrafeAround::Reset, this))
+	, funcCase(bind(&StrafeAround::UpdateCase, this))
+	, funcEndCase(bind(&StrafeAround::EndCase, this))
+	, funcPositioning(bind(&StrafeAround::UpdatePositioning, this))
 {
-	reader = new FlowReader();
+	switching = new FlowSwitching();
 
+
+	playIdle = new FlowAction([=]() {
+		desc.Anim->PlayUpdate(desc.ClipIdle);
+	});
+	playRun = new FlowAction([=]() {
+		desc.Anim->PlayUpdate(desc.ClipRun);
+		desc.MovingSystem->SetMoveSpeeder(desc.RunSpeed);
+	});
+
+	WaiterDesc makeWaiter;
+	makeWaiter.Time = 1.0f;
+	PointMoverDesc makeMover;
+	makeMover.MovingSystem = desc.MovingSystem;
+	FollowerDesc makeFollower;
+	makeFollower.FuncGetFocus = [=]() { return desc.Perceptor->GetFocus(); };
+	makeFollower.MovingSystem = desc.MovingSystem;
+
+	waiter = new Waiter(makeWaiter);
+	moveto = new PointMover(makeMover);
+	follower = new Follower(makeFollower);
 
 	wait = new FlowRoutine();
-	playIdle = new FlowAction(PlayIdle());
-	waiter = new Waiter(desc.MakeWaiter());
+	move = new FlowRoutine();
+	positioning = new FlowAction(funcPositioning);
 
-	playRun = new FlowAction(PlayRun());
-	follow = new FlowRoutine();
-	follower = new Follower(desc.MakeFollower());
-	around = new FlowRoutine();
-	moveto = new PointMover(desc.MakeMover());
+	prowlRoutine = new FlowRoutine();
+	followRoutine = new FlowRoutine();
 
 	// 순서
 	// 2. 대기
@@ -30,32 +49,52 @@ StrafeAround::StrafeAround(const StrafeAroundDesc & input)
 	wait->Tesks()->push_back(playIdle);
 
 	// 순서
-	// 2. 따라감
-	// 1. 재생
-	follow->Tesks()->push_back(follower);
-	follow->Tesks()->push_back(playRun);
-
-	// 순서
 	// 2. 배회
 	// 1. 재생
-	around->Tesks()->push_back(moveto);
-	around->Tesks()->push_back(playRun);
+	move->Tesks()->push_back(moveto);
+	move->Tesks()->push_back(playRun);
 
+
+	// 순서
+	// 3. 대기
+	// 2. 이동
+	// 1. 이동할 위치 정하기
+	prowlRoutine->Tesks()->push_back(wait);
+	prowlRoutine->Tesks()->push_back(move);
+	prowlRoutine->Tesks()->push_back(positioning);
+
+	// 순서
+	// 2. 따라감
+	// 1. 재생
+	followRoutine->Tesks()->push_back(follower);
+	followRoutine->Tesks()->push_back(playRun);
+
+
+	// 캐이스
+	// -1 : 전투 범위 벗어남
+	// 0 : 주변 배회
+	// 1 : 따라가기
+	switching->SetFuncCase(funcCase);
+	switching->Cases()->push_back(prowlRoutine);
+	switching->Cases()->push_back(followRoutine);
 }
 
 StrafeAround::~StrafeAround()
 {
-	SafeDelete(reader);
+	SafeDelete(switching);
+
+	SafeDelete(followRoutine);
+	SafeDelete(prowlRoutine);
 
 	SafeDelete(wait);
-	SafeDelete(playIdle);
-	SafeDelete(waiter);
+	SafeDelete(move);
 
-	SafeDelete(playRun);
-	SafeDelete(follow);
+	SafeDelete(waiter);
 	SafeDelete(follower);
-	SafeDelete(around);
 	SafeDelete(moveto);
+
+	SafeDelete(playIdle);
+	SafeDelete(playRun);
 }
 
 void StrafeAround::Call(const FutureAction * action)
@@ -63,92 +102,67 @@ void StrafeAround::Call(const FutureAction * action)
 	result.SetAction(action);
 
 	curr = desc.Perceptor->GetDistanceSq() <= desc.ApproachRangeSq;
-	Reset();
+	switching->Call(&funcEndCase);
 }
 
 void StrafeAround::Update()
 {
-	desc.Perceptor->Update();
-	if (desc.Perceptor->IsPerceived() == false)
-	{
-		desc.FuncOutRange();
-		result.OnAction();
-		return;
-	}
-
-	bool next = desc.Perceptor->GetDistanceSq() <= desc.ApproachRangeSq;
-	if (next != curr)
-	{
-		curr = next;
-		Reset();
-	}
-
-	reader->Update();
+	switching->Update();
 }
 
 void StrafeAround::Cancel()
 {
 	result.Clear();
-	reader->Cancel();
+	switching->Cancel();
 }
 
-void StrafeAround::Reset()
+
+int StrafeAround::UpdateCase()
 {
-	reader->Cancel();
-	if (curr)
+	desc.Perceptor->Update();
+	if (desc.Perceptor->IsPerceived() == false)
 	{
-		// 주변 맴돌기
-		Vector3 d = desc.Perceptor->GetDest();
-
-		Vector3 dc(0, 1, 0);
-		D3DXVec3Cross(&dc, &d, &dc);
-
-
-		// -45도 ~ 45도
-		float r = Math::Random(-Math::PI * 0.25f, Math::PI * 0.25f);
-		//float r = Math::Random(Math::PI * 0.16f, Math::PI * 0.32f);
-		Vector2 axis;
-		axis.x = -cosf(r);
-		axis.y = -sinf(r);
-
-		Vector3 forward = d * axis.x;
-		Vector3 right = dc * axis.y;
-		Vector3 direction = forward + right;
-
-		D3DXVec3Normalize(&direction, &direction);
-		direction *= Math::Random(desc.MinRange, desc.MinRange * 2.0f);
-
-		Vector3 position = *desc.Perceptor->GetFocus();
-		moveto->GetDesc()->Point = position + direction;
-
-		waiter->GetDesc()->Time = Math::Random(0.25f, 1.0f);
-
-		// 순서
-		// 2. 대기
-		// 1. 이동
-		//reader->PushBack(waiter);
-		reader->PushBack(around);
-	}
-	else
-	{
-		// 따라가기
-		reader->PushBack(follow);
+		// End Case
+		return -1;
 	}
 
-	reader->Call(&funcReset);
+	bool next = desc.Perceptor->GetDistanceSq() <= desc.ApproachRangeSq;
+	return (next) ? 0 : 1;
 }
 
-FutureAction StrafeAround::PlayIdle()
+void StrafeAround::EndCase()
 {
-	return [=]() {
-		desc.Anim->PlayUpdate(desc.ClipIdle);
-	};
+	funcOutRange();
+	result.OnAction();
 }
 
-FutureAction StrafeAround::PlayRun()
+
+void StrafeAround::UpdatePositioning()
 {
-	return [=]() {
-		desc.Anim->PlayUpdate(desc.ClipRun);
-		desc.MovingSystem->SetMoveSpeeder(desc.RunSpeed);
-	};
+	// 주변 맴돌기
+	Vector3 d = desc.Perceptor->GetDest();
+
+	Vector3 dc(0, 1, 0);
+	D3DXVec3Cross(&dc, &d, &dc);
+
+
+	// -45도 ~ 45도
+	float r = Math::Random(-Math::PI * 0.25f, Math::PI * 0.25f);
+	//float r = Math::Random(Math::PI * 0.16f, Math::PI * 0.32f);
+	Vector2 axis;
+	axis.x = -cosf(r);
+	axis.y = -sinf(r);
+
+	Vector3 forward = d * axis.x;
+	Vector3 right = dc * axis.y;
+	Vector3 direction = forward + right;
+
+	D3DXVec3Normalize(&direction, &direction);
+	direction *= Math::Random(desc.MinRange, desc.MinRange * 2.0f);
+
+	Vector3 focus = desc.Perceptor->GetFocus();
+	moveto->GetDesc()->Point = focus + direction;
+
+	waiter->GetDesc()->Time = Math::Random(0.125f, 0.25f);
 }
+

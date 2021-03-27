@@ -97,12 +97,6 @@
     <ClCompile Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.cpp">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClCompile>
-    <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehavior.cpp">
-      <Filter>V2Enemy\EnemyBehaviors</Filter>
-    </ClCompile>
-    <ClCompile Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.cpp">
-      <Filter>V2Enemy\EnemyBehaviors</Filter>
-    </ClCompile>
     <ClCompile Include="EditorDemo\Objects\V2EnemyInstancingSpawner.cpp">
       <Filter>EditorDemo\Objects</Filter>
     </ClCompile>
@@ -156,6 +150,9 @@
     </ClCompile>
     <ClCompile Include="FlowFunction\FlowControll\FlowLoop.cpp">
       <Filter>FlowFunction\FlowControll</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\Skill\SkillMelee.cpp">
+      <Filter>V2Enemy\Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -264,12 +261,6 @@
     <ClInclude Include="V2Enemy\EnemyBehaviors\EnemyBehaviorDesc.h">
       <Filter>V2Enemy\EnemyBehaviors</Filter>
     </ClInclude>
-    <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehavior.h">
-      <Filter>V2Enemy\EnemyBehaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="V2Enemy\EnemyBehaviors\FieldBehaviorInput.h">
-      <Filter>V2Enemy\EnemyBehaviors</Filter>
-    </ClInclude>
     <ClInclude Include="EditorDemo\Objects\V2EnemyInstancingSpawner.h">
       <Filter>EditorDemo\Objects</Filter>
     </ClInclude>
@@ -338,6 +329,9 @@
     </ClInclude>
     <ClInclude Include="FlowFunction\FlowControll\FlowLoop.h">
       <Filter>FlowFunction\FlowControll</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\Skill\SkillMelee.h">
+      <Filter>V2Enemy\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

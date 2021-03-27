@@ -16,14 +16,14 @@ public:
 	virtual void Update() override;
 	virtual void Cancel() override;
 
+public:
 	void SetJudgment(const Judgment& value) { judgment = value; }
+	vector<IFlowTesk*>* Tesks() { return &tesks; }
 
 private:
 	void Reset();
 	FutureAction funcReset;
 
-public:
-	vector<IFlowTesk*>* Tesks() { return &tesks; }
 
 private:
 	FutureReturn result;

@@ -28,11 +28,6 @@ struct PatrollingDesc
 
 	// 적 감지 시 호출
 	function<void()> FuncInRange;
-
-
-public:
-	PointMoverDesc MakeMover(int pointIndex);
-	WaiterDesc MakeWaiter();
 };
 
 
@@ -61,14 +56,6 @@ struct StrafeAroundDesc
 	float MinRange;
 	// 쫒아오기 범위
 	float ApproachRangeSq;
-
-	// 적 놓치면 호출
-	function<void()> FuncOutRange;
-
-public:
-	PointMoverDesc MakeMover();
-	WaiterDesc MakeWaiter();
-	FollowerDesc MakeFollower();
 };
 
 

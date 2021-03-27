@@ -3,10 +3,10 @@
 struct PerceptionInput
 {
 	// 자신 위치
-	Vector3* MinePosition;
+	function<Vector3()> FuncGetMine;
 
 	// 적 위치
-	Vector3* FocusPosition;
+	function<Vector3()> FuncGetFocus;
 
 	// 적 감지 범위 (제곱)
 	float SightRangeSq = 0.0f;
@@ -26,7 +26,7 @@ public:
 
 	bool IsPerceived();
 	float GetDistanceSq() { return distanceSq; }
-	Vector3* GetFocus() { return desc.FocusPosition; }
+	Vector3 GetFocus() { return desc.FuncGetFocus(); }
 	Vector3 GetDest() { return dest; }
 
 private:

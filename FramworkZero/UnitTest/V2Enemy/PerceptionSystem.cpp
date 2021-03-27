@@ -12,7 +12,7 @@ PerceptionSystem::~PerceptionSystem()
 
 void PerceptionSystem::Update()
 {
-	dest = (*desc.FocusPosition) - (*desc.MinePosition);
+	dest = (desc.FuncGetFocus()) - (desc.FuncGetMine());
 	distanceSq = D3DXVec3LengthSq(&dest);
 
 	if (isPerceived)

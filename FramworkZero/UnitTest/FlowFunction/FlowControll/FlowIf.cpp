@@ -3,7 +3,6 @@
 
 FlowIf::FlowIf(const Judgment& judgment)
 	: judgment(judgment)
-	, funcResult(bind(&FlowIf::Result, this))
 {
 }
 
@@ -13,8 +12,6 @@ FlowIf::~FlowIf()
 
 void FlowIf::Call(const FutureAction * action)
 {
-	currTesk = nullptr;
-
 	if (judgment())
 		currTesk = teskTrue;
 	else
@@ -22,13 +19,11 @@ void FlowIf::Call(const FutureAction * action)
 
 	if (currTesk == nullptr)
 	{
-		result.Clear();
 		(*action)();
 		return;
 	}
 
-	currTesk->Call(&funcResult);
-	result.SetAction(action);
+	currTesk->Call(action);
 }
 
 void FlowIf::Update()
@@ -38,12 +33,9 @@ void FlowIf::Update()
 
 void FlowIf::Cancel()
 {
-	result.Clear();
-	currTesk = nullptr;
-}
-
-void FlowIf::Result()
-{
-	currTesk = nullptr;
-	result.OnAction();
+	if (currTesk != nullptr)
+	{
+		currTesk->Cancel();
+		currTesk = nullptr;
+	}
 }

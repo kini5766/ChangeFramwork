@@ -2,6 +2,7 @@
 #include "../FlowFunction.h"
 
 FlowSwitching::FlowSwitching()
+	: funcLoop(bind(&FlowSwitching::Loop, this))
 {
 }
 
@@ -20,7 +21,7 @@ void FlowSwitching::Call(const FutureAction * action)
 	}
 
 	result.SetAction(action);
-	tesks[curr]->Call(nullptr);
+	tesks[curr]->Call(&funcLoop);
 }
 
 void FlowSwitching::Update()
@@ -38,7 +39,7 @@ void FlowSwitching::Update()
 		if (curr == -1)
 			return;
 
-		tesks[curr]->Call(nullptr);
+		tesks[curr]->Call(&funcLoop);
 		return;
 	}
 
@@ -48,4 +49,9 @@ void FlowSwitching::Update()
 void FlowSwitching::Cancel()
 {
 	result.Clear();
+}
+
+void FlowSwitching::Loop()
+{
+	tesks[curr]->Call(&funcLoop);
 }

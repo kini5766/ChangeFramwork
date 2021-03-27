@@ -1,6 +1,5 @@
 #pragma once
 
-typedef function<int()> FuncCase;
 
 class FlowSwitching : public IFlowTesk
 {
@@ -15,6 +14,11 @@ public:
 
 public:
 	void SetFuncCase(const FuncCase& value) { funcCase = value; }
+	vector<IFlowTesk*>* Cases() { return &tesks; }
+
+private:
+	void Loop();
+	FutureAction funcLoop;
 
 private:
 	FutureReturn result;

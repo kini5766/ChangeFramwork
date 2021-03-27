@@ -19,27 +19,42 @@ private:
 	void Cancel() override;
 
 private:
-	void Reset();
-	FutureAction funcReset;
-	FutureAction PlayIdle();
-	FutureAction PlayRun();
+	// 행동 캐이스 업데이트
+	int UpdateCase();
+	FuncCase funcCase;
+
+	// 종료
+	void EndCase();
+	FutureAction funcEndCase;
+
+	// 이동할 위치 정하기
+	void UpdatePositioning();
+	FutureAction funcPositioning;
 
 private:
 	StrafeAroundDesc desc;
 	FutureReturn result;
+	FlowSwitching* switching;
 
-	FlowReader* reader;
+	FlowAction* playIdle;
+	FlowAction* playRun;
+
+	class Waiter* waiter;
+	class Follower* follower;
+	class PointMover* moveto;
 
 	FlowRoutine* wait;
-	FlowAction* playIdle;
-	class Waiter* waiter;
+	FlowRoutine* move;
+	FlowAction* positioning;
 
-	FlowAction* playRun;
-	FlowRoutine* follow;
-	class Follower* follower;
-	FlowRoutine* around;
-	class PointMover* moveto;
+	FlowRoutine* followRoutine;
+	FlowRoutine* prowlRoutine;
 
 private:
 	bool curr = false;
+
+	// 적 놓치면 호출
+	function<void()> funcOutRange;
+public:
+	void SetFuncOutRange(const function<void()>& value) { funcOutRange = value; }
 };

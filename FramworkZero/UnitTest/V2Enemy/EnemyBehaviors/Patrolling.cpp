@@ -3,26 +3,44 @@
 
 #include "FlowFunction/SimpleBehaviors/SimpleBehaviorHeaders.h"
 #include "V2Enemy/PerceptionSystem.h"
+#include "Component/PointMoveSystem.h"
 
 
 Patrolling::Patrolling(const PatrollingDesc & input)
 	: desc(input)
 {
-	loop = new FlowLoop();
-	loop->SetJudgment(UpdateLoop());
+	// -- Play Animation -- //
+	playLookAround = new FlowAction([=]() {
+		desc.Anim->PlayUpdate(desc.ClipLookAround);
+	});
+	playWalk = new FlowAction([=]() {
+		desc.Anim->PlayUpdate(desc.ClipWalk);
+		desc.MovingSystem->SetMoveSpeeder(desc.WalkSpeed);
+	});
 
-	playLookAround = new FlowAction(PlayLookAround());
-	waiter = new Waiter(desc.MakeWaiter());
+	// -- Look Around -- //
+	WaiterDesc makeWaiter;
+	makeWaiter.Time = desc.LookAroundTime;
+	waiter = new Waiter(makeWaiter);
 
+	// -- Patrolls -- //
 	UINT size = desc.PatrolCount;
 	moveToPoints.reserve(size);
+	PointMoverDesc makeMover;
 	for (int i = size - 1; i >= 0; i--)
-		moveToPoints.push_back(new PointMover(desc.MakeMover(i)));
-	playWalk = new FlowAction(PlayWalk());
+	{
+		makeMover.MovingSystem = desc.MovingSystem;
+		makeMover.Point = desc.PatrolPoints[i];
 
+		moveToPoints.push_back(new PointMover(makeMover));
+	}
+
+
+	// -- Main Routine -- //
+	loop = new FlowLoop();
 	lookAround = new FlowRoutine();
-
 	patrolls.reserve(size);
+
 	for (PointMover* mov : moveToPoints)
 	{
 		// 둘러보기
@@ -45,6 +63,8 @@ Patrolling::Patrolling(const PatrollingDesc & input)
 		loop->Tesks()->push_back(lookAround);
 		loop->Tesks()->push_back(pat);
 	}
+
+	loop->SetJudgment(UpdateLoop());
 }
 
 Patrolling::~Patrolling()
@@ -92,21 +112,6 @@ Judgment Patrolling::UpdateLoop()
 	};
 }
 
-#include "Component/PointMoveSystem.h"
-FutureAction Patrolling::PlayWalk()
-{
-	return [=]() {
-		desc.Anim->PlayUpdate(desc.ClipWalk);
-		desc.MovingSystem->SetMoveSpeeder(desc.WalkSpeed);
-	};
-}
-
-FutureAction Patrolling::PlayLookAround()
-{
-	return [=]() {
-		desc.Anim->PlayUpdate(desc.ClipLookAround);
-	};
-}
 
 Judgment Patrolling::IsAround()
 {

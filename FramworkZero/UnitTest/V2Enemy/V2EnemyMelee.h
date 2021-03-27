@@ -16,9 +16,11 @@ public:
 	void AddInstance(const Matrix& localWorld, const vector<Vector3>* patrolPoints);
 
 private:
-	struct FieldEnemyDesc* desc;
 	ModelInstancing* model;
+	struct FieldEnemyInput* enemyDesc;
+	struct MeleeDesc* skillDesc;
 
 private:
 	vector<class FieldEnemy*> instances;
+	vector<class SkillMelee*> skills;
 };

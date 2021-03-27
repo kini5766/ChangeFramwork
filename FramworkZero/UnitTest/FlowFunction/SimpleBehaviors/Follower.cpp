@@ -19,15 +19,8 @@ void Follower::Call(const FutureAction * action)
 
 void Follower::Update()
 {
-	desc.MovingSystem->SetPoint(*desc.Focus);
+	desc.MovingSystem->SetPoint(desc.FuncGetFocus());
 	desc.MovingSystem->GoToPoint();
-
-	//if (desc.MovingSystem->GoToPoint())
-	//{
-	//	// µµÂø
-	//	result.OnAction();
-	//	return;
-	//}
 }
 
 void Follower::Cancel()

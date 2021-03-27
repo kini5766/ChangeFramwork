@@ -4,7 +4,7 @@
 #include "SimpleBehaviorsValues.h"
 
 
-// Focus의 위치로 이동
+// Focus의 위치로 이동 (무한반복)
 class Follower : public IFlowTesk
 {
 public:

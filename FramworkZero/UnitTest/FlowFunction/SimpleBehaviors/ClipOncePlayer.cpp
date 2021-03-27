@@ -15,6 +15,15 @@ ClipOncePlayer::~ClipOncePlayer()
 
 void ClipOncePlayer::Call(const FutureAction * action)
 {
+	if (result.IsValid())
+	{
+		// 재생 도중 다른 행동을 취하다 다시 온 경우
+
+		result.Clear();
+		(*action)();
+		return;
+	}
+
 	result.Clear();
 	result.SetAction(action);
 
@@ -22,12 +31,23 @@ void ClipOncePlayer::Call(const FutureAction * action)
 	desc.Anim->Play(desc.Clip);
 }
 
+void ClipOncePlayer::Update()
+{
+	if (bChanged)
+	{
+		bChanged = false;
+		result.OnAction();
+		return;
+	}
+}
+
 void ClipOncePlayer::Cancel()
 {
 	result.Clear();
 }
 
+
 void ClipOncePlayer::CompleAnim()
 {
-	result.OnAction();
+	bChanged = true;
 }

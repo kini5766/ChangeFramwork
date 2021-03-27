@@ -18,19 +18,23 @@ private:
 
 private:
 	Judgment UpdateLoop();
-	FutureAction PlayWalk();
-	FutureAction PlayLookAround();
 	Judgment IsAround();
 
 private:
 	PatrollingDesc desc;
-	FlowLoop* loop;
 
-	vector<FlowRoutine*> patrolls;
-	vector<class PointMover*> moveToPoints;
+	// -- Play Animation -- //
 	FlowAction* playWalk;
-
-	FlowRoutine* lookAround;
 	FlowAction* playLookAround;
+
+	// -- Look Around -- //
 	class Waiter* waiter;
+
+	// -- Patrolls -- //
+	vector<class PointMover*> moveToPoints;
+
+	// -- Main Routine -- //
+	FlowLoop* loop;
+	FlowRoutine* lookAround;
+	vector<FlowRoutine*> patrolls;
 };
