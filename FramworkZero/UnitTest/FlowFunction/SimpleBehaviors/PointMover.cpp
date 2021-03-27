@@ -28,7 +28,7 @@ void PointMover::Update()
 	}
 }
 
-void PointMover::Cancel()
+void PointMover::Hold()
 {
 	result.Clear();
 }

@@ -93,9 +93,9 @@ void Patrolling::Update()
 	loop->Update();
 }
 
-void Patrolling::Cancel()
+void Patrolling::Hold()
 {
-	loop->Cancel();
+	loop->Hold();
 }
 
 

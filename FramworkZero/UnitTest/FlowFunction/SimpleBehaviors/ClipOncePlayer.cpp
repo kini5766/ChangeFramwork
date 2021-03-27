@@ -15,11 +15,10 @@ ClipOncePlayer::~ClipOncePlayer()
 
 void ClipOncePlayer::Call(const FutureAction * action)
 {
-	if (result.IsValid())
+	if (bCancel)
 	{
 		// 재생 도중 다른 행동을 취하다 다시 온 경우
-
-		result.Clear();
+		bCancel = false;
 		(*action)();
 		return;
 	}
@@ -41,8 +40,9 @@ void ClipOncePlayer::Update()
 	}
 }
 
-void ClipOncePlayer::Cancel()
+void ClipOncePlayer::Hold()
 {
+	bCancel = true;
 	result.Clear();
 }
 

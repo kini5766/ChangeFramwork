@@ -16,7 +16,7 @@ public:
 private:
 	void Call(const FutureAction * action) override;
 	void Update() override;
-	void Cancel() override;
+	void Hold() override;
 
 private:
 	// 행동 캐이스 업데이트

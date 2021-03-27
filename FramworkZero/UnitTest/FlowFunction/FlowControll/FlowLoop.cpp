@@ -29,15 +29,15 @@ void FlowLoop::Update()
 	reader->Update();
 }
 
-void FlowLoop::Cancel()
+void FlowLoop::Hold()
 {
 	result.Clear();
-	reader->Cancel();
+	reader->Hold();
 }
 
 void FlowLoop::Reset()
 {
-	reader->Cancel();
+	reader->Reset();
 	if (tesks.size() == 0)
 		return;
 

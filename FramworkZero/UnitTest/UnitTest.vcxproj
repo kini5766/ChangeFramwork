@@ -153,7 +153,6 @@
     <ClCompile Include="FlowFunction\FlowReader.cpp" />
     <ClCompile Include="FlowFunction\FutureReturn.cpp" />
     <ClCompile Include="FlowFunction\SimpleBehaviors\Follower.cpp" />
-    <ClCompile Include="FlowFunction\SimpleBehaviors\ClipPlayer.cpp" />
     <ClCompile Include="FlowFunction\SimpleBehaviors\ClipOncePlayer.cpp" />
     <ClCompile Include="FlowFunction\SimpleBehaviors\PointMover.cpp" />
     <ClCompile Include="FlowFunction\SimpleBehaviors\Waiter.cpp" />
@@ -213,7 +212,6 @@
     <ClInclude Include="FlowFunction\FlowTesk.h" />
     <ClInclude Include="FlowFunction\FutureReturn.h" />
     <ClInclude Include="FlowFunction\SimpleBehaviors\Follower.h" />
-    <ClInclude Include="FlowFunction\SimpleBehaviors\ClipPlayer.h" />
     <ClInclude Include="FlowFunction\SimpleBehaviors\ClipOncePlayer.h" />
     <ClInclude Include="FlowFunction\SimpleBehaviors\PointMover.h" />
     <ClInclude Include="FlowFunction\SimpleBehaviors\SimpleBehaviorHeaders.h" />

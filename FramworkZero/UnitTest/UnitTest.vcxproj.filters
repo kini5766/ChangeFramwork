@@ -112,9 +112,6 @@
     <ClCompile Include="FlowFunction\FlowReader.cpp">
       <Filter>FlowFunction</Filter>
     </ClCompile>
-    <ClCompile Include="FlowFunction\SimpleBehaviors\ClipPlayer.cpp">
-      <Filter>FlowFunction\SimpleBehaviors</Filter>
-    </ClCompile>
     <ClCompile Include="FlowFunction\SimpleBehaviors\ClipOncePlayer.cpp">
       <Filter>FlowFunction\SimpleBehaviors</Filter>
     </ClCompile>
@@ -286,9 +283,6 @@
       <Filter>FlowFunction\SimpleBehaviors</Filter>
     </ClInclude>
     <ClInclude Include="FlowFunction\SimpleBehaviors\SimpleBehaviorHeaders.h">
-      <Filter>FlowFunction\SimpleBehaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="FlowFunction\SimpleBehaviors\ClipPlayer.h">
       <Filter>FlowFunction\SimpleBehaviors</Filter>
     </ClInclude>
     <ClInclude Include="FlowFunction\SimpleBehaviors\ClipOncePlayer.h">

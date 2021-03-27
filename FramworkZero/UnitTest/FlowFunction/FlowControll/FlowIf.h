@@ -13,7 +13,7 @@ public:
 public:
 	virtual void Call(const FutureAction * action) override;
 	virtual void Update() override;
-	virtual void Cancel() override;
+	virtual void Hold() override;
 
 public:
 	void SetJudgment(const Judgment& value) { judgment = value; }

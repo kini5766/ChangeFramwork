@@ -29,7 +29,7 @@ private:
 	// IFlowTesk을(를) 통해 상속됨
 	void Call(const FutureAction* future) override;
 	void Update() override;
-	void Cancel() override;
+	void Hold() override;
 
 private:
 	float endTime;

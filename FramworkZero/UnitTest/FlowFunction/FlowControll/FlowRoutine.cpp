@@ -14,7 +14,7 @@ FlowRoutine::~FlowRoutine()
 
 void FlowRoutine::Call(const FutureAction * action)
 {
-	reader->Cancel();
+	reader->Reset();
 	if (tesks.size() == 0)
 	{
 		(*action)();
@@ -30,7 +30,7 @@ void FlowRoutine::Update()
 	reader->Update();
 }
 
-void FlowRoutine::Cancel()
+void FlowRoutine::Hold()
 {
-	reader->Cancel();
+	reader->Hold();
 }

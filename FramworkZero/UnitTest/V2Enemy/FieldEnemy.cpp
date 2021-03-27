@@ -164,7 +164,7 @@ void FieldEnemy::OnDamage()
 	if (hp->HP() <= 0.0f)
 	{
 		// Á×À½
-		reader->Cancel();
+		reader->Reset();
 		reader->PushBack(clipDead);
 		reader->Call(&onLost);
 

@@ -43,15 +43,15 @@ void CombatPosture::Update()
 	reader->Update();
 }
 
-void CombatPosture::Cancel()
+void CombatPosture::Hold()
 {
 	result.Clear();
-	reader->Cancel();
+	reader->Hold();
 }
 
 void CombatPosture::Reset()
 {
-	reader->Clear();
+	reader->Reset();
 	if (tesks.size() == 0)
 		return;
 

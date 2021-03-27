@@ -99,7 +99,7 @@ void SkillMelee::Update()
 	runningTime += Time::Delta();
 }
 
-void SkillMelee::Cancel()
+void SkillMelee::Hold()
 {
 	state = AttackState::Stop;
 	result.Clear();

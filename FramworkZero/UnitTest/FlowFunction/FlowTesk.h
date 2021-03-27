@@ -8,12 +8,12 @@ Cancel하게 되면 리턴하지 않음
 class IFlowTesk
 {
 public:
-	// DelayReturn을 저장
+	// 이 행동이 선택되어 시작함
 	virtual void Call(const FutureAction* future) = 0;
 
-	// 함수 갱신
+	// 이 행동 갱신 매 프래임 호출
 	virtual void Update() {};
 
-	// FutureAction를 삭제(FutureAction를 호출 안 함)
-	virtual void Cancel() {};
+	// 일시 중지되고 다른 행동이 실행될 경우 호출
+	virtual void Hold() {};
 };

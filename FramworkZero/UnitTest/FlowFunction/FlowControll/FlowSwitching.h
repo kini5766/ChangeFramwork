@@ -10,7 +10,7 @@ public:
 public:
 	virtual void Call(const FutureAction * action) override;
 	virtual void Update() override;
-	virtual void Cancel() override;
+	virtual void Hold() override;
 
 public:
 	void SetFuncCase(const FuncCase& value) { funcCase = value; }

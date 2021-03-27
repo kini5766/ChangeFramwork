@@ -110,10 +110,10 @@ void StrafeAround::Update()
 	switching->Update();
 }
 
-void StrafeAround::Cancel()
+void StrafeAround::Hold()
 {
 	result.Clear();
-	switching->Cancel();
+	switching->Hold();
 }
 
 

@@ -46,7 +46,7 @@ void FlowSwitching::Update()
 	tesks[curr]->Update();
 }
 
-void FlowSwitching::Cancel()
+void FlowSwitching::Hold()
 {
 	result.Clear();
 }

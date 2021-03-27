@@ -23,7 +23,7 @@ void Follower::Update()
 	desc.MovingSystem->GoToPoint();
 }
 
-void Follower::Cancel()
+void Follower::Hold()
 {
 	result.Clear();
 }

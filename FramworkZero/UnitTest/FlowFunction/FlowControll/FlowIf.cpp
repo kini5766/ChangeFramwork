@@ -31,11 +31,10 @@ void FlowIf::Update()
 	currTesk->Update();
 }
 
-void FlowIf::Cancel()
+void FlowIf::Hold()
 {
 	if (currTesk != nullptr)
 	{
-		currTesk->Cancel();
-		currTesk = nullptr;
+		currTesk->Hold();
 	}
 }

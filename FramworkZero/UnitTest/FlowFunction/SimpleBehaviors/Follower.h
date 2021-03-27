@@ -14,7 +14,7 @@ public:
 private:
 	virtual void Call(const FutureAction * result) override;
 	virtual void Update() override;
-	virtual void Cancel() override;
+	virtual void Hold() override;
 
 private:
 	FollowerDesc desc;

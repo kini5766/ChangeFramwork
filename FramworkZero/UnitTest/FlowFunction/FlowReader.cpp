@@ -20,10 +20,19 @@ void FlowReader::PushBacks(UINT size, IFlowTesk** first)
 	funcStack.insert(funcStack.end(), first, first + size);
 }
 
-void FlowReader::Clear()
+void FlowReader::Reset()
 {
+	result.Clear();
 	funcStack.clear();
+	next = nullptr;
+
+	if (curr == nullptr)
+		return;
+
+	curr->Hold();
+	curr = nullptr;
 }
+
 
 void FlowReader::CancelNext()
 {
@@ -37,7 +46,7 @@ void FlowReader::CancelNext()
 	if (curr == nullptr)
 		return;
 
-	curr->Cancel();
+	curr->Hold();
 	Next();
 }
 
@@ -54,6 +63,7 @@ void FlowReader::HoldBackNext()
 		return;
 
 	IFlowTesk* hold = curr;
+	hold->Hold();
 	Next();
 	PushBack(hold);
 }
@@ -86,18 +96,16 @@ void FlowReader::Update()
 	curr->Update();
 }
 
-void FlowReader::Cancel()
+void FlowReader::Hold()
 {
 	result.Clear();
-	funcStack.clear();
-	next = nullptr;
 
 	if (curr == nullptr)
 		return;
 
-	curr->Cancel();
-	curr = nullptr;
+	curr->Hold();
 }
+
 
 
 void FlowReader::Next()

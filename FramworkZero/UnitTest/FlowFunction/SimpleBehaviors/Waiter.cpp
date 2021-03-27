@@ -29,7 +29,7 @@ void Waiter::Update()
 	runningTime += Time::Delta();
 }
 
-void Waiter::Cancel()
+void Waiter::Hold()
 {
 	result.Clear();
 }
