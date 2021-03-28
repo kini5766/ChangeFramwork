@@ -28,7 +28,6 @@ void WorldDemo::Initialize()
 
 	water->GetTransform()->Position(128, 1, 128);
 
-	Debug::Line->OffRendering();
 }
 
 void WorldDemo::Destroy()
@@ -60,6 +59,13 @@ void WorldDemo::Update()
 	Lighting::Get()->DirectionalDesc()->Direction = direction;
 	postEffect->ImGuiRender();
 	//shadow->ImGuiRender();
+
+	static bool bDebugLine = true;
+	ImGui::Checkbox("DebugLine", &bDebugLine);
+	if (bDebugLine)
+		Debug::Line->OnRendering();
+	else
+		Debug::Line->OffRendering();
 }
 
 void WorldDemo::PreRender()

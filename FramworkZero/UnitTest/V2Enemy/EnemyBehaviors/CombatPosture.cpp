@@ -4,6 +4,7 @@
 #include "FlowFunction/SimpleBehaviors/SimpleBehaviorHeaders.h"
 #include "V2Enemy/EnemyBehaviors/StrafeAround.h"
 #include "V2Enemy/Skill/IEnemySkill.h"
+#include "V2Enemy/PerceptionSystem.h"
 
 
 CombatPosture::CombatPosture(const CombatPostureDesc& input)
@@ -41,6 +42,13 @@ void CombatPosture::Update()
 	}
 
 	reader->Update();
+
+	desc.StrafeAroundDesc.Perceptor->Update();
+	if (desc.StrafeAroundDesc.Perceptor->IsPerceived() == false)
+	{
+		result.OnAction();
+		return;
+	}
 }
 
 void CombatPosture::Hold()

@@ -79,6 +79,7 @@ void DebugLine::Render()
 	D3D::GetDC()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 
 	perFrame->Render();
+	shader->Render();
 	shader->GetShader()->Draw(0, 0, drawCount);  // 반복문 드로우 콜 보단 한 번에 보내는 것이 좋음
 
 	drawCount = 0;  // 처음 부터 그림
