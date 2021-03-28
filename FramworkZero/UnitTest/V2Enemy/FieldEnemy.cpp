@@ -114,7 +114,12 @@ FieldEnemy::FieldEnemy(const FieldEnemyInput & desc)
 	moveto = new PointMover(makeComeback);
 	playRun = new FlowAction(makePlayRun);
 	recall = new FlowRoutine();
+
+	// 순서
+	// 2. 이동
+	// 1. 애니메이션
 	recall->Tesks()->push_back(moveto);
+	recall->Tesks()->push_back(playRun);
 
 	reader = new FlowReader();
 	reader->PushBack(pat);

@@ -31,9 +31,9 @@ public:
 public:
 	void Play(UINT clip) { inputNext = (int)clip; }
 	void PlayUpdate(UINT clip);  // 현재클립이랑 다를 경우에만 적용
-	void PlayTempBlend(UINT next, float tweenTime);
-	void SetCurrBlendEdge(UINT start, UINT end);
-	void SetblendAlpha(float value) { blendAlpha = value; }
+	void PlayTempBlend(UINT next, float tweenTime);  // 즉시재생
+	void SetCurrBlendEdge(UINT start, UINT end);  // 즉시재생 (테스트용)
+	void SetblendAlpha(float value) { blendAlpha = value; }  // blendAlpha (테스트용)
 
 public:
 	void Update();
