@@ -17,7 +17,7 @@ struct V2EnemyStatus
 	float SightRangeSq = 400.0f;
 	// 적 놓침 범위 (제곱)
 	float LoseRangeSq = 900.0f;
-	// 쫒아오기 범위
+	// 쫒아오기 범위 (제곱)
 	float ApproachRangeSq = 400.0f;
 	// 거리 유지할 범위
 	float MinRange = 10.0f;

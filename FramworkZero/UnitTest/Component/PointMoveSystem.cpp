@@ -63,7 +63,7 @@ bool PointMoveSystem::GoToPoint()
 	// È¸Àü
 	Quaternion q;
 	transform->Rotation(&q);
-	sysRatate->SetTarget(direction);
+	sysRatate->SetDirection(direction);
 	q = sysRatate->GetRotation(q, -transform->Forward(), speedDelta * rotateSpeed);
 	transform->Rotation(q);
 

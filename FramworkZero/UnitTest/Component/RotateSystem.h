@@ -7,11 +7,11 @@ public:
 	~RotateSystem();
 
 public:
-	void SetTarget(const Vector3& value) { target = value; }
+	void SetDirection(const Vector3& value) { direction = value; }
 
 public:
 	Quaternion GetRotation(const Quaternion& q, const Vector3& forward, float speedDelta, float* outRad = nullptr);
 
 private:
-	Vector3 target;
+	Vector3 direction;
 };

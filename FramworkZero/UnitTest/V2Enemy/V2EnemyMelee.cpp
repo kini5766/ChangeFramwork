@@ -19,6 +19,11 @@ V2EnemyMelee::V2EnemyMelee(IFocus * player)
 	world.Scale(100.0f, 180.0f, 180.0f);
 	world.GlobalWorld(&skillDesc->InitMatrix);
 	skillDesc->Tag = L"EnemyAttack";
+	skillDesc->Player = player;
+	skillDesc->ClipAttack = 4;
+	skillDesc->ClipRun = enemyDesc->ClipGroup.ClipRun;
+	skillDesc->ClipIdle = enemyDesc->ClipGroup.ClipIdle;
+	skillDesc->RunSpeed = enemyDesc->Status.RunSpeed;
 
 	enemyDesc->Player = player;
 	enemyDesc->Status.HP = 100.0f;
@@ -44,7 +49,6 @@ void V2EnemyMelee::Update()
 	for (FieldEnemy* i : instances)
 		i->Update();
 
-	//normalAttack->Update();
 	model->Update();
 	model->UpdateTransforms();
 }
@@ -63,7 +67,7 @@ void V2EnemyMelee::PostRender()
 void V2EnemyMelee::AddInstance(const Matrix & localWorld, const vector<Vector3>* patrolPoints)
 {
 	ModelInstance* i = model->AddInstance();
-	SkillMelee* skill = new SkillMelee(*skillDesc, i->GetTransform());
+	SkillMelee* skill = new SkillMelee(*skillDesc, i);
 
 	enemyDesc->Model = i;
 	enemyDesc->localWorld = &localWorld;

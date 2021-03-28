@@ -25,7 +25,7 @@ private:
 	// 움직일 대상
 	Transform* transform;
 	// 이동 속도
-	float* speeder;
+	float* speeder = nullptr;
 	// 회전 속도
 	float rotateSpeed = 1.0f;
 	// 회전 보간 시스템

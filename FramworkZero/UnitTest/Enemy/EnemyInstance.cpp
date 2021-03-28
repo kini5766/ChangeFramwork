@@ -180,7 +180,7 @@ void EnemyInstance::NextAtteck(UINT & next, const Vector3 & dest)
 	D3DXVec3Normalize(&dest2, &dest2);
 
 	// 회전
-	ratate->SetTarget(dest2);
+	ratate->SetDirection(dest2);
 	Quaternion q;
 	transform->Rotation(&q);
 	float rad;
@@ -230,7 +230,7 @@ void EnemyInstance::NextRun(UINT & next, const Vector3 & dest)
 		D3DXVec3Normalize(&dest2, &dest2);
 
 		// 회전
-		ratate->SetTarget(dest2);
+		ratate->SetDirection(dest2);
 		Quaternion q;
 		transform->Rotation(&q);
 		q = ratate->GetRotation(q, -transform->Forward(), speedDelta * turnSpeed);
@@ -294,7 +294,7 @@ void EnemyInstance::NextIdle(UINT & next)
 		// 순찰
 		Vector3 dest2;
 		D3DXVec3Normalize(&dest2, &(dest));
-		ratate->SetTarget(dest2);
+		ratate->SetDirection(dest2);
 
 		Quaternion q;
 		transform->Rotation(&q);

@@ -69,7 +69,7 @@ void MagicAttack::Update()
 			player->Focus(&focus);
 			Vector3 target = focus - position;
 			D3DXVec3Normalize(&target, &target);
-			rotateSystem->SetTarget(target);
+			rotateSystem->SetDirection(target);
 
 			Vector3 forward = (*iter).Model->GetTransform()->Forward();
 			q = rotateSystem->GetRotation(q, forward, Time::Delta()* 1.5f);

@@ -81,7 +81,7 @@ void CharacterController::Update()
 			moveAxis += cameraRight * keyAxis.x;
 
 			// È¸Àü
-			ratate->SetTarget(moveAxis);
+			ratate->SetDirection(moveAxis);
 			Quaternion q;
 			transform->Rotation(&q);
 			q = ratate->GetRotation(q, -transform->Forward(), speedDelta);
