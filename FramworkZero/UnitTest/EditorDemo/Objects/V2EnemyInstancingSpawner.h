@@ -11,6 +11,7 @@ public:
 private:
 	void Update();
 	void Render();
+	void PostRender();
 
 private:
 	// IObjectSpawner을(를) 통해 상속됨
@@ -22,7 +23,7 @@ private:
 	void SetScale(Transform * t);
 
 private:
-	class V2EnemyMelee* enemy;
+	class EnemyMakerBase* enemy = nullptr;
 	class IFocus* player;
 
 private:

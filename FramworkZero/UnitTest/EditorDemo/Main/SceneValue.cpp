@@ -15,6 +15,9 @@ SceneValue::~SceneValue()
 	for (auto d : renderer)
 		SafeDelete(d);
 
+	for (auto d : postRenderer)
+		SafeDelete(d);
+
 	for (auto d : objects)
 		SafeDelete(d);
 }
@@ -25,6 +28,7 @@ void SceneValue::Initialize()
 	{
 		SceneValueUnit unit = {
 			insertedValues,
+			new SceneAction(),
 			new SceneAction(),
 			new SceneAction()
 		};
@@ -42,6 +46,12 @@ void SceneValue::Initialize()
 			SafeDelete(unit.Renderer);
 		}
 		else renderer.push_back(unit.Renderer);
+
+		if (unit.PostRenderer->bDestroy)
+		{
+			SafeDelete(unit.PostRenderer);
+		}
+		else postRenderer.push_back(unit.PostRenderer);
 	}
 
 }
@@ -54,6 +64,11 @@ void SceneValue::Update()
 void SceneValue::Render()
 {
 	Action(renderer);
+}
+
+void SceneValue::PostRender()
+{
+	Action(postRenderer);
 }
 
 void SceneValue::AddObject(IObjectSpawner * value)

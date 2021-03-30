@@ -5,7 +5,8 @@
 
 #include "Rendering/Camera/Main/OrbitCamera.h"
 #include "V2Enemy/V2EnemyMelee.h"
-#include "Character/Kachujin.h"
+#include "V2Enemy/V2EnemyMagic.h"
+#include "EnemyMaker.h"
 
 V2EnemyInstancingSpawner::V2EnemyInstancingSpawner(SceneValue* scene)
 {
@@ -27,6 +28,11 @@ void V2EnemyInstancingSpawner::Render()
 	enemy->Render();
 }
 
+void V2EnemyInstancingSpawner::PostRender()
+{
+	enemy->PostRender();
+}
+
 
 #pragma region IObjectSpawner
 
@@ -37,6 +43,9 @@ void V2EnemyInstancingSpawner::Initialize(SceneValueUnit * scene)
 
 	scene->Renderer->Action = bind(&V2EnemyInstancingSpawner::Render, this);
 	scene->Renderer->bDestroy = false;
+
+	scene->PostRenderer->Action = bind(&V2EnemyInstancingSpawner::PostRender, this);
+	scene->PostRenderer->bDestroy = false;
 }
 
 bool V2EnemyInstancingSpawner::Load(BinaryReader * r)
@@ -72,8 +81,8 @@ void V2EnemyInstancingSpawner::CreateEnemy(int item)
 {
 	switch (item)
 	{
-	case 0: enemy = new V2EnemyMelee(player); break;
-	case 1: enemy = new V2EnemyMelee(player); break;
+	case 0: enemy = new EnemyMakerMelee(player); break;
+	case 1: enemy = new EnemyMakerMagic(player); break;
 	}
 }
 

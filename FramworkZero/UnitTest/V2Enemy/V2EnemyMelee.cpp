@@ -14,6 +14,16 @@ V2EnemyMelee::V2EnemyMelee(IFocus * player)
 	enemyDesc = new FieldEnemyInput();
 	skillDesc = new MeleeDesc();
 
+	// -- enemyDesc -- //
+	enemyDesc->Player = player;
+	enemyDesc->Status.HP = 100.0f;
+	enemyDesc->ClipGroup.ClipIdle = 0;
+	enemyDesc->ClipGroup.ClipLookAround = 0;
+	enemyDesc->ClipGroup.ClipWalk = 1;
+	enemyDesc->ClipGroup.ClipRun = 2;
+	enemyDesc->ClipGroup.ClipInSight = 3;
+
+	// -- skillDesc -- //
 	Transform world;
 	world.Position(0.0f, 90.0f, -40.0f);
 	world.Scale(100.0f, 180.0f, 180.0f);
@@ -24,14 +34,6 @@ V2EnemyMelee::V2EnemyMelee(IFocus * player)
 	skillDesc->ClipRun = enemyDesc->ClipGroup.ClipRun;
 	skillDesc->ClipIdle = enemyDesc->ClipGroup.ClipIdle;
 	skillDesc->RunSpeed = enemyDesc->Status.RunSpeed;
-
-	enemyDesc->Player = player;
-	enemyDesc->Status.HP = 100.0f;
-	enemyDesc->ClipGroup.ClipIdle = 0;
-	enemyDesc->ClipGroup.ClipLookAround = 0;
-	enemyDesc->ClipGroup.ClipWalk = 1;
-	enemyDesc->ClipGroup.ClipRun = 2;
-	enemyDesc->ClipGroup.ClipInSight = 3;
 }
 
 V2EnemyMelee::~V2EnemyMelee()

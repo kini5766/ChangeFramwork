@@ -11,6 +11,7 @@ public:
 private:
 	void Update();
 	void Render();
+	void PostRender();
 
 private:
 	// IObjectSpawner을(를) 통해 상속됨

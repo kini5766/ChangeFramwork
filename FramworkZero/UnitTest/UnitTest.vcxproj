@@ -142,6 +142,7 @@
     <ClCompile Include="EditorDemo\Component\MaterialLoader.cpp" />
     <ClCompile Include="EditorDemo\Component\TransformLoader.cpp" />
     <ClCompile Include="EditorDemo\Objects\EnemyInstancingSpawner.cpp" />
+    <ClCompile Include="EditorDemo\Objects\EnemyMaker.cpp" />
     <ClCompile Include="EditorDemo\Objects\V2EnemyInstancingSpawner.cpp" />
     <ClCompile Include="Enemy\MagicianEnemy.cpp" />
     <ClCompile Include="Enemy\MeleeEnemy.cpp" />
@@ -183,7 +184,10 @@
     <ClCompile Include="V2Enemy\EnemyBehaviors\StrafeAround.cpp" />
     <ClCompile Include="V2Enemy\PerceptionSystem.cpp" />
     <ClCompile Include="V2Enemy\FieldEnemy.cpp" />
+    <ClCompile Include="V2Enemy\Skill\MagicMaker.cpp" />
+    <ClCompile Include="V2Enemy\Skill\SkillMagic.cpp" />
     <ClCompile Include="V2Enemy\Skill\SkillMelee.cpp" />
+    <ClCompile Include="V2Enemy\V2EnemyMagic.cpp" />
     <ClCompile Include="V2Enemy\V2EnemyMelee.cpp" />
     <ClCompile Include="WorldDemo.cpp" />
   </ItemGroup>
@@ -198,6 +202,7 @@
     <ClInclude Include="EditorDemo\Component\MaterialLoader.h" />
     <ClInclude Include="EditorDemo\Component\TransformLoader.h" />
     <ClInclude Include="EditorDemo\Objects\EnemyInstancingSpawner.h" />
+    <ClInclude Include="EditorDemo\Objects\EnemyMaker.h" />
     <ClInclude Include="EditorDemo\Objects\V2EnemyInstancingSpawner.h" />
     <ClInclude Include="Enemy\EnemyDesc.h" />
     <ClInclude Include="Enemy\MagicianEnemy.h" />
@@ -243,9 +248,12 @@
     <ClInclude Include="V2Enemy\EnemyBehaviors\StrafeAround.h" />
     <ClInclude Include="V2Enemy\PerceptionSystem.h" />
     <ClInclude Include="V2Enemy\Skill\IEnemySkill.h" />
+    <ClInclude Include="V2Enemy\Skill\MagicMaker.h" />
+    <ClInclude Include="V2Enemy\Skill\SkillMagic.h" />
     <ClInclude Include="V2Enemy\Skill\SkillMelee.h" />
     <ClInclude Include="V2Enemy\V2EnemyDesc.h" />
     <ClInclude Include="V2Enemy\FieldEnemy.h" />
+    <ClInclude Include="V2Enemy\V2EnemyMagic.h" />
     <ClInclude Include="V2Enemy\V2EnemyMelee.h" />
     <ClInclude Include="WorldDemo.h" />
   </ItemGroup>

@@ -100,8 +100,6 @@ StrafeAround::~StrafeAround()
 void StrafeAround::Call(const FutureAction * action)
 {
 	result.SetAction(action);
-
-	curr = desc.Perceptor->GetDistanceSq() <= desc.ApproachRangeSq;
 	switching->Call(&funcEndCase);
 }
 
@@ -119,20 +117,12 @@ void StrafeAround::Hold()
 
 int StrafeAround::UpdateCase()
 {
-	desc.Perceptor->Update();
-	if (desc.Perceptor->IsPerceived() == false)
-	{
-		// End Case
-		return -1;
-	}
-
 	bool next = desc.Perceptor->GetDistanceSq() <= desc.ApproachRangeSq;
 	return (next) ? 0 : 1;
 }
 
 void StrafeAround::EndCase()
 {
-	funcOutRange();
 	result.OnAction();
 }
 

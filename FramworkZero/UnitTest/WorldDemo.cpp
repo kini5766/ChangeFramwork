@@ -108,6 +108,7 @@ void WorldDemo::Render()
 void WorldDemo::PostRender()
 {
 	player->PostRender();
+	scene->PostRender();
 }
 
 void WorldDemo::LoadScene()

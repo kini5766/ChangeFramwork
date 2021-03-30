@@ -21,7 +21,6 @@ public:
 	void Rotation(const Quaternion& value);
 
 	Vector3 Position();
-	Quaternion Rotation();
 	Vector3 LossyScale();
 
 	Vector3 GlobalForward();

@@ -80,14 +80,6 @@ Vector3 WorldMatrix::Position()
 	return Vector3(world._41, world._42, world._43);
 }
 
-//Quaternion WorldMatrix::Rotation()
-//{
-//	Quaternion out;
-//	D3DXQuaternionRotationMatrix(&out, &world);
-//	D3DXQuaternionNormalize(&out, &out);
-//	return out;
-//}
-
 Vector3 WorldMatrix::LossyScale()
 {
 	Vector3 x(world._31, world._32, world._33);

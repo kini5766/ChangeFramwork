@@ -12,6 +12,7 @@ struct SceneValueUnit
 
 	SceneAction* Updater;
 	SceneAction* Renderer;
+	SceneAction* PostRenderer;
 };
 
 class SceneValue
@@ -24,6 +25,7 @@ public:
 	void Initialize();
 	void Update();
 	void Render();
+	void PostRender();
 
 public:
 	void AddObject(class IObjectSpawner* value);
@@ -36,6 +38,7 @@ private:
 private:
 	list<SceneAction*> updater;
 	list<SceneAction*> renderer;
+	list<SceneAction*> postRenderer;
 	map<string, void*> insertedValues;
 
 	vector<class IObjectSpawner*> objects;

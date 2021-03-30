@@ -45,13 +45,13 @@ struct FieldEnemyInput
 {
 	V2EnemyStatus Status;
 	FieldEnemyClipNumGroup ClipGroup;
-	IFocus* Player;
+	IFocus* Player = nullptr;
 
-	ModelInstance* Model;
-	const Matrix* localWorld;
+	ModelInstance* Model = nullptr;
+	const Matrix* localWorld = nullptr;
 
 	// ¼øÂû °æ·Î
-	const vector<Vector3>* PatrolPoints;
+	const vector<Vector3>* PatrolPoints = nullptr;
 
-	class IEnemySkill* Skill;
+	class IEnemySkill* Skill = nullptr;
 };

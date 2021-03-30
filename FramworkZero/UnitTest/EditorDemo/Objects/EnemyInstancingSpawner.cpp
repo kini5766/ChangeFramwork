@@ -28,6 +28,11 @@ void EnemyInstancingSpawner::Render()
 	enemy->Render();
 }
 
+void EnemyInstancingSpawner::PostRender()
+{
+	enemy->PostRender();
+}
+
 
 #pragma region IObjectSpawner
 
@@ -38,6 +43,9 @@ void EnemyInstancingSpawner::Initialize(SceneValueUnit * scene)
 
 	scene->Renderer->Action = bind(&EnemyInstancingSpawner::Render, this);
 	scene->Renderer->bDestroy = false;
+
+	scene->PostRenderer->Action = bind(&EnemyInstancingSpawner::PostRender, this);
+	scene->PostRenderer->bDestroy = false;
 }
 
 bool EnemyInstancingSpawner::Load(BinaryReader * r)

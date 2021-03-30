@@ -4,9 +4,10 @@
 #include "FlowFunction/FlowFunction.h"
 
 
-struct MeleeDesc
+struct MagicDesc
 {
-	class IFocus* Player = nullptr;
+	class MagicMaker* Maker;
+	class IFocus* Player;
 
 	wstring Tag;
 	Matrix InitMatrix;
@@ -15,15 +16,10 @@ struct MeleeDesc
 	UINT ClipRun;
 	UINT ClipAttack;
 
-	float ReadyTime = 0.5f;
-	float EndTime = 1.05f;
-	float CoolDown = 5.0f;
 	// 공격하기 범위
 	float AttackRangeSq = 25.0f;
-	// 공격 계수
-	float SkillFactor = 0.0f;
-	// 기본 공격 데미지
-	float SkillPower = 8.0f;
+	float SkillPower = 5.0f;
+	float CoolDown = 1.5f;
 
 
 	// -- 실시간으로 본체에서 얻어야할 능력치들 --//
@@ -32,11 +28,11 @@ struct MeleeDesc
 	float RunSpeed;
 };
 
-class SkillMelee : public IEnemySkill, public IFlowTesk
+class SkillMagic : public IEnemySkill, public IFlowTesk
 {
 public:
-	SkillMelee(const MeleeDesc& input, ModelInstance* model);
-	~SkillMelee();
+	SkillMagic(const MagicDesc& input, ModelInstance* model);
+	~SkillMagic();
 
 private:
 	// IEnemySkill을(를) 통해 상속됨
@@ -54,22 +50,22 @@ private:
 	function<void(void)> funcEndMotion;
 
 private:
-	MeleeDesc desc;
+	MagicDesc desc;
 	FutureReturn result;
 	float attackTime;  // 공격 시도 시간 (이 때 부터 쿨타임 계산)
 	Transform* transform;
 	Animator* animator;
+	Transform* bulletTrans;
 
 private:
 	class AttackSystem* attacker;
 	class RotateSystem* rotator;
 	class PointMoveSystem* mover;
-	class PerceptionSystem* perceptor;
+	struct MagicBulletInput* bulletInput;
 
 private:
 	enum class AttackState {
 		None,  // 아무것도 안함
-		Follow,  // 플레이어 따라감
 		LookAt,  // 플레이어 쳐다봄
 		BeginAttack,  // 공격 시작
 		Attacking,  // 공격 중

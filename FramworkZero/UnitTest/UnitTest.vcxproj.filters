@@ -151,6 +151,18 @@
     <ClCompile Include="V2Enemy\Skill\SkillMelee.cpp">
       <Filter>V2Enemy\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="V2Enemy\Skill\SkillMagic.cpp">
+      <Filter>V2Enemy\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\Skill\MagicMaker.cpp">
+      <Filter>V2Enemy\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="V2Enemy\V2EnemyMagic.cpp">
+      <Filter>V2Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorDemo\Objects\EnemyMaker.cpp">
+      <Filter>EditorDemo\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WorldDemo.h" />
@@ -326,6 +338,18 @@
     </ClInclude>
     <ClInclude Include="V2Enemy\Skill\SkillMelee.h">
       <Filter>V2Enemy\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\Skill\SkillMagic.h">
+      <Filter>V2Enemy\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\Skill\MagicMaker.h">
+      <Filter>V2Enemy\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="V2Enemy\V2EnemyMagic.h">
+      <Filter>V2Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDemo\Objects\EnemyMaker.h">
+      <Filter>EditorDemo\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

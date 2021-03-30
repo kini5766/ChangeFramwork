@@ -92,10 +92,9 @@ Animator : 애니메이션 재생기
 
 
 
-PreCamera : PreRender용 카메라
+SubCamera : PreRender용 카메라
 기존 : 없음
 유니티 참고 : RenderTargetView
-언리얼 참고 : SphereReflectionCapture
 Context클래스의 뷰 프로젝션, 절두체 4면을 셋팅한다.
 메인카메라를 사용 안 하는 경우 굳이 프리렌더 전용 뷰, 프로젝션을
 따로 받는 셰이더작성을 안 하기 위한 클래스다.

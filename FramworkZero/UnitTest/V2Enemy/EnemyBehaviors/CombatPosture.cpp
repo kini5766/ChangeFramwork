@@ -14,9 +14,6 @@ CombatPosture::CombatPosture(const CombatPostureDesc& input)
 	strafeAround = new StrafeAround(desc.StrafeAroundDesc);
 	reader = new FlowReader();
 
-	strafeAround->SetFuncOutRange([=]() {
-		result.OnAction();
-	});
 	tesks.push_back(strafeAround);
 }
 
@@ -35,6 +32,13 @@ void CombatPosture::Call(const FutureAction * action)
 
 void CombatPosture::Update()
 {
+	desc.StrafeAroundDesc.Perceptor->Update();
+	if (desc.StrafeAroundDesc.Perceptor->IsPerceived() == false)
+	{
+		result.OnAction();
+		return;
+	}
+
 	if (desc.Skill->IsValid())
 	{
 		reader->PushBack(desc.Skill->GetTesk());
@@ -42,13 +46,6 @@ void CombatPosture::Update()
 	}
 
 	reader->Update();
-
-	desc.StrafeAroundDesc.Perceptor->Update();
-	if (desc.StrafeAroundDesc.Perceptor->IsPerceived() == false)
-	{
-		result.OnAction();
-		return;
-	}
 }
 
 void CombatPosture::Hold()

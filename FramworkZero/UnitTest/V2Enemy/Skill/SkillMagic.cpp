@@ -1,19 +1,18 @@
 #include "stdafx.h"
-#include "SkillMelee.h"
+#include "SkillMagic.h"
 
 #include "Rendering/Camera/Main/IFocus.h"
-#include "Component/AttackSystem.h"
-#include "Component/PointMoveSystem.h"
 #include "Component/RotateSystem.h"
 #include "V2Enemy/PerceptionSystem.h"
+#include "MagicMaker.h"
 
 
-SkillMelee::SkillMelee(const MeleeDesc& input, ModelInstance* model)
+SkillMagic::SkillMagic(const MagicDesc& input, ModelInstance* model)
 	: desc(input)
 	, attackTime(-desc.CoolDown)
 	, transform(model->GetTransform())
 	, animator(model->GetAnimator())
-	, funcEndMotion(bind(&SkillMelee::EndMotion, this))
+	, funcEndMotion(bind(&SkillMagic::EndMotion, this))
 {
 	PerceptionInput perceptMaker;
 	perceptMaker.FuncGetMine = [=]() {
@@ -30,31 +29,28 @@ SkillMelee::SkillMelee(const MeleeDesc& input, ModelInstance* model)
 	perceptMaker.SightRangeSq = desc.AttackRangeSq;
 
 
-	mover = new PointMoveSystem(transform);
 	rotator = new RotateSystem();
-	attacker = new AttackSystem();
-	perceptor = new PerceptionSystem(perceptMaker);
+	bulletInput = new MagicBulletInput();
+	bulletTrans = new Transform();
 
+	bulletInput->Attack = desc.SkillPower;
+	bulletInput->Focus = desc.Player;
+	bulletInput->Tag = desc.Tag;
 
 	animator->AddFuncChange(desc.ClipAttack, funcEndMotion);
 
-	mover->SetMoveSpeeder(&desc.RunSpeed);
-
-	attacker->GetTransform()->SetParent(transform);
-	attacker->GetTransform()->LocalWorld(desc.InitMatrix);
-	attacker->SetTag(desc.Tag);
-	attacker->SetAttack(desc.AttackPower * desc.SkillFactor + desc.SkillPower);
+	bulletTrans->SetParent(transform);
+	bulletTrans->LocalWorld(desc.InitMatrix);
 }
 
-SkillMelee::~SkillMelee()
+SkillMagic::~SkillMagic()
 {
-	SafeDelete(perceptor);
-	SafeDelete(attacker);
+	SafeDelete(bulletTrans);
+	SafeDelete(bulletInput);
 	SafeDelete(rotator);
-	SafeDelete(mover);
 }
 
-bool SkillMelee::IsValid()
+bool SkillMagic::IsValid()
 {
 	if (state == AttackState::CoolDown)
 	{
@@ -71,7 +67,7 @@ bool SkillMelee::IsValid()
 	return false;
 }
 
-void SkillMelee::Call(const FutureAction* future)
+void SkillMagic::Call(const FutureAction* future)
 {
 	if (state == AttackState::Cansel)
 	{
@@ -89,43 +85,16 @@ void SkillMelee::Call(const FutureAction* future)
 		return;
 	}
 
-	perceptor->Update();
-	if (perceptor->IsPerceived())
-	{
-		state = AttackState::LookAt;
-	}
-	else
-	{
-		state = AttackState::Follow;
-	}
+	state = AttackState::LookAt;
 
 	attackTime = -desc.CoolDown;
 	result.SetAction(future);
 }
 
-void SkillMelee::Update()
+void SkillMagic::Update()
 {
-	if (attacker->IsAttacking())
-		Debug::Box->RenderBox(attacker->GetTransform(), Color(0.0f, 1.0f, 0.0f, 1.0f));
-
 	switch (state)
 	{
-	case AttackState::Follow:
-	{
-		animator->PlayUpdate(desc.ClipRun);
-
-		Vector3 focus;
-		desc.Player->Focus(&focus);
-		mover->SetPoint(focus);
-		mover->GoToPoint();
-
-		perceptor->Update();
-		if (perceptor->IsPerceived())
-		{
-			state = AttackState::LookAt;
-		}
-		break;
-	}
 	case AttackState::LookAt:
 	{
 		animator->PlayUpdate(desc.ClipRun);
@@ -162,23 +131,25 @@ void SkillMelee::Update()
 
 	case AttackState::BeginAttack:
 	{
+		Matrix w;
+		bulletTrans->GlobalWorld(&w);
+		Vector3 s, t;
+		Quaternion r;
+		D3DXMatrixDecompose(&s, &r, &t, &w);
+
+		bulletInput->Point = t;
+		bulletInput->Rotation = r;
+		desc.Maker->AddBullet(*bulletInput);
+
 		attackTime = Time::Get()->Running();
 		animator->Play(desc.ClipAttack);
 		state = AttackState::Attacking;
+
 		break;
 	}
 	case AttackState::Attacking:
 	{
-		float runningTime = Time::Get()->Running() - attackTime;
-		if (runningTime >= desc.EndTime)
-		{
-			attacker->EndAttack();
-		}
-		else if (runningTime >= desc.ReadyTime)
-		{
-			if (attacker->IsAttacking() == false)
-				attacker->StartAttack();
-		}
+
 		break;
 	}
 	case AttackState::EndAttack:
@@ -190,15 +161,14 @@ void SkillMelee::Update()
 	}
 }
 
-void SkillMelee::Hold()
+void SkillMagic::Hold()
 {
 	state = AttackState::Cansel;
-	attacker->EndAttack();
 	result.Clear();
 }
 
 
-void SkillMelee::EndMotion()
+void SkillMagic::EndMotion()
 {
 	if (state == AttackState::Attacking)
 	{

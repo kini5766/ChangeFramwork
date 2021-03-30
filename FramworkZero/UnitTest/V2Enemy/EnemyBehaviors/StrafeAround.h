@@ -49,12 +49,4 @@ private:
 
 	FlowRoutine* followRoutine;
 	FlowRoutine* prowlRoutine;
-
-private:
-	bool curr = false;
-
-	// 적 놓치면 호출
-	function<void()> funcOutRange;
-public:
-	void SetFuncOutRange(const function<void()>& value) { funcOutRange = value; }
 };
