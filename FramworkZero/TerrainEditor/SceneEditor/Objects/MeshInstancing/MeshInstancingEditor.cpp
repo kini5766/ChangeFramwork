@@ -18,6 +18,8 @@ MeshInstancingEditor::~MeshInstancingEditor()
 	SafeDelete(imgui);
 	SafeDelete(file);
 	SafeDelete(desc);
+	renderer->bDestroy = true;
+	updater->bDestroy = true;
 }
 
 
@@ -52,12 +54,14 @@ void MeshInstancingEditor::Off()
 
 void MeshInstancingEditor::Initialize(E_SceneValue * value)
 {
-	 E_SceneValueUnit u = value->AddUnit();
+	 E_SceneValueUnit unit = value->AddUnit();
 
-	 u.Updater->Action = bind(&MeshInstancingDesc::Update, desc);
-	 u.Updater->bDestroy = false;
+	 updater = unit.Updater;
+	 updater->Action = bind(&MeshInstancingDesc::Update, desc);
+	 updater->bDestroy = false;
 
-	 u.Renderer->Action = bind(&MeshInstancingDesc::Render, desc);
-	 u.Renderer->bDestroy = false;
+	 renderer = unit.Renderer;
+	 renderer->Action = bind(&MeshInstancingDesc::Render, desc);
+	 renderer->bDestroy = false;
 }
 

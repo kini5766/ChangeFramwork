@@ -163,6 +163,7 @@
     <ClCompile Include="EditorDemo\Objects\EnemyMaker.cpp">
       <Filter>EditorDemo\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="WaterDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WorldDemo.h" />
@@ -351,6 +352,7 @@
     <ClInclude Include="EditorDemo\Objects\EnemyMaker.h">
       <Filter>EditorDemo\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="WaterDemo.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">

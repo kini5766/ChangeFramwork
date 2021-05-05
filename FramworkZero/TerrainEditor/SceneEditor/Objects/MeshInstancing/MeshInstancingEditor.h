@@ -20,6 +20,8 @@ public:
 	void Initialize(E_SceneValue * value) override;
 
 private:
+	class E_SceneAction* renderer = nullptr;
+	class E_SceneAction* updater = nullptr;
 	class MeshInstancingDesc* desc;
 
 	class MeshInstancingFile* file;

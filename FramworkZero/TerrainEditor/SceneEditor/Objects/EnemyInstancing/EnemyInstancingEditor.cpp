@@ -17,7 +17,8 @@ EnemyInstancingEditor::~EnemyInstancingEditor()
 {
 	SafeDelete(desc);
 	SafeDelete(file);
-	SafeDelete(imgui)
+	SafeDelete(imgui);
+	renderer->bDestroy = true;
 }
 
 
@@ -51,7 +52,8 @@ void EnemyInstancingEditor::Off()
 void EnemyInstancingEditor::Initialize(E_SceneValue * value)
 {
 	E_SceneValueUnit unit = value->AddUnit();
-	unit.Renderer->Action = bind(&EnemyInstancingDesc::Render, desc);
-	unit.Renderer->bDestroy = false;
+	renderer = unit.Renderer;
+	renderer->Action = bind(&EnemyInstancingDesc::Render, desc);
+	renderer->bDestroy = false;
 }
 

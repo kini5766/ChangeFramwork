@@ -18,6 +18,7 @@ public:
 	void Initialize(E_SceneValue * value) override;
 
 private:
+	class E_SceneAction* renderer = nullptr;
 	class EnemyInstancingDesc* desc;
 	class EnemyInstancingFile* file;
 	class EnemyInstancingImGui* imgui;

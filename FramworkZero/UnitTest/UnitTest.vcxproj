@@ -189,6 +189,7 @@
     <ClCompile Include="V2Enemy\Skill\SkillMelee.cpp" />
     <ClCompile Include="V2Enemy\V2EnemyMagic.cpp" />
     <ClCompile Include="V2Enemy\V2EnemyMelee.cpp" />
+    <ClCompile Include="WaterDemo.cpp" />
     <ClCompile Include="WorldDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -255,6 +256,7 @@
     <ClInclude Include="V2Enemy\FieldEnemy.h" />
     <ClInclude Include="V2Enemy\V2EnemyMagic.h" />
     <ClInclude Include="V2Enemy\V2EnemyMelee.h" />
+    <ClInclude Include="WaterDemo.h" />
     <ClInclude Include="WorldDemo.h" />
   </ItemGroup>
   <ItemGroup>

@@ -58,7 +58,7 @@ void E_SceneValue::Action(list<E_SceneAction*>& actions)
 		{
 			SafeDelete(*iter);
 			actions.erase(iter++);
-			return;
+			continue;
 		}
 
 		(*iter)->Action();

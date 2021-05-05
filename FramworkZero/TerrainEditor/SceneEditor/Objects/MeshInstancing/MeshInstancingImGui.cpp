@@ -119,7 +119,7 @@ void MeshInstancingImGui::AddInstance()
 
 void MeshInstancingImGui::Select(int i)
 {
-	if (selected == i || i == -1)
+	if (selected == i || i == -1 || desc->Meshes.size() == 0)
 	{
 		selected = -1;
 		Debug::Gizmo->SetTransform(nullptr);

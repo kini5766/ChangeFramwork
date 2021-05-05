@@ -11,7 +11,7 @@ public:
 	virtual void Update() override;
 
 public:
-	void Speed(float move, float rotation = 0.002f);
+	void Speed(float move, float rotation = 0.1f);
 
 private:
 	float move = 20.0f;

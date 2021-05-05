@@ -23,6 +23,7 @@ public:
 public:
 	ModelInstance* AddInstance();
 	ModelInstance* GetInstance(UINT instance) { return instances[instance]; }
+	UINT GetInstanceCount() { return instances.size(); }
 	void RemoveInstance(ModelInstance* value);
 
 	// Getter, Setter

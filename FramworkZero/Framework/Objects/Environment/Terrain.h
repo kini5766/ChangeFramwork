@@ -41,6 +41,7 @@ public:
 	float* Layer3Data() { return layer3.Data; }
 
 	Shader* GetShader() { return shader; }
+	Material* GetMaterial() { return material; }
 	void Pass(UINT value) { pass = value; }
 	Transform* GetTransform() { return perTransform->GetTransform(); }
 
