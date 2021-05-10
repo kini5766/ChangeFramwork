@@ -31,7 +31,7 @@ public:
 	virtual void Call(const FutureAction* action = nullptr) override;
 	// 등록된 함수 스택 형식으로 실행
 	virtual void Update() override;
-	// 등록된 모든 함수 제거 후 실행 중인 함수 Cancel
+	// 현재 함수 일시중지
 	virtual void Hold() override;
 
 private:
